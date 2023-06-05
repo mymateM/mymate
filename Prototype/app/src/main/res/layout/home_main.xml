@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/home_scrollview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:background="@color/homevisualbackground"
+                android:id="@+id/layout1"
+                android:nestedScrollingEnabled="false">
+
+                <ImageButton
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/alarm"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/alarmbutton"
+                    android:scaleType="centerInside"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginRight="17dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="alarm image : nothing new"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:text="지금까지"
+                    android:fontFamily="@font/suit_bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="94dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:id="@+id/hometoptext"
+                    />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintRight_toRightOf="@id/hometoptext"
+                    app:layout_constraintLeft_toLeftOf="@id/hometoptext"
+                    app:layout_constraintTop_toBottomOf="@id/hometoptext"
+                    app:layout_constraintBottom_toTopOf="@id/homebottomtext"
+                    android:id="@+id/textlayout"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="30dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/lightblue"
+                        android:text="390,200"
+                        android:fontFamily="@font/montserrat_bold"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/homemiddletext"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="30dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/lightblue"
+                        android:text="원"
+                        android:fontFamily="@font/suit_bold"
+                        app:layout_constraintLeft_toRightOf="@id/homemiddletext"
+                        app:layout_constraintTop_toTopOf="@id/homemiddletext"
+                        app:layout_constraintBottom_toBottomOf="@id/homemiddletext"
+                        />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:text="우리 함께 썼어요"
+                    android:fontFamily="@font/suit_bold"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/textlayout"
+                    app:layout_constraintRight_toRightOf="@id/textlayout"
+                    app:layout_constraintLeft_toLeftOf="@id/textlayout"
+                    android:id="@+id/homebottomtext"
+                    />
+
+
+                <ImageView
+                    android:layout_width="191.69dp"
+                    android:layout_height="139dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintTop_toBottomOf="@+id/homebottomtext"
+                    app:layout_constraintRight_toRightOf="@id/homebottomtext"
+                    android:layout_marginLeft="84dp"
+                    android:src="@drawable/home_character"
+                    android:layout_marginTop="36dp"
+                    />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="31dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:src="@drawable/green_twinkle"
+                    android:layout_marginTop="161dp"
+                    android:layout_marginLeft="39dp"
+                    />
+
+                <ImageView
+                    android:layout_width="16.26dp"
+                    android:layout_height="21dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:src="@drawable/yellow_twinkle"
+                    android:layout_marginTop="171dp"
+                    android:layout_marginRight="37.74dp"
+                    />
+
+                <ImageView
+                    android:layout_width="16.26dp"
+                    android:layout_height="21dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:src="@drawable/red_twinkle"
+                    android:layout_marginTop="326dp"
+                    android:layout_marginLeft="60dp"
+                    />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="31dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:src="@drawable/blue_twinkle"
+                    android:layout_marginTop="295dp"
+                    android:layout_marginRight="68dp"
+                    />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="438dp"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout1"
+                android:id="@+id/layout2"
+                android:background="@color/graybackground"
+                android:nestedScrollingEnabled="false"
+                >
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5"
+                    android:id="@+id/horizontalguide"
+                    />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/horizontalbar_paleblue"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/horizontalguide"
+                    android:id="@+id/horizontalbar"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout2"
+                android:background="@color/basicbackground"
+                android:id="@+id/layout3"
+                android:nestedScrollingEnabled="false">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="103dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/settlementdate"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="22dp"
+                    android:id="@+id/billpercent"
+                    android:background="@drawable/textview_roundgray">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginTop="23dp"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="@color/graytext"
+                        android:textSize="14dp"
+                        android:text="지금까지 쓴"
+                        android:fontFamily="@font/suit_medium_apply"
+                        android:id="@+id/billsmalldesc"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/billsmalldesc"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginLeft="16dp"
+                        android:textSize="22dp"
+                        android:text="예산"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/suit_extrabold_apply"
+                        android:id="@+id/billbigdesc"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="16dp"
+                        android:fontFamily="@font/montserrat_extrabold"
+                        android:textColor="@color/muteblue"
+                        android:text="60%"
+                        android:textSize="22dp"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/billbigdesc"
+                        app:layout_constraintTop_toTopOf="@id/billbigdesc"
+                        android:id="@+id/billtext"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="103dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/billpercent"
+                    android:id="@+id/settlementdate"
+                    android:background="@drawable/textview_roundgray"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginTop="23dp"
+                        android:layout_marginLeft="16dp"
+                        android:textSize="14dp"
+                        android:text="다가오는"
+                        android:textColor="@color/graytext"
+                        android:fontFamily="@font/suit_medium_apply"
+                        android:id="@+id/settlementsmalldesc"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/settlementsmalldesc"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginLeft="16dp"
+                        android:textSize="22dp"
+                        android:text="정산일"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/suit_extrabold_apply"
+                        android:id="@+id/settlementbigdesc"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="@id/settlementbigdesc"
+                        app:layout_constraintBottom_toBottomOf="@id/settlementbigdesc"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginRight="16dp"
+                        android:textSize="22dp"
+                        android:text="D-10"
+                        android:textColor="@color/textpurple"
+                        android:fontFamily="@font/montserrat_extrabold"
+                        android:id="@+id/settlementtext"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintTop_toBottomOf="@id/settlementdate"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/statustextbig"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:drawableLeft="@drawable/noti"
+                    android:background="@drawable/textview_rounddarkgray"
+                    android:text="이대로라면 예산을 초과할 것 같아요"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/suit_regular_apply"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:paddingLeft="16dp"
+                    android:textSize="14dp"
+                    android:id="@+id/warningtext"
+                    />
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/warningtext"
+                    app:layout_constraintRight_toLeftOf="@id/statustextsmall"
+                    android:textSize="20dp"
+                    android:text="저번 달 같은 기간 보다 "
+                    android:textColor="@color/textblack_C"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginRight="20dp"
+                    android:id="@+id/statustextbig"
+                    android:bufferType="spannable"
+                    android:fontFamily="@font/suit_bold_apply"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toRightOf="@id/statustextbig"
+                    app:layout_constraintTop_toTopOf="@id/statustextbig"
+                    app:layout_constraintBottom_toBottomOf="@id/statustextbig"
+                    android:textSize="20dp"
+                    android:textColor="@color/mainpurple"
+                    android:text="덜 썼어요"
+                    android:id="@+id/statustextsmall"
+                    android:fontFamily="@font/suit_bold_apply"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/statustextbig"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="4월 둘째주보다 "
+                    android:textColor="@color/graytext"
+                    android:textSize="14dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/suit_regular_apply"
+                    android:id="@+id/statussubtextbig"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/statussubtextbig"
+                    app:layout_constraintBottom_toBottomOf="@id/statussubtextbig"
+                    app:layout_constraintLeft_toRightOf="@id/statussubtextbig"
+                    android:text="25,000"
+                    android:textSize="14dp"
+                    android:textColor="@color/graytext"
+                    android:fontFamily="@font/suit_regular_apply"
+                    android:id="@+id/statusbilltext"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/statussubtextbig"
+                    app:layout_constraintBottom_toBottomOf="@id/statussubtextbig"
+                    app:layout_constraintLeft_toRightOf="@id/statusbilltext"
+                    android:text = "원"
+                    android:textSize="14dp"
+                    android:textColor="@color/graytext"
+                    android:fontFamily="@font/suit_regular_apply"
+                    android:id="@+id/statussubtextsmall"
+                    />
+
+                
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout4"
+                app:layout_constraintTop_toBottomOf="@id/layout3"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:background="@color/basicbackground"
+                android:nestedScrollingEnabled="false">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/verticalguide1"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.2"
+                    />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/verticalguide2"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.35"
+                    />
+                
+                <ImageView
+                    android:layout_width="58dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/verticalgraphpale"
+                    app:layout_constraintBottom_toTopOf="@id/bottomline"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/verticalguide2"
+                    app:layout_constraintRight_toLeftOf="@id/verticalvivid"
+                    android:id="@+id/verticalpale"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    />
+
+                <ImageView
+                    android:layout_width="58dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@id/bottomline"
+                    app:layout_constraintLeft_toRightOf="@id/verticalpale"
+                    app:layout_constraintTop_toBottomOf="@id/verticalguide1"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:id="@+id/verticalvivid"
+                    android:layout_marginLeft="46dp"
+                    android:src="@drawable/verticalgraphvivid"
+                    />
+                
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#E5E5E5"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="97dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:id="@+id/bottomline"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout5"
+                app:layout_constraintTop_toBottomOf="@id/layout4"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:background="@color/basicbackground"
+                android:nestedScrollingEnabled="false">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:id="@+id/settlementnoti"
+                    android:text="우리 집 식구들의 정산비율이에요"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginLeft="20dp"
+                    android:fontFamily="@font/suit_bold_apply"
+                    />
+
+                <ImageButton
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    app:layout_constraintLeft_toRightOf="@id/settlementnoti"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="56dp"
+                    android:layout_marginLeft="14dp"
+                    android:src="@drawable/edit"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerInside"
+                    android:contentDescription="edit 버튼입니다"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ratiolist"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/settlementnoti"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/basicbackground"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/list_item_mainsettlement"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/modale_halfradius"
+    android:theme="@style/modale_radius">
+
+    <ImageButton
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginRight="30dp"
+        android:id = "@+id/modalexit"
+        android:contentDescription="modale exit button"
+        android:src="@drawable/close"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/totalmoneyheader"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="내가 4월에 "
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_extrabold_apply"
+        android:textSize="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/totalmoneyflag"
+        app:layout_constraintTop_toTopOf="@id/totalmoneyheader"
+        app:layout_constraintBottom_toBottomOf="@id/totalmoneyheader"
+        app:layout_constraintLeft_toRightOf="@id/totalmoneyheader"
+        android:textColor="@color/mainpurple"
+        android:fontFamily="@font/suit_extrabold_apply"
+        android:textSize="20dp"
+        android:text="받을 돈"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/totalmoneyheader"
+        app:layout_constraintBottom_toBottomOf="@id/totalmoneyheader"
+        app:layout_constraintLeft_toRightOf="@id/totalmoneyflag"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_extrabold_apply"
+        android:textSize="20dp"
+        android:text="은"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/totalmoneysmallheader"
+        app:layout_constraintTop_toBottomOf="@id/totalmoneyheader"
+        app:layout_constraintLeft_toLeftOf="@id/totalmoneyheader"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_extrabold_apply"
+        android:textSize="20dp"
+        android:text="총 "
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/totalmoneybill"
+        app:layout_constraintTop_toTopOf="@id/totalmoneysmallheader"
+        app:layout_constraintBottom_toBottomOf="@id/totalmoneysmallheader"
+        app:layout_constraintLeft_toRightOf="@id/totalmoneysmallheader"
+        android:textColor="@color/mainpurple"
+        android:fontFamily="@font/montserrat_bold_apply"
+        android:textSize="20dp"
+        android:text="20,000"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/totalmoneysmallheader"
+        app:layout_constraintBottom_toBottomOf="@id/totalmoneysmallheader"
+        app:layout_constraintLeft_toRightOf="@id/totalmoneybill"
+        android:textColor="@color/mainpurple"
+        android:fontFamily="@font/suit_extrabold_apply"
+        android:textSize="20dp"
+        android:text="원 "
+        android:id="@+id/totalmoneywon"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/totalmoneysmallheader"
+        app:layout_constraintBottom_toBottomOf="@id/totalmoneysmallheader"
+        app:layout_constraintLeft_toRightOf="@id/totalmoneywon"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_extrabold_apply"
+        android:textSize="20dp"
+        android:text="입니다!"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id = "@+id/boldguideheader"
+        app:layout_constraintTop_toBottomOf="@id/totalmoneysmallheader"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="36dp"
+        android:layout_marginLeft="30dp"
+        android:fontFamily="@font/suit_bold_apply"
+        android:textColor="@color/black"
+        android:text = "동거인 별 보낼 돈"
+        android:textSize="18dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/thinguide"
+        app:layout_constraintTop_toBottomOf="@id/boldguideheader"
+        app:layout_constraintLeft_toLeftOf="@id/boldguideheader"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_regular_apply"
+        android:textSize="14dp"
+        android:text = "추가 지출을 비율에 따라 환산한 금액입니다"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/thinguide"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="20dp"
+        android:id="@+id/modallist"
+        tools:listitem="@layout/settlement_modale_list"
+        ></androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintTop_toBottomOf="@id/modallist"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/textview_settlementbackground"
+        android:id="@+id/sendreceivebutton"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:text="송금 요청"
+            android:fontFamily="@font/suit_bold_apply"
+            android:id="@+id/modaleflag"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

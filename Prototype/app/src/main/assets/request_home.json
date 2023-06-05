@@ -1,0 +1,90 @@
+{
+  "message": "성공",
+  "status": "200",
+  "data": {
+    "user": {
+      "user_id": "1",
+      "user_name": "jihyun",
+      "user_by_now_expense": "130000",
+      "user_by_now_budget_ratio": "50",
+      "user_ratio_expense": "160000",
+      "user_ratio": "20",
+      "user_title": {
+        "user_title_name": "house_managment",
+        "user_title_days": "31"
+      }
+    },
+    "roomt_mates": [
+      {
+        "user_id": "2",
+        "user_name": "gaeun",
+        "user_by_now_budget_ratio": "20",
+        "user_title": {
+          "user_title_name": "no_expense_days",
+          "user_title_days": "20"
+        },
+        "user_ratio": "50"
+      },
+      {
+        "user_id": "3",
+        "user_name": "youngseo",
+        "user_by_now_budget_ratio": "70",
+        "user_title": {
+          "user_title_name": "warn_expense",
+          "user_title_days": "2"
+        },
+        "user_ratio": "20"
+      },
+      {
+        "user_id": "4",
+        "user_name": "eunhee",
+        "user_by_now_budget_ratio": "80",
+        "user_title": {
+          "user_title_name": "warn_expense",
+          "user_title_days": "13"
+        },
+        "user_ratio": "10"
+      }
+    ],
+    "group": {
+      "group_id": "1",
+      "settlement_date": "2023-06-07",
+      "group_budget": "1000000",
+      "group_by_now_expense": "450000",
+      "group_by_now_budget_ratio": "45",
+      "group_now_expense_diff": "40000",
+      "group_present_expenses": [
+        {
+          "expense_date": "2023-05-01",
+          "expense_amount_total": "40000"
+        },
+        {
+          "expense_date": "2023-05-03",
+          "expense_amount_total": "3000"
+        },
+        {
+          "expense_date": "2023-05-04",
+          "expense_amount_total": "57000"
+        },
+        {
+          "expense_date": "2023-05-07",
+          "expense_amount_total": "60000"
+        }
+      ],
+      "group_previous_expenses": [
+        {
+          "expense_date": "2023-06-01",
+          "expense_amount_total": "10000"
+        },
+        {
+          "expense_date": "2023-06-02",
+          "expense_amount_total": "30000"
+        },
+        {
+          "expense_date": "2023-06-06",
+          "expense_amount_total": "70000"
+        }
+      ]
+    }
+  }
+}

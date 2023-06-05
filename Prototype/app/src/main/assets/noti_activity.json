@@ -1,0 +1,29 @@
+{
+  "message": "성공",
+  "status": "200",
+  "data": {
+    "activity_noti": [
+      {
+        "noti_category": "",
+        "noti_img_url": "",
+        "noti_created_at": "",
+        "noti_is_read": "",
+        "user_name": ""
+      },
+      {
+        "noti_category": "",
+        "noti_img_url": "",
+        "noti_created_at": "",
+        "noti_is_read": "",
+        "user_name": ""
+      },
+      {
+        "noti_category": "",
+        "noti_img_url": "",
+        "noti_created_at": "",
+        "noti_is_read": "",
+        "user_name": ""
+      }
+    ]
+  }
+}

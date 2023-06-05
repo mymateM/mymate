@@ -1,0 +1,30 @@
+{
+  "message": "성공",
+  "status": "200",
+  "data": {
+    "year_date": "2023-05",
+    "user": {
+      "user_id": "1",
+      "user_name": "jihyun",
+      "user_real_expense": "240000",
+      "user_ratio_expense": "200000",
+      "user_settlement": "-40000"
+    },
+    "room_mates": [
+      {
+        "user_id": "2",
+        "user_name": "gaeun",
+        "user_real_expense": "360000",
+        "user_ratio_expense": "500000",
+        "user_settlement": "140000"
+      },
+      {
+        "user_id": "3",
+        "user_name": "youngseo",
+        "user_real_expense": "400000",
+        "user_ratio_expense": "300000",
+        "user_settlement": "-100000"
+      }
+    ]
+  }
+}

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/popup_whitebox">
+
+    <ImageView
+        android:layout_width="43.5dp"
+        android:layout_height="43.5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:src="@drawable/settlement_send_popup"
+        android:id="@+id/popupimg"
+        android:layout_marginTop="43dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/popupimg"
+        android:layout_marginTop="20.07dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="영서의\n계좌 복사 완료"
+        android:textAlignment="center"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_semibold_apply"
+        android:id="@+id/popupnametxt"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/popupnametxt"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_regular_apply"
+        android:text="국민 7777-020000-41363"
+        android:textSize="12dp"
+        android:id="@+id/popupaccount"
+        android:bufferType="spannable"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="@id/popupaccount"
+        app:layout_constraintLeft_toLeftOf="@id/popupaccount"
+        app:layout_constraintTop_toBottomOf="@id/popupaccount"
+        android:textColor="@color/black"
+        android:fontFamily="@font/suit_regular_apply"
+        android:text="계좌를 복사했어요"
+        android:textSize="12dp"
+        android:id="@+id/popupdescription"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="80dp"
+        android:layout_height="33dp"
+        app:layout_constraintTop_toBottomOf="@id/popupdescription"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/gohome"
+        app:layout_constraintRight_toLeftOf="@id/goback"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="43.43dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        android:background="@drawable/popup_stroke">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:fontFamily="@font/suit_medium_apply"
+            android:text="홈으로 가기"
+            android:textSize="12dp"
+            android:textAlignment="center"
+            android:textColor="@color/graytext"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="72dp"
+        android:layout_height="33dp"
+        app:layout_constraintTop_toBottomOf="@id/popupdescription"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="43.43dp"
+        android:id="@+id/goback"
+        app:layout_constraintLeft_toRightOf="@id/gohome"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/popup_vividstroke"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:fontFamily="@font/suit_medium_apply"
+            android:text="돌아가기"
+            android:textSize="12dp"
+            android:textAlignment="center"
+            android:textColor="@color/black_settlement"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

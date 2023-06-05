@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#252525</color>
+    <color name="white">#FAF9FF</color>
+    <color name="homevisualbackground">#423E52</color>
+    <color name="mainpink">#D97F93</color>
+    <color name="graybackground">#E0E0E0</color>
+    <color name="basicbackground">#F0EFF6</color>
+    <color name="darkgraybackground">#E9E7F0</color>
+    <color name="muteblue">#6496C7</color>
+    <color name="palepink">#66D1657D</color>
+    <color name="mainblue">#85ADE8</color>
+    <color name="mutelightblue">#6496C7CC</color>
+    <color name="lightblue">#82AFDA</color>
+    <color name="mainpurple">#A07ADD</color>
+    <color name="textpurple">#9566CF</color>
+    <color name="palepurple">#E3DAFA</color>
+    <color name="paleblue">#77A2CB</color>
+    <color name="maingreen">#6CBDAC</color>
+    <color name="mainyellow">#FBC558</color>
+    <color name="graytext">#7D7D7D</color>
+    <color name="settlementwhite">#FAF9FF</color>
+    <color name="settlementbackground">#F0EFF6</color>
+    <color name="textblack_C">#2C2C2C</color>
+    <color name="black_settlement">#423E52</color>
+    <color name="black_settlement_fill">#1A423E52</color>
+    <color name="alarmblack">#636363</color>
+    <color name="textblack_C_pale">#802C2C2C</color>
+    <color name="textblack_C_extrapale">#4D2C2C2C</color>
+    <color name="alarmpurple">#F3EFFC</color>
+</resources>
