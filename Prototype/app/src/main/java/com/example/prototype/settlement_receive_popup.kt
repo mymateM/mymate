@@ -26,7 +26,7 @@ class settlement_receive_popup(var data: room_mate): DialogFragment() {
     ): View? {
         _binding = SettlementSendPopupBinding.inflate(inflater, container, false)
         val view = binding.root
-        binding.popupnametxtSend.text = data.user_name + "에게\n송금 요청 보내기"
+        binding.popupnametxtSend.text = data.user_name + "에게\n송금 요청 보냈어요"
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         binding.gobackSend.setOnClickListener {

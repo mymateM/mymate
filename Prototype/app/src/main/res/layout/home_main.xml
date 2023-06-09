@@ -377,7 +377,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/statustextbig"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    android:text="4월 둘째주보다 "
+                    android:text="5월 첫째주보다 "
                     android:textColor="@color/graytext"
                     android:textSize="14dp"
                     android:layout_marginLeft="20dp"

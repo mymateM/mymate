@@ -192,7 +192,7 @@ class SettlementActivity : AppCompatActivity() {
                 if (requestSettlement.data.userreceived.is_send == true) {
                     binding.modaletext.text = "원 보내러 가기"
                 } else {
-                    binding.modalebill.text = "원 받으러 가기"
+                    binding.modaletext.text = "원 받으러 가기"
                 }
 
             }

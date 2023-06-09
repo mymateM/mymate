@@ -175,7 +175,7 @@ class home_main : Fragment() {
                 if (requestHome.datareceived.household_home.household_now_expense_diff.toFloat() < 0) {
                     houseratio =
                         abs(requestHome.datareceived.household_home.household_now_expense_diff.toFloat()) / requestHome.datareceived.household_home.household_previous_expense.toFloat()
-                    binding.verticalguide1.setGuidelinePercent(0.65.toFloat() - houseratio * 0.65.toFloat() + 0.35.toFloat())
+                    binding.verticalguide1.setGuidelinePercent(houseratio * 0.65.toFloat() + 0.35.toFloat())
                     binding.statustextsmall.text = "덜 썼어요"
                 } else if (requestHome.datareceived.household_home.household_now_expense_diff.toFloat() > 0) {
                     houseratio =
@@ -270,6 +270,7 @@ class home_main : Fragment() {
         super.onResume()
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(getHome::class.java)
+        var houseratio = 0.toFloat()
         endpoint!!.getHome("1").enqueue(object: Callback<request_home> {
             override fun onResponse(call: Call<request_home>, response: Response<request_home>) {
                 requestHome = response.body()!!
@@ -326,11 +327,10 @@ class home_main : Fragment() {
                 binding.ratiolist.layoutManager = LinearLayoutManager(mainActivity)
 
                 binding.horizontalguide.setGuidelinePercent(requestHome.datareceived.household_home.household_now_budget_ratio.toFloat() / 100)
-                var houseratio = 0.toFloat()
                 if (requestHome.datareceived.household_home.household_now_expense_diff.toFloat() < 0) {
                     houseratio =
                         abs(requestHome.datareceived.household_home.household_now_expense_diff.toFloat()) / requestHome.datareceived.household_home.household_previous_expense.toFloat()
-                    binding.verticalguide1.setGuidelinePercent(0.65.toFloat() - houseratio * 0.65.toFloat() + 0.35.toFloat())
+                    binding.verticalguide1.setGuidelinePercent(houseratio * 0.65.toFloat() + 0.35.toFloat())
                     binding.statustextsmall.text = "덜 썼어요"
                 } else if (requestHome.datareceived.household_home.household_now_expense_diff.toFloat() > 0) {
                     houseratio =

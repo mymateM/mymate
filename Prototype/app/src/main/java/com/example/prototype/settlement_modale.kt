@@ -143,7 +143,10 @@ class settlement_modale : BottomSheetDialogFragment() {
                     binding.modaleflag.text = "송금 요청"
                 }
 
-                //TODO: callback implement
+                var timetext = receivedmoney.datareceived.year_month.split("-")
+                var monthnum = timetext[1].toInt()
+                var monthtxt = monthnum.toString()
+                binding.totalmoneyheader.text = "내가 " + monthtxt + "월에 "
 
                 binding.sendreceivebutton.setOnClickListener {
                     if (adapter.thisnum > receivedmoney.datareceived.room_mates.size) {
