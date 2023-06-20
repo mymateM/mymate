@@ -78,7 +78,8 @@ data class listItem (
     var title: String = "",
     var ratio: String = "",
     var color: Int = 0,
-    var flag: String = ""
+    var flag: String = "",
+    var portion: String = ""
         )
 
 class home_main : Fragment() {
@@ -107,10 +108,12 @@ class home_main : Fragment() {
         hbinding = HomeMainBinding.inflate(inflater, container, false)
         val alarmIntent = Intent(mainActivity, AlarmActivity::class.java)
         val settlementIntent = Intent(mainActivity, SettlementActivity::class.java)
+        binding.statusbilltext.setTextColor(ContextCompat.getColor(mainActivity, R.color.textreddish))
+        binding.statussubtextsmall.setTextColor(ContextCompat.getColor(mainActivity, R.color.textreddish))
         binding.alarmbutton.setOnClickListener{startActivity(alarmIntent)}
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(getHome::class.java)
-        binding.settlementdate.setOnClickListener {startActivity(settlementIntent)}
+        //binding.settlementdate.setOnClickListener {startActivity(settlementIntent)}
         var window: Window = requireActivity().window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -130,11 +133,13 @@ class home_main : Fragment() {
                 var matetitle = ""
                 var materatio = ""
                 var matecolor: Int = ContextCompat.getColor(mainActivity, R.color.mainpurple)
+                var mateportion = ""
                 var i = 0
                 while (i < matelist.size) {
                     matename = matelist.get(i).user_name
                     matetitle = matelist.get(i).user_title_name
-                    materatio = matelist.get(i).user_ratio
+                    materatio = matelist.get(i).user_now_buget_ratio
+                    mateportion = matelist.get(i).user_ratio
 
                     if (matetitle == "무소비") {
                         matetitle =
@@ -146,22 +151,22 @@ class home_main : Fragment() {
                     if (i % 4 == 0) {
                         matecolor = ContextCompat.getColor(mainActivity, R.color.mainpink)
                         list.add(
-                            listItem(R.drawable.pink, matename, matetitle, materatio, matecolor, "pink")
+                            listItem(R.drawable.pink, matename, matetitle, materatio, matecolor, "pink", mateportion)
                         )
                     } else if (i % 3 == 0) {
                         matecolor = ContextCompat.getColor(mainActivity, R.color.mainblue)
                         list.add(
-                            listItem(R.drawable.blue, matename, matetitle, materatio, matecolor, "blue")
+                            listItem(R.drawable.blue, matename, matetitle, materatio, matecolor, "blue", mateportion)
                         )
                     } else if (i % 2 == 0) {
                         matecolor = ContextCompat.getColor(mainActivity, R.color.mainyellow)
                         list.add(
-                            listItem(R.drawable.yellow, matename, matetitle, materatio, matecolor, "yellow")
+                            listItem(R.drawable.yellow, matename, matetitle, materatio, matecolor, "yellow", mateportion)
                         )
                     } else {
                         matecolor = ContextCompat.getColor(mainActivity, R.color.maingreen)
                         list.add(
-                            listItem(R.drawable.green, matename, matetitle, materatio, matecolor, "green")
+                            listItem(R.drawable.green, matename, matetitle, materatio, matecolor, "green", mateportion)
                         )
                     }
                     i += 1
@@ -177,12 +182,16 @@ class home_main : Fragment() {
                         abs(requestHome.datareceived.household_home.household_now_expense_diff.toFloat()) / requestHome.datareceived.household_home.household_previous_expense.toFloat()
                     binding.verticalguide1.setGuidelinePercent(houseratio * 0.65.toFloat() + 0.35.toFloat())
                     binding.statustextsmall.text = "덜 썼어요"
+                    binding.statusupdown.setImageResource(R.drawable.less)
+                    binding.statusbilltext.setTextColor(ContextCompat.getColor(mainActivity, R.color.textgreenish))
+                    binding.statussubtextsmall.setTextColor(ContextCompat.getColor(mainActivity, R.color.textgreenish))
                 } else if (requestHome.datareceived.household_home.household_now_expense_diff.toFloat() > 0) {
                     houseratio =
                         requestHome.datareceived.household_home.household_now_expense_diff.toFloat() / requestHome.datareceived.household_home.household_previous_expense.toFloat()
                     binding.verticalguide1.setGuidelinePercent(0.35.toFloat())
                     binding.verticalguide2.setGuidelinePercent(0.65.toFloat() - houseratio * 0.65.toFloat() + 0.35.toFloat())
                     binding.statustextsmall.text = "더 썼어요"
+                    binding.statusupdown.setImageResource(R.drawable.more)
                 } else if (requestHome.datareceived.household_home.household_now_expense_diff.toFloat() == 0.toFloat()) {
                     binding.verticalguide1.setGuidelinePercent(0.35.toFloat())
                     binding.verticalguide2.setGuidelinePercent(0.35.toFloat())
@@ -271,6 +280,8 @@ class home_main : Fragment() {
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(getHome::class.java)
         var houseratio = 0.toFloat()
+        binding.statusbilltext.setTextColor(ContextCompat.getColor(mainActivity, R.color.textreddish))
+        binding.statussubtextsmall.setTextColor(ContextCompat.getColor(mainActivity, R.color.textreddish))
         endpoint!!.getHome("1").enqueue(object: Callback<request_home> {
             override fun onResponse(call: Call<request_home>, response: Response<request_home>) {
                 requestHome = response.body()!!
@@ -286,11 +297,13 @@ class home_main : Fragment() {
                 var matetitle = ""
                 var materatio = ""
                 var matecolor: Int = ContextCompat.getColor(mainActivity, R.color.mainpurple)
+                var mateportion = ""
                 var i = 0
                 while (i < matelist.size) {
                     matename = matelist.get(i).user_name
                     matetitle = matelist.get(i).user_title_name
                     materatio = matelist.get(i).user_ratio
+                    mateportion = matelist.get(i).user_now_buget_ratio
 
                     if (matetitle == "무소비") {
                         matetitle =
@@ -302,22 +315,22 @@ class home_main : Fragment() {
                     if (i % 4 == 0) {
                         matecolor = ContextCompat.getColor(mainActivity, R.color.mainpink)
                         list.add(
-                            listItem(R.drawable.pink, matename, matetitle, materatio, matecolor, "pink")
+                            listItem(R.drawable.pink, matename, matetitle, materatio, matecolor, "pink", mateportion)
                         )
                     } else if (i % 3 == 0) {
                         matecolor = ContextCompat.getColor(mainActivity, R.color.mainblue)
                         list.add(
-                            listItem(R.drawable.blue, matename, matetitle, materatio, matecolor, "blue")
+                            listItem(R.drawable.blue, matename, matetitle, materatio, matecolor, "blue", mateportion)
                         )
                     } else if (i % 2 == 0) {
                         matecolor = ContextCompat.getColor(mainActivity, R.color.mainyellow)
                         list.add(
-                            listItem(R.drawable.yellow, matename, matetitle, materatio, matecolor, "yellow")
+                            listItem(R.drawable.yellow, matename, matetitle, materatio, matecolor, "yellow", mateportion)
                         )
                     } else {
                         matecolor = ContextCompat.getColor(mainActivity, R.color.maingreen)
                         list.add(
-                            listItem(R.drawable.green, matename, matetitle, materatio, matecolor, "green")
+                            listItem(R.drawable.green, matename, matetitle, materatio, matecolor, "green", mateportion)
                         )
                     }
                     i += 1
@@ -325,19 +338,22 @@ class home_main : Fragment() {
                 adapter = HomeAdapter(mainActivity, list)
                 binding.ratiolist.adapter = adapter
                 binding.ratiolist.layoutManager = LinearLayoutManager(mainActivity)
-
                 binding.horizontalguide.setGuidelinePercent(requestHome.datareceived.household_home.household_now_budget_ratio.toFloat() / 100)
                 if (requestHome.datareceived.household_home.household_now_expense_diff.toFloat() < 0) {
                     houseratio =
                         abs(requestHome.datareceived.household_home.household_now_expense_diff.toFloat()) / requestHome.datareceived.household_home.household_previous_expense.toFloat()
                     binding.verticalguide1.setGuidelinePercent(houseratio * 0.65.toFloat() + 0.35.toFloat())
                     binding.statustextsmall.text = "덜 썼어요"
+                    binding.statusupdown.setImageResource(R.drawable.less)
+                    binding.statusbilltext.setTextColor(ContextCompat.getColor(mainActivity, R.color.textgreenish))
+                    binding.statussubtextsmall.setTextColor(ContextCompat.getColor(mainActivity, R.color.textgreenish))
                 } else if (requestHome.datareceived.household_home.household_now_expense_diff.toFloat() > 0) {
                     houseratio =
                         requestHome.datareceived.household_home.household_now_expense_diff.toFloat() / requestHome.datareceived.household_home.household_previous_expense.toFloat()
                     binding.verticalguide1.setGuidelinePercent(0.35.toFloat())
                     binding.verticalguide2.setGuidelinePercent(0.65.toFloat() - houseratio * 0.65.toFloat() + 0.35.toFloat())
                     binding.statustextsmall.text = "더 썼어요"
+                    binding.statusupdown.setImageResource(R.drawable.more)
                 } else if (requestHome.datareceived.household_home.household_now_expense_diff.toFloat() == 0.toFloat()) {
                     binding.verticalguide1.setGuidelinePercent(0.35.toFloat())
                     binding.verticalguide2.setGuidelinePercent(0.35.toFloat())

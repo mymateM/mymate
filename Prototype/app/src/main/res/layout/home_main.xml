@@ -28,18 +28,28 @@
                 android:id="@+id/layout1"
                 android:nestedScrollingEnabled="false">
 
+                <ImageView
+                    android:layout_width="94.27dp"
+                    android:layout_height="21.1dp"
+                    android:src="@drawable/logo"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/alarmbutton"
+                    app:layout_constraintBottom_toBottomOf="@id/alarmbutton"
+                    android:layout_marginLeft="17dp"
+                    />
+
                 <ImageButton
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:src="@drawable/alarm"
+                    android:src="@drawable/alarm_new"
                     android:background="@android:color/transparent"
                     android:id="@+id/alarmbutton"
                     android:scaleType="centerInside"
                     android:layout_marginTop="18dp"
-                    android:layout_marginRight="17dp"
+                    android:layout_marginRight="20dp"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="alarm image : nothing new"
+                    android:contentDescription="alarm image : new"
                     />
 
                 <TextView
@@ -349,7 +359,7 @@
                     app:layout_constraintTop_toBottomOf="@id/warningtext"
                     app:layout_constraintRight_toLeftOf="@id/statustextsmall"
                     android:textSize="20dp"
-                    android:text="저번 달 같은 기간 보다 "
+                    android:text="지난 달 7일간 대비 "
                     android:textColor="@color/textblack_C"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="48dp"
@@ -377,7 +387,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/statustextbig"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    android:text="5월 첫째주보다 "
+                    android:text="그때보다 "
                     android:textColor="@color/graytext"
                     android:textSize="14dp"
                     android:layout_marginLeft="20dp"
@@ -386,17 +396,29 @@
                     android:id="@+id/statussubtextbig"
                     />
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/statusupdown"
+                    app:layout_constraintLeft_toRightOf="@id/statussubtextbig"
+                    app:layout_constraintTop_toTopOf="@id/statussubtextbig"
+                    app:layout_constraintBottom_toBottomOf="@id/statussubtextbig"
+                    android:src="@drawable/more"
+                    android:layout_marginLeft="4dp"
+                    />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="@id/statussubtextbig"
                     app:layout_constraintBottom_toBottomOf="@id/statussubtextbig"
-                    app:layout_constraintLeft_toRightOf="@id/statussubtextbig"
+                    app:layout_constraintLeft_toRightOf="@id/statusupdown"
                     android:text="25,000"
                     android:textSize="14dp"
                     android:textColor="@color/graytext"
                     android:fontFamily="@font/suit_regular_apply"
                     android:id="@+id/statusbilltext"
+                    android:layout_marginLeft="4dp"
                     />
 
                 <TextView
