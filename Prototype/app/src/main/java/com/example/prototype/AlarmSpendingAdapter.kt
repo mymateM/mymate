@@ -19,6 +19,8 @@ class AlarmSpendingAdapter(val context: Context, val listItem: ArrayList<exnoti>
                 binding.profileimg.setImageResource(R.drawable.home_circle)
             } else if (item.expense_category == "쇼핑") {
                 binding.profileimg.setImageResource(R.drawable.shopping_circle)
+            } else if (item.expense_category == "교통") {
+                binding.profileimg.setImageResource(R.drawable.transport)
             }
 
             var totaltext = item.expense_amount

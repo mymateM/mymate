@@ -21,7 +21,11 @@ class HomeAdapter(val context: Context, val homelist: ArrayList<listItem>): Recy
             profile.setImageResource(item.profilepic)
             maintext.text = item.name
             subtext.text = item.title
-            guideline.setGuidelinePercent(item.ratio.toFloat()/100)
+            if (item.ratio.toFloat() > 100) {
+                guideline.setGuidelinePercent(1.toFloat())
+            } else {
+                guideline.setGuidelinePercent(item.ratio.toFloat()/100)
+            }
             percent.text = item.ratio + "%"
             if (item.flag == "pink") {
                 percentcolor.setImageResource(R.drawable.horizontalbar_pink)

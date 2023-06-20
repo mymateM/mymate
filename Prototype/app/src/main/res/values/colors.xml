@@ -33,4 +33,6 @@
     <color name="textblack_C_pale">#802C2C2C</color>
     <color name="textblack_C_extrapale">#4D2C2C2C</color>
     <color name="alarmpurple">#F3EFFC</color>
+    <color name="textreddish">#EF7166</color>
+    <color name="textgreenish">#2CB67A</color>
 </resources>
