@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/topbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@color/purplemute_background"
+                android:nestedScrollingEnabled="false">
+
+                <ImageView
+                    android:id="@+id/logoimage"
+                    android:layout_width="94.27dp"
+                    android:layout_height="21.1dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/alarmbutton"
+                    app:layout_constraintBottom_toBottomOf="@id/alarmbutton"
+                    android:layout_marginLeft="17dp"
+                    android:src="@drawable/logo"/>
+
+                <ImageButton
+                    android:id="@+id/alarmbutton"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:scaleType="centerInside"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/alarm"
+                    android:contentDescription="alarm button"
+                    />
+
+                <TextView
+                    android:id="@+id/totalspendings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:text="지금까지\n390,200원\n우리 함께 썼어요"
+                    android:fontFamily="@font/suit_bold"
+                    android:lineSpacingExtra="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="94dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/homecharacter"
+                    android:layout_width="191.69dp"
+                    android:layout_height="139dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintTop_toBottomOf="@id/totalspendings"
+                    app:layout_constraintEnd_toEndOf="@id/totalspendings"
+                    android:layout_marginLeft="84dp"
+                    android:layout_marginTop="36dp"
+                    android:src="@drawable/home_character"
+                    />
+
+                <ImageView
+                    android:layout_width="16.26dp"
+                    android:layout_height="21dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:src="@drawable/yellow_twinkle"
+                    android:layout_marginTop="171dp"
+                    android:layout_marginRight="37.74dp"/>
+
+                <ImageView
+                    android:layout_width="16.26dp"
+                    android:layout_height="21dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:src="@drawable/red_twinkle"
+                    android:layout_marginTop="326dp"
+                    android:layout_marginLeft="60dp"
+                    />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="31dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:src="@drawable/blue_twinkle"
+                    android:layout_marginTop="295dp"
+                    android:layout_marginRight="68dp"
+                    />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="31dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:src="@drawable/green_twinkle"
+                    android:layout_marginTop="161dp"
+                    android:layout_marginLeft="39dp"
+                    />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="438dp"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/middlebar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/topbox"
+                android:background="@color/graydark_graph">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/middlebarguide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5"
+                    />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="14dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/middlebarguide"
+                    android:src="@drawable/graph_mainmiddlebar"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/statusbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/middlebar"
+                android:background="@color/graylight_basic"
+                android:nestedScrollingEnabled="false">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="103dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/dDaybox"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="22dp"
+                    android:id="@+id/spendpercentbox"
+                    android:background="@drawable/textbox_homewhite">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="23dp"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="@color/graydark_text"
+                        android:textSize="14dp"
+                        android:text="지금까지 쓴"
+                        android:fontFamily="@font/suit_medium_apply"
+                        android:id="@+id/spendsmalldesc"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/spendsmalldesc"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginLeft="16dp"
+                        android:textSize="22dp"
+                        android:text="예산"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/suit_extrabold_apply"
+                        android:id="@+id/spendbigdesc"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="16dp"
+                        android:fontFamily="@font/montserrat_extrabold"
+                        android:textColor="@color/bluemute_text"
+                        android:text="60%"
+                        android:textSize="22dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/spendbigdesc"
+                        app:layout_constraintTop_toTopOf="@id/spendbigdesc"
+                        android:id="@+id/spendingpertxt"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/dDaybox"
+                    android:layout_width="0dp"
+                    android:layout_height="103dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/spendpercentbox"
+                    android:background="@drawable/textbox_homewhite"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:id="@+id/ddaysmalldesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="23dp"
+                        android:layout_marginLeft="16dp"
+                        android:textSize="14dp"
+                        android:text="다가오는"
+                        android:textColor="@color/graydark_text"
+                        android:fontFamily="@font/suit_medium_apply"/>
+
+                    <TextView
+                        android:id="@+id/ddaybigdesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/ddaysmalldesc"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginLeft="16dp"
+                        android:textSize="22dp"
+                        android:text="정산일"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/suit_extrabold_apply"/>
+
+                    <TextView
+                        android:id="@+id/dday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="@id/ddaybigdesc"
+                        app:layout_constraintBottom_toBottomOf="@id/ddaybigdesc"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginRight="16dp"
+                        android:textSize="22dp"
+                        android:text="D-10"
+                        android:textColor="@color/purple_text"
+                        android:fontFamily="@font/montserrat_extrabold"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/homestatustxt"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintTop_toBottomOf="@id/spendpercentbox"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:drawableLeft="@drawable/noti"
+                    android:background="@drawable/textbox_homegray"
+                    android:text="이대로라면 예산을 초과할 것 같아요"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/suit_regular_apply"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:paddingLeft="16dp"
+                    android:textSize="14dp"/>
+
+                <TextView
+                    android:id="@+id/comparebigtxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/homestatustxt"
+                    android:textSize="20dp"
+                    android:text="지난 달 7일간 대비 덜 썼어요"
+                    android:textColor="@color/blackmute_text"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginRight="20dp"
+                    android:bufferType="spannable"
+                    android:fontFamily="@font/suit_bold_apply"/>
+
+                <TextView
+                    android:id="@+id/comparesmalltxtl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/comparebigtxt"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="그때보다 "
+                    android:textColor="@color/graydark_text"
+                    android:textSize="14dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/suit_regular_apply"/>
+                
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/compareicon"
+                    app:layout_constraintStart_toEndOf="@id/comparesmalltxtl"
+                    app:layout_constraintTop_toTopOf="@id/comparesmalltxtl"
+                    app:layout_constraintBottom_toBottomOf="@id/comparesmalltxtl"
+                    android:src="@drawable/more"
+                    android:layout_marginLeft="4dp"/>
+                
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/comparesmalltxtl"
+                    app:layout_constraintBottom_toBottomOf="@id/comparesmalltxtl"
+                    app:layout_constraintStart_toEndOf="@id/compareicon"
+                    android:text="25,000"
+                    android:textSize="14dp"
+                    android:textColor="@color/graydark_text"
+                    android:fontFamily="@font/suit_regular_apply"
+                    android:id="@+id/statusbilltext"
+                    android:layout_marginLeft="4dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/comparesmalltxtl"
+                    app:layout_constraintBottom_toBottomOf="@id/comparesmalltxtl"
+                    app:layout_constraintStart_toEndOf="@id/statusbilltext"
+                    android:text = "25,000원"
+                    android:textSize="14dp"
+                    android:textColor="@color/graydark_text"
+                    android:fontFamily="@font/suit_regular_apply"
+                    android:id="@+id/statussubtextsmall"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/graphbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/statusbox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@color/graylight_basic"
+                android:nestedScrollingEnabled="false">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="그래프 영역"
+                    android:textSize="14dp"
+                    android:textColor="@color/graydark_text"
+                    android:fontFamily="@font/suit_regular_apply"
+                    android:textAlignment="center"
+                    />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="97dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ratiobox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/graphbox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@color/graylight_basic">
+
+                <TextView
+                    android:id="@+id/ratiodesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textColor="@color/black"
+                    android:text="우리 집 식구들의 정산비율이에요"
+                    android:textSize="20dp"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginLeft="20dp"
+                    android:fontFamily="@font/suit_bold_apply"/>
+                
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    app:layout_constraintLeft_toRightOf="@id/ratiodesc"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="56dp"
+                    android:layout_marginLeft="14dp"
+                    android:src="@drawable/edit"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerInside"
+                    android:contentDescription="edit 버튼입니다"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ratiolist"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ratiodesc"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/graylight_basic"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/listitem_mainrecyclerview"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

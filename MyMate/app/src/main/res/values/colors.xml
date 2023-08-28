@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="whitemute">#FAF9FF</color>
+    <color name="purplemute_background">#423E52</color>
+    <color name="bluelight_text">#95C2ED</color>
+    <color name="bluelight_basic">#85B3DF</color>
+    <color name="bluemute_text">#6496C7</color>
+    <color name="purple_text">#9566CF</color>
+    <color name="purplevivid_graph">#A07ADD</color>
+    <color name="purplelight_graph">#D4C6ED</color>
+    <color name="pink_character">#D97F93</color>
+    <color name="green_character">#6CBDAC</color>
+    <color name="yellow_character">#F1B365</color>
+    <color name="blue_character">#85ADE8</color>
+    <color name="red_text">#EF7166</color>
+    <color name="blackmute_text">#2C2C2C</color>
+    <color name="blackmute_text_50p">#802C2C2C</color>
+    <color name="black_text">#252525</color>
+    <color name="graymute_tab">#C5C4C9</color>
+    <color name="graydark_graph">#D8D8D8</color>
+    <color name="graylight_basic">#F0EFF6</color>
+    <color name="graydark_text">#7D7D7D</color>
+    <color name="graylight_box">#E9E7F0</color>
+    <color name="graylight_graph">#E6E5EA</color>
+    <color name="graylight_tabtext">#A8A8A8</color>
+    <color name="graydark_alarm">#636363</color>
+    <color name="graylight_tabindicator">#E8E8E8</color>
+</resources>
