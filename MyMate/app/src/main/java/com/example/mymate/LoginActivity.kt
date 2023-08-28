@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
+import android.os.UserManager
 import android.text.InputFilter.LengthFilter
 import android.util.Log
 import android.widget.Toast
@@ -13,6 +14,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
 import com.example.mymate.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
@@ -31,6 +34,9 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 import kotlin.math.sign
 
 class LoginActivity: AppCompatActivity() {
@@ -39,6 +45,7 @@ class LoginActivity: AppCompatActivity() {
 
     lateinit var mGoogleSignInClient: GoogleSignInClient
     lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    lateinit var userRepoUser: DataStoreRepoUser
 
     override fun onStart() {
         super.onStart()
@@ -55,18 +62,23 @@ class LoginActivity: AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         context = this
         setContentView(binding.root)
+        //datastore setting
+        userRepoUser = DataStoreRepoUser(dataStore)
         //kakao login
         val kakaologin = binding.kakaologin
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 Log.e(TAG, "카카오톡으로 로그인 실패", error)
             } else if (token != null) {
-                Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")// TODO: 로그인 성공시 메인으로 넘겨주고, 신규 계정 등록시 온보딩으로 연결
+                Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
+                CoroutineScope(IO).launch { //datastore
+                    userRepoUser.keyUser(token.accessToken, "null")
+                }
+                startActivity(Intent(this, MainActivity::class.java))// TODO: 신규 계정 등록시 온보딩으로 연결
                 //TODO: send accessToken to server
             }
         }
         kakaologin.setOnClickListener{
-            //TODO: kakao login code
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
                 UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
                     if (error != null) {
@@ -76,8 +88,12 @@ class LoginActivity: AppCompatActivity() {
                         }
                         UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
                     } else if (token != null) {
-                        Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}") //TODO: 로그인 성공 후 메인으로 넘겨주고, 신규 계정 등록시 온보딩으로 연결
-                        startActivity(Intent(this, MainActivity::class.java))//TODO: send accessToken to server
+                        Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
+                        CoroutineScope(IO).launch {//datastore
+                            userRepoUser.keyUser(token.accessToken, "null")
+                        }
+                        startActivity(Intent(this, MainActivity::class.java)) //TODO: 신규 계정 등록시 온보딩으로 연결
+                    //TODO: send accessToken to server
                     }
                 }
             } else {
@@ -117,10 +133,10 @@ class LoginActivity: AppCompatActivity() {
             val authcode = account?.serverAuthCode.toString()
             val idtoken = account?.idToken.toString()
 
-            Log.d("google email", email)
-            Log.d("google authcode", authcode)
-            Log.d("google idtoken", idtoken)
-            Toast.makeText(this, authcode, Toast.LENGTH_SHORT).show()
+            CoroutineScope(IO).launch {
+                userRepoUser.keyUser(authcode, "null")
+            }
+
             startActivity(Intent(this, MainActivity::class.java))
         } catch (e: ApiException) {
             Log.w("failed", "signInResult:failed code" + e.localizedMessage)
