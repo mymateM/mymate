@@ -3,7 +3,9 @@ package com.example.mymate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import java.io.IOException
 
 class DataStoreRepoUser(private val dataStore: DataStore<Preferences>) {
 
@@ -25,6 +27,30 @@ class DataStoreRepoUser(private val dataStore: DataStore<Preferences>) {
 
     val userRefreshFlow: Flow<String?> = dataStore.data.map {
         it[USER_REFRESH_KEY]
+    }
+
+    val userAccessReadFlow: Flow<String?> = dataStore.data
+        .catch {exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }
+        .map {
+        preferences ->  preferences[USER_ACCESS_KEY] ?: ""
+    }
+
+    val userRefreshReadFlow: Flow<String?> = dataStore.data
+        .catch {exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }
+        .map {
+        preferences -> preferences[USER_REFRESH_KEY] ?: ""
     }
 
 }

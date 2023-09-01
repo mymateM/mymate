@@ -36,6 +36,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.math.sign
 
@@ -64,6 +65,8 @@ class LoginActivity: AppCompatActivity() {
         setContentView(binding.root)
         //datastore setting
         userRepoUser = DataStoreRepoUser(dataStore)
+        var accesscode = ""
+        var refreshcode = ""
         //kakao login
         val kakaologin = binding.kakaologin
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
@@ -72,7 +75,14 @@ class LoginActivity: AppCompatActivity() {
             } else if (token != null) {
                 Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
                 CoroutineScope(IO).launch { //datastore
-                    userRepoUser.keyUser(token.accessToken, "null")
+                    userRepoUser.keyUser(token.accessToken, "heyheyhey")
+                    userRepoUser.userAccessReadFlow.collect {
+                        accesscode = it.toString()
+                    }
+                    userRepoUser.userRefreshReadFlow.collect {
+                        refreshcode = it.toString()
+                        Log.i("refreshcode", refreshcode + accesscode)
+                    }
                 }
                 startActivity(Intent(this, MainActivity::class.java))// TODO: 신규 계정 등록시 온보딩으로 연결
                 //TODO: send accessToken to server
@@ -90,7 +100,14 @@ class LoginActivity: AppCompatActivity() {
                     } else if (token != null) {
                         Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
                         CoroutineScope(IO).launch {//datastore
-                            userRepoUser.keyUser(token.accessToken, "null")
+                            userRepoUser.keyUser(token.accessToken, "heyheyhey")
+                            userRepoUser.userAccessReadFlow.collect {
+                                accesscode = it.toString()
+                            }
+                            userRepoUser.userRefreshReadFlow.collect {
+                                refreshcode = it.toString()
+                                Log.i("refreshcode", refreshcode + accesscode)
+                            }
                         }
                         startActivity(Intent(this, MainActivity::class.java)) //TODO: 신규 계정 등록시 온보딩으로 연결
                     //TODO: send accessToken to server

@@ -58,7 +58,7 @@ class MainHomeFragment : Fragment() {
             mGoogleSignInClient = GoogleSignIn.getClient(mainActivity, gso)
             account?.let {
                 Log.i(TAG, "Logged In")
-                mGoogleSignInClient.signOut()
+                mGoogleSignInClient.signOut() //구글 로그아웃
             } ?: Log.i(TAG, "Not Yet Logged In")
             startActivity(Intent(mainActivity, LoginActivity::class.java))
         }
