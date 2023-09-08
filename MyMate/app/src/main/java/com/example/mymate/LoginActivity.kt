@@ -58,6 +58,8 @@ class LoginActivity: AppCompatActivity() {
         }
     }
 
+    //TODO: 로그인 성공 후 main으로 넘겨줄 때 현재 액티비티를 포함한 다른 액티비티 스택 클리어
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -78,10 +80,13 @@ class LoginActivity: AppCompatActivity() {
                     userRepoUser.keyUser(token.accessToken, "heyheyhey")
                     userRepoUser.userAccessReadFlow.collect {
                         accesscode = it.toString()
+                        Log.i("accesscode", accesscode)
                     }
+                }
+                CoroutineScope(IO).launch {
                     userRepoUser.userRefreshReadFlow.collect {
                         refreshcode = it.toString()
-                        Log.i("refreshcode", refreshcode + accesscode)
+                        Log.i("refreshcode", refreshcode)
                     }
                 }
                 startActivity(Intent(this, MainActivity::class.java))// TODO: 신규 계정 등록시 온보딩으로 연결
@@ -103,10 +108,13 @@ class LoginActivity: AppCompatActivity() {
                             userRepoUser.keyUser(token.accessToken, "heyheyhey")
                             userRepoUser.userAccessReadFlow.collect {
                                 accesscode = it.toString()
+                                Log.i("accesscode", accesscode)
                             }
+                        }
+                        CoroutineScope(IO).launch {
                             userRepoUser.userRefreshReadFlow.collect {
                                 refreshcode = it.toString()
-                                Log.i("refreshcode", refreshcode + accesscode)
+                                Log.i("refreshcode", refreshcode)
                             }
                         }
                         startActivity(Intent(this, MainActivity::class.java)) //TODO: 신규 계정 등록시 온보딩으로 연결
@@ -130,6 +138,12 @@ class LoginActivity: AppCompatActivity() {
         googlelogin.setOnClickListener {
             val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
             resultLauncher.launch(signInIntent)
+        }
+        //local login
+        val locallogin = binding.locallogin
+        locallogin.setOnClickListener{
+            val account = GoogleSignIn.getLastSignedInAccount(context)
+            startActivity(Intent(this, LocalLoginActivity::class.java))
         }
     }
 

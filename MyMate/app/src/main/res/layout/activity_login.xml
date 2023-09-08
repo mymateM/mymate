@@ -4,24 +4,53 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="113dp"
+        android:text="반가워요!\n평화로운 공동가계부,\n지금 바로 시작해보세요"
+        android:fontFamily="@font/suit_bold"
+        android:textSize="17.6dp"
+        android:lineSpacingExtra="4dp"
+        android:id="@+id/logintext"/>
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/logintext"
+        android:layout_marginTop="30.12dp"
+        android:background="@drawable/button_loginbardefault"
+        android:text="mymate ID로 시작하기"
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/locallogin"/>
+
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/googlelogin"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/locallogin"
+        android:layout_marginTop="16dp"
         android:id="@+id/kakaologin"
-        android:src="@drawable/button_kakaologin"
+        android:src="@drawable/button_kakaologinwide"
         android:background="@android:color/transparent"/>
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/kakaologin"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/kakaologin"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
         android:id="@+id/googlelogin"
         android:src="@drawable/button_googlelogin"
         android:background="@android:color/transparent"/>
