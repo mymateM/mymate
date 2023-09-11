@@ -29,6 +29,10 @@ data class token (
     var refresh_token: String = ""
 )
 
+data class devicetoken (
+    var deviceToken: String = ""
+)
+
 // data class for responses
 
 data class defaultResponse (
@@ -60,6 +64,11 @@ interface localRefresh {
 interface localRegister {
     @POST("api/v1/auth/register")
     fun localRegister(@Body req: localUserRegister) : Call<localLoginResponse>
+}
+
+interface localDevice {
+    @POST("api/v1/user/device-token")
+    fun localDevice(@Header("Authorization") Authorization: String, @Body req: devicetoken)
 }
 
 //이하 완료되지 않은 API interface

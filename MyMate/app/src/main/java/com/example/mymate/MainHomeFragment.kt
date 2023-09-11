@@ -98,6 +98,12 @@ class MainHomeFragment : Fragment() {
                     }
                 }
                 initrefresh.join()
+                /*
+
+                refreshcode = userRepo.userRefreshReadFlow.first()
+                Log.i("initfirst", refreshcode)
+
+                */
             }
             endpoint!!.localRefresh("Bearer " + refreshcode).enqueue(object: Callback<localRefreshReponse> {
                 override fun onResponse(
