@@ -142,7 +142,6 @@ class LoginActivity: AppCompatActivity() {
         //local login
         val locallogin = binding.locallogin
         locallogin.setOnClickListener{
-            val account = GoogleSignIn.getLastSignedInAccount(context)
             startActivity(Intent(this, LocalLoginActivity::class.java))
         }
     }
