@@ -1,14 +1,18 @@
 package com.example.mymate
 
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
+import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.google.firebase.messaging.ktx.remoteMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -31,11 +35,13 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
         Log.d("onMsgReceived", "From: " + message!!.from)
-        Log.d("onMsgReceived", "Msg Data: ${message.data}")
-        Log.d("onMsgReceived", "Msg Noti: ${message.notification}")
 
         if(message.data.isNotEmpty()) {
-
+            sendNotification(message)
+            Log.d("messagetitle", message.data["title"].toString())
+            Log.d("messagebody", message.data["body"].toString())
+        } else {
+            Log.e(TAG, "data empty. no message received")
         }
     }
 
@@ -64,6 +70,22 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        //오레오 버전 이후에는 채널이 필요 부분부터~
+        //채널 설정
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(channelId, "Notice", NotificationManager.IMPORTANCE_DEFAULT)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        notificationManager.notify(unlid, notificationBuilder.build())
+    }
+
+    fun getFirebaseToken(): String {
+        var firebasedevicecode = ""
+        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            Log.d(TAG, "devicetoken=${it}")
+            firebasedevicecode = it
+        }
+        return firebasedevicecode
     }
 }

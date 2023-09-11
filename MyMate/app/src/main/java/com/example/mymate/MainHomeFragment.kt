@@ -21,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectIndexed
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -90,22 +91,18 @@ class MainHomeFragment : Fragment() {
         val temprefresh = binding.homecharacter
         temprefresh.setOnClickListener {
             runBlocking {
-                var initrefresh = launch {
+                /*var initrefresh = launch {
                     userRepo.userRefreshReadFlow.collect {
                         refreshcode = it.toString()
                         Log.i("refreshinit", refreshcode)
                         cancel()
                     }
                 }
-                initrefresh.join()
-                /*
-
-                refreshcode = userRepo.userRefreshReadFlow.first()
+                initrefresh.join()*/
+                refreshcode = userRepo.userRefreshReadFlow.first().toString()
                 Log.i("initfirst", refreshcode)
-
-                */
             }
-            endpoint!!.localRefresh("Bearer " + refreshcode).enqueue(object: Callback<localRefreshReponse> {
+            /*endpoint!!.localRefresh("Bearer " + refreshcode).enqueue(object: Callback<localRefreshReponse> {
                 override fun onResponse(
                     call: Call<localRefreshReponse>,
                     response: Response<localRefreshReponse>
@@ -126,7 +123,7 @@ class MainHomeFragment : Fragment() {
                 override fun onFailure(call: Call<localRefreshReponse>, t: Throwable) {
                     Toast.makeText(mainActivity, "갱신 실패.", Toast.LENGTH_SHORT)
                 }
-            })
+            })*/
         }
 
         return binding.root
