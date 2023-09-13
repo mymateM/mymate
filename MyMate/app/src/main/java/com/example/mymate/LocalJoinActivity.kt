@@ -2,6 +2,7 @@ package com.example.mymate
 
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -77,11 +78,10 @@ class LocalJoinActivity: AppCompatActivity() {
 
         joinbutton.setOnClickListener {
             //회원가입 처리 통신
-            var nickname = binding.joinnickname.text.toString()
             var email = binding.joinidvalue.text.toString()
             var pwd = binding.joinpwdvalue.text.toString()
 
-            var loginInfo = localUserRegister(nickname, email, pwd)
+            var loginInfo = loginUser(email, pwd)
 
             Log.i("nickname", loginInfo.email)
 
@@ -93,6 +93,8 @@ class LocalJoinActivity: AppCompatActivity() {
                         Log.i("accesscode", joinResponse.data.access_token.toString())
                         Log.i("refreshcode", joinResponse.data.refresh_token.toString())
                     }
+                    var fcm = MyFirebaseMessagingService()
+                    fcm.sendFirebaseToken()
                     startActivity(Intent(context, MainActivity::class.java))
                 }
 

@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.kakao.sdk.user.UserApiClient
+import com.navercorp.nid.NaverIdLoginSDK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.cancel
@@ -85,6 +86,12 @@ class MainHomeFragment : Fragment() {
                 Log.i(TAG, "Logged In")
                 mGoogleSignInClient.signOut() //구글 로그아웃
             } ?: Log.i(TAG, "Not Yet Logged In")
+            try {
+                NaverIdLoginSDK.logout()
+                Log.i(TAG, "로그아웃 성공, SDK에서 네이버 토큰 삭제됨")
+            } finally {
+                Log.i(TAG, "로그아웃 실패, SDK에 네이버 토큰 없음")
+            } // 네이버 로그아웃
             startActivity(Intent(mainActivity, LoginActivity::class.java))
         }
 

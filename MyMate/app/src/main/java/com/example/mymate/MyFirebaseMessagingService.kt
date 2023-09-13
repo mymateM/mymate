@@ -16,6 +16,10 @@ import com.google.firebase.messaging.ktx.remoteMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MyFirebaseMessagingService: FirebaseMessagingService() {
     private val TAG = "FirebaseService"
@@ -80,12 +84,41 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         notificationManager.notify(unlid, notificationBuilder.build())
     }
 
-    fun getFirebaseToken(): String {
+    fun sendFirebaseToken() {
+        userRepo = DataStoreRepoUser(dataStore)
         var firebasedevicecode = ""
         FirebaseMessaging.getInstance().token.addOnSuccessListener {
             Log.d(TAG, "devicetoken=${it}")
             firebasedevicecode = it
+            var retrofit = RetrofitClientInstance.client
+            var endpoint = retrofit?.create(localDevice::class.java)
+            var deviceToken: devicetoken = devicetoken(it)
+            var accessToken: String = ""
+            runBlocking {
+                var getAC = launch {
+                    accessToken = userRepo.getAccessToken()
+                    Log.d(TAG, "accessToken = ${accessToken}")
+                }
+                getAC.join()
+            }
+            endpoint!!.localDevice("Bearer " + accessToken, deviceToken).enqueue(object : Callback<Response<Void>> {
+                override fun onResponse(
+                    call: Call<Response<Void>>,
+                    response: Response<Response<Void>>
+                ) {
+                    runBlocking {
+                        var putDT = launch {
+                            userRepo.keyDevice(deviceToken.deviceToken)
+                        }
+                        putDT.join()
+                    }
+                    Log.i("localDevice", deviceToken.deviceToken + " success")
+                }
+
+                override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
+                    Log.e("localDevice", "failed to connect")
+                }
+            })
         }
-        return firebasedevicecode
     }
 }

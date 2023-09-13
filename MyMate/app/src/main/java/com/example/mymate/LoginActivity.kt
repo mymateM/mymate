@@ -10,6 +10,7 @@ import android.os.UserManager
 import android.text.InputFilter.LengthFilter
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,6 +35,9 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.NidOAuthLogin
+import com.navercorp.nid.oauth.OAuthLoginCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.collect
@@ -139,6 +143,30 @@ class LoginActivity: AppCompatActivity() {
             val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
             resultLauncher.launch(signInIntent)
         }
+        //naver login
+        binding.naverlogin.setOnClickListener {
+            val oauthLoginCallback = object  : OAuthLoginCallback {
+                override fun onError(errorCode: Int, message: String) {
+                    Log.e(NaverIdLoginSDK.getLastErrorCode().toString(), NaverIdLoginSDK.getLastErrorDescription().toString())
+                    Toast.makeText(context, "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onFailure(httpStatus: Int, message: String) {
+                    Log.e(NaverIdLoginSDK.getLastErrorCode().toString(), NaverIdLoginSDK.getLastErrorDescription().toString())
+                    Toast.makeText(context, "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onSuccess() {
+                    CoroutineScope(IO).launch {
+                        userRepoUser.keyUser(NaverIdLoginSDK.getAccessToken().toString(), NaverIdLoginSDK.getRefreshToken().toString())
+                        startActivity(Intent(context, MainActivity::class.java))
+                    }
+                    Log.i("네이버 로그인", "login success: ${NaverIdLoginSDK.getAccessToken().toString()}")
+                }
+
+            }
+            NaverIdLoginSDK.authenticate(context, oauthLoginCallback)
+        }
         //local login
         val locallogin = binding.locallogin
         locallogin.setOnClickListener{
@@ -165,6 +193,7 @@ class LoginActivity: AppCompatActivity() {
 
             CoroutineScope(IO).launch {
                 userRepoUser.keyUser(authcode, "null")
+                Log.i("accesscode", authcode)
             }
 
             startActivity(Intent(this, MainActivity::class.java))

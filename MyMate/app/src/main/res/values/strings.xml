@@ -4,5 +4,6 @@
     <string name="kakao_native_app_key">3530918695d2bf347be890641b65b63d</string>
     <string name="google_web_client_id">926571506072-mb9gasp891h4i71rv9vn9s3l0l1hurq0.apps.googleusercontent.com</string>
     <string name="google_android_client_id">926571506072-2ob6jhsfuc814t0u4768o24l1o91rhl8.apps.googleusercontent.com</string>
-
+    <string name="naver_client_id">Q91qVcQouNXMnEsB20xd</string>
+    <string name="naver_client_secret">AqxcNpj_Zj</string>
 </resources>

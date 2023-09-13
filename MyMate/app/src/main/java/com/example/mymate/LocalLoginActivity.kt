@@ -19,6 +19,7 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.create
 import java.util.regex.Pattern
 
 class LocalLoginActivity: AppCompatActivity() {
@@ -71,6 +72,10 @@ class LocalLoginActivity: AppCompatActivity() {
                     Toast.makeText(context, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT)
                 }
             })
+
+            var fcm = MyFirebaseMessagingService()
+            fcm.sendFirebaseToken()
+
         }
 
     }

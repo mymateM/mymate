@@ -63,12 +63,14 @@ interface localRefresh {
 
 interface localRegister {
     @POST("api/v1/auth/register")
-    fun localRegister(@Body req: localUserRegister) : Call<localLoginResponse>
+    fun localRegister(@Body req: loginUser) : Call<localLoginResponse>
 }
+
+//TODO: local register error API response care
 
 interface localDevice {
     @POST("api/v1/user/device-token")
-    fun localDevice(@Header("Authorization") Authorization: String, @Body req: devicetoken)
+    fun localDevice(@Header("Authorization") Authorization: String, @Body req: devicetoken) : Call<Response<Void>>
 }
 
 //이하 완료되지 않은 API interface

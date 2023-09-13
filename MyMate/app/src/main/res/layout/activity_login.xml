@@ -55,4 +55,16 @@
         android:src="@drawable/button_googlelogin"
         android:background="@android:color/transparent"/>
 
+    <ImageButton
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/googlelogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/naverlogin"
+        android:src="@drawable/button_naverlogin"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="16dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

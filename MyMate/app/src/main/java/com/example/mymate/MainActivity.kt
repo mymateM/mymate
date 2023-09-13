@@ -14,6 +14,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
+import com.navercorp.nid.NaverIdLoginSDK
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         val keyhash = Utility.getKeyHash(this)
         Log.d ("Hash", keyhash)
         initViewPager()
+        NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "MyMate")
     }
 
     private fun initViewPager() {
