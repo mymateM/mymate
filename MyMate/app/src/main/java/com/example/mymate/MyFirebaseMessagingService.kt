@@ -53,7 +53,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         //notice id(고유값, 개별표시)
         val unlid: Int = (System.currentTimeMillis()/7).toInt()
         //pending intent(1회용)
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, AlarmActivity::class.java)
         for(key in message.data.keys) {
             intent.putExtra(key, message.data.getValue(key))
         }

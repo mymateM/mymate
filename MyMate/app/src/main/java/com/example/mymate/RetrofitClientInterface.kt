@@ -66,7 +66,7 @@ interface localRegister {
     fun localRegister(@Body req: loginUser) : Call<localLoginResponse>
 }
 
-//TODO: local register error API response care
+//TODO: local register error API response error receiving (1: DataClass, 2: receiving check)
 
 interface localDevice {
     @POST("api/v1/user/device-token")
