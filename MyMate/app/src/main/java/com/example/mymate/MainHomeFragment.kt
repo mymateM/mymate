@@ -98,39 +98,9 @@ class MainHomeFragment : Fragment() {
         val temprefresh = binding.homecharacter
         temprefresh.setOnClickListener {
             runBlocking {
-                /*var initrefresh = launch {
-                    userRepo.userRefreshReadFlow.collect {
-                        refreshcode = it.toString()
-                        Log.i("refreshinit", refreshcode)
-                        cancel()
-                    }
-                }
-                initrefresh.join()*/
                 refreshcode = userRepo.userRefreshReadFlow.first().toString()
                 Log.i("initfirst", refreshcode)
             }
-            /*endpoint!!.localRefresh("Bearer " + refreshcode).enqueue(object: Callback<localRefreshReponse> {
-                override fun onResponse(
-                    call: Call<localRefreshReponse>,
-                    response: Response<localRefreshReponse>
-                ) {
-                    refreshResponse = response.body()!!
-                    Log.i("routine start", "routine start")
-                    runBlocking {
-                        var userPUT = launch {
-                            userRepo.keyUser(refreshResponse.access_token.toString(), refreshResponse.refresh_token.toString())
-                            Log.i("accesscode", refreshResponse.access_token.toString())
-                            Log.i("refreshcode", refreshResponse.refresh_token.toString())
-                            cancel()
-                        }
-                        userPUT.join()
-                    }
-                    Log.i("routine over", "routine over")
-                }
-                override fun onFailure(call: Call<localRefreshReponse>, t: Throwable) {
-                    Toast.makeText(mainActivity, "갱신 실패.", Toast.LENGTH_SHORT)
-                }
-            })*/
         }
 
         return binding.root
