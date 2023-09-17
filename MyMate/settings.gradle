@@ -11,6 +11,7 @@ dependencyResolutionManagement {
         google()
         maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' } //kakao repo for social login
         mavenCentral()
+        maven {url 'https://jitpack.io'}
     }
 }
 rootProject.name = "MyMate"
