@@ -4,15 +4,308 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="마이페이지입니다"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false">
+
+            <ImageButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/edit"
+                android:background="@android:color/transparent"
+                android:id="@+id/toSetting"
+                />
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="60dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/basicprofile"
+                android:id="@+id/userProfileimg"/>
+
+            <ImageButton
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                app:layout_constraintEnd_toEndOf="@id/userProfileimg"
+                app:layout_constraintBottom_toBottomOf="@id/userProfileimg"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/basicprofile"
+                android:backgroundTint="@color/graylight_wireframe"
+                android:src="@drawable/edit"
+                android:scaleType="centerInside"
+                android:id="@+id/profileEdit"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/userProfileimg"
+                app:layout_constraintTop_toTopOf="@id/userProfileimg"
+                app:layout_constraintBottom_toBottomOf="@id/userProfileimg"
+                android:layout_marginStart="18dp"
+                android:textColor="@color/black_text"
+                android:text="영서"
+                android:textSize="19dp"
+                android:fontFamily="@font/suit_semibold"
+                android:id="@+id/userName"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                app:layout_constraintTop_toBottomOf="@id/userProfileimg"
+                android:layout_marginTop="244dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/icon_defaultrectangle"
+                android:id="@+id/mypagedevider"/>
+
+            <ImageView
+                android:layout_width="131dp"
+                android:layout_height="131dp"
+                app:layout_constraintTop_toBottomOf="@id/mypagedevider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/settlementPercentage"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                android:layout_marginTop="41dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/box_toreport"
+                android:id="@+id/settlementDayNoti"/>
+
+            <ImageView
+                android:layout_width="131dp"
+                android:layout_height="131dp"
+                app:layout_constraintTop_toBottomOf="@id/mypagedevider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/settlementDayNoti"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="41dp"
+                android:src="@drawable/box_toreport"
+                android:id="@+id/settlementPercentage"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/settlementDayNoti"
+                app:layout_constraintStart_toStartOf="@id/settlementDayNoti"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="13dp"
+                android:text="정산일"
+                android:textSize="13dp"
+                android:textColor="@color/black_text"
+                android:fontFamily="@font/suit_semibold"
+                android:id="@+id/settleText1"/>
+            
+            <ImageButton
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                app:layout_constraintTop_toTopOf="@id/settleText1"
+                app:layout_constraintStart_toEndOf="@id/settleText1"
+                app:layout_constraintBottom_toBottomOf="@id/settleText1"
+                android:layout_marginStart="3dp"
+                android:src="@drawable/go_report"
+                android:scaleType="centerInside"
+                android:background="@android:color/transparent"
+                android:id="@+id/toSettleDay"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/settlementDayNoti"
+                app:layout_constraintTop_toTopOf="@id/settlementDayNoti"
+                android:layout_marginTop="63dp"
+                android:layout_marginStart="28dp"
+                android:textSize="18dp"
+                android:fontFamily="@font/suit_extrabold"
+                android:textColor="@color/black_text"
+                android:text="매달"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/settlementDayNoti"
+                app:layout_constraintTop_toTopOf="@id/settlementDayNoti"
+                android:layout_marginTop="63dp"
+                android:layout_marginEnd="18dp"
+                android:textSize="18dp"
+                android:fontFamily="@font/suit_extrabold"
+                android:textColor="@color/graydark_text"
+                android:text="00일"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/settlementPercentage"
+                app:layout_constraintStart_toStartOf="@id/settlementPercentage"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="13dp"
+                android:text="내 비율"
+                android:textSize="13dp"
+                android:textColor="@color/black_text"
+                android:fontFamily="@font/suit_semibold"
+                android:id="@+id/settleText2"/>
+
+            <ImageButton
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                app:layout_constraintTop_toTopOf="@id/settleText2"
+                app:layout_constraintStart_toEndOf="@id/settleText2"
+                app:layout_constraintBottom_toBottomOf="@id/settleText2"
+                android:layout_marginStart="3dp"
+                android:src="@drawable/go_report"
+                android:scaleType="centerInside"
+                android:background="@android:color/transparent"
+                android:id="@+id/toPercent"/>
+            
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/settleText2"
+                app:layout_constraintStart_toStartOf="@id/settlementPercentage"
+                app:layout_constraintEnd_toEndOf="@id/settlementPercentage"
+                app:layout_constraintBottom_toBottomOf="@id/settlementPercentage"
+                android:id="@+id/mypagePiechart"/>
+            
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="131dp"
+                app:layout_constraintTop_toBottomOf="@id/settlementPercentage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="78dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:id="@+id/budgetNoti"
+                android:src="@drawable/box_toreport"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="@id/budgetNoti"
+                app:layout_constraintTop_toTopOf="@id/budgetNoti"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="13dp"
+                android:text="해피하우스 예산"
+                android:textSize="13dp"
+                android:textColor="@color/black_text"
+                android:fontFamily="@font/suit_semibold"
+                android:id="@+id/settleText3"/>
+
+            <ImageButton
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                app:layout_constraintTop_toTopOf="@id/settleText3"
+                app:layout_constraintStart_toEndOf="@id/settleText3"
+                app:layout_constraintBottom_toBottomOf="@id/settleText3"
+                android:layout_marginStart="2dp"
+                android:src="@drawable/go_report"
+                android:background="@android:color/transparent"
+                android:id="@+id/toBudget"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/budgetNoti"
+                app:layout_constraintTop_toTopOf="@id/budgetNoti"
+                android:layout_marginTop="63dp"
+                android:layout_marginStart="27dp"
+                android:text="한 달"
+                android:textColor="@color/black_text"
+                android:fontFamily="@font/suit_extrabold"
+                android:textSize="18dp"
+                android:id="@+id/thismonthtext"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/thismonthtext"
+                app:layout_constraintBottom_toBottomOf="@id/thismonthtext"
+                app:layout_constraintStart_toEndOf="@id/thismonthtext"
+                android:layout_marginStart="10dp"
+                android:text="80만원"
+                android:textColor="@color/graydark_text"
+                android:fontFamily="@font/suit_extrabold"
+                android:textSize="18dp"
+                android:id="@+id/budgetText"/>
+
+            <Button
+                android:layout_width="105dp"
+                android:layout_height="28dp"
+                android:background="@drawable/box_toreport"
+                app:layout_constraintTop_toTopOf="@id/thismonthtext"
+                app:layout_constraintBottom_toBottomOf="@id/thismonthtext"
+                app:layout_constraintStart_toEndOf="@id/budgetText"
+                android:layout_marginStart="20dp"
+                android:text="+8만원까지 괜찮아요"
+                android:textSize="10dp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:textColor="@color/graydark_text"
+                android:id="@+id/allowanceText"/>
+            
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/box_toreport"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/budgetNoti"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="17dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:text="해피하우스 계좌 관리"
+                    android:textColor="@color/black_text"
+                    android:textSize="13dp"
+                    android:fontFamily="@font/suit_semibold"
+                    android:id="@+id/settleText4"/>
+
+                <ImageButton
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    app:layout_constraintStart_toEndOf="@id/settleText4"
+                    app:layout_constraintTop_toTopOf="@id/settleText4"
+                    app:layout_constraintBottom_toBottomOf="@id/settleText4"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/go_report"
+                    android:id="@+id/goAccount"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/settleText4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="18dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

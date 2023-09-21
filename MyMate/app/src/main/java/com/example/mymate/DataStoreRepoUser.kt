@@ -105,4 +105,16 @@ class DataStoreRepoUser(private val dataStore: DataStore<Preferences>) {
         preferences -> preferences[USER_REFRESH_KEY] ?: ""
     }
 
+    val userDeviceReadFlow: Flow<String?> = dataStore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }
+        .map {
+            preferences -> preferences[USER_DEVICE_KEY] ?: ""
+        }
+
 }

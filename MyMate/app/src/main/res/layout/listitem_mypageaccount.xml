@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <ImageView
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:src="@drawable/basicprofile"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="16dp"
+        android:id="@+id/accountProfile"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/accountProfile"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="16dp"
+        android:text="나"
+        android:textSize="12dp"
+        android:fontFamily="@font/suit_bold"
+        android:textColor="@color/black_text"
+        android:id="@+id/accountOwner"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/accountOwner"
+        app:layout_constraintStart_toEndOf="@id/accountProfile"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:text="신한 0000-0000-000000"
+        android:textSize="12dp"
+        android:textColor="@color/graydark_text"
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/accountNumber"/>
+
+    <ImageButton
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toEndOf="@id/accountNumber"
+        app:layout_constraintTop_toTopOf="@id/accountNumber"
+        app:layout_constraintBottom_toBottomOf="@id/accountNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/go_report"
+        android:background="@android:color/transparent"
+        android:id="@+id/copypaste"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="6dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

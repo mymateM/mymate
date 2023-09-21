@@ -1,5 +1,6 @@
 package com.example.mymate
 
+import android.icu.text.CaseMap.Title
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -33,6 +34,32 @@ data class devicetoken (
     var deviceToken: String = ""
 )
 
+data class senddeviceToken (
+    var device_token: String = ""
+)
+
+data class dailyExpenseDetail (
+    var settlement_date: datePeriod = datePeriod(),
+    var household_budget_amount: String = "",
+    var household_by_now_expense: String = "",
+    var household_expenses: ArrayList<householdExpenseDetail> = ArrayList()
+)
+
+data class datePeriod (
+    var date_start: String = "",
+    var date_end: String = ""
+)
+
+data class householdExpenseDetail (
+    var expense_id: String = "",
+    var expense_date: String = "",
+    var expense_day_of_week: String = "",
+    var expense_category_name: String = "",
+    var expense_category_image_url: String = "",
+    var expense_store: String = "",
+    var expense_consumer: String = ""
+)
+
 // data class for responses
 
 data class defaultResponse (
@@ -49,6 +76,20 @@ data class localLoginResponse (
 data class localRefreshReponse (
     var access_token: String = "",
     var refresh_token: String = ""
+)
+
+data class deviceTokenResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: senddeviceToken = senddeviceToken()
+)
+
+data class dailyExpenseResponse (
+    var status: String = "",
+    var title: String = "",
+    var detail: String = "",
+    var data: dailyExpenseDetail = dailyExpenseDetail(),
+    var links: String = ""
 )
 
 interface localLogin {
@@ -73,6 +114,11 @@ interface localDevice {
     fun localDevice(@Header("Authorization") Authorization: String, @Body req: devicetoken) : Call<Response<Void>>
 }
 
+interface getlocalDevice {
+    @GET("api/v1/user/device-token")
+    fun localDevice(@Header("Authorization") Authorization: String) : Call<deviceTokenResponse>
+}
+
 //이하 완료되지 않은 API interface
 
 //Household API
@@ -84,5 +130,10 @@ interface localDevice {
 //Bills Api
 
 //Expense API
+
+interface getDailyExpense {
+    @GET("expenses/daily-content")
+    fun getDailyExpense(@Header("Authentication") Authentication: String) : Call<dailyExpenseResponse>
+}
 
 //Reports API

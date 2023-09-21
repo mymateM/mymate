@@ -1,6 +1,7 @@
 package com.example.mymate
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
 import android.util.Log
@@ -32,10 +33,14 @@ class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, 
             day.text = item
             spend.text = item
             //text color
-            if (color == "blue") {
+            if (info.lastornext) {
+                day.setTextColor(Color.GRAY)
+            } else if (color == "blue") {
                 day.setTextColor(Color.BLUE)
             } else if (color == "red") {
                 day.setTextColor(Color.RED)
+            } else {
+                day.setTextColor(Color.BLACK)
             }
 
             if(info.startorEnd) {
@@ -51,6 +56,7 @@ class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, 
                     onItemClickListener?.onItemClick(info, absoluteAdapterPosition)
                     calendarVal.setDay(absoluteAdapterPosition)
                     calendarVal.daycheck()
+                    Log.d("beforedaycheck", absoluteAdapterPosition.toString() + " " + calendarVal.firstDay.toString() + " " + calendarVal.lastDay.toString())
                     if (calendarVal.firstDay == absoluteAdapterPosition) {
                         info.startorEnd = true
                         info.middle = false
@@ -101,9 +107,15 @@ class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, 
         } else if (position == calendarVal.firstDay) {
             iteminfo[position].startorEnd = true
             iteminfo[position].middle = false
+            if (calendarVal.firstDay < 0) {
+                iteminfo[position].startorEnd = false
+            }
         } else if (position == calendarVal.lastDay) {
             iteminfo[position].startorEnd = true
             iteminfo[position].middle = false
+            if (calendarVal.lastDay < 0) {
+                iteminfo[position].startorEnd = false
+            }
         } else {
             iteminfo[position].startorEnd = false
             iteminfo[position].middle = false

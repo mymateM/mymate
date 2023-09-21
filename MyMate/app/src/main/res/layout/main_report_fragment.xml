@@ -15,5 +15,14 @@
         android:id="@+id/tempText"
         />
 
+    <com.github.mikephil.charting.charts.PieChart
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tempText"
+        android:layout_marginTop="40dp"
+        android:id="@+id/pieTest"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

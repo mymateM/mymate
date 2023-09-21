@@ -11,9 +11,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.contentColorFor
 import com.example.mymate.databinding.ActivityLocalloginBinding
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
@@ -28,6 +30,7 @@ class LocalLoginActivity: AppCompatActivity() {
     lateinit var userRepo: DataStoreRepoUser
 
     private var loginResponse: localLoginResponse = localLoginResponse()
+    private var deviceresponse: deviceTokenResponse = deviceTokenResponse()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +42,8 @@ class LocalLoginActivity: AppCompatActivity() {
         //retrofit code
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(localLogin::class.java)
+        var tempendpoint = retrofit?.create(localDevice::class.java)
+        var tempendpoint2 = retrofit?.create(getlocalDevice::class.java)
 
         binding.localjoinbtn.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         binding.localjoinbtn.setOnClickListener {
@@ -52,6 +57,11 @@ class LocalLoginActivity: AppCompatActivity() {
 
             var userData = loginUser(email, password)
 
+            var fcm = MyFirebaseMessagingService()
+            var accessToken = ""
+            var devicebearer = devicetoken(fcm.getFirebaseToken())
+            Log.d("devicebearer", devicebearer.deviceToken)
+
             endpoint!!.localLogin(userData).enqueue(object: Callback<localLoginResponse> {
                 override fun onResponse(
                     call: Call<localLoginResponse>,
@@ -63,18 +73,38 @@ class LocalLoginActivity: AppCompatActivity() {
                             userRepo.keyUser(loginResponse.data.access_token.toString(), loginResponse.data.refresh_token.toString())
                             Log.i("accesscode", loginResponse.data.access_token.toString())
                             Log.i("refreshcode", loginResponse.data.refresh_token.toString())
-                            startActivity(Intent(context, MainActivity::class.java))
                         }
                         userPUT.join()
+                        var userGET = launch {
+                            accessToken = userRepo.userAccessReadFlow.first().toString()
+                        }
+                        userGET.join()
+                        Log.d("getaccesscode", accessToken)
                     }
+                    fcm.sendFirebaseToken()
+                    tempendpoint2!!.localDevice("Bearer " + accessToken).enqueue(object : Callback<deviceTokenResponse> {
+                        override fun onResponse(
+                            call: Call<deviceTokenResponse>,
+                            response: Response<deviceTokenResponse>
+                        ) {
+                            deviceresponse = response.body()!!
+                            Log.d("getdevicetoken", deviceresponse.data.device_token)
+                        }
+
+                        override fun onFailure(call: Call<deviceTokenResponse>, t: Throwable) {
+                            Log.d("getdevicetoken", "failed")
+                        }
+
+                    })
+                    startActivity(Intent(context, MainActivity::class.java))
                 }
                 override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
                     Toast.makeText(context, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT)
                 }
             })
 
-            var fcm = MyFirebaseMessagingService()
-            fcm.sendFirebaseToken()
+            //FirebaseMessaging.getInstance().token
+            //fcm.sendFirebaseToken()
 
         }
 

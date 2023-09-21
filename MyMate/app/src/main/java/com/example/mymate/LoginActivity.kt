@@ -194,6 +194,7 @@ class LoginActivity: AppCompatActivity() {
             CoroutineScope(IO).launch {
                 userRepoUser.keyUser(authcode, "null")
                 Log.i("accesscode", authcode)
+                Log.i("idToken", idtoken)
             }
 
             startActivity(Intent(this, MainActivity::class.java))
