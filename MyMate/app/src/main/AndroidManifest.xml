@@ -2,11 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mymate">
-
     <!-- permit application to use internet -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -19,46 +22,78 @@
         android:theme="@style/Theme.MyMate"
         tools:targetApi="31">
         <activity
+            android:name=".OnboardingProfileActivity"
+            android:exported="false"
+            android:label="@string/title_activity_onboarding_profile"
+            android:theme="@style/Theme.MyMate" />
+        <activity android:name=".OnboardingSettlementdayActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate"/>
+        <activity android:name=".OnboardingAccountActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate"/>
+        <activity android:name=".OnboardingInviteActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate"/>
+        <activity android:name=".OnboardingToinviteActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate"/>
+        <activity android:name=".OnboardingGetinviteActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate"/>
+        <activity android:name=".OnboardingHouseholdActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate"/>
+        <activity android:name=".OnboardingSettlementbudgetActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate"/>
+        <activity android:name=".OnboardingCreatedActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate"/>
+        <activity
+            android:name=".AlarmActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate" />
+        <activity
+            android:name=".SettlementActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate" />
+        <activity
+            android:name=".LocalLoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate" />
+        <activity
+            android:name=".LocalJoinActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate" />
+        <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:launchMode="singleTask"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
-                <data android:host="oauth"
+                <data
+                    android:host="oauth"
                     android:scheme="@string/kakao_native_app_key" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.MyMate">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".AlarmActivity"
-            android:exported="false"
-            android:theme="@style/Theme.MyMate">
-        </activity>
-        <activity android:name=".SettlementActivity"
-            android:exported="false"
-            android:theme="@style/Theme.MyMate">
-        </activity>
-        <activity android:name=".LoginActivity"
-            android:exported="false"
-            android:theme="@style/Theme.MyMate">
-        </activity>
-        <activity android:name=".LocalLoginActivity"
-            android:exported="false"
-            android:theme="@style/Theme.MyMate">
-        </activity>
-        <activity android:name=".LocalJoinActivity"
-            android:exported="false"
-            android:theme="@style/Theme.MyMate">
         </activity>
 
         <service

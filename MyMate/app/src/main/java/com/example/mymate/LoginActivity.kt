@@ -42,6 +42,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import kotlin.math.sign
 
 class LoginActivity: AppCompatActivity() {
@@ -52,14 +56,11 @@ class LoginActivity: AppCompatActivity() {
     lateinit var resultLauncher: ActivityResultLauncher<Intent>
     lateinit var userRepoUser: DataStoreRepoUser
 
+    lateinit var kakaoCallback: (OAuthToken?, Throwable?) -> Unit
+    lateinit var socialAccesscode: String
+
     override fun onStart() {
         super.onStart()
-        val account = GoogleSignIn.getLastSignedInAccount(context)
-        if (account == null) {
-            Log.e("Google account", "로그인 안 되어 있음")
-        } else {
-            Log.e("Google account", "로그인 완료된 상태")
-        }
     }
 
     //TODO: 로그인 성공 후 main으로 넘겨줄 때 현재 액티비티를 포함한 다른 액티비티 스택 클리어
@@ -73,6 +74,11 @@ class LoginActivity: AppCompatActivity() {
         userRepoUser = DataStoreRepoUser(dataStore)
         var accesscode = ""
         var refreshcode = ""
+        //socialLogin setting
+        socialAccesscode = "null"
+        //retrofit setting
+        var retrofit = RetrofitClientInstance.client
+        var endpoint = retrofit?.create(socialLogin::class.java)
         //kakao login
         val kakaologin = binding.kakaologin
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
@@ -80,21 +86,26 @@ class LoginActivity: AppCompatActivity() {
                 Log.e(TAG, "카카오톡으로 로그인 실패", error)
             } else if (token != null) {
                 Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
-                CoroutineScope(IO).launch { //datastore
-                    userRepoUser.keyUser(token.accessToken, "heyheyhey")
-                    userRepoUser.userAccessReadFlow.collect {
-                        accesscode = it.toString()
-                        Log.i("accesscode", accesscode)
+                /*endpoint!!.soicalLogin(socialUserLogin("KAKAO", token.accessToken)).enqueue(object: Callback<localLoginResponse>{
+                    override fun onResponse(
+                        call: Call<localLoginResponse>,
+                        response: Response<localLoginResponse>
+                    ) {
+                        var socialResponse = response.body()!!
+                        runBlocking {
+                            var putacin = launch {
+                                userRepoUser.keyUser(socialResponse.data.access_token, socialResponse.data.refresh_token)
+                            }
+                            putacin.join()
+                        }
+                        Log.d("socialLogin KAKAO", socialResponse.data.access_token)
+                        startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                     }
-                }
-                CoroutineScope(IO).launch {
-                    userRepoUser.userRefreshReadFlow.collect {
-                        refreshcode = it.toString()
-                        Log.i("refreshcode", refreshcode)
+                    override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
+                        Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
                     }
-                }
-                startActivity(Intent(this, MainActivity::class.java))// TODO: 신규 계정 등록시 온보딩으로 연결
-                //TODO: send accessToken to server
+                })*/
+                // TODO: 신규 계정 등록시 온보딩으로 연결
             }
         }
         kakaologin.setOnClickListener{
@@ -108,21 +119,26 @@ class LoginActivity: AppCompatActivity() {
                         UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
                     } else if (token != null) {
                         Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
-                        CoroutineScope(IO).launch {//datastore
-                            userRepoUser.keyUser(token.accessToken, "heyheyhey")
-                            userRepoUser.userAccessReadFlow.collect {
-                                accesscode = it.toString()
-                                Log.i("accesscode", accesscode)
+                        /*endpoint!!.soicalLogin(socialUserLogin("KAKAO", token.accessToken)).enqueue(object: Callback<localLoginResponse>{
+                            override fun onResponse(
+                                call: Call<localLoginResponse>,
+                                response: Response<localLoginResponse>
+                            ) {
+                                var socialResponse = response.body()!!
+                                runBlocking {
+                                    var putacin = launch {
+                                        userRepoUser.keyUser(socialResponse.data.access_token, socialResponse.data.refresh_token)
+                                    }
+                                    putacin.join()
+                                }
+                                Log.d("socialLogin KAKAO", socialResponse.data.access_token)
+                                startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                             }
-                        }
-                        CoroutineScope(IO).launch {
-                            userRepoUser.userRefreshReadFlow.collect {
-                                refreshcode = it.toString()
-                                Log.i("refreshcode", refreshcode)
+                            override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
+                                Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
                             }
-                        }
-                        startActivity(Intent(this, MainActivity::class.java)) //TODO: 신규 계정 등록시 온보딩으로 연결
-                    //TODO: send accessToken to server
+                        })*/
+                        //TODO: 신규 계정 등록시 온보딩으로 연결
                     }
                 }
             } else {
@@ -157,11 +173,27 @@ class LoginActivity: AppCompatActivity() {
                 }
 
                 override fun onSuccess() {
-                    CoroutineScope(IO).launch {
-                        userRepoUser.keyUser(NaverIdLoginSDK.getAccessToken().toString(), NaverIdLoginSDK.getRefreshToken().toString())
-                        startActivity(Intent(context, MainActivity::class.java))
-                    }
                     Log.i("네이버 로그인", "login success: ${NaverIdLoginSDK.getAccessToken().toString()}")
+                    endpoint!!.soicalLogin(socialUserLogin("NAVER", NaverIdLoginSDK.getAccessToken().toString())).enqueue(object: Callback<localLoginResponse>{
+                        override fun onResponse(
+                            call: Call<localLoginResponse>,
+                            response: Response<localLoginResponse>
+                        ) {
+                            var socialResponse = response.body()!!
+                            runBlocking {
+                                var putacin = launch {
+                                    userRepoUser.keyUser(socialResponse.data.access_token, socialResponse.data.refresh_token)
+                                    Log.d("socialLogin NAVER", socialResponse.data.access_token)
+                                }
+                                putacin.join()
+                            }
+                            Log.d("socialLogin NAVER", socialResponse.data.access_token)
+                            startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                        }
+                        override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
+                            Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
+                        }
+                    })
                 }
 
             }
@@ -191,15 +223,60 @@ class LoginActivity: AppCompatActivity() {
             val authcode = account?.serverAuthCode.toString()
             val idtoken = account?.idToken.toString()
 
-            CoroutineScope(IO).launch {
-                userRepoUser.keyUser(authcode, "null")
-                Log.i("accesscode", authcode)
-                Log.i("idToken", idtoken)
-            }
+            Log.d("GOOGLE", idtoken)
 
-            startActivity(Intent(this, MainActivity::class.java))
+            var retrofit = RetrofitClientInstance.client
+            var endpoint = retrofit?.create(socialLogin::class.java)
+
+            endpoint!!.soicalLogin(socialUserLogin("GOOGLE", idtoken)).enqueue(object: Callback<localLoginResponse>{
+                override fun onResponse(
+                    call: Call<localLoginResponse>,
+                    response: Response<localLoginResponse>
+                ) {
+                    var socialResponse = response.body()!!
+                    runBlocking {
+                        var putacin = launch {
+                            userRepoUser.keyUser(socialResponse.data.access_token, socialResponse.data.refresh_token)
+                        }
+                        putacin.join()
+                    }
+                    Log.d("socialLogin GOOGLE", socialResponse.data.access_token)
+                    startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                }
+                override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
+                    Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
+                }
+            })
         } catch (e: ApiException) {
             Log.w("failed", "signInResult:failed code" + e.localizedMessage)
         }
+    }
+
+    private fun sendSocialCode(type: String, code: String) {
+        var retrofit = RetrofitClientInstance.client
+        var endpoint = retrofit?.create(socialLogin::class.java)
+        endpoint!!.soicalLogin(socialUserLogin(type, code)).enqueue(object: Callback<localLoginResponse>{
+            override fun onResponse(
+                call: Call<localLoginResponse>,
+                response: Response<localLoginResponse>
+            ) {
+                var socialResponse = response.body()!!
+                runBlocking {
+                    var putacin = launch {
+                        userRepoUser.keyUser(socialResponse.data.access_token, socialResponse.data.refresh_token)
+                    }
+                    putacin.join()
+                }
+                Log.d("socialLogin function $type", socialResponse.data.access_token)
+                startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+            }
+            override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
+                Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    override fun onBackPressed() {
+        finishAffinity()
     }
 }

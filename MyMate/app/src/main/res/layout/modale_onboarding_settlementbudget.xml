@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/box_modale"
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    app:behavior_draggable="false"
+    app:behavior_fitToContents="true">
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/close"
+        android:id="@+id/modaledismiss"
+        android:scaleType="fitCenter"
+        app:tint="@color/black"
+        android:background="@android:color/transparent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/modaledismiss"
+        android:layout_marginTop="20dp"
+        android:text="허용 오차 범위"
+        android:fontFamily="@font/suit_semibold"
+        android:textSize="13dp"
+        android:textColor="@color/black_text"
+        android:id="@+id/topText"/>
+
+    <Button
+        android:layout_width="47dp"
+        android:layout_height="27dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topText"
+        app:layout_constraintEnd_toStartOf="@id/allow5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="44dp"
+        android:background="@drawable/box_modalebutton"
+        android:text="없음"
+        android:fontFamily="@font/montserrat_medium"
+        android:textColor="@color/graylight_tabtext"
+        android:textSize="12dp"
+        android:id="@+id/allownone"
+        app:layout_constraintHorizontal_chainStyle="spread"/>
+
+    <Button
+        android:layout_width="47dp"
+        android:layout_height="27dp"
+        app:layout_constraintStart_toEndOf="@id/allownone"
+        app:layout_constraintTop_toBottomOf="@id/topText"
+        app:layout_constraintEnd_toStartOf="@id/allow10"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/box_modalebutton"
+        android:text="5%"
+        android:fontFamily="@font/montserrat_medium"
+        android:textColor="@color/graylight_tabtext"
+        android:textSize="12dp"
+        android:id="@+id/allow5"/>
+
+    <Button
+        android:layout_width="47dp"
+        android:layout_height="27dp"
+        app:layout_constraintStart_toEndOf="@id/allow5"
+        app:layout_constraintTop_toBottomOf="@id/topText"
+        app:layout_constraintEnd_toStartOf="@id/allow15"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/box_modalebutton"
+        android:text="10%"
+        android:fontFamily="@font/montserrat_medium"
+        android:textColor="@color/graylight_tabtext"
+        android:textSize="12dp"
+        android:id="@+id/allow10"/>
+
+    <Button
+        android:layout_width="47dp"
+        android:layout_height="27dp"
+        app:layout_constraintStart_toEndOf="@id/allow10"
+        app:layout_constraintTop_toBottomOf="@id/topText"
+        app:layout_constraintEnd_toStartOf="@id/allow20"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/box_modalebutton"
+        android:text="15%"
+        android:fontFamily="@font/montserrat_medium"
+        android:textColor="@color/graylight_tabtext"
+        android:textSize="12dp"
+        android:id="@+id/allow15"/>
+
+    <Button
+        android:layout_width="47dp"
+        android:layout_height="27dp"
+        app:layout_constraintStart_toEndOf="@id/allow15"
+        app:layout_constraintTop_toBottomOf="@id/topText"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/box_modalebutton"
+        android:text="20%"
+        android:fontFamily="@font/montserrat_medium"
+        android:textColor="@color/graylight_tabtext"
+        android:textSize="12dp"
+        android:id="@+id/allow20"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

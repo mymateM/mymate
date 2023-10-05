@@ -64,6 +64,8 @@ class MainHomeFragment : Fragment() {
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(localRefresh::class.java)
         userRepo = DataStoreRepoUser(mainActivity.dataStore)
+
+
         val templogin = binding.logoimage
         templogin.setOnClickListener {
             UserApiClient.instance.logout { error -> //카카오 로그아웃
@@ -101,6 +103,11 @@ class MainHomeFragment : Fragment() {
                 refreshcode = userRepo.userRefreshReadFlow.first().toString()
                 Log.i("initfirst", refreshcode)
             }
+        }
+
+        val tempOnboardingFlow = binding.spendpercentbox
+        tempOnboardingFlow.setOnClickListener {
+            startActivity(Intent(mainActivity, OnboardingProfileActivity::class.java))
         }
 
         return binding.root

@@ -51,6 +51,7 @@ class LocalJoinActivity: AppCompatActivity() {
                     checktext.text = "비밀번호가 일치합니다."
                     checktext.setTextColor(Color.GREEN)
                     //TODO: button tint. tint 코드 미발견으로 색상 따로 drawable 쓸 것
+                    //TODO: 비밀번호 조건 확인하고 일치할 시 애니메이션 적용, 단 조금 기다리게 하여 조건 재확인할 필요성 있음 - 리니어 레이아웃이 더 좋을지도?
                 } else {
                     checktext.text = "비밀번호가 일치하지 않습니다."
                     checktext.setTextColor(Color.RED)

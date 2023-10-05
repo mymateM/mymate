@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.mymate.databinding.SettlementModaleBinding
+import com.example.mymate.databinding.ModaleSettlementBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class SettlementModaleFragment : BottomSheetDialogFragment() {
     lateinit var settlementActivity: SettlementActivity
-    lateinit var binding: SettlementModaleBinding
+    lateinit var binding: ModaleSettlementBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -26,10 +26,10 @@ class SettlementModaleFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = SettlementModaleBinding.inflate(inflater, container, false)
+        binding = ModaleSettlementBinding.inflate(inflater, container, false)
         binding.modaledismiss.setOnClickListener{
             dismiss()
         }
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
     }
 }

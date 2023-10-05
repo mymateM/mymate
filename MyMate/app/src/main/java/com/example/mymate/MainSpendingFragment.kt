@@ -130,13 +130,6 @@ class MainSpendingFragment : Fragment() {
                 dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
                 iteminfo.add(calendarItem(false, false, false))
             }
-            /*if(i <= dayOfWeek || i > (lastDay + dayOfWeek)) {
-                dayList.add(null)
-                iteminfo.add(calendarItem())
-            } else {
-                dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
-                iteminfo.add(calendarItem())
-            }*/
         }
         return dayList
     }

@@ -53,13 +53,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/datenotitext"
         app:layout_constraintTop_toBottomOf="@id/settlementmonth"
-        app:layout_constraintStart_toStartOf="@id/settlementmonth"
-        app:layout_constraintEnd_toEndOf="@id/settlementmonth"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:textSize="22dp"
         android:fontFamily="@font/suit_bold_apply"
         android:textColor="@color/black_text"
-        android:text="정산일이 다가왔어요!"/>
+        android:text="커넥트의 정산일이\n다가왔어요!"/>
 
     <ImageView
         android:layout_width="200.88dp"
@@ -74,132 +74,151 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/settlementcharacter"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settlementcharacter"
+        android:layout_marginTop="40.75dp"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/black_text"
+        android:textSize="14.4dp"
+        android:fontFamily="@font/suit_extrabold"
+        android:text="정산을 받아야 해요"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/settlementcharacter"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="40.75dp"
+        android:layout_marginEnd="20dp"
         android:textColor="@color/black_text"
-        android:textSize="18dp"
-        android:fontFamily="@font/suit_bold_apply"
-        android:text="총 지출 1,260,000원"
+        android:textSize="14.4dp"
+        android:fontFamily="@font/suit_extrabold"
+        android:text="30,000원"
         android:id="@+id/totalexpense"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/settlementmath"
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/settlebarfirstguide"
         app:layout_constraintTop_toBottomOf="@id/totalexpense"
+        android:layout_marginTop="63dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/icon_defaultrectangle"
+        app:tint="@color/whitemute"
+        android:id="@+id/settlebarfirst"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp"
+        app:layout_constraintGuide_end="20dp"
+        android:id="@+id/settlebarfirstguide"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        app:layout_constraintStart_toStartOf="@id/settlebarfirstguide"
+        app:layout_constraintEnd_toEndOf="@id/settlebarsecondguide"
+        app:layout_constraintTop_toBottomOf="@id/totalexpense"
+        android:layout_marginTop="63dp"
+        android:src="@drawable/icon_defaultrectangle"
+        app:tint="@color/black"
+        android:id="@+id/settlebarsecond"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp"
+        app:layout_constraintGuide_end="20dp"
+        android:id="@+id/settlebarsecondguide"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        app:layout_constraintEnd_toStartOf="@id/settlebarthirdguide"
+        app:layout_constraintStart_toStartOf="@id/settlebarsecondguide"
+        app:layout_constraintTop_toBottomOf="@id/totalexpense"
+        android:layout_marginTop="63dp"
+        android:src="@drawable/icon_defaultrectangle"
+        app:tint="@color/graydark_text"
+        android:id="@+id/settlebarthird"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="20dp"
+        android:id="@+id/settlebarthirdguide"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/settlebarfirst"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/box_settlementmath">
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="6.4dp"
+        android:text="총 지출"
+        android:textSize="11.2dp"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_medium"/>
 
+    <ImageView
+        android:layout_width="6.4dp"
+        android:layout_height="6.4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settlebarfirst"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/basicprofile"
+        android:scaleType="fitCenter"
+        app:tint="@color/whitemute"
+        android:id="@+id/calamountindi"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="19dp"
-            android:layout_marginLeft="18dp"
-            android:fontFamily="@font/suit_medium_apply"
-            android:textColor="@color/graydark_text"
-            android:text="나의 비율(40%)"
-            android:id="@+id/userpercent"
-            />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/calamountindi"
+        app:layout_constraintTop_toTopOf="@id/calamountindi"
+        app:layout_constraintBottom_toBottomOf="@id/calamountindi"
+        android:layout_marginStart="6.4dp"
+        android:textSize="11.2dp"
+        android:fontFamily="@font/suit_medium"
+        android:text="내가 담당하는 금액"
+        android:textColor="@color/black_text"
+        android:id="@+id/caltext"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/userpercent"
-            app:layout_constraintBottom_toBottomOf="@id/userpercent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginRight="18dp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/montserrat_bold_apply"
-            android:textSize="18dp"
-            android:text="756,000원"
-            android:id="@+id/percentbill"
-            />
+    <ImageView
+        android:layout_width="6.4dp"
+        android:layout_height="6.4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calamountindi"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/basicprofile"
+        android:scaleType="fitCenter"
+        app:tint="@color/graydark_text"
+        android:id="@+id/realamountindi"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/userpercent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="18dp"
-            android:fontFamily="@font/suit_regular_apply"
-            android:textColor="@color/graydark_text"
-            android:text="실제 소비"
-            android:id="@+id/realexpense"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/realexpense"
-            app:layout_constraintBottom_toBottomOf="@id/realexpense"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginRight="18dp"
-            android:id="@+id/realbill"
-            android:fontFamily="@font/montserrat_bold_apply"
-            android:textColor="@color/black"
-            android:textSize="18dp"
-            android:text="860,000원"
-            />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#E5E5E5"
-            app:layout_constraintTop_toBottomOf="@id/realexpense"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
-            android:id="@+id/settlementbottomline"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/settlementbottomline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginBottom="19dp"
-            android:fontFamily="@font/suit_medium_apply"
-            android:textColor="@color/bluemute_text"
-            android:textSize="14dp"
-            android:text="정산해야 할 금액"
-            android:id="@+id/totaltext"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/totaltext"
-            app:layout_constraintBottom_toBottomOf="@id/totaltext"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginRight="18dp"
-            android:id="@+id/totalbill"
-            android:fontFamily="@font/montserrat_bold_apply"
-            android:textColor="@color/bluemute_text"
-            android:textSize="18dp"
-            android:text="860,000원"
-            />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/realamountindi"
+        app:layout_constraintTop_toTopOf="@id/realamountindi"
+        app:layout_constraintBottom_toBottomOf="@id/realamountindi"
+        android:layout_marginStart="6.4dp"
+        android:textSize="11.2dp"
+        android:fontFamily="@font/suit_medium"
+        android:text="실제 사용된 금액"
+        android:textColor="@color/black_text"
+        android:id="@+id/realtext"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/settlementmath"
+        app:layout_constraintTop_toBottomOf="@id/realtext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp"
@@ -230,7 +249,7 @@
             android:fontFamily="@font/suit_medium_apply"
             android:textColor="@color/purplemute_background"
             android:textSize="14dp"
-            android:text="4월 보고서"
+            android:text="한 달 리포트"
             android:id="@+id/reportxt"
             />
 

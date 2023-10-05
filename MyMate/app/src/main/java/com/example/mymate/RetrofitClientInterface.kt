@@ -25,6 +25,11 @@ data class localUserRegister (
     var password: String = ""
 )
 
+data class socialUserLogin (
+    var socialAuthType: String = "",
+    var socialAccessToken: String = ""
+)
+
 data class token (
     var access_token: String = "",
     var refresh_token: String = ""
@@ -92,6 +97,8 @@ data class dailyExpenseResponse (
     var links: String = ""
 )
 
+//login + token interface
+
 interface localLogin {
     @POST("api/v1/auth/authenticate")
     fun localLogin(@Body req: loginUser) : Call<localLoginResponse>
@@ -105,6 +112,11 @@ interface localRefresh {
 interface localRegister {
     @POST("api/v1/auth/register")
     fun localRegister(@Body req: loginUser) : Call<localLoginResponse>
+}
+
+interface socialLogin {
+    @POST("api/v1/auth/authenticate/social")
+    fun soicalLogin(@Body req: socialUserLogin) : Call<localLoginResponse>
 }
 
 //TODO: local register error API response error receiving (1: DataClass, 2: receiving check)

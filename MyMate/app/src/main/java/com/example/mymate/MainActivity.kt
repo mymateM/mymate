@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("permissions", "PERMISSION_GRANTED")
             }
         }
+        //TODO: 로그인되어 있지 않다면 로그인 화면으로 보내기. 즉, 이 액티비티를 루트로 두고 로그인/로그아웃을 쌓는 형태.
     }
 
     private fun initViewPager() {

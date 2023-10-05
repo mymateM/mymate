@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/accountview">
+
+    <ImageView
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/graph_graybackground"
+        app:tint="@color/graylight_tabtext"
+        android:id="@+id/onboardIndi1"/>
+
+    <ImageView
+        android:layout_width="27dp"
+        android:layout_height="5dp"
+        android:id="@+id/onboardIndi2"
+        app:layout_constraintTop_toTopOf="@id/onboardIndi1"
+        app:layout_constraintStart_toEndOf="@id/onboardIndi1"
+        app:layout_constraintBottom_toBottomOf="@id/onboardIndi1"
+        android:layout_marginStart="6.4dp"
+        android:src="@drawable/graph_graybackground"
+        app:tint="@color/purplevivid_graph"/>
+
+    <ImageView
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:id="@+id/onboardIndi3"
+        app:layout_constraintTop_toTopOf="@id/onboardIndi2"
+        app:layout_constraintStart_toEndOf="@id/onboardIndi2"
+        app:layout_constraintBottom_toBottomOf="@id/onboardIndi2"
+        android:layout_marginStart="6.4dp"
+        android:src="@drawable/graph_graybackground"
+        app:tint="@color/graylight_tabtext"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/onboardIndi1"
+        app:layout_constraintBottom_toBottomOf="@id/onboardIndi1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:text="건너뛰기"
+        android:textSize="11.2dp"
+        android:fontFamily="@font/suit_regular"
+        android:textColor="@color/black_text"
+        android:id="@+id/contbtn"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/black_text"
+        android:textSize="18dp"
+        android:text="정산 받을 계좌를 입력해 주세요"
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/topText"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topText"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:textSize="12dp"
+        android:text="생활비를 정산할 때\n등록된 계좌로 서로에게 간편하게 보낼 수 있어요."
+        android:fontFamily="@font/suit_medium"
+        android:textColor="@color/graylight_tabtext"
+        android:id="@+id/subText"/>
+    
+    <Button
+        android:layout_width="73dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        app:layout_constraintTop_toBottomOf="@id/subText"
+        android:layout_marginTop="33dp"
+        android:background="@drawable/box_modalebutton"
+        android:text="은행"
+        android:textColor="@color/graylight_tabtext"
+        android:fontFamily="@font/suit_medium"
+        android:textSize="13dp"
+        android:id="@+id/bankSelect"/>
+    
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bankSelect"
+        android:id="@+id/editcontainer"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/box_modalebutton"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/editcontainer"
+        app:layout_constraintEnd_toEndOf="@id/editcontainer"
+        app:layout_constraintTop_toTopOf="@id/editcontainer"
+        app:layout_constraintBottom_toBottomOf="@id/editcontainer"
+        android:hint="계좌번호 입력"
+        android:textSize="13dp"
+        android:textColorHint="@color/graylight_tabtext"
+        android:fontFamily="@font/suit_medium"
+        android:background="@android:color/transparent"
+        android:textCursorDrawable="@drawable/cursor"
+        android:id="@+id/accountEdit"
+        android:maxLength="12"
+        android:maxLines="1"
+        android:inputType="number"
+        android:digits="0123456789"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/box_modale"
+        android:backgroundTint="@color/graylight_tabtext"
+        android:text="다음으로"
+        android:textColor="@color/white"
+        android:fontFamily="@font/suit_bold"
+        android:textSize="16dp"
+        android:id="@+id/nextbtn"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
