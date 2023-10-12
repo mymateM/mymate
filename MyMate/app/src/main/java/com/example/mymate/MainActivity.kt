@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Window
 import androidx.annotation.RequiresApi
@@ -41,31 +42,68 @@ class MainActivity : AppCompatActivity() {
         Log.d ("Hash", keyhash)
         initViewPager()
         NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "MyMate")
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        //권한 설정(리팩토링 필요)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             var permission = mutableMapOf<String, String>()
             permission["notification"] = android.Manifest.permission.POST_NOTIFICATIONS
             requestPermissions(permission.values.toTypedArray(), 99)
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
         } else {
             if (ActivityCompat.checkSelfPermission(
                     this,
                     Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                Log.d("permissions", "PERMISSION_GRANTED")
+                Log.d("permissions: notification", "PERMISSION_GRANTED")
             }
         }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            var permission = mutableMapOf<String, String>()
+            permission["camera"] = Manifest.permission.CAMERA
+            requestPermissions(permission.values.toTypedArray(), 98)
+        } else {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                Log.d("permissions: camera", "PERMISSION_GRANTED")
+            }
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            var permission = mutableMapOf<String, String>()
+            permission["readexternalstorage"] = Manifest.permission.READ_EXTERNAL_STORAGE
+            requestPermissions(permission.values.toTypedArray(), 97)
+        } else {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                Log.d("permissions: read storage", "PERMISSION_GRANTED")
+            }
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            var permission = mutableMapOf<String, String>()
+            permission["writeexternalstorage"] = Manifest.permission.WRITE_EXTERNAL_STORAGE
+            requestPermissions(permission.values.toTypedArray(), 96)
+        } else {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                Log.d("permissions: write storage", "PERMISSION_GRANTED")
+            }
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            var permission = mutableMapOf<String, String>()
+            permission["manageexternalstorage"] = Manifest.permission.MANAGE_EXTERNAL_STORAGE
+            requestPermissions(permission.values.toTypedArray(), 95)
+        } else {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                Log.d("permissions: manage storage", "PERMISSION_GRANTED")
+            }
+        }
+        //화면 로그
+        val display = this.applicationContext?.resources?.displayMetrics
+        val deviceWidth = display?.widthPixels
+        val deviceHeight = display?.heightPixels
+
+        Log.d("devicesizewidth", "${pxtodp(deviceWidth!!, this)}")
+        Log.d("devicesizeheight", "${pxtodp(deviceHeight!!, this)}")
         //TODO: 로그인되어 있지 않다면 로그인 화면으로 보내기. 즉, 이 액티비티를 루트로 두고 로그인/로그아웃을 쌓는 형태.
+    }
+
+    private fun pxtodp(px: Int, context: Context): Float {
+        return px / ((context.resources.displayMetrics.densityDpi.toFloat()) / DisplayMetrics.DENSITY_DEFAULT)
     }
 
     private fun initViewPager() {

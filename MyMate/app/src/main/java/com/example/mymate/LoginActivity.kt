@@ -86,7 +86,7 @@ class LoginActivity: AppCompatActivity() {
                 Log.e(TAG, "카카오톡으로 로그인 실패", error)
             } else if (token != null) {
                 Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
-                /*endpoint!!.soicalLogin(socialUserLogin("KAKAO", token.accessToken)).enqueue(object: Callback<localLoginResponse>{
+                endpoint!!.soicalLogin(socialUserLogin("KAKAO", token.accessToken)).enqueue(object: Callback<localLoginResponse>{
                     override fun onResponse(
                         call: Call<localLoginResponse>,
                         response: Response<localLoginResponse>
@@ -104,7 +104,7 @@ class LoginActivity: AppCompatActivity() {
                     override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
                         Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
                     }
-                })*/
+                })
                 // TODO: 신규 계정 등록시 온보딩으로 연결
             }
         }
@@ -119,7 +119,7 @@ class LoginActivity: AppCompatActivity() {
                         UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
                     } else if (token != null) {
                         Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
-                        /*endpoint!!.soicalLogin(socialUserLogin("KAKAO", token.accessToken)).enqueue(object: Callback<localLoginResponse>{
+                        endpoint!!.soicalLogin(socialUserLogin("KAKAO", token.accessToken)).enqueue(object: Callback<localLoginResponse>{
                             override fun onResponse(
                                 call: Call<localLoginResponse>,
                                 response: Response<localLoginResponse>
@@ -137,7 +137,7 @@ class LoginActivity: AppCompatActivity() {
                             override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
                                 Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
                             }
-                        })*/
+                        })
                         //TODO: 신규 계정 등록시 온보딩으로 연결
                     }
                 }

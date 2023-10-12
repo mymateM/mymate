@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageButton
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/backbtn"
+        android:background="@android:color/transparent"
+        android:src="@drawable/back"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/suit_medium"
+        android:text="추가"
+        android:textColor="@color/graydark_text"
+        android:textSize="13dp"
+        android:id="@+id/addbtn"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/suit_bold"
+        android:text="고지서 관리"
+        android:textSize="15dp"
+        android:textColor="@color/black_text"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="159dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/electronicview"
+        android:layout_marginTop="66.4dp"
+        android:layout_marginStart="20dp"
+        android:id="@+id/gasview"
+        android:src="@drawable/icon_defaultrectangle"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="159dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/gasview"
+        app:layout_constraintStart_toEndOf="@id/gasview"
+        android:id="@+id/electronicview"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/icon_defaultrectangle"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="159dp"
+        app:layout_constraintTop_toBottomOf="@id/gasview"
+        app:layout_constraintStart_toStartOf="@id/gasview"
+        app:layout_constraintEnd_toEndOf="@id/gasview"
+        android:src="@drawable/icon_defaultrectangle"
+        android:layout_marginTop="8dp"
+        android:id="@+id/waterview"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="159dp"
+        app:layout_constraintStart_toStartOf="@id/electronicview"
+        app:layout_constraintEnd_toEndOf="@id/electronicview"
+        app:layout_constraintTop_toBottomOf="@id/electronicview"
+        android:layout_marginTop="8dp"
+        android:id="@+id/etcview"
+        android:src="@drawable/icon_defaultrectangle"/>
+
+    <ImageView
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        app:layout_constraintTop_toTopOf="@id/gasview"
+        app:layout_constraintStart_toStartOf="@id/gasview"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="13dp"
+        android:src="@drawable/basicprofile"
+        android:id="@+id/gasicon"/>
+
+    <ImageView
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        app:layout_constraintTop_toTopOf="@id/waterview"
+        app:layout_constraintStart_toStartOf="@id/waterview"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="13dp"
+        android:src="@drawable/basicprofile"
+        android:id="@+id/watericon"/>
+
+    <ImageView
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        app:layout_constraintTop_toTopOf="@id/electronicview"
+        app:layout_constraintStart_toStartOf="@id/electronicview"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="13dp"
+        android:src="@drawable/basicprofile"
+        android:id="@+id/electronicicon"/>
+
+    <ImageView
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        app:layout_constraintTop_toTopOf="@id/etcview"
+        app:layout_constraintStart_toStartOf="@id/etcview"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="13dp"
+        android:src="@drawable/basicprofile"
+        android:id="@+id/etcicon"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/gasicon"
+        app:layout_constraintStart_toStartOf="@id/gasview"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="47dp"
+        android:textColor="@color/black_text"
+        android:textSize="13dp"
+        android:text="도시가스"
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/gastoptext"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/gastoptext"
+        app:layout_constraintStart_toStartOf="@id/gasview"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="13dp"
+        android:text="30,000원"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="15dp"
+        android:textColor="@color/black_text"
+        android:id="@+id/gasbilltext"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/gasbilltext"
+        app:layout_constraintStart_toStartOf="@id/gasview"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="6dp"
+        android:text="납부기한 9.11"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_medium"
+        android:textSize="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/electronicicon"
+        app:layout_constraintStart_toStartOf="@id/electronicview"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="47dp"
+        android:textColor="@color/black_text"
+        android:textSize="13dp"
+        android:text="전기요금"
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/electronictoptext"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/electronictoptext"
+        app:layout_constraintStart_toStartOf="@id/electronicview"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="13dp"
+        android:text="30,000원"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="15dp"
+        android:textColor="@color/black_text"
+        android:id="@+id/electronicbilltext"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/electronicbilltext"
+        app:layout_constraintStart_toStartOf="@id/electronicview"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="6dp"
+        android:text="납부기한 9.11"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_medium"
+        android:textSize="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/watericon"
+        app:layout_constraintStart_toStartOf="@id/waterview"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="47dp"
+        android:textColor="@color/black_text"
+        android:textSize="13dp"
+        android:text="수도요금"
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/watertoptext"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/watertoptext"
+        app:layout_constraintStart_toStartOf="@id/waterview"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="13dp"
+        android:text="30,000원"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="15dp"
+        android:textColor="@color/black_text"
+        android:id="@+id/waterbilltext"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/waterbilltext"
+        app:layout_constraintStart_toStartOf="@id/waterview"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="6dp"
+        android:text="납부기한 9.11"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_medium"
+        android:textSize="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/etcicon"
+        app:layout_constraintStart_toStartOf="@id/etcview"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="47dp"
+        android:textColor="@color/black_text"
+        android:textSize="13dp"
+        android:text="기타"
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/etctoptext"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/etctoptext"
+        app:layout_constraintStart_toStartOf="@id/etcview"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="13dp"
+        android:text="30,000원"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="15dp"
+        android:textColor="@color/black_text"
+        android:id="@+id/etcbilltext"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/etcbilltext"
+        app:layout_constraintStart_toStartOf="@id/etcview"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="6dp"
+        android:text="납부기한 9.11"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_medium"
+        android:textSize="10dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

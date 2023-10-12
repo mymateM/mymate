@@ -1,6 +1,7 @@
 package com.example.mymate
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -66,6 +67,10 @@ class MainSpendingFragment : Fragment() {
         binding.monthNext.setOnClickListener {
             selectedDate = selectedDate.plusMonths(1)
             setCalendarView(selectedDate)
+        }
+
+        binding.toBills.setOnClickListener {
+            startActivity(Intent(mainActivity, BillManagerActivity::class.java))
         }
 
         setDailyExpenceView(expenseDetail)
