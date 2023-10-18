@@ -13,25 +13,32 @@ class BillManagerActivity: AppCompatActivity() {
 
         binding = ActivityBillmanagerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        var managerlist = Intent(this, BillManagerListActivity::class.java)
+
         binding.backbtn.setOnClickListener {
             finish()
         }
         binding.gasview.setOnClickListener {
-            //TODO: to list page
+            managerlist.putExtra("category", "도시가스")
+            startActivity(managerlist)
         }
         binding.electronicview.setOnClickListener {
-            //TODO: to list page
+            managerlist.putExtra("category", "전기요금")
+            startActivity(managerlist)
         }
         binding.waterview.setOnClickListener {
-            //TODO: to list page
+            managerlist.putExtra("category", "수도요금")
+            startActivity(managerlist)
         }
         binding.etcview.setOnClickListener {
-            //TODO: to list page
+            managerlist.putExtra("category", "기타")
+            startActivity(managerlist)
         }
-        binding.addbtn.setOnClickListener {
+        /*binding.addbtn.setOnClickListener {
             //TODO: to add page
             //TODO: Modale
             startActivity(Intent(this, BillCameraActivity::class.java))
-        }
+        }*/
     }
 }

@@ -79,6 +79,10 @@ class LoginActivity: AppCompatActivity() {
         //retrofit setting
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(socialLogin::class.java)
+        var deviceEndpoint = retrofit?.create(localDevice::class.java)
+
+        var fcm = MyFirebaseMessagingService()
+        var devicebearer = devicetoken(fcm.getFirebaseToken())
         //kakao login
         val kakaologin = binding.kakaologin
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
@@ -99,6 +103,20 @@ class LoginActivity: AppCompatActivity() {
                             putacin.join()
                         }
                         Log.d("socialLogin KAKAO", socialResponse.data.access_token)
+                        fcm.sendFirebaseToken()
+                        deviceEndpoint!!.localDevice("Bearer " + socialResponse.data.access_token, devicebearer).enqueue(object : Callback<Response<Void>> {
+                            override fun onResponse(
+                                call: Call<Response<Void>>,
+                                response: Response<Response<Void>>
+                            ) {
+                                Log.d("devicetoken", "success")
+                            }
+
+                            override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
+                                Log.d("devicetoken", "failed")
+                            }
+
+                        })
                         startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                     }
                     override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
@@ -132,6 +150,20 @@ class LoginActivity: AppCompatActivity() {
                                     putacin.join()
                                 }
                                 Log.d("socialLogin KAKAO", socialResponse.data.access_token)
+                                fcm.sendFirebaseToken()
+                                deviceEndpoint!!.localDevice("Bearer " + socialResponse.data.access_token, devicebearer).enqueue(object : Callback<Response<Void>> {
+                                    override fun onResponse(
+                                        call: Call<Response<Void>>,
+                                        response: Response<Response<Void>>
+                                    ) {
+                                        Log.d("devicetoken", "success")
+                                    }
+
+                                    override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
+                                        Log.d("devicetoken", "failed")
+                                    }
+
+                                })
                                 startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                             }
                             override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
@@ -188,6 +220,20 @@ class LoginActivity: AppCompatActivity() {
                                 putacin.join()
                             }
                             Log.d("socialLogin NAVER", socialResponse.data.access_token)
+                            fcm.sendFirebaseToken()
+                            deviceEndpoint!!.localDevice("Bearer " + socialResponse.data.access_token, devicebearer).enqueue(object : Callback<Response<Void>> {
+                                override fun onResponse(
+                                    call: Call<Response<Void>>,
+                                    response: Response<Response<Void>>
+                                ) {
+                                    Log.d("devicetoken", "success")
+                                }
+
+                                override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
+                                    Log.d("devicetoken", "failed")
+                                }
+
+                            })
                             startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         }
                         override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
@@ -227,6 +273,10 @@ class LoginActivity: AppCompatActivity() {
 
             var retrofit = RetrofitClientInstance.client
             var endpoint = retrofit?.create(socialLogin::class.java)
+            var deviceEndpoint = retrofit?.create(localDevice::class.java)
+
+            var fcm = MyFirebaseMessagingService()
+            var devicebearer = devicetoken(fcm.getFirebaseToken())
 
             endpoint!!.soicalLogin(socialUserLogin("GOOGLE", idtoken)).enqueue(object: Callback<localLoginResponse>{
                 override fun onResponse(
@@ -241,6 +291,20 @@ class LoginActivity: AppCompatActivity() {
                         putacin.join()
                     }
                     Log.d("socialLogin GOOGLE", socialResponse.data.access_token)
+                    fcm.sendFirebaseToken()
+                    deviceEndpoint!!.localDevice("Bearer " + socialResponse.data.access_token, devicebearer).enqueue(object : Callback<Response<Void>> {
+                        override fun onResponse(
+                            call: Call<Response<Void>>,
+                            response: Response<Response<Void>>
+                        ) {
+                            Log.d("devicetoken", "success")
+                        }
+
+                        override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
+                            Log.d("devicetoken", "failed")
+                        }
+
+                    })
                     startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 }
                 override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {

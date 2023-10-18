@@ -42,8 +42,7 @@ class LocalLoginActivity: AppCompatActivity() {
         //retrofit code
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(localLogin::class.java)
-        var tempendpoint = retrofit?.create(localDevice::class.java)
-        var tempendpoint2 = retrofit?.create(getlocalDevice::class.java)
+        var deviceendpoint = retrofit?.create(localDevice::class.java)
 
         binding.localjoinbtn.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         binding.localjoinbtn.setOnClickListener {
@@ -82,18 +81,18 @@ class LocalLoginActivity: AppCompatActivity() {
                         Log.d("getaccesscode", accessToken)
                     }
                     fcm.sendFirebaseToken()
-                    tempendpoint2!!.localDevice("Bearer " + accessToken).enqueue(object : Callback<deviceTokenResponse> {
+                    deviceendpoint!!.localDevice("Bearer " + accessToken, devicebearer).enqueue(object : Callback<Response<Void>> {
                         override fun onResponse(
-                            call: Call<deviceTokenResponse>,
-                            response: Response<deviceTokenResponse>
+                            call: Call<Response<Void>>,
+                            response: Response<Response<Void>>
                         ) {
-                            deviceresponse = response.body()!!
-                            Log.d("getdevicetoken", deviceresponse.data.device_token)
+                            Log.d("devicetoken", "success")
                         }
 
-                        override fun onFailure(call: Call<deviceTokenResponse>, t: Throwable) {
-                            Log.d("getdevicetoken", "failed")
+                        override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
+                            Log.d("devicetoken", "failed")
                         }
+
 
                     })
                     startActivity(Intent(context, MainActivity::class.java))

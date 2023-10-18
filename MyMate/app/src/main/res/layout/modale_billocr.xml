@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/box_modale"
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    app:behavior_draggable="false"
+    app:behavior_fitToContents="true">
+
+    <ImageButton
+        android:layout_width="11.2dp"
+        android:layout_height="11.2dp"
+        android:id="@+id/modaledismiss"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="31.5dp"
+        android:layout_marginEnd="21.5dp"
+        android:src="@drawable/close"
+        android:scaleType="fitCenter"
+        app:tint="@color/black"
+        android:background="@android:color/transparent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/modaledismiss"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="납부 금액"
+        android:textSize="13dp"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_semibold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/modaledismiss"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:id="@+id/billamount"
+        android:textColor="@color/black_text"
+        android:textSize="13dp"
+        android:text="00000원"
+        android:fontFamily="@font/suit_semibold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/billamount"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:text="납부기한"
+        android:textSize="13dp"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_semibold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/billamount"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/black_text"
+        android:textSize="13dp"
+        android:text="2020.20.20"
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/duedate"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tobefore"
+        app:layout_constraintTop_toBottomOf="@id/duedate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="29dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="27dp"
+        android:background="@drawable/icon_defaultrectangle"
+        android:text="확인"
+        android:id="@+id/tonext"
+        android:layout_marginBottom="26dp"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        app:layout_constraintStart_toEndOf="@id/tonext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/duedate"
+        android:layout_marginTop="29dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="27dp"
+        android:background="@drawable/icon_defaultrectangle"
+        android:text="다시 촬영"
+        android:id="@+id/tobefore"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

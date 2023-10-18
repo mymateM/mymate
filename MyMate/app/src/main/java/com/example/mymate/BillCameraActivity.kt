@@ -81,6 +81,7 @@ class BillCameraActivity: AppCompatActivity() {
         imageCapture = imageCapture ?: return
         val photoFile = File(outputDirectory, SimpleDateFormat("yy-mm-dd", Locale.KOREA).format(System.currentTimeMillis()) + ".png")
         val outputOption = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+        val category = intent.getStringExtra("category")
         imageCapture?.takePicture(outputOption, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback{
             @RequiresApi(Build.VERSION_CODES.P)
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
@@ -106,8 +107,8 @@ class BillCameraActivity: AppCompatActivity() {
 
                 //이하 ML을 위한 가공
 
-                val moneybp = Bitmap.createBitmap(cropbp, 1357, 125, 117, 54) // 금액 관심영역 (전기 기준)
-                val daybp = Bitmap.createBitmap(cropbp, 936, 125, 164, 54) // 날짜 관심영역 (전기 기준)
+                val moneybp = Bitmap.createBitmap(cropbp, 1246, 125, 234, 54) // 금액 관심영역 (전기 기준)
+                val daybp = Bitmap.createBitmap(cropbp, 935, 125, 165, 54) // 날짜 관심영역 (전기 기준)
                 val moneyfile = File(outputDirectory, SimpleDateFormat("yy=mm-dd", Locale.KOREA).format(System.currentTimeMillis()) + "1.png")
                 if (moneyfile.exists()) { moneyfile.delete() }
                 val outmoney = FileOutputStream(moneyfile)
@@ -121,6 +122,7 @@ class BillCameraActivity: AppCompatActivity() {
                 intentforward.putExtra("savedUri", savedUri.toString())
                 intentforward.putExtra("savedMoney", moneyfile.toUri().toString())
                 intentforward.putExtra("savedDay", dayfile.toUri().toString())
+                intentforward.putExtra("category", category)
                 startActivity(intentforward)
             }
 
