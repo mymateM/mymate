@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="tabview_alarmtextstlye" parent="TextAppearance.Design.Tab">
+    <style name="tabview_alarmtextstyle" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">16dp</item>
         <item name="android:fontFamily">@font/suit_bold_apply</item>
     </style>

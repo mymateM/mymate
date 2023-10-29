@@ -23,7 +23,7 @@ class LocalJoinActivity: AppCompatActivity() {
     lateinit var binding: ActivityLocaljoinBinding
     lateinit var userRepo: DataStoreRepoUser
 
-    private var joinResponse: localLoginResponse = localLoginResponse()
+    private var joinResponse: localRegisterResponse = localRegisterResponse()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,20 +86,28 @@ class LocalJoinActivity: AppCompatActivity() {
 
             Log.i("nickname", loginInfo.email)
 
-            endpoint!!.localRegister(loginInfo).enqueue(object: Callback<localLoginResponse> {
-                override fun onResponse(call: Call<localLoginResponse>, response: Response<localLoginResponse>) {
+            endpoint!!.localRegister(loginInfo).enqueue(object: Callback<localRegisterResponse> {
+                override fun onResponse(call: Call<localRegisterResponse>, response: Response<localRegisterResponse>) {
                     joinResponse = response.body()!!
-                    CoroutineScope(IO).launch {
-                        userRepo.keyUser(joinResponse.data.access_token.toString(), joinResponse.data.refresh_token.toString())
-                        Log.i("accesscode", joinResponse.data.access_token.toString())
-                        Log.i("refreshcode", joinResponse.data.refresh_token.toString())
+                    if (joinResponse.status == "200") {
+                        CoroutineScope(IO).launch {
+                            userRepo.keyUser(joinResponse.data.access_token.toString(), joinResponse.data.refresh_token.toString())
+                            Log.i("accesscode", joinResponse.data.access_token.toString())
+                            Log.i("refreshcode", joinResponse.data.refresh_token.toString())
+                        }
+                        var fcm = MyFirebaseMessagingService()
+                        fcm.sendFirebaseToken()
+                        startActivity(Intent(context, MainActivity::class.java))
+                    } else {
+                        if (joinResponse.code == "C001") {
+                            Toast.makeText(context, joinResponse.errors[0].reason, Toast.LENGTH_SHORT)
+                        } else if (joinResponse.code == "U002") {
+                            Toast.makeText(context, joinResponse.message, Toast.LENGTH_SHORT)
+                        }
                     }
-                    var fcm = MyFirebaseMessagingService()
-                    fcm.sendFirebaseToken()
-                    startActivity(Intent(context, MainActivity::class.java))
                 }
 
-                override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
+                override fun onFailure(call: Call<localRegisterResponse>, t: Throwable) {
                     Toast.makeText(context, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT)
                 }
             })

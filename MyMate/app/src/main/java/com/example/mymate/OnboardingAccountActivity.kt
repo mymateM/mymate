@@ -32,11 +32,6 @@ class OnboardingAccountActivity: AppCompatActivity() {
         binding.accountview.setOnClickListener {
             hidekeyboard()
         }
-        binding.editcontainer.setOnClickListener {
-            binding.accountEdit.requestFocus()
-            val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(binding.accountEdit, 0)
-        }
 
         //TODO: 정보형 확정나면 adapter 작성
     }

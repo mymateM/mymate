@@ -9,6 +9,12 @@ import retrofit2.http.*
 
 // data class
 
+data class error (
+    var field: String = "",
+    var value: String = "",
+    var reason: String = ""
+)
+
 data class localUser (
     var user_email: String = "",
     var user_password: String = ""
@@ -65,6 +71,32 @@ data class householdExpenseDetail (
     var expense_consumer: String = ""
 )
 
+data class activityNoti (
+    var activity_notification_id: String = "",
+    var category_title: String = "",
+    var category_image_url: String = "",
+    var is_read: Boolean = false,
+    var created_at: String = "",
+    var trigger: String? = ""
+)
+
+data class notiActivityData (
+    var activityNotificationResponses: ArrayList<activityNoti> = ArrayList()
+)
+
+data class notiExpenseData (
+    var notification_expenses: ArrayList<expenseNoti> = ArrayList()
+)
+
+data class expenseNoti (
+    var expense_notification_id: String = "",
+    var expense_category_image_url: String = "",
+    var created_at: String = "",
+    var is_read: Boolean = false,
+    var expense_amount: String = "",
+    var spender_name: String = ""
+)
+
 // data class for responses
 
 data class defaultResponse (
@@ -76,6 +108,14 @@ data class localLoginResponse (
     var message: String = "",
     var status: String = "",
     var data: token = token()
+)
+
+data class localRegisterResponse (
+    var message: String = "",
+    var status: String = "",
+    var code: String = "",
+    var data: token = token(),
+    var errors: ArrayList<error> = ArrayList()
 )
 
 data class localRefreshReponse (
@@ -97,6 +137,18 @@ data class dailyExpenseResponse (
     var links: String = ""
 )
 
+data class activityNotiResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: notiActivityData = notiActivityData()
+)
+
+data class expenseNotiResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: notiExpenseData = notiExpenseData()
+)
+
 //login + token interface
 
 interface localLogin {
@@ -111,7 +163,7 @@ interface localRefresh {
 
 interface localRegister {
     @POST("api/v1/auth/register")
-    fun localRegister(@Body req: loginUser) : Call<localLoginResponse>
+    fun localRegister(@Body req: loginUser) : Call<localRegisterResponse>
 }
 
 interface socialLogin {
@@ -122,7 +174,7 @@ interface socialLogin {
 //TODO: local register error API response error receiving (1: DataClass, 2: receiving check)
 
 interface localDevice {
-    @POST("api/v1/user/device-token")
+    @POST("api/v1/auth/user/device-token")
     fun localDevice(@Header("Authorization") Authorization: String, @Body req: devicetoken) : Call<Response<Void>>
 }
 
@@ -138,6 +190,16 @@ interface getlocalDevice {
 //Settlement API
 
 //Alarm API
+
+interface getActivityNoti {
+    @GET("api/v1/notifications/activity")
+    fun activityNoti(@Header("Authorization") Authorization: String) : Call<activityNotiResponse>
+}
+
+interface getExpenseNoti {
+    @GET("api/v1/notifications/expense")
+    fun expenseNoti(@Header("Authorization") Authorization: String) : Call<expenseNotiResponse>
+}
 
 //Bills Api
 

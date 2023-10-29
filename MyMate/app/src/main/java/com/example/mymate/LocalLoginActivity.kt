@@ -46,7 +46,7 @@ class LocalLoginActivity: AppCompatActivity() {
 
         binding.localjoinbtn.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         binding.localjoinbtn.setOnClickListener {
-            startActivity(Intent(context, LocalJoinActivity::class.java))
+            startActivity(Intent(context, OnboardingTermsActivity::class.java))
         }
         //TODO: pwd 조건 따라서 inputfilter 정규식 적용
         binding.localloginbutton.setOnClickListener{

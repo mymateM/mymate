@@ -44,11 +44,7 @@ class OnboardingSettlementbudgetActivity: AppCompatActivity() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 message = budgetEdit.text.toString()
-                if (message.isNotEmpty()) {
-                    binding.nextbtn.isEnabled = true
-                } else {
-                    binding.nextbtn.isEnabled = false
-                }
+                binding.nextbtn.isEnabled = message.isNotEmpty()
             }
 
             override fun afterTextChanged(p0: Editable?) { }

@@ -2,6 +2,10 @@ package com.example.mymate
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.ContextMenu
+import android.view.MenuItem
+import android.view.View
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mymate.databinding.ActivityBillmanagerBinding
 
@@ -35,10 +39,18 @@ class BillManagerActivity: AppCompatActivity() {
             managerlist.putExtra("category", "기타")
             startActivity(managerlist)
         }
-        /*binding.addbtn.setOnClickListener {
-            //TODO: to add page
-            //TODO: Modale
-            startActivity(Intent(this, BillCameraActivity::class.java))
-        }*/
+
+        binding.addbtn.setOnClickListener {
+            var popupMenu = PopupMenu(this, it)
+            menuInflater?.inflate(R.menu.contextmenu_bill, popupMenu.menu)
+            popupMenu.show()
+            popupMenu.setOnMenuItemClickListener {
+                if (it.title == "사진 스캔") {
+                    startActivity(Intent(this, BillCameraActivity::class.java))
+                    return@setOnMenuItemClickListener true
+                }
+                return@setOnMenuItemClickListener false
+            }
+        }
     }
 }

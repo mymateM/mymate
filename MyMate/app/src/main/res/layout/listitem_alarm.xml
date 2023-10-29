@@ -3,58 +3,55 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/alarmlistunit">
+    android:id="@+id/alarmlistunit"
+    android:background="@color/white">
 
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/profileimg"
-        android:layout_marginTop="21dp"
-        android:layout_marginBottom="41dp"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="102dp"
+        android:id="@+id/alarmlistcontainer"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/basicprofile"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/button_loginbardefault"
+        android:backgroundTint="@color/graylight_buttonfill"/>
+    
+    <ImageView
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        app:layout_constraintTop_toTopOf="@id/alarmlistcontainer"
+        app:layout_constraintStart_toStartOf="@id/alarmlistcontainer"
+        android:layout_marginTop="27dp"
+        android:layout_marginStart="22dp"
+        android:src="@drawable/alarmicon_alert"
+        android:scaleType="centerInside"
+        android:id="@+id/alarmicon"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/alarmname"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="21dp"
-        android:text="username"
-        android:textSize="12dp"
-        android:fontFamily="@font/suit_semibold_apply"
-        android:textColor="@color/graydark_alarm"
-        app:layout_constraintStart_toEndOf="@id/profileimg"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toEndOf="@id/alarmicon"
+        app:layout_constraintTop_toTopOf="@id/alarmicon"
+        app:layout_constraintBottom_toBottomOf="@id/alarmicon"
+        android:layout_marginStart="7dp"
+        android:text="예산 변경"
+        android:textSize="14dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textColor="@color/graydark_text"
+        android:id="@+id/alarmtype"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/alarmdesc"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="6dp"
-        android:text="userdesc"
-        android:textColor="@color/blackmute_text"
-        android:textSize="15dp"
-        android:fontFamily="@font/suit_regular_apply"
-        app:layout_constraintBottom_toBottomOf="@id/profileimg"
-        app:layout_constraintStart_toEndOf="@id/profileimg"
-        app:layout_constraintTop_toBottomOf="@id/alarmname"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/alarmtime"
-        android:text="alarmtime"
-        android:textColor="@color/blackmute_text_50p"
-        android:fontFamily="@font/suit_regular_apply"
-        android:textSize="10dp"
-        app:layout_constraintTop_toBottomOf="@id/alarmdesc"
-        app:layout_constraintStart_toEndOf="@id/profileimg"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="7dp"/>
+        app:layout_constraintTop_toBottomOf="@id/alarmicon"
+        app:layout_constraintStart_toStartOf="@id/alarmicon"
+        android:layout_marginTop="11dp"
+        android:textColor="@color/black_text"
+        android:textSize="16dp"
+        android:text="정산일이 10일로 바뀌었어요!"
+        android:fontFamily="@font/suit_medium"
+        android:id="@+id/alarmdata"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

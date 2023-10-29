@@ -58,7 +58,9 @@ class BillManagerListActivity: AppCompatActivity() {
             startActivity(ocrIntent)
         }
 
-
+        binding.backbtn.setOnClickListener {
+            finish()
+        }
 
     }
 }

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="9dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/back"
+        android:id="@+id/backbtn"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/backbtn"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="78dp"
+        android:layout_marginStart="20dp"
+        android:textSize="22dp"
+        android:textColor="@color/black_text"
+        android:text="잠깐!\n이용 전에 동의가 필요해요"
+        android:fontFamily="@font/happiness_sans_title"
+        android:id="@+id/title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="20dp"
+        android:text="원활한 서비스 이용을 위해 약관에 동의해주세요"
+        android:textSize="16dp"
+        android:textColor="@color/graydark_text"
+        android:fontFamily="@font/suit_regular"
+        android:id="@+id/subtitle"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintTop_toBottomOf="@id/subtitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/button_selectbox"
+        android:id="@+id/selectall"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/selectall"
+        app:layout_constraintTop_toTopOf="@id/selectall"
+        app:layout_constraintBottom_toBottomOf="@id/selectall"
+        android:layout_marginStart="23dp"
+        android:textColor="@color/black_text"
+        android:text="전체동의"
+        android:textSize="18dp"
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/selectallmaintext"/>
+
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        app:layout_constraintEnd_toEndOf="@id/selectall"
+        app:layout_constraintTop_toTopOf="@id/selectall"
+        app:layout_constraintBottom_toBottomOf="@id/selectall"
+        android:layout_marginEnd="26dp"
+        android:id="@+id/selectallcheck"
+        android:src="@drawable/icon_check_default"
+        android:scaleType="fitCenter"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/selectall"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="43dp"
+        android:text="[필수] mymate 이용약관"
+        android:textSize="16dp"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_regular"
+        android:id="@+id/serviceterm"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/serviceterm"
+        app:layout_constraintBottom_toBottomOf="@id/serviceterm"
+        app:layout_constraintTop_toTopOf="@id/serviceterm"
+        android:layout_marginStart="12dp"
+        android:id="@+id/showserviceterm"
+        android:textColor="@color/graydark_text"
+        android:textSize="14dp"
+        android:text="보기"
+        android:fontFamily="@font/suit_regular"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/serviceterm"
+        app:layout_constraintEnd_toStartOf="@id/selectserviceterm"
+        app:layout_constraintTop_toBottomOf="@id/serviceterm"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/graydark_text"
+        android:textSize="12dp"
+        android:text="이용약관이 들어갈 자리입니다. 이것은 테스트 문자열입니다. 테스트용. 테스트 문자열. 졸업하게 해주세요. 현재 시각 시월 이십사일 오후 여덟시 사십오분."
+        android:fontFamily="@font/suit_regular"
+        android:id="@+id/servicetermtext"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        app:layout_constraintTop_toBottomOf="@id/selectall"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="43dp"
+        android:src="@drawable/icon_check_default"
+        android:scaleType="fitCenter"
+        android:id="@+id/selectserviceterm"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/serviceterm"
+        app:layout_constraintStart_toStartOf="@id/serviceterm"
+        android:layout_marginTop="22dp"
+        android:id="@+id/infoterm"
+        android:text="[필수] 개인정보 수집 및 이용 동의"
+        android:textSize="16dp"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_regular"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/infoterm"
+        app:layout_constraintTop_toTopOf="@id/infoterm"
+        app:layout_constraintBottom_toBottomOf="@id/infoterm"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/graydark_text"
+        android:textSize="14dp"
+        android:text="보기"
+        android:fontFamily="@font/suit_regular"
+        android:id="@+id/showinfoterm"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/infoterm"
+        app:layout_constraintEnd_toStartOf="@id/selectinfoterm"
+        app:layout_constraintTop_toBottomOf="@id/infoterm"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/graydark_text"
+        android:textSize="12dp"
+        android:text="이용약관이 들어갈 자리입니다. 이것은 테스트 문자열입니다. 테스트용. 테스트 문자열. 졸업하게 해주세요. 현재 시각 시월 이십사일 오후 여덟시 사십오분."
+        android:fontFamily="@font/suit_regular"
+        android:id="@+id/infotermtext"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        app:layout_constraintTop_toTopOf="@id/infoterm"
+        app:layout_constraintBottom_toBottomOf="@id/infoterm"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="43dp"
+        android:src="@drawable/icon_check_default"
+        android:scaleType="fitCenter"
+        android:id="@+id/selectinfoterm"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/serviceterm"
+        app:layout_constraintTop_toBottomOf="@id/infoterm"
+        android:layout_marginTop="22dp"
+        android:text="[선택] 마케팅 수신 동의"
+        android:textSize="16dp"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_regular"
+        android:id="@+id/marketingterm"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/marketingterm"
+        app:layout_constraintBottom_toBottomOf="@id/marketingterm"
+        app:layout_constraintStart_toEndOf="@id/marketingterm"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/graydark_text"
+        android:textSize="14dp"
+        android:text="보기"
+        android:fontFamily="@font/suit_regular"
+        android:id="@+id/showmarketingterm"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/marketingterm"
+        app:layout_constraintEnd_toStartOf="@id/selectmarketingterm"
+        app:layout_constraintTop_toBottomOf="@id/marketingterm"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/graydark_text"
+        android:textSize="12dp"
+        android:text="이용약관이 들어갈 자리입니다. 이것은 테스트 문자열입니다. 테스트용. 테스트 문자열. 졸업하게 해주세요. 현재 시각 시월 이십사일 오후 여덟시 사십오분."
+        android:fontFamily="@font/suit_regular"
+        android:id="@+id/marketingtermtext"
+        android:visibility="gone"
+        />
+
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/marketingterm"
+        app:layout_constraintBottom_toBottomOf="@id/marketingterm"
+        android:layout_marginEnd="43dp"
+        android:src="@drawable/icon_check_default"
+        android:scaleType="fitCenter"
+        android:id="@+id/selectmarketingterm"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/graylight_wireframe"
+        android:text="동의하고 계속하기"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:id="@+id/tonext"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

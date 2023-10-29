@@ -2,13 +2,18 @@ package com.example.mymate
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
+import androidx.core.view.isGone
 import androidx.viewpager2.widget.ViewPager2
 import com.example.mymate.databinding.ActivityAlarmBinding
+import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class AlarmActivity : AppCompatActivity() {
     lateinit var binding: ActivityAlarmBinding
+    private var act = false
+    private var spd = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +29,10 @@ class AlarmActivity : AppCompatActivity() {
 
     private fun initViewPager() {
         var pager2Adapter = viewPager2Adapter(this)
-        pager2Adapter.addFragment(AlarmActFragment())
-        pager2Adapter.addFragment(AlarmSpdFragment())
+        val actFragment = AlarmActFragment()
+        val spdFragment = AlarmSpdFragment()
+        pager2Adapter.addFragment(actFragment)
+        pager2Adapter.addFragment(spdFragment)
 
         binding.alarmpager.offscreenPageLimit = 2
         binding.alarmpager.apply {
@@ -33,6 +40,11 @@ class AlarmActivity : AppCompatActivity() {
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
+                    /*if (position == 0) {
+                        binding.tabBadge0.isGone = true
+                    } else if (position == 1) {
+                        binding.tabBadge1.isGone = true
+                    }*/
                 }
             })
         }

@@ -107,7 +107,7 @@ class MainHomeFragment : Fragment() {
 
         val tempOnboardingFlow = binding.spendpercentbox
         tempOnboardingFlow.setOnClickListener {
-            startActivity(Intent(mainActivity, OnboardingProfileActivity::class.java))
+            startActivity(Intent(mainActivity, OnboardingTermsActivity::class.java))
         }
 
         return binding.root

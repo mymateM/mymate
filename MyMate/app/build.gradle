@@ -148,4 +148,7 @@ dependencies {
 
     //calendar
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
+
+    //image zoom in/out
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 }

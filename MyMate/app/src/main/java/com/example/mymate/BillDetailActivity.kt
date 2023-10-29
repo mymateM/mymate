@@ -34,6 +34,10 @@ class BillDetailActivity: AppCompatActivity() {
             startActivity(backintent)
             overridePendingTransition(0, 0)
         }
+
+        binding.billimage.setOnClickListener {
+            startActivity(Intent(this, BillImageActivity::class.java))
+        }
     }
 
     override fun onBackPressed() {

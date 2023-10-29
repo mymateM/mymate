@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.databinding.MainSpendingFragmentBinding
+import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -56,16 +57,29 @@ class MainSpendingFragment : Fragment() {
         //calendar settings
         var selectedDate = LocalDate.now()
         setCalendarView(selectedDate)
-
+        
+        when (selectedDate.dayOfWeek) {
+            DayOfWeek.SUNDAY -> binding.spendingDay.text = "일요일"
+            DayOfWeek.MONDAY -> binding.spendingDay.text = "월요일"
+            DayOfWeek.TUESDAY -> binding.spendingDay.text = "화요일"
+            DayOfWeek.WEDNESDAY -> binding.spendingDay.text = "수요일"
+            DayOfWeek.THURSDAY -> binding.spendingDay.text = "목요일"
+            DayOfWeek.FRIDAY -> binding.spendingDay.text = "금요일"
+            DayOfWeek.SATURDAY -> binding.spendingDay.text = "토요일"
+        }
 
         //button events
         binding.monthLast.setOnClickListener {
             selectedDate = selectedDate.minusMonths(1)
+            calendarVal.firstDay = -1
+            calendarVal.lastDay = -1
             setCalendarView(selectedDate)
         }
 
         binding.monthNext.setOnClickListener {
             selectedDate = selectedDate.plusMonths(1)
+            calendarVal.firstDay = -1
+            calendarVal.lastDay = -1
             setCalendarView(selectedDate)
         }
 
@@ -98,6 +112,15 @@ class MainSpendingFragment : Fragment() {
         binding.mainCalendar.adapter = adapter.apply {
             setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
                 override fun onItemClick(item: calendarItem, position: Int) {
+                    when (position % 7) {
+                        0 -> binding.spendingDay.text = "일요일"
+                        1 -> binding.spendingDay.text = "월요일"
+                        2 -> binding.spendingDay.text = "화요일"
+                        3 -> binding.spendingDay.text = "수요일"
+                        4 -> binding.spendingDay.text = "목요일"
+                        5 -> binding.spendingDay.text = "금요일"
+                        6 -> binding.spendingDay.text = "토요일"
+                    }
                 }
             })
         }
@@ -116,26 +139,46 @@ class MainSpendingFragment : Fragment() {
         var lastDay = yearMonth.lengthOfMonth()
         var firstDay = date.withDayOfMonth(1)
         var dayOfWeek = firstDay.dayOfWeek.value
+        var nowdate: Int = 0
         var tempmonth = date
         var tempday = date
         var tempint = 0
-        for (i in 1..42) {
-            if(i <= dayOfWeek) {
-                tempmonth = date.minusMonths(1)
-                tempday = tempmonth.withDayOfMonth(tempmonth.lengthOfMonth()).minusDays(dayOfWeek.toLong() - i)
-                dayList.add(tempday)
-                iteminfo.add(calendarItem(false, false, true))
-            } else if (i > lastDay + dayOfWeek) {
-                tempmonth = date.plusMonths(1)
-                tempday = tempmonth.withDayOfMonth(1).plusDays(tempint.toLong())
-                dayList.add(tempday)
-                iteminfo.add(calendarItem(false, false, true))
-                tempint++
-            } else {
-                dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
-                iteminfo.add(calendarItem(false, false, false))
+        val dayformat = DateTimeFormatter.ofPattern("dd")
+        if (date == LocalDate.now()) {
+            nowdate = date.format(dayformat).toInt()
+            calendarVal.firstDay = nowdate -1
+            calendarVal.lastDay = nowdate -1
+        }
+        if (firstDay.dayOfWeek == DayOfWeek.SUNDAY) {
+            for (i in 1 .. yearMonth.lengthOfMonth()) {
+                if (nowdate == i) {
+                    dayList.add(LocalDate.of(date.year, date.monthValue, i))
+                    iteminfo.add(calendarItem(true, false, false))
+                } else {
+                    dayList.add(LocalDate.of(date.year, date.monthValue, i))
+                    iteminfo.add(calendarItem(false, false, false))
+                }
+            }
+        } else {
+            for (i in 1..42) {
+                if(i <= dayOfWeek) {
+                    tempmonth = date.minusMonths(1)
+                    tempday = tempmonth.withDayOfMonth(tempmonth.lengthOfMonth()).minusDays(dayOfWeek.toLong() - i)
+                    dayList.add(tempday)
+                    iteminfo.add(calendarItem(false, false, true))
+                } else if (i > lastDay + dayOfWeek) {
+                    tempmonth = date.plusMonths(1)
+                    tempday = tempmonth.withDayOfMonth(1).plusDays(tempint.toLong())
+                    dayList.add(tempday)
+                    iteminfo.add(calendarItem(false, false, true))
+                    tempint++
+                } else {
+                    dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
+                    iteminfo.add(calendarItem(false, false, false))
+                }
             }
         }
+
         return dayList
     }
 

@@ -15,6 +15,7 @@
     <color name="purple_text">#9566CF</color>
     <color name="purplevivid_graph">#A07ADD</color>
     <color name="purplelight_graph">#D4C6ED</color>
+    <color name="purpleblue_select">#7F77FE</color>
     <color name="pink_character">#D97F93</color>
     <color name="green_character">#6CBDAC</color>
     <color name="yellow_character">#F1B365</color>
@@ -34,4 +35,11 @@
     <color name="graylight_tabindicator">#E8E8E8</color>
     <color name="graylight_wireframe">#D9D8DC</color>
     <color name="graydark_wireframe">#0D202020</color>
+    <color name="graylight_text">#B7B7B7</color>
+    <color name="graylight_indicator">#F5F5FA</color>
+    <color name="graylight_buttonfill">#F8F8F9</color>
+    <color name="graylight_buttonline">#F0EFF6</color>
+    <color name="purplelight_buttonfill">#ECEBFF</color>
+    <color name="purplevivid_buttonline">#7E77FE</color>
+    <color name="red_alarmbadge">#FD7F80</color>
 </resources>
