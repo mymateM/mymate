@@ -42,4 +42,5 @@
     <color name="purplelight_buttonfill">#ECEBFF</color>
     <color name="purplevivid_buttonline">#7E77FE</color>
     <color name="red_alarmbadge">#FD7F80</color>
+    <color name="modalecover">#99252525</color>
 </resources>

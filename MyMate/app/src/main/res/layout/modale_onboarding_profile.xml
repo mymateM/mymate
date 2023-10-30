@@ -8,7 +8,8 @@
     app:behavior_hideable="true"
     app:behavior_peekHeight="0dp"
     app:behavior_draggable="false"
-    app:behavior_fitToContents="true">
+    app:behavior_fitToContents="true"
+    android:elevation="10dp ">
 
     <ImageButton
         android:layout_width="11.2dp"

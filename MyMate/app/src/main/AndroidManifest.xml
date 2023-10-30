@@ -104,6 +104,9 @@
         <activity android:name=".BillImageActivity"
             android:exported="false"
             android:theme="@style/Theme.MyMate"/>
+        <activity android:name=".SearchActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate"/>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">

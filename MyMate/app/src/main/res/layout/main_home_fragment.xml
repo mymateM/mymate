@@ -136,7 +136,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/topbox"
-                android:background="@color/graylight_basic"
+                android:background="@color/white"
                 android:nestedScrollingEnabled="false">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -337,7 +337,7 @@
                 app:layout_constraintTop_toBottomOf="@id/statusbox"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:background="@color/graylight_basic"
+                android:background="@color/white"
                 android:nestedScrollingEnabled="false">
 
                 <TextView
@@ -369,7 +369,7 @@
                 app:layout_constraintTop_toBottomOf="@id/graphbox"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:background="@color/graylight_basic">
+                android:background="@color/white">
 
                 <TextView
                     android:id="@+id/ratiodesc"
@@ -404,7 +404,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ratiodesc"
                     android:layout_marginTop="12dp"
-                    android:background="@color/graylight_basic"
+                    android:background="@color/white"
                     android:nestedScrollingEnabled="false"
                     tools:listitem="@layout/listitem_mainrecyclerview"/>
 

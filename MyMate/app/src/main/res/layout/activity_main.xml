@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/mainpager"
         android:layout_width="match_parent"
@@ -14,13 +13,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/mainbottomtab"
         />
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/mainbottomtab"
         android:contentDescription="maintab_bottomposition"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/mainpager"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,6 +29,9 @@
         app:tabSelectedTextColor="@color/purplevivid_graph"
         app:tabTextAppearance="@style/tabview_maintextstyle"
         app:tabIndicatorColor="@android:color/transparent"
+        android:elevation="20dp"
         />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

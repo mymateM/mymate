@@ -10,11 +10,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.databinding.MainSpendingFragmentBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import org.checkerframework.common.subtyping.qual.Bottom
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -33,7 +37,13 @@ class MainSpendingFragment : Fragment() {
     lateinit var mainActivity: MainActivity
     lateinit var iteminfo: ArrayList<calendarItem>
     lateinit var calendarVal: CalendarValues
-    lateinit var calendar: Calendar
+    lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
+
+    private var year = ""
+    private var month = ""
+    private var day = ""
+    @RequiresApi(Build.VERSION_CODES.O)
+    private var selectedDate = LocalDate.now()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,8 +64,12 @@ class MainSpendingFragment : Fragment() {
         binding = MainSpendingFragmentBinding.inflate(inflater, container, false)
         var expenseDetail = ArrayList<householdExpenseDetail>()
 
+        bottomSheetInit()
+
+        //modaleimg settings
+        binding.cover.isGone = true
+
         //calendar settings
-        var selectedDate = LocalDate.now()
         setCalendarView(selectedDate)
         
         when (selectedDate.dayOfWeek) {
@@ -87,9 +101,74 @@ class MainSpendingFragment : Fragment() {
             startActivity(Intent(mainActivity, BillManagerActivity::class.java))
         }
 
+        binding.toAlarm.setOnClickListener {
+            startActivity(Intent(mainActivity, AlarmActivity::class.java))
+        }
+
+        binding.toSearch.setOnClickListener {
+            startActivity(Intent(mainActivity, SearchActivity::class.java))
+        }
+
+        binding.selectdate.setOnClickListener {
+
+        }
+
         setDailyExpenceView(expenseDetail)
 
         return binding.root
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun bottomSheetInit() {
+        behavior = BottomSheetBehavior.from(binding.datepicker.root)
+        behavior.peekHeight = 0
+        behavior.isDraggable = false
+        behavior.isHideable = true
+
+        binding.selectdate.setOnClickListener {
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.cover.isGone = false
+        }
+
+        binding.selectdatecontainer.setOnClickListener {
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.cover.isGone = false
+        }
+
+        binding.monthText.setOnClickListener {
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.cover.isGone = false
+        }
+
+        binding.datepicker.confirmbtn.setOnClickListener {
+            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            getDate()
+            binding.cover.isGone = true
+        }
+
+        binding.cover.setOnClickListener {
+            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            binding.cover.isGone = true
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getDate() {
+        val tempmonth = binding.datepicker.spinnerpicker.month + 1
+        month = if (tempmonth < 10) {
+            "0$tempmonth"
+        } else {
+            tempmonth.toString()
+        }
+        day = if (binding.datepicker.spinnerpicker.dayOfMonth < 10) {
+            "0" + binding.datepicker.spinnerpicker.dayOfMonth.toString()
+        } else {
+            binding.datepicker.spinnerpicker.dayOfMonth.toString()
+        }
+        year = binding.datepicker.spinnerpicker.year.toString()
+
+        selectedDate = LocalDate.parse("$year-$month-$day")
+        setCalendarView(selectedDate)
     }
 
     private fun setDailyExpenceView(detail: ArrayList<householdExpenseDetail>) {
@@ -102,11 +181,12 @@ class MainSpendingFragment : Fragment() {
     private fun setCalendarView(date: LocalDate) {
         //calender header
         binding.monthText.text = monthTextFormatting(date)
+        val exactdate = date
         //generate date lists
         iteminfo = arrayListOf<calendarItem>()
         val dayList = dayInMonthArray(date)
         //recyclerview setting
-        val adapter = CalendarAdapter(mainActivity, dayList, iteminfo, calendarVal)
+        val adapter = CalendarAdapter(mainActivity, dayList, iteminfo, calendarVal, date)
         var manager: RecyclerView.LayoutManager = GridLayoutManager(mainActivity, 7)
         binding.mainCalendar.layoutManager = manager
         binding.mainCalendar.adapter = adapter.apply {
@@ -144,14 +224,12 @@ class MainSpendingFragment : Fragment() {
         var tempday = date
         var tempint = 0
         val dayformat = DateTimeFormatter.ofPattern("dd")
-        if (date == LocalDate.now()) {
-            nowdate = date.format(dayformat).toInt()
-            calendarVal.firstDay = nowdate -1
-            calendarVal.lastDay = nowdate -1
-        }
+        nowdate = date.format(dayformat).toInt()
         if (firstDay.dayOfWeek == DayOfWeek.SUNDAY) {
             for (i in 1 .. yearMonth.lengthOfMonth()) {
                 if (nowdate == i) {
+                    calendarVal.firstDay = nowdate -1
+                    calendarVal.lastDay = nowdate -1
                     dayList.add(LocalDate.of(date.year, date.monthValue, i))
                     iteminfo.add(calendarItem(true, false, false))
                 } else {
@@ -173,8 +251,16 @@ class MainSpendingFragment : Fragment() {
                     iteminfo.add(calendarItem(false, false, true))
                     tempint++
                 } else {
-                    dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
-                    iteminfo.add(calendarItem(false, false, false))
+                    if (nowdate == (i - dayOfWeek)) {
+                        calendarVal.firstDay = i - 1
+                        calendarVal.lastDay = i - 1
+                        Log.d("DATE", calendarVal.firstDay.toString())
+                        dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
+                        iteminfo.add(calendarItem(true, false, false))
+                    } else {
+                        dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
+                        iteminfo.add(calendarItem(false, false, false))
+                    }
                 }
             }
         }

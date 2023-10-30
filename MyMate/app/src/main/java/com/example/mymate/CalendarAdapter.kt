@@ -18,8 +18,9 @@ import com.example.mymate.databinding.ListitemCalendarBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import kotlin.math.abs
+import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Local
 
-class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, val iteminfo: ArrayList<calendarItem>, val calendarVal: CalendarValues): RecyclerView.Adapter<CalendarAdapter.DayViewHolder>() {
+class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, val iteminfo: ArrayList<calendarItem>, val calendarVal: CalendarValues, val date: LocalDate): RecyclerView.Adapter<CalendarAdapter.DayViewHolder>() {
 
     private var onItemClickListener: OnItemClickListener? = null
 
