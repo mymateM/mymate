@@ -42,7 +42,6 @@ class MainSpendingFragment : Fragment() {
     private var year = ""
     private var month = ""
     private var day = ""
-    @RequiresApi(Build.VERSION_CODES.O)
     private var selectedDate = LocalDate.now()
 
     override fun onAttach(context: Context) {
@@ -55,7 +54,6 @@ class MainSpendingFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -118,7 +116,6 @@ class MainSpendingFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun bottomSheetInit() {
         behavior = BottomSheetBehavior.from(binding.datepicker.root)
         behavior.peekHeight = 0
@@ -152,7 +149,6 @@ class MainSpendingFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun getDate() {
         val tempmonth = binding.datepicker.spinnerpicker.month + 1
         month = if (tempmonth < 10) {
@@ -177,7 +173,6 @@ class MainSpendingFragment : Fragment() {
         binding.dailySpendings.adapter = adapter
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setCalendarView(date: LocalDate) {
         //calender header
         binding.monthText.text = monthTextFormatting(date)
@@ -206,13 +201,11 @@ class MainSpendingFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun monthTextFormatting(date: LocalDate): String {
         var formatter = DateTimeFormatter.ofPattern("MM월")
         return date.format(formatter)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun dayInMonthArray(date: LocalDate): ArrayList<LocalDate?> {
         var dayList = ArrayList<LocalDate?>()
         var yearMonth = YearMonth.from(date)
@@ -235,6 +228,13 @@ class MainSpendingFragment : Fragment() {
                 } else {
                     dayList.add(LocalDate.of(date.year, date.monthValue, i))
                     iteminfo.add(calendarItem(false, false, false))
+                }
+                for (i in 1 .. 11) {
+                    tempmonth = date.plusMonths(1)
+                    tempday = tempmonth.withDayOfMonth(1).plusDays(tempint.toLong())
+                    dayList.add(tempday)
+                    iteminfo.add(calendarItem(false, false, true))
+                    tempint++
                 }
             }
         } else {

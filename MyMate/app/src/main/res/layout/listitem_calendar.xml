@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,6 +21,26 @@
             app:layout_constraintBottom_toBottomOf="@id/dayText"
             android:src="@drawable/calendar_background"
             android:id="@+id/background"/>
+        <ImageView
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            app:layout_constraintStart_toStartOf="@id/dayText"
+            app:layout_constraintEnd_toEndOf="@id/dayText"
+            app:layout_constraintTop_toTopOf="@id/dayText"
+            app:layout_constraintBottom_toBottomOf="@id/dayText"
+            android:src="@android:color/transparent"
+            android:id="@+id/backgroundtemp"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="@id/dayText"
+            app:layout_constraintEnd_toEndOf="@id/dayText"
+            app:layout_constraintTop_toTopOf="@id/dayText"
+            app:layout_constraintBottom_toBottomOf="@id/dayText"
+            android:layout_marginTop="-7dp"
+            android:layout_marginBottom="-7dp"
+            android:src="@android:color/transparent"
+            android:id="@+id/backgroundmodale"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,21 +55,26 @@
             android:textColor="@color/black_text"
             android:fontFamily="@font/suit_semibold"
             android:textSize="16dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dayText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="9dp"
-            android:layout_marginTop="4.5dp"
-            android:id="@+id/billText"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="0"
-            android:fontFamily="@font/suit_medium"
-            android:textSize="8dp"
-            android:textColor="@color/red_text"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dayText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="4.5dp"
+        android:id="@+id/billText"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="0"
+        android:fontFamily="@font/suit_medium"
+        android:textSize="8dp"
+        android:textColor="@color/red_text"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        app:layout_constraintTop_toBottomOf="@id/billText"
+        android:src="@android:color/transparent"
+        android:background="@android:color/transparent"/>
 </LinearLayout>

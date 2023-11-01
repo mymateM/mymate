@@ -33,10 +33,10 @@ class CalendarValues {
         } else if (tempDay < firstDay) {
             firstDay = tempDay
             lastMid = false
-        } else if (tempDay > firstDay && tempDay < lastDay && lastMid == false) {
+        } else if (tempDay in (firstDay + 1) until lastDay && !lastMid) {
             firstDay = tempDay
             lastMid = true
-        } else if (tempDay > firstDay && tempDay < lastDay && lastMid == true) {
+        } else if (tempDay in (firstDay + 1) until lastDay && lastMid) {
             lastDay = tempDay
             lastMid = false
         } else if (tempDay > lastDay) {

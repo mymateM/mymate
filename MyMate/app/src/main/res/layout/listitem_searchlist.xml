@@ -3,56 +3,52 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/billItem"
     android:background="@color/white">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="74dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:id="@+id/billitem"
-        android:background="@drawable/box_modalebutton"
-        android:backgroundTint="@color/graylight_buttonfill">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/listitem">
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="21dp"
-            android:id="@+id/billimage"
-            android:scaleType="centerInside"/>
+            android:scaleType="centerInside"
+            android:id="@+id/categoryicon"
+            android:src="@drawable/alarmicon_food"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/billimage"
+            app:layout_constraintStart_toEndOf="@id/categoryicon"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="6dp"
-            android:text="0월 00일까지 납부"
-            android:textColor="@color/black_text"
-            android:textSize="16dp"
+            android:layout_marginStart="10dp"
             android:fontFamily="@font/suit_semibold"
-            android:id="@+id/billdate"/>
+            android:textColor="@color/black_text"
+            android:text="동대문엽기떡볶이"
+            android:textSize="16dp"
+            android:id="@+id/marketname"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="22dp"
-            android:textSize="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
             android:fontFamily="@font/montserrat_semibold"
-            android:text="000,000원"
-            android:id="@+id/billamount"
-            android:textColor="@color/black_text"/>
+            android:textSize="16dp"
+            android:textColor="@color/black_text"
+            android:text="20000원"
+            android:id="@+id/billamount"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="12dp"
-        app:layout_constraintTop_toBottomOf="@id/billitem"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toBottomOf="@id/listitem"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:src="@android:color/transparent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,11 +28,11 @@ class BillManagerActivity: AppCompatActivity() {
             startActivity(managerlist)
         }
         binding.electronicview.setOnClickListener {
-            managerlist.putExtra("category", "전기요금")
+            managerlist.putExtra("category", "전기")
             startActivity(managerlist)
         }
         binding.waterview.setOnClickListener {
-            managerlist.putExtra("category", "수도요금")
+            managerlist.putExtra("category", "수도")
             startActivity(managerlist)
         }
         binding.etcview.setOnClickListener {

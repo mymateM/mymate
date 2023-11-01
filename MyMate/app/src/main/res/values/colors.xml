@@ -42,5 +42,9 @@
     <color name="purplelight_buttonfill">#ECEBFF</color>
     <color name="purplevivid_buttonline">#7E77FE</color>
     <color name="red_alarmbadge">#FD7F80</color>
+    <color name="yellow_alarmbadge">#FFBC00</color>
+    <color name="blue_alarmbadge">#7785FF</color>
+    <color name="gray_alarmbadge">#636363</color>
     <color name="modalecover">#99252525</color>
+    <color name="graylight_stroke">#DADADA</color>
 </resources>

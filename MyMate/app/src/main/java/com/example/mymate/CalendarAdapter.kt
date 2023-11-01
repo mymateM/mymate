@@ -104,7 +104,6 @@ class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, 
         return dayList.size
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
         var day = dayList[position]
         var daytext = ""

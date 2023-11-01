@@ -97,6 +97,26 @@ data class expenseNoti (
     var spender_name: String = ""
 )
 
+data class bills (
+    var bills: ArrayList<bill> = ArrayList()
+)
+
+data class bill (
+    var bill_id: String = "",
+    var bill_image_url: String = "",
+    var bill_payment_date: String = "",
+    var bill_store: String = "",
+    var bill_payment_amount: String = ""
+)
+
+data class billdetail (
+    var bill_category: String = "",
+    var bill_payment_amount: String = "",
+    var bill_image_url: String = "",
+    var bill_payment_date: String = "",
+    var bill_memo: String? = ""
+)
+
 // data class for responses
 
 data class defaultResponse (
@@ -147,6 +167,18 @@ data class expenseNotiResponse (
     var message: String = "",
     var status: String = "",
     var data: notiExpenseData = notiExpenseData()
+)
+
+data class billListResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: bills = bills()
+)
+
+data class billDetailResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: billdetail = billdetail()
 )
 
 //login + token interface
@@ -203,11 +235,37 @@ interface getExpenseNoti {
 
 //Bills Api
 
+interface getGasBillList {
+    @GET("api/v1/bills/GAS")
+    fun getGasBillList(@Header("Authorization") Authorization: String) : Call<billListResponse>
+}
+
+interface getElectricityBillList {
+    @GET("api/v1/bills/ELECTRICITY")
+    fun getElectricityBillList(@Header("Authorization") Authorization: String) : Call<billListResponse>
+}
+
+interface getWaterBillList {
+    @GET("api/v1/bills/WATER")
+    fun getWaterBillList(@Header("Authorization") Authorization: String) : Call<billListResponse>
+}
+
+interface getEtcBillList {
+    @GET("api/v1/bills/ETC")
+    fun getEtcBillList(@Header("Authorization") Authorization: String) : Call<billListResponse>
+}
+
+interface getBill {
+    @GET("bills/{bill_id}")
+    fun getBill(@Header("Authorization") Authorization: String, @Path("bill_id") bill_id: String) : Call<billDetailResponse>
+}
+
+
 //Expense API
 
 interface getDailyExpense {
     @GET("expenses/daily-content")
-    fun getDailyExpense(@Header("Authentication") Authentication: String) : Call<dailyExpenseResponse>
+    fun getDailyExpense(@Header("Authorization") Authorization: String) : Call<dailyExpenseResponse>
 }
 
 //Reports API
