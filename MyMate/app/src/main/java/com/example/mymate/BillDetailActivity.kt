@@ -20,7 +20,7 @@ class BillDetailActivity: AppCompatActivity() {
     lateinit var context: Context
     var retrofit = RetrofitClientInstance.client
     var endpoint = retrofit?.create(getBill::class.java)
-    var detailresponse = billDetailResponse()
+    var detailresponse: billDetailResponse? = billDetailResponse()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +33,33 @@ class BillDetailActivity: AppCompatActivity() {
 
         val id = intent.getStringExtra("itemid")
         val category = intent.getStringExtra("category")
+        getdetail(id!!)
+
+        var accessToken = ""
+        runBlocking {
+            accessToken = userRepo.userAccessReadFlow.first().toString()
+        }
+        endpoint!!.getBill("Bearer $accessToken", id).enqueue(object : Callback<billDetailResponse> {
+            override fun onResponse(
+                call: Call<billDetailResponse>,
+                response: Response<billDetailResponse>
+            ) {
+                detailresponse = response.body()
+                if (response.isSuccessful) {
+                    binding.category.text = category
+                    binding.duedate.text = detailresponse!!.data.bill_payment_date.replace("-", ".")
+                    binding.memo.text = detailresponse!!.data.bill_memo
+                    binding.billamount.text = digitprocessing(detailresponse!!.data.bill_payment_amount) + "원"
+                } else {
+                    binding.category.text = category
+                    Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<billDetailResponse>, t: Throwable) {
+                Toast.makeText(context, "연결 실패", Toast.LENGTH_SHORT)
+            }
+        })
 
         binding.backbtn.setOnClickListener {
             val backintent = Intent(this, BillManagerListActivity::class.java)
@@ -57,26 +84,6 @@ class BillDetailActivity: AppCompatActivity() {
     }
 
     private fun getdetail(id: String) {
-        var accessToken = ""
-        runBlocking {
-            accessToken = userRepo.userAccessReadFlow.first().toString()
-        }
-        endpoint!!.getBill("Bearer $accessToken", id).enqueue(object : Callback<billDetailResponse> {
-            override fun onResponse(
-                call: Call<billDetailResponse>,
-                response: Response<billDetailResponse>
-            ) {
-                detailresponse = response.body()!!
-                binding.category.text = detailresponse.data.bill_category
-                binding.duedate.text = detailresponse.data.bill_payment_date.replace("-", ".")
-                binding.memo.text = detailresponse.data.bill_memo
-                binding.billamount.text = digitprocessing(detailresponse.data.bill_payment_amount) + "원"
-            }
-
-            override fun onFailure(call: Call<billDetailResponse>, t: Throwable) {
-                Toast.makeText(context, "연결 실패", Toast.LENGTH_SHORT)
-            }
-        })
     }
 
     private fun digitprocessing(digits: String): String {

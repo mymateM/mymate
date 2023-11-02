@@ -43,6 +43,7 @@ class MainSpendingFragment : Fragment() {
     private var month = ""
     private var day = ""
     private var selectedDate = LocalDate.now()
+    private var expenseDetail = ArrayList<householdExpenseDetail>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -60,7 +61,6 @@ class MainSpendingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = MainSpendingFragmentBinding.inflate(inflater, container, false)
-        var expenseDetail = ArrayList<householdExpenseDetail>()
 
         bottomSheetInit()
 
@@ -69,16 +69,6 @@ class MainSpendingFragment : Fragment() {
 
         //calendar settings
         setCalendarView(selectedDate)
-        
-        when (selectedDate.dayOfWeek) {
-            DayOfWeek.SUNDAY -> binding.spendingDay.text = "일요일"
-            DayOfWeek.MONDAY -> binding.spendingDay.text = "월요일"
-            DayOfWeek.TUESDAY -> binding.spendingDay.text = "화요일"
-            DayOfWeek.WEDNESDAY -> binding.spendingDay.text = "수요일"
-            DayOfWeek.THURSDAY -> binding.spendingDay.text = "목요일"
-            DayOfWeek.FRIDAY -> binding.spendingDay.text = "금요일"
-            DayOfWeek.SATURDAY -> binding.spendingDay.text = "토요일"
-        }
 
         //button events
         binding.monthLast.setOnClickListener {
@@ -111,8 +101,6 @@ class MainSpendingFragment : Fragment() {
 
         }
 
-        setDailyExpenceView(expenseDetail)
-
         return binding.root
     }
 
@@ -140,6 +128,15 @@ class MainSpendingFragment : Fragment() {
         binding.datepicker.confirmbtn.setOnClickListener {
             behavior.state = BottomSheetBehavior.STATE_COLLAPSED
             getDate()
+            when (selectedDate.dayOfWeek) {
+                DayOfWeek.SUNDAY -> binding.spendingDay.text = "일요일"
+                DayOfWeek.MONDAY -> binding.spendingDay.text = "월요일"
+                DayOfWeek.TUESDAY -> binding.spendingDay.text = "화요일"
+                DayOfWeek.WEDNESDAY -> binding.spendingDay.text = "수요일"
+                DayOfWeek.THURSDAY -> binding.spendingDay.text = "목요일"
+                DayOfWeek.FRIDAY -> binding.spendingDay.text = "금요일"
+                DayOfWeek.SATURDAY -> binding.spendingDay.text = "토요일"
+            }
             binding.cover.isGone = true
         }
 
@@ -167,7 +164,7 @@ class MainSpendingFragment : Fragment() {
         setCalendarView(selectedDate)
     }
 
-    private fun setDailyExpenceView(detail: ArrayList<householdExpenseDetail>) {
+    private fun setDailyExpenceView(detail: ArrayList<householdExpenseDetail>, date: LocalDate) {
         //recyclerview list
         val adapter = SpendingAdapter(mainActivity, detail)
         binding.dailySpendings.adapter = adapter
@@ -199,6 +196,16 @@ class MainSpendingFragment : Fragment() {
                 }
             })
         }
+        when (selectedDate.dayOfWeek) {
+            DayOfWeek.SUNDAY -> binding.spendingDay.text = "일요일"
+            DayOfWeek.MONDAY -> binding.spendingDay.text = "월요일"
+            DayOfWeek.TUESDAY -> binding.spendingDay.text = "화요일"
+            DayOfWeek.WEDNESDAY -> binding.spendingDay.text = "수요일"
+            DayOfWeek.THURSDAY -> binding.spendingDay.text = "목요일"
+            DayOfWeek.FRIDAY -> binding.spendingDay.text = "금요일"
+            DayOfWeek.SATURDAY -> binding.spendingDay.text = "토요일"
+        }
+        setDailyExpenceView(expenseDetail, selectedDate)
     }
 
     private fun monthTextFormatting(date: LocalDate): String {
@@ -229,13 +236,13 @@ class MainSpendingFragment : Fragment() {
                     dayList.add(LocalDate.of(date.year, date.monthValue, i))
                     iteminfo.add(calendarItem(false, false, false))
                 }
-                for (i in 1 .. 11) {
-                    tempmonth = date.plusMonths(1)
-                    tempday = tempmonth.withDayOfMonth(1).plusDays(tempint.toLong())
-                    dayList.add(tempday)
-                    iteminfo.add(calendarItem(false, false, true))
-                    tempint++
-                }
+            }
+            for (i in 1 .. 11) {
+                tempmonth = date.plusMonths(1)
+                tempday = tempmonth.withDayOfMonth(1).plusDays(tempint.toLong())
+                dayList.add(tempday)
+                iteminfo.add(calendarItem(false, false, true))
+                tempint++
             }
         } else {
             for (i in 1..42) {

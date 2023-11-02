@@ -50,10 +50,22 @@ data class senddeviceToken (
 )
 
 data class dailyExpenseDetail (
-    var settlement_date: datePeriod = datePeriod(),
-    var household_budget_amount: String = "",
-    var household_by_now_expense: String = "",
-    var household_expenses: ArrayList<householdExpenseDetail> = ArrayList()
+    var expenses: ArrayList<ExpenseList> = ArrayList()
+)
+
+data class ExpenseList (
+    var expenseId: String = "",
+    var expenseAmount: String = "",
+    var expenseStore: String = "",
+    var expenseCategoryName: String = "",
+    var settlementSubjects: ArrayList<Expenses> = ArrayList()
+)
+
+data class Expenses (
+    var userId: String = "",
+    var userName: String = "",
+    var isExpenseConsumer: Boolean = false,
+    var userProfileImage: String = ""
 )
 
 data class datePeriod (
@@ -150,9 +162,8 @@ data class deviceTokenResponse (
 )
 
 data class dailyExpenseResponse (
+    var message: String = "",
     var status: String = "",
-    var title: String = "",
-    var detail: String = "",
     var data: dailyExpenseDetail = dailyExpenseDetail(),
     var links: String = ""
 )
@@ -233,6 +244,8 @@ interface getExpenseNoti {
     fun expenseNoti(@Header("Authorization") Authorization: String) : Call<expenseNotiResponse>
 }
 
+//Calendar Api
+
 //Bills Api
 
 interface getGasBillList {
@@ -256,15 +269,14 @@ interface getEtcBillList {
 }
 
 interface getBill {
-    @GET("bills/{bill_id}")
+    @GET("api/v1/bill/{bill_id}")
     fun getBill(@Header("Authorization") Authorization: String, @Path("bill_id") bill_id: String) : Call<billDetailResponse>
 }
-
 
 //Expense API
 
 interface getDailyExpense {
-    @GET("expenses/daily-content")
+    @GET("api/v1/expense/daily-total/day/{year}/{month}/{dayOfMonth}")
     fun getDailyExpense(@Header("Authorization") Authorization: String) : Call<dailyExpenseResponse>
 }
 
