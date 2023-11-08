@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="9dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="21dp"
+        android:src="@drawable/back"
+        android:scaleType="centerInside"
+        android:id="@+id/backbtn"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/backbtn"
+        app:layout_constraintBottom_toBottomOf="@id/backbtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="비밀번호 변경"
+        android:textSize="18dp"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_bold"
+        android:id="@+id/title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="39dp"
+        android:layout_marginStart="20dp"
+        android:text="현재 비밀번호를 입력하세요"
+        android:textColor="@color/black_text"
+        android:textSize="20dp"
+        android:fontFamily="@font/suit_bold"
+        android:id="@+id/headtext"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headtext"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/suit_semibold"
+        android:hint="비밀번호"
+        android:textSize="20dp"
+        android:textColorHint="@color/graylight_text"
+        android:background="@android:color/transparent"
+        android:id="@+id/pwd"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1.4dp"
+        app:layout_constraintTop_toBottomOf="@id/pwd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="12dp"
+        android:src="@color/graylight_indicator"
+        android:id="@+id/pwdbottomline"/>
+
+    <ImageView
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        app:layout_constraintTop_toBottomOf="@id/pwd"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/icon_check_default"
+        android:id="@+id/identicalcheck"
+        android:scaleType="fitCenter"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/identicalcheck"
+        app:layout_constraintTop_toTopOf="@id/identicalcheck"
+        app:layout_constraintBottom_toBottomOf="@id/identicalcheck"
+        android:layout_marginStart="10dp"
+        android:text="비밀번호 일치"
+        android:fontFamily="@font/suit_medium"
+        android:textColor="@color/graylight_text"
+        android:textSize="16dp"
+        android:id="@+id/identicalchecktext"/>
+
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        android:outlineProvider="none"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/identicalcheck"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/box_radius12"
+        android:backgroundTint="@color/graylight_wireframe"
+        android:textSize="18dp"
+        android:textColor="@color/white"
+        android:text="다음으로"
+        android:fontFamily="@font/suit_bold"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

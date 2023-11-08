@@ -1,6 +1,7 @@
 package com.example.mymate
 
 import android.icu.text.CaseMap.Title
+import androidx.camera.camera2.internal.compat.quirk.StillCaptureFlashStopRepeatingQuirk
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -58,6 +59,7 @@ data class ExpenseList (
     var expenseAmount: String = "",
     var expenseStore: String = "",
     var expenseCategoryName: String = "",
+    var expenseCategoryImage: String = "",
     var settlementSubjects: ArrayList<Expenses> = ArrayList()
 )
 
@@ -126,7 +128,50 @@ data class billdetail (
     var bill_payment_amount: String = "",
     var bill_image_url: String = "",
     var bill_payment_date: String = "",
-    var bill_memo: String? = ""
+    var bill_memo: String? = "",
+    var register_date: String = ""
+)
+
+data class billcategoryList (
+    var recent_bill_category: ArrayList<billcategory> = ArrayList()
+)
+
+data class billcategory (
+    var bill_category: String = "",
+    var bill_payment_date: String = "",
+    var bill_payment_amount: String = ""
+)
+
+data class billtosend (
+    var bill_payment_date: String = "",
+    var bill_image: String = "",
+    var bill_payment_amount: String = "",
+    var bill_store: String = "",
+    var bill_category_title: String = "",
+    var bill_memo: String = "",
+    var virtual_accounts: ArrayList<virtualAccounts> = ArrayList()
+)
+
+data class virtualAccounts (
+    var bank_name: String = "",
+    var account_number: String = ""
+)
+
+data class expensetosend (
+    var expenseDate: String = "",
+    var expenseAmount: String = "",
+    var settlementSubjectIds: ArrayList<String> = ArrayList(),
+    var expenseStore: String = "",
+    var expenseCategory: String = "",
+    var expenseMemo: String = ""
+)
+
+data class expenseSingle (
+    var payment_amount: String = "",
+    var expense_memo: String = "",
+    var expense_category: String = "",
+    var expense_store: String = "",
+    var expense_register_date: String = ""
 )
 
 // data class for responses
@@ -192,6 +237,36 @@ data class billDetailResponse (
     var data: billdetail = billdetail()
 )
 
+data class billCategoryResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: billcategoryList = billcategoryList()
+)
+
+data class postbillResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: String = ""
+)
+
+data class getMemberIdResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: ArrayList<String> = ArrayList()
+)
+
+data class getDailySingleExpenseResult (
+    var message: String = "",
+    var status: String = "",
+    var data: expenseSingle = expenseSingle()
+)
+
+data class searchResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: dailyExpenseDetail = dailyExpenseDetail()
+)
+
 //login + token interface
 
 interface localLogin {
@@ -224,6 +299,11 @@ interface localDevice {
 interface getlocalDevice {
     @GET("api/v1/user/device-token")
     fun localDevice(@Header("Authorization") Authorization: String) : Call<deviceTokenResponse>
+}
+
+interface getMemberId {
+    @GET("api/v1/household/member/ids")
+    fun getMemberId(@Header("Authorization") Authorization: String) : Call<getMemberIdResponse>
 }
 
 //이하 완료되지 않은 API interface
@@ -273,11 +353,41 @@ interface getBill {
     fun getBill(@Header("Authorization") Authorization: String, @Path("bill_id") bill_id: String) : Call<billDetailResponse>
 }
 
+interface getBillCategory {
+    @GET("api/v1/bills/category")
+    fun getBillCategory(@Header("Authorization") Authorization: String): Call<billCategoryResponse>
+}
+
+interface postBill {
+    @POST("api/v1/bill")
+    fun postBill(@Header("Authorization") Authorization: String, @Body req: billtosend): Call<postbillResponse>
+}
+
+interface deleteBill {
+    @DELETE("api/v1/bills")
+    fun deleteBill(@Header("Authorization") Authorization: String, @Query("bill_id_list") bill_id_list: String): Call<postbillResponse>
+}
+
 //Expense API
 
 interface getDailyExpense {
     @GET("api/v1/expense/daily-total/day/{year}/{month}/{dayOfMonth}")
-    fun getDailyExpense(@Header("Authorization") Authorization: String) : Call<dailyExpenseResponse>
+    fun getDailyExpense(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("dayOfMonth") dayOfMonth: String) : Call<dailyExpenseResponse>
+}
+
+interface putDailyExpense {
+    @POST("api/v1/expense")
+    fun putDailyExpense(@Header("Authorization") Authorization: String, @Body req: expensetosend): Call<postbillResponse>
+}
+
+interface getDailySingleExpense {
+    @GET("api/v1/expense/{expense_id}")
+    fun getDailySingleExpense(@Header("Authorization") Authorization: String, @Path("expense_id") expense_id: String): Call<getDailySingleExpenseResult>
+}
+
+interface searchExpense {
+    @POST("api/v1/expense/search")
+    fun searchExpense(@Header("Authorization") Authorization: String, @Query("expense_date_max") expense_date_max: String, @Query("expense_date_min") expense_date_min: String, @Query("expense_category_name") expense_category_name: String, @Query("expense_amount_max") expense_amount_max: String, @Query("expense_amount_min") expense_amount_min: String, @Query("sorted_by_newest") sorted_by_newest: Boolean): Call<searchResponse>
 }
 
 //Reports API

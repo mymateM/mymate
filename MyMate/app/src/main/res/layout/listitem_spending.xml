@@ -7,7 +7,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="102dp"
+        android:layout_height="74dp"
         android:id="@+id/spendinglistcontainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,8 +21,8 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/spendinglistcontainer"
+        app:layout_constraintBottom_toBottomOf="@id/spendinglistcontainer"
         android:layout_marginStart="22dp"
         android:src="@drawable/alarmicon_food"
         android:id="@+id/spendingicon"/>
@@ -30,25 +30,27 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/spendinglistcontainer"
+        app:layout_constraintBottom_toBottomOf="@id/spendinglistcontainer"
         app:layout_constraintStart_toEndOf="@id/spendingicon"
         android:layout_marginStart="10dp"
         android:textColor="@color/black_text"
         android:textSize="16dp"
         android:fontFamily="@font/suit_semibold"
-        android:text="동대문엽기떡볶이"/>
+        android:text="동대문엽기떡볶이"
+        android:id="@+id/spendingStore"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/spendinglistcontainer"
+        app:layout_constraintTop_toTopOf="@id/spendinglistcontainer"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="18dp"
         android:text="00000원"
         android:textSize="16dp"
         android:textColor="@color/black_text"
-        android:fontFamily="@font/suit_semibold"/>
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/spendingAmount"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

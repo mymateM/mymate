@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="9dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="21dp"
+        android:src="@drawable/back"
+        android:scaleType="centerInside"
+        android:id="@+id/backbtn"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/backbtn"
+        app:layout_constraintBottom_toBottomOf="@id/backbtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="테마"
+        android:textSize="18dp"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_bold"
+        android:id="@+id/title"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="39dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/button_selectedbox"
+        android:id="@+id/lightmode"/>
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        app:layout_constraintEnd_toEndOf="@id/lightmode"
+        app:layout_constraintTop_toTopOf="@id/lightmode"
+        app:layout_constraintBottom_toBottomOf="@id/lightmode"
+        android:layout_marginEnd="23dp"
+        android:src="@drawable/icon_check_active"
+        android:id="@+id/lightmodecheck"
+        android:scaleType="centerInside"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/lightmode"
+        app:layout_constraintTop_toTopOf="@id/lightmode"
+        app:layout_constraintStart_toStartOf="@id/lightmode"
+        android:layout_marginStart="23dp"
+        android:text="라이트 모드"
+        android:textColor="@color/black_text"
+        android:textSize="16dp"
+        android:fontFamily="@font/suit_semibold"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        app:layout_constraintTop_toBottomOf="@id/lightmode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/button_selectbox"
+        android:id="@+id/darkmode"/>
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        app:layout_constraintEnd_toEndOf="@id/darkmode"
+        app:layout_constraintTop_toTopOf="@id/darkmode"
+        app:layout_constraintBottom_toBottomOf="@id/darkmode"
+        android:layout_marginEnd="23dp"
+        android:src="@drawable/icon_check_default"
+        android:id="@+id/darkmodecheck"
+        android:scaleType="centerInside"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/darkmode"
+        app:layout_constraintTop_toTopOf="@id/darkmode"
+        app:layout_constraintStart_toStartOf="@id/darkmode"
+        android:layout_marginStart="23dp"
+        android:text="다크 모드"
+        android:textColor="@color/black_text"
+        android:textSize="16dp"
+        android:fontFamily="@font/suit_semibold"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        app:layout_constraintTop_toBottomOf="@id/darkmode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/button_selectbox"
+        android:id="@+id/systemmode"/>
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        app:layout_constraintEnd_toEndOf="@id/systemmode"
+        app:layout_constraintTop_toTopOf="@id/systemmode"
+        app:layout_constraintBottom_toBottomOf="@id/systemmode"
+        android:layout_marginEnd="23dp"
+        android:src="@drawable/icon_check_default"
+        android:id="@+id/systemmodecheck"
+        android:scaleType="centerInside"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/systemmode"
+        app:layout_constraintTop_toTopOf="@id/systemmode"
+        app:layout_constraintStart_toStartOf="@id/systemmode"
+        android:layout_marginStart="23dp"
+        android:text="시스템 설정"
+        android:textColor="@color/black_text"
+        android:textSize="16dp"
+        android:fontFamily="@font/suit_semibold"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

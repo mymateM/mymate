@@ -63,18 +63,33 @@ class BillManagerListActivity: AppCompatActivity() {
         } else if (category == "기타") {
             getEtcList(category)
         } else {
-            Toast.makeText(context, "올바르지 않은 접근입니다.", Toast.LENGTH_SHORT)
-        }
-
-
-        binding.plusbtn.setOnClickListener {
-            var ocrIntent = Intent(context, BillCameraActivity::class.java)
-            ocrIntent.putExtra("category", category)
-            startActivity(ocrIntent)
+            Toast.makeText(context, "올바르지 않은 접근입니다.", Toast.LENGTH_SHORT).show()
         }
 
         binding.backbtn.setOnClickListener {
             finish()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val category = intent.getStringExtra("category")
+        binding.title.text = category
+        iteminfo = bills()
+
+        val today = LocalDate.now()
+        val year = today.year
+
+        if (category == "도시가스") {
+            getGasList(category)
+        } else if (category == "전기") {
+            getElectronicityList(category)
+        } else if (category == "수도") {
+            getWaterList(category)
+        } else if (category == "기타") {
+            getEtcList(category)
+        } else {
+            Toast.makeText(context, "올바르지 않은 접근입니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -98,14 +113,16 @@ class BillManagerListActivity: AppCompatActivity() {
                 if (iteminfo.bills.size > 1) {
                     for (i in 0 until iteminfo.bills.size) {
                         if (i != 0) {
-                            var thisone = iteminfo.bills[i].bill_payment_date.split("-")
-                            var lastone = iteminfo.bills[i - 1].bill_payment_date.split("-")
-                            if (thisone[0] == lastone[0]) {
-                                itemlist[temp].add(iteminfo.bills[i])
-                            } else {
-                                temp++
-                                itemlist.add(arrayListOf())
-                                itemlist[temp].add(iteminfo.bills[i])
+                            if (!iteminfo.bills[i].bill_payment_date.isNullOrEmpty()) {
+                                var thisone = iteminfo.bills[i].bill_payment_date.split("-")
+                                var lastone = iteminfo.bills[i - 1].bill_payment_date.split("-")
+                                if (thisone[0] == lastone[0]) {
+                                    itemlist[temp].add(iteminfo.bills[i])
+                                } else {
+                                    temp++
+                                    itemlist.add(arrayListOf())
+                                    itemlist[temp].add(iteminfo.bills[i])
+                                }
                             }
                         } else {
                             itemlist[0].add(iteminfo.bills[i])
@@ -116,10 +133,16 @@ class BillManagerListActivity: AppCompatActivity() {
                 val adapter = BillListContainerAdapter(itemlist, category!!)
                 binding.billListcontainer.layoutManager = LinearLayoutManager(context)
                 binding.billListcontainer.adapter = adapter
+
+                binding.deletebtn.setOnClickListener {
+                    val deleteIntent = Intent(context, BillDeleteActivity::class.java)
+                    deleteIntent.putExtra("category", category)
+                    startActivity(deleteIntent)
+                }
             }
 
             override fun onFailure(call: Call<billListResponse>, t: Throwable) {
-                Toast.makeText(context, "연결 실패", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "연결 실패(고지서 리스트)", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -140,6 +163,7 @@ class BillManagerListActivity: AppCompatActivity() {
                 var temp = 0
 
                 itemlist.add(arrayListOf())
+                Log.d("yearTest", iteminfo.bills.size.toString())
 
                 if (iteminfo.bills.size > 1) {
                     for (i in 0 until iteminfo.bills.size) {
@@ -159,9 +183,15 @@ class BillManagerListActivity: AppCompatActivity() {
                     }
                 }
 
-                val adapter = BillListContainerAdapter(itemlist, category!!)
+                val adapter = BillListContainerAdapter(itemlist, category)
                 binding.billListcontainer.layoutManager = LinearLayoutManager(context)
                 binding.billListcontainer.adapter = adapter
+
+                binding.deletebtn.setOnClickListener {
+                    val deleteIntent = Intent(context, BillDeleteActivity::class.java)
+                    deleteIntent.putExtra("category", category)
+                    startActivity(deleteIntent)
+                }
             }
 
             override fun onFailure(call: Call<billListResponse>, t: Throwable) {
@@ -208,6 +238,12 @@ class BillManagerListActivity: AppCompatActivity() {
                 val adapter = BillListContainerAdapter(itemlist, category!!)
                 binding.billListcontainer.layoutManager = LinearLayoutManager(context)
                 binding.billListcontainer.adapter = adapter
+
+                binding.deletebtn.setOnClickListener {
+                    val deleteIntent = Intent(context, BillDeleteActivity::class.java)
+                    deleteIntent.putExtra("category", category)
+                    startActivity(deleteIntent)
+                }
             }
 
             override fun onFailure(call: Call<billListResponse>, t: Throwable) {
@@ -254,6 +290,12 @@ class BillManagerListActivity: AppCompatActivity() {
                 val adapter = BillListContainerAdapter(itemlist, category!!)
                 binding.billListcontainer.layoutManager = LinearLayoutManager(context)
                 binding.billListcontainer.adapter = adapter
+
+                binding.deletebtn.setOnClickListener {
+                    val deleteIntent = Intent(context, BillDeleteActivity::class.java)
+                    deleteIntent.putExtra("category", category)
+                    startActivity(deleteIntent)
+                }
             }
 
             override fun onFailure(call: Call<billListResponse>, t: Throwable) {

@@ -39,6 +39,8 @@ class BillCameraActivity: AppCompatActivity() {
     lateinit var cameraExcutor: ExecutorService
     private var savedUri: Uri? = null // 여기에 파일이 있어!
     private var context: Context = this as Context
+    lateinit var moneyfile: File
+    lateinit var dayfile: File
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,25 +48,55 @@ class BillCameraActivity: AppCompatActivity() {
         setContentView(binding.root)
         // 현재 전기요금 고지서에 맞춘 양식(2:1)이므로 오버레이 경우에 따른 수정 필요
 
+        val category = intent.getStringExtra("category")
+        if (category == "전기") {
+            binding.gas.isGone = true
+            binding.water.isGone = true
+            binding.electronic.isGone = false
+        } else if (category == "수도") {
+            binding.gas.isGone = true
+            binding.electronic.isGone = true
+            binding.water.isGone = false
+        } else if (category == "도시가스") {
+            binding.gas.isGone = false
+            binding.water.isGone = true
+            binding.electronic.isGone = true
+        }
+
+        binding.guideoverlay.isGone = false
+
+        binding.guideoverlay.setOnClickListener {
+            binding.guideoverlay.isGone = true
+        }
+
         permissionCheck()
         val mediadir = externalMediaDirs.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
         }
         if (mediadir != null && mediadir.exists()) {
-            outputDirectory = mediadir // 얘도 클래스에 넣어둘까?
+            outputDirectory = mediadir
         } else {
             outputDirectory = filesDir
         }
         cameraExcutor = Executors.newSingleThreadExecutor()
 
-        Log.d("dptopxwidth", dptopx(53.5.toFloat()).toString())
-        Log.d("dptopxw", dptopx(20.7.toFloat()).toString())
-        Log.d("dptopxheight", dptopx(163.3.toFloat()).toString())
-        Log.d("dptopxh", dptopx(44.6.toFloat()).toString())
+        moneyfile = File(outputDirectory, SimpleDateFormat("yy-mm-dd", Locale.KOREA).format(System.currentTimeMillis()) + "1.png")
+        dayfile = File(outputDirectory, SimpleDateFormat("yy-mm-dd", Locale.KOREA).format(System.currentTimeMillis()) + "2.png")
 
         binding.capturebtn.setOnClickListener {
             savePhoto()
             //overridePendingTransition(0, 0)
+        }
+
+        binding.backbtn.setOnClickListener {
+            if (savedUri != null) {
+                if (File(savedUri!!.path).exists()) {
+                    File(savedUri!!.path).delete()
+                }
+            }
+            if (moneyfile.exists()) { moneyfile.delete() }
+            if (dayfile.exists()) { dayfile.delete() }
+            finish()
         }
     }
 
@@ -74,6 +106,8 @@ class BillCameraActivity: AppCompatActivity() {
                 File(savedUri!!.path).delete()
             }
         }
+        if (moneyfile.exists()) { moneyfile.delete() }
+        if (dayfile.exists()) { dayfile.delete() }
         finish()
     }
 
@@ -91,32 +125,85 @@ class BillCameraActivity: AppCompatActivity() {
                 val scaledHeight = deviceWidth * bitmap.height / bitmap.width
                 val resizebp = Bitmap.createScaledBitmap(bitmap, deviceWidth, scaledHeight, true)
 
-                //Log.d("bitmapwidth", resizebp.width.toString())
-                //Log.d("bitmapheight", resizebp.height.toString())
-                //Log.d("bitmapdpwidth", pxtodp(resizebp.width).toString())
-                //Log.d("bitmapdpheight", pxtodp(resizebp.height).toString())
+                if (category == "전기") {
 
-                val cropbp = Bitmap.createBitmap(resizebp, 217, 429, 1575, 788) // 가공 후 (전기 기준) - 이것을 저장해서 서버에 업로드
-                val fullfile = File(outputDirectory, SimpleDateFormat("yy=mm-dd", Locale.KOREA).format(System.currentTimeMillis()) + "0.png")
-                if (fullfile.exists()) { fullfile.delete() }
-                val outfull = FileOutputStream(fullfile)
-                cropbp.compress(Bitmap.CompressFormat.PNG, 100, outfull)
-                outfull.close()
-                savedUri = fullfile.toUri() // 캐시로 저장 완료, 객체에 저장
-                //binding.overlay.setImageURI(savedUri) // 저장 확인
+                    val fullwidth = resizebp.width / 2 - dptopx(200.toFloat()) - dptopx(35.toFloat())
+                    val fullheight = resizebp.height / 2 - dptopx(100.toFloat())
+                    val cropbp = Bitmap.createBitmap(resizebp, fullwidth.toInt(), fullheight.toInt(), dptopx(400.toFloat()).toInt(), dptopx(200.toFloat()).toInt()) //TODO: 이것은 서버로 갑니다
+                    val fullfile = File(outputDirectory, SimpleDateFormat("yy-MM-dd", Locale.KOREA).format(System.currentTimeMillis()) + "0.png")
+                    if (fullfile.exists()) { fullfile.delete() }
+                    val outfull = FileOutputStream(fullfile)
+                    cropbp.compress(Bitmap.CompressFormat.PNG, 100, outfull)
+                    outfull.close()
+                    savedUri = fullfile.toUri()
 
-                //이하 ML을 위한 가공
+                    //이하 ML을 위한 가공
+                    val onewidth = cropbp.width / 20.2
+                    val oneheight = cropbp.height / 10.1
 
-                val moneybp = Bitmap.createBitmap(cropbp, 1246, 125, 234, 54) // 금액 관심영역 (전기 기준)
-                val daybp = Bitmap.createBitmap(cropbp, 935, 125, 165, 54) // 날짜 관심영역 (전기 기준)
-                val moneyfile = File(outputDirectory, SimpleDateFormat("yy=mm-dd", Locale.KOREA).format(System.currentTimeMillis()) + "1.png")
-                if (moneyfile.exists()) { moneyfile.delete() }
-                val outmoney = FileOutputStream(moneyfile)
-                moneybp.compress(Bitmap.CompressFormat.PNG, 100, outmoney)
-                val dayfile = File(outputDirectory, SimpleDateFormat("yy=mm-dd", Locale.KOREA).format(System.currentTimeMillis()) + "2.png")
-                if (dayfile.exists()) { dayfile.delete() }
-                val outday = FileOutputStream(dayfile)
-                daybp.compress(Bitmap.CompressFormat.PNG, 100, outday)
+                    val moneybp = Bitmap.createBitmap(cropbp, (onewidth * 15.9).toInt(), (oneheight * 1.7).toInt(), (onewidth * 3.1).toInt(), (oneheight * 0.5).toInt()) // 금액 관심영역 (전기 기준)
+                    val daybp = Bitmap.createBitmap(cropbp, (onewidth * 12.0).toInt(), (oneheight * 1.7).toInt(), (onewidth * 2.2).toInt(), (oneheight * 0.5).toInt()) // 날짜 관심영역 (전기 기준)
+                    val moneybpresize = Bitmap.createScaledBitmap(moneybp, moneybp.width*2, moneybp.height*2, true)
+                    val daybpresize = Bitmap.createScaledBitmap(daybp, daybp.width*2, daybp.height*2, true)
+                    if (moneyfile.exists()) { moneyfile.delete() }
+                    val outmoney = FileOutputStream(moneyfile)
+                    moneybpresize.compress(Bitmap.CompressFormat.PNG, 100, outmoney)
+                    if (dayfile.exists()) { dayfile.delete() }
+                    val outday = FileOutputStream(dayfile)
+                    daybpresize.compress(Bitmap.CompressFormat.PNG, 100, outday)
+                } else if (category == "도시가스") {
+
+                    val fullwidth = resizebp.width / 2 - dptopx(162.toFloat()) - dptopx(35.toFloat())
+                    val fullheight = resizebp.height / 2 - dptopx(100.toFloat())
+                    val cropbp = Bitmap.createBitmap(resizebp, fullwidth.toInt(), fullheight.toInt(), dptopx(323.toFloat()).toInt(), dptopx(200.toFloat()).toInt()) //TODO: 이것은 서버로 갑니다
+                    val fullfile = File(outputDirectory, SimpleDateFormat("yy-MM-dd", Locale.KOREA).format(System.currentTimeMillis()) + "0.png")
+                    if (fullfile.exists()) { fullfile.delete() }
+                    val outfull = FileOutputStream(fullfile)
+                    cropbp.compress(Bitmap.CompressFormat.PNG, 100, outfull)
+                    outfull.close()
+                    savedUri = fullfile.toUri()
+
+                    //이하 ML을 위한 가공
+                    val onewidth = cropbp.width / 14.4
+                    val oneheight = cropbp.height / 8.9
+
+                    val moneybp = Bitmap.createBitmap(cropbp, (onewidth * 7.6).toInt(), (oneheight * 1.2).toInt(), (onewidth * 3.2).toInt(), (oneheight * 0.5).toInt())
+                    val daybp = Bitmap.createBitmap(cropbp, (onewidth * 12.0).toInt(), (oneheight * 1.2).toInt(), (onewidth * 2.2).toInt(), (oneheight * 0.5).toInt())
+                    val moneybpresize = Bitmap.createScaledBitmap(moneybp, moneybp.width*2, moneybp.height*2, true)
+                    val daybpresize = Bitmap.createScaledBitmap(daybp, daybp.width*2, daybp.height*2, true)
+                    if (moneyfile.exists()) { moneyfile.delete() }
+                    val outmoney = FileOutputStream(moneyfile)
+                    moneybpresize.compress(Bitmap.CompressFormat.PNG, 100, outmoney)
+                    if (dayfile.exists()) { dayfile.delete() }
+                    val outday = FileOutputStream(dayfile)
+                    daybpresize.compress(Bitmap.CompressFormat.PNG, 100, outday)
+                } else if (category == "수도") {
+
+                    val fullwidth = resizebp.width / 2 - dptopx(237.toFloat()) - dptopx(35.toFloat())
+                    val fullheight = resizebp.height / 2 - dptopx(100.toFloat())
+                    val cropbp = Bitmap.createBitmap(resizebp, fullwidth.toInt(), fullheight.toInt(), dptopx(474.toFloat()).toInt(), dptopx(200.toFloat()).toInt()) //TODO: 이것은 서버로 갑니다
+                    val fullfile = File(outputDirectory, SimpleDateFormat("yy-MM-dd", Locale.KOREA).format(System.currentTimeMillis()) + "0.png")
+                    if (fullfile.exists()) { fullfile.delete() }
+                    val outfull = FileOutputStream(fullfile)
+                    cropbp.compress(Bitmap.CompressFormat.PNG, 100, outfull)
+                    outfull.close()
+                    savedUri = fullfile.toUri()
+
+                    //이하 ML을 위한 가공
+                    val onewidth = cropbp.width / 21.1
+                    val oneheight = cropbp.height / 8.9
+
+                    val moneybp = Bitmap.createBitmap(cropbp, (onewidth * 1.0).toInt(), (oneheight * 6.5).toInt(), (onewidth * 4.1).toInt(), (oneheight * 0.5).toInt())
+                    val daybp = Bitmap.createBitmap(cropbp, (onewidth * 17.5).toInt(), (oneheight * 6.2).toInt(), (onewidth * 2.5).toInt(), (oneheight * 0.4).toInt())
+                    val moneybpresize = Bitmap.createScaledBitmap(moneybp, moneybp.width*2, moneybp.height*2, true)
+                    val daybpresize = Bitmap.createScaledBitmap(daybp, daybp.width*2, daybp.height*2, true)
+                    if (moneyfile.exists()) { moneyfile.delete() }
+                    val outmoney = FileOutputStream(moneyfile)
+                    moneybpresize.compress(Bitmap.CompressFormat.PNG, 100, outmoney)
+                    if (dayfile.exists()) { dayfile.delete() }
+                    val outday = FileOutputStream(dayfile)
+                    daybpresize.compress(Bitmap.CompressFormat.PNG, 100, outday)
+                }
 
                 val intentforward = Intent(context, BillOCRActivity::class.java)
                 intentforward.putExtra("savedUri", savedUri.toString())

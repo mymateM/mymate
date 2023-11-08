@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.datastore.core.DataStore
 import androidx.viewpager2.widget.ViewPager2
 import com.example.mymate.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayout
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        var repouser = DataStoreRepoUser(dataStore)
         val keyhash = Utility.getKeyHash(this)
         Log.d ("Hash", keyhash)
         initViewPager()

@@ -14,7 +14,6 @@ import java.time.LocalDate
 class AlarmActContainerAdapter(val alarmList: ArrayList<ArrayList<activityNoti>>): RecyclerView.Adapter<AlarmActContainerAdapter.AlarmActContainerHolder>() {
 
     inner class AlarmActContainerHolder(val binding: ListitemAlarmcontainerBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
-        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(item: ArrayList<activityNoti>) {
             val datetocompare = SimpleDateFormat("yyyy-mm-dd")
             val datetoshow = SimpleDateFormat("mm월 dd일")
@@ -45,7 +44,6 @@ class AlarmActContainerAdapter(val alarmList: ArrayList<ArrayList<activityNoti>>
         return alarmList.size
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AlarmActContainerHolder, position: Int) {
         val item = alarmList[position]
         holder.bind(item)

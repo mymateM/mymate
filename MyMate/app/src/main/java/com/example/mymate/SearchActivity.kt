@@ -7,22 +7,31 @@ import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.mymate.databinding.ActivitySearchBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.internal.format
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.create
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import kotlin.math.max
+import kotlin.math.min
 
 class SearchActivity: AppCompatActivity() {
     lateinit var binding: ActivitySearchBinding
@@ -33,6 +42,7 @@ class SearchActivity: AppCompatActivity() {
     lateinit var behaviorcategory: BottomSheetBehavior<ConstraintLayout>
     lateinit var behaviorlistup: BottomSheetBehavior<ConstraintLayout>
     lateinit var iteminfo: ArrayList<calendarItem>
+    lateinit var userRepo: DataStoreRepoUser
 
     private var selectedDate = LocalDate.now()
     private var year = ""
@@ -42,6 +52,7 @@ class SearchActivity: AppCompatActivity() {
     private var dayformatter = DateTimeFormatter.ofPattern("dd")
     private var yearformatter = DateTimeFormatter.ofPattern("yyyy")
     private var formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+    private var searchformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +60,7 @@ class SearchActivity: AppCompatActivity() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
         context = this
+        userRepo = DataStoreRepoUser(dataStore)
 
         binding.cover.isGone = true
 
@@ -59,6 +71,9 @@ class SearchActivity: AppCompatActivity() {
         bottomSheetInit()
         setCalendarView(selectedDate)
         setCategoryView()
+
+        selected(binding.listupbutton)
+        binding.listupbutton.text = "최신순"
 
         binding.searchcalendar.monthLast.setOnClickListener {
             selectedDate = selectedDate.minusMonths(1)
@@ -84,6 +99,22 @@ class SearchActivity: AppCompatActivity() {
         behaviorcalendar = BottomSheetBehavior.from(binding.searchcalendar.root)
         behaviorcategory = BottomSheetBehavior.from(binding.searchcategory.root)
         behaviorlistup = BottomSheetBehavior.from(binding.searchlistup.root)
+
+        binding.refreshButton.setOnClickListener {
+            binding.amountbutton.text = "가격"
+            binding.categorybutton.text = "카테고리"
+            binding.listupbutton.text = "최신순"
+            binding.calendarbutton.text = "기간"
+            selected(binding.listupbutton)
+            unselected(binding.amountbutton)
+            unselected(binding.categorybutton)
+            unselected(binding.calendarbutton)
+            var itemlistrefresh = ArrayList<ArrayList<ExpenseList>>()
+            val adapter = SearchListContainerAdapter(itemlistrefresh)
+            val manager = LinearLayoutManager(context)
+            binding.searchlistcontainer.adapter = adapter
+            binding.searchlistcontainer.layoutManager = manager
+        }
 
         binding.calendarbutton.setOnClickListener {
             if (behaviorcalendar.state == BottomSheetBehavior.STATE_EXPANDED) {
@@ -186,12 +217,19 @@ class SearchActivity: AppCompatActivity() {
             if (minimum == "" && maximum == "") {
                 binding.amountbutton.text = amount
                 unselected(binding.amountbutton)
+            } else if (minimum == "") {
+                amount = "~ " + maximum + "원"
+                binding.amountbutton.text = amount
+            } else if (maximum == "") {
+                amount = minimum + "원 ~"
+                binding.amountbutton.text = amount
             } else {
                 amount = minimum + "원 ~ " + maximum + "원"
                 binding.amountbutton.text = amount
             }
             behavioramount.state = BottomSheetBehavior.STATE_COLLAPSED
             binding.cover.isGone = true
+            search()
         }
 
         binding.searchcalendar.calendarset.setOnClickListener {
@@ -200,6 +238,7 @@ class SearchActivity: AppCompatActivity() {
             if (binding.calendarbutton.text == "기간") {
                 unselected(binding.calendarbutton)
             }
+            search()
         }
 
         binding.searchcategory.categoryset.setOnClickListener {
@@ -208,6 +247,7 @@ class SearchActivity: AppCompatActivity() {
             if (binding.categorybutton.text == "카테고리") {
                 unselected(binding.categorybutton)
             }
+            search()
         }
 
         binding.searchlistup.listfromrecent.setOnClickListener {
@@ -216,6 +256,7 @@ class SearchActivity: AppCompatActivity() {
             binding.searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.black_text))
             binding.searchlistup.listfromold.setTextColor(ContextCompat.getColor(context, R.color.graylight_text))
             binding.cover.isGone = true
+            search()
         }
 
         binding.searchlistup.listfromold.setOnClickListener {
@@ -224,6 +265,7 @@ class SearchActivity: AppCompatActivity() {
             binding.searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.graylight_text))
             binding.searchlistup.listfromold.setTextColor(ContextCompat.getColor(context, R.color.black_text))
             binding.cover.isGone = true
+            search()
         }
     }
 
@@ -235,6 +277,81 @@ class SearchActivity: AppCompatActivity() {
     private fun unselected(view: TextView) {
         view.setBackgroundResource(R.drawable.button_selectboxnull)
         view.setTextColor(ContextCompat.getColor(context, R.color.graydark_text))
+    }
+
+    private fun search() {
+        var firstday = ""
+        var lastday = ""
+        val dayList = dayInMonthArray(selectedDate)
+        if (calendarVal.firstDay != -1) {
+            firstday = dayList[calendarVal.firstDay]?.format(searchformatter) ?: "2021-11-06"
+        } else {
+            firstday = "2021-11-06"
+        }
+        if (calendarVal.lastDay != -1) {
+            lastday = dayList[calendarVal.lastDay]?.format(searchformatter) ?: LocalDate.now().format(searchformatter)
+        } else {
+            lastday = LocalDate.now().format(searchformatter)
+        }
+
+        var newest = true
+        var expense_amount_max = "${Integer.MAX_VALUE}"
+        var expense_amount_min = "0"
+
+        if (binding.amountbutton.text != "가격") {
+            if (binding.amountbutton.text.indexOf("원") == binding.amountbutton.text.length - 1) {
+                expense_amount_max = (binding.amountbutton.text.substring(binding.amountbutton.text.indexOf(" ") + 1 until binding.amountbutton.text.indexOf("원"))).replace(",", "")
+            } else {
+                val index = binding.amountbutton.text.indexOf("원")
+                if (binding.amountbutton.text.indexOf("원", index + 1) == -1) {
+                    expense_amount_min = (binding.amountbutton.text.substring(0 until binding.amountbutton.text.indexOf("원"))).replace(",", "")
+                } else {
+                    expense_amount_min = (binding.amountbutton.text.substring(0 until binding.amountbutton.text.indexOf("원"))).replace(",", "")
+                    val blankindex = binding.amountbutton.text.indexOf(" ")
+                    expense_amount_max = (binding.amountbutton.text.substring(binding.amountbutton.text.indexOf(" ", blankindex + 1) + 1 until binding.amountbutton.text.indexOf("원", index + 1))).replace(",", "")
+                }
+            }
+        }
+
+        newest = binding.listupbutton.text != "과거순"
+        var categorytosend = ""
+        when (binding.categorybutton.text) {
+            "식비" -> categorytosend = "FOOD"
+            "쇼핑" -> categorytosend = "SHOPPING"
+            "교통" -> categorytosend = "TRANSPORT"
+            "의료" -> categorytosend = "MEDICAL"
+            "생활" -> categorytosend = "HOUSEITEM"
+            "교육" -> categorytosend = "EDUCATION"
+            "기타" -> categorytosend = "ETC"
+            "고지서" -> categorytosend = "BILLS"
+        }
+
+        var retrofit = RetrofitClientInstance.client
+        var endpoint = retrofit?.create(searchExpense::class.java)
+        var accessToken = ""
+        runBlocking {
+            accessToken = userRepo.userAccessReadFlow.first().toString()
+        }
+        endpoint!!.searchExpense("Bearer $accessToken", expense_amount_min = expense_amount_min, expense_amount_max = expense_amount_max, sorted_by_newest = newest, expense_date_min = firstday, expense_date_max = lastday, expense_category_name = categorytosend).enqueue(object : Callback<searchResponse> {
+            override fun onResponse(call: Call<searchResponse>, response: Response<searchResponse>) {
+                if (response.isSuccessful) {
+                    Log.d("SEARCH!!!", "성공")
+                    var listitem = response.body()!!.data.expenses
+                    var itemlist = ArrayList<ArrayList<ExpenseList>>()
+                    itemlist.add(listitem)
+                    val manager: RecyclerView.LayoutManager = LinearLayoutManager(context)
+                    val adapter = SearchListContainerAdapter(itemlist)
+                    binding.searchlistcontainer.adapter = adapter
+                    binding.searchlistcontainer.layoutManager = manager
+                }
+                Log.d("SEARCH!!!", "반환형 이상함")
+            }
+
+            override fun onFailure(call: Call<searchResponse>, t: Throwable) {
+                Toast.makeText(context, "연결 실패(검색)", Toast.LENGTH_SHORT).show()
+            }
+
+        })
     }
 
     //오류 있음: persistant bottom sheet가 올라가 있는 상태에서 hidekeyboard 안됨
@@ -321,6 +438,8 @@ class SearchActivity: AppCompatActivity() {
         val adapter = CategoryAdapter(context, defaultimgList, categorynameList, tagList, selectedimgList)
         val manager: RecyclerView.LayoutManager = GridLayoutManager(context, 3)
 
+        var data = ""
+
         binding.searchcategory.categorylist.itemAnimator = null
         binding.searchcategory.categorylist.layoutManager = manager
         binding.searchcategory.categorylist.adapter = adapter.apply {
@@ -328,28 +447,15 @@ class SearchActivity: AppCompatActivity() {
                 override fun onItemClick(position: Int) {
                     if (dataList[position]) {
                         dataList[position] = false
-                        dataname[position] = ""
-                    } else {
-                        dataList[position] = true
-                        dataname[position] = categorynameList[position]
-                    }
-
-                    var data = ""
-
-                    for (i in 0 .. 7) {
-                        if (data == "" && dataList[i]) {
-                            data += dataname[i]
-                        } else if (data != "" && dataList[i]) {
-                            data = data + ", " + dataname[i]
-                        }
-                    }
-
-                    if (data == "") {
+                        data = ""
                         binding.categorybutton.text = "카테고리"
-                        unselected(binding.categorybutton)
                     } else {
+                        for (i in 0 until dataList.size) {
+                            dataList[i] = false
+                        }
+                        dataList[position] = true
+                        data = categorynameList[position]
                         binding.categorybutton.text = data
-                        selected(binding.categorybutton)
                     }
                 }
 
@@ -447,7 +553,6 @@ class SearchActivity: AppCompatActivity() {
                     tempint++
                 } else {
                     if (nowdate == (i - dayOfWeek)) {
-                        Log.d("DATE", calendarVal.firstDay.toString())
                         dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
                         iteminfo.add(calendarItem(false, false, false))
                     } else {

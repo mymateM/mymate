@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,12 +28,12 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:id="@+id/localloginid"
-        android:backgroundTint="@color/graylight_tabtext"
+        android:backgroundTint="@color/graylight_basic"
         android:textColorHighlight="@color/purplevivid_graph"
         android:hint="아이디"
         android:fontFamily="@font/suit_semibold"
         android:textSize="20dp"
-        android:textColorHint="@color/graylight_tabtext"/>
+        android:textColorHint="@color/graydark_text"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -44,12 +45,12 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:id="@+id/localloginpwd"
-        android:backgroundTint="@color/graylight_tabtext"
+        android:backgroundTint="@color/graylight_basic"
         android:textColorHighlight="@color/purplevivid_graph"
         android:hint="비밀번호"
         android:fontFamily="@font/suit_semibold"
         android:textSize="20dp"
-        android:textColorHint="@color/graylight_tabtext"
+        android:textColorHint="@color/graydark_text"
         android:inputType="textPassword"/>
 
     <Button
@@ -72,23 +73,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/localloginbutton"
-        app:layout_constraintEnd_toStartOf="@id/localfinddevider"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="20dp"
-        android:text="아이디 찾기"
-        android:textSize="16dp"
-        android:fontFamily="@font/suit_regular"
-        android:textColor="@color/black_text"
-        android:id="@+id/localidfindbtn"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/localfinddevider"
-        app:layout_constraintTop_toBottomOf="@id/localloginbutton"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="42dp"
         android:text="비밀번호 찾기"
         android:textSize="16dp"
         android:fontFamily="@font/suit_regular"
@@ -98,41 +86,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/localloginbutton"
-        app:layout_constraintTop_toBottomOf="@id/localloginbutton"
-        app:layout_constraintStart_toStartOf="@id/localloginbutton"
-        android:layout_marginTop="32dp"
-        android:text="|"
-        android:textSize="16dp"
-        android:fontFamily="@font/suit_regular"
-        android:textColor="@color/graylight_wireframe"
-        android:id="@+id/localfinddevider"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/localloginbutton"
-        app:layout_constraintEnd_toStartOf="@id/localjoinbtn"
-        app:layout_constraintTop_toBottomOf="@id/localfinddevider"
-        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/localpwdfindbtn"
+        android:layout_marginTop="24dp"
         android:text="아직 계정이 없으신가요?"
         android:textColor="@color/graydark_text"
         android:textSize="16dp"
         android:fontFamily="@font/suit_regular"
         android:id="@+id/localaccquestion"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/localaccquestion"
-        app:layout_constraintTop_toBottomOf="@id/localfinddevider"
-        app:layout_constraintEnd_toEndOf="@id/localloginbutton"
-        android:text="mymate ID 회원가입하기"
-        android:textColor="@color/black_text"
-        android:fontFamily="@font/suit_regular"
-        android:textSize="16dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginStart="10dp"
-        android:id="@+id/localjoinbtn"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

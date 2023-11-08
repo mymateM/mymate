@@ -7,12 +7,14 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.contentColorFor
+import androidx.core.view.isGone
 import com.example.mymate.databinding.ActivityBilldetailBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.create
 
 class BillDetailActivity: AppCompatActivity() {
     lateinit var binding: ActivityBilldetailBinding
@@ -21,6 +23,7 @@ class BillDetailActivity: AppCompatActivity() {
     var retrofit = RetrofitClientInstance.client
     var endpoint = retrofit?.create(getBill::class.java)
     var detailresponse: billDetailResponse? = billDetailResponse()
+    var endpointdelete = retrofit?.create(deleteBill::class.java)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,13 +36,12 @@ class BillDetailActivity: AppCompatActivity() {
 
         val id = intent.getStringExtra("itemid")
         val category = intent.getStringExtra("category")
-        getdetail(id!!)
 
         var accessToken = ""
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        endpoint!!.getBill("Bearer $accessToken", id).enqueue(object : Callback<billDetailResponse> {
+        endpoint!!.getBill("Bearer $accessToken", id!!).enqueue(object : Callback<billDetailResponse> {
             override fun onResponse(
                 call: Call<billDetailResponse>,
                 response: Response<billDetailResponse>
@@ -50,6 +52,30 @@ class BillDetailActivity: AppCompatActivity() {
                     binding.duedate.text = detailresponse!!.data.bill_payment_date.replace("-", ".")
                     binding.memo.text = detailresponse!!.data.bill_memo
                     binding.billamount.text = digitprocessing(detailresponse!!.data.bill_payment_amount) + "원"
+
+                    val datelist = detailresponse!!.data.register_date.split("-")
+                    val year = (datelist[0].toInt() % 1000 % 100).toString()
+                    val month = datelist[1].toInt().toString()
+                    val today = datelist[2].toInt().toString()
+                    val enrolldate = year + "년 " + month + "월 " + today + "일"
+                    binding.enrolldate.text = enrolldate
+
+                    binding.deletebtn.setOnClickListener {
+                        binding.deletepopup.isGone = false
+                    }
+
+                    binding.deleteconfirm.setOnClickListener {
+                        deleteBills(id)
+                    }
+
+                    binding.cover.setOnClickListener {
+                        binding.deletepopup.isGone = true
+                    }
+
+                    binding.dismiss.setOnClickListener {
+                        binding.deletepopup.isGone = true
+                    }
+
                 } else {
                     binding.category.text = category
                     Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show()
@@ -57,33 +83,17 @@ class BillDetailActivity: AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<billDetailResponse>, t: Throwable) {
-                Toast.makeText(context, "연결 실패", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "연결 실패(고지서 상세)", Toast.LENGTH_SHORT).show()
             }
         })
 
         binding.backbtn.setOnClickListener {
-            val backintent = Intent(this, BillManagerListActivity::class.java)
-            backintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            backintent.putExtra("category", category)
-            startActivity(backintent)
-            overridePendingTransition(0, 0)
-        }
-
-        binding.billimage.setOnClickListener {
-            startActivity(Intent(this, BillImageActivity::class.java))
+            finish()
         }
     }
 
     override fun onBackPressed() {
-        val backintent = Intent(this, BillManagerListActivity::class.java)
-        val category = intent.getStringExtra("category")
-        backintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        backintent.putExtra("category", category)
-        startActivity(backintent)
-        overridePendingTransition(0, 0)
-    }
-
-    private fun getdetail(id: String) {
+        finish()
     }
 
     private fun digitprocessing(digits: String): String {
@@ -113,5 +123,27 @@ class BillDetailActivity: AppCompatActivity() {
         }
 
         return processed
+    }
+
+    private fun deleteBills(id: String) {
+        var accessToken = ""
+        runBlocking {
+            accessToken = userRepo.userAccessReadFlow.first().toString()
+        }
+        var deleteid = id
+        endpointdelete!!.deleteBill("Bearer $accessToken", bill_id_list = id).enqueue(object : Callback<postbillResponse> {
+            override fun onResponse(
+                call: Call<postbillResponse>,
+                response: Response<postbillResponse>
+            ) {
+                if (response.isSuccessful) {
+                    finish()
+                }
+            }
+
+            override fun onFailure(call: Call<postbillResponse>, t: Throwable) {
+            }
+
+        })
     }
 }

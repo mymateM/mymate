@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="9dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="21dp"
+        android:src="@drawable/back"
+        android:scaleType="centerInside"
+        android:id="@+id/backbtn"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/backbtn"
+        app:layout_constraintBottom_toBottomOf="@id/backbtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="FAQ"
+        android:textSize="18dp"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_bold"
+        android:id="@+id/title"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="37dp"
+        android:background="@drawable/box_radius12"
+        android:backgroundTint="@color/graylight_buttonfill"
+        android:id="@+id/firstq"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/firstq"
+        app:layout_constraintBottom_toBottomOf="@id/firstq"
+        app:layout_constraintStart_toStartOf="@id/firstq"
+        android:layout_marginStart="23dp"
+        android:textSize="16dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textColor="@color/black_text"
+        android:text="Q."/>
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="7dp"
+        app:layout_constraintEnd_toEndOf="@id/firstq"
+        app:layout_constraintTop_toTopOf="@id/firstq"
+        app:layout_constraintBottom_toBottomOf="@id/firstq"
+        android:layout_marginEnd="22dp"
+        android:src="@drawable/arrow_down"
+        app:tint="@color/black"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        app:layout_constraintTop_toBottomOf="@id/firstq"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/box_radius12"
+        android:backgroundTint="@color/graylight_buttonfill"
+        android:id="@+id/secondq"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/secondq"
+        app:layout_constraintBottom_toBottomOf="@id/secondq"
+        app:layout_constraintStart_toStartOf="@id/secondq"
+        android:layout_marginStart="23dp"
+        android:textSize="16dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textColor="@color/black_text"
+        android:text="Q."/>
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="7dp"
+        app:layout_constraintEnd_toEndOf="@id/secondq"
+        app:layout_constraintTop_toTopOf="@id/secondq"
+        app:layout_constraintBottom_toBottomOf="@id/secondq"
+        android:layout_marginEnd="22dp"
+        android:src="@drawable/arrow_down"
+        app:tint="@color/black"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        app:layout_constraintTop_toBottomOf="@id/secondq"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/box_radius12"
+        android:backgroundTint="@color/graylight_buttonfill"
+        android:id="@+id/thirdq"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/thirdq"
+        app:layout_constraintBottom_toBottomOf="@id/thirdq"
+        app:layout_constraintStart_toStartOf="@id/thirdq"
+        android:layout_marginStart="23dp"
+        android:textSize="16dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textColor="@color/black_text"
+        android:text="Q."/>
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="7dp"
+        app:layout_constraintEnd_toEndOf="@id/thirdq"
+        app:layout_constraintTop_toTopOf="@id/thirdq"
+        app:layout_constraintBottom_toBottomOf="@id/thirdq"
+        android:layout_marginEnd="22dp"
+        android:src="@drawable/arrow_down"
+        app:tint="@color/black"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        app:layout_constraintTop_toBottomOf="@id/thirdq"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/box_radius12"
+        android:backgroundTint="@color/graylight_buttonfill"
+        android:id="@+id/fourthq"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/fourthq"
+        app:layout_constraintBottom_toBottomOf="@id/fourthq"
+        app:layout_constraintStart_toStartOf="@id/fourthq"
+        android:layout_marginStart="23dp"
+        android:textSize="16dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textColor="@color/black_text"
+        android:text="Q."/>
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="7dp"
+        app:layout_constraintEnd_toEndOf="@id/fourthq"
+        app:layout_constraintTop_toTopOf="@id/fourthq"
+        app:layout_constraintBottom_toBottomOf="@id/fourthq"
+        android:layout_marginEnd="22dp"
+        android:src="@drawable/arrow_down"
+        app:tint="@color/black"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        app:layout_constraintTop_toBottomOf="@id/fourthq"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/box_radius12"
+        android:backgroundTint="@color/graylight_buttonfill"
+        android:id="@+id/fifthq"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/fifthq"
+        app:layout_constraintBottom_toBottomOf="@id/fifthq"
+        app:layout_constraintStart_toStartOf="@id/fifthq"
+        android:layout_marginStart="23dp"
+        android:textSize="16dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textColor="@color/black_text"
+        android:text="Q."/>
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="7dp"
+        app:layout_constraintEnd_toEndOf="@id/fifthq"
+        app:layout_constraintTop_toTopOf="@id/fifthq"
+        app:layout_constraintBottom_toBottomOf="@id/fifthq"
+        android:layout_marginEnd="22dp"
+        android:src="@drawable/arrow_down"
+        app:tint="@color/black"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

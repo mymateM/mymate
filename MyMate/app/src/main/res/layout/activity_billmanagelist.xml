@@ -41,7 +41,7 @@
         android:textSize="14dp"
         android:textColor="@color/graydark_text"
         android:text="삭제"
-        android:id="@+id/plusbtn"/>
+        android:id="@+id/deletebtn"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

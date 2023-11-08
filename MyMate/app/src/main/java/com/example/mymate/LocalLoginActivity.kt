@@ -44,8 +44,8 @@ class LocalLoginActivity: AppCompatActivity() {
         var endpoint = retrofit?.create(localLogin::class.java)
         var deviceendpoint = retrofit?.create(localDevice::class.java)
 
-        binding.localjoinbtn.paintFlags = Paint.UNDERLINE_TEXT_FLAG
-        binding.localjoinbtn.setOnClickListener {
+        binding.localaccquestion.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+        binding.localaccquestion.setOnClickListener {
             startActivity(Intent(context, OnboardingTermsActivity::class.java))
         }
         //TODO: pwd 조건 따라서 inputfilter 정규식 적용

@@ -12,8 +12,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/billitem"
-        android:background="@drawable/box_modalebutton"
-        android:backgroundTint="@color/graylight_buttonfill">
+        android:background="@drawable/button_selectbox">
+
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"

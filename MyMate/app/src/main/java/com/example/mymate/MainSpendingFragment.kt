@@ -12,13 +12,21 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
+import androidx.datastore.dataStore
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.mymate.databinding.MainSpendingFragmentBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import org.checkerframework.common.subtyping.qual.Bottom
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -38,17 +46,22 @@ class MainSpendingFragment : Fragment() {
     lateinit var iteminfo: ArrayList<calendarItem>
     lateinit var calendarVal: CalendarValues
     lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
+    lateinit var userRepo: DataStoreRepoUser
 
     private var year = ""
     private var month = ""
     private var day = ""
     private var selectedDate = LocalDate.now()
-    private var expenseDetail = ArrayList<householdExpenseDetail>()
+    private var expenseDetail = ArrayList<ExpenseList>()
+
+    var retrofit = RetrofitClientInstance.client
+    var endpoint = retrofit?.create(getDailyExpense::class.java)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
         calendarVal = CalendarValues()
+        userRepo = DataStoreRepoUser(context.dataStore)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +74,6 @@ class MainSpendingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = MainSpendingFragmentBinding.inflate(inflater, container, false)
-
         bottomSheetInit()
 
         //modaleimg settings
@@ -97,8 +109,8 @@ class MainSpendingFragment : Fragment() {
             startActivity(Intent(mainActivity, SearchActivity::class.java))
         }
 
-        binding.selectdate.setOnClickListener {
-
+        binding.spendingPlus.setOnClickListener {
+            startActivity(Intent(mainActivity, SpendingAddActivity::class.java))
         }
 
         return binding.root
@@ -164,16 +176,57 @@ class MainSpendingFragment : Fragment() {
         setCalendarView(selectedDate)
     }
 
-    private fun setDailyExpenceView(detail: ArrayList<householdExpenseDetail>, date: LocalDate) {
-        //recyclerview list
-        val adapter = SpendingAdapter(mainActivity, detail)
-        binding.dailySpendings.adapter = adapter
+    private fun setDailyExpenceView(date: LocalDate) {
+        var accessToken = ""
+        var detailResponse: dailyExpenseResponse
+        runBlocking {
+            accessToken = userRepo.userAccessReadFlow.first().toString()
+        }
+        month = if (date.monthValue < 10) {
+            "0${date.monthValue}"
+        } else {
+            date.monthValue.toString()
+        }
+        day = if (date.dayOfMonth < 10) {
+            "0" + date.dayOfMonth
+        } else {
+            date.dayOfMonth.toString()
+        }
+        year = date.year.toString()
+        endpoint!!.getDailyExpense("Bearer $accessToken", year, month, day).enqueue(object : Callback<dailyExpenseResponse> {
+            override fun onResponse(
+                call: Call<dailyExpenseResponse>,
+                response: Response<dailyExpenseResponse>
+            ) {
+                detailResponse = response.body()!!
+                expenseDetail = detailResponse.data.expenses
+                val adapter = SpendingAdapter(mainActivity, expenseDetail)
+                val manager = LinearLayoutManager(mainActivity)
+                binding.dailySpendings.layoutManager = manager
+                binding.dailySpendings.adapter = adapter.apply {
+                    setOnItemClickListener(object : SpendingAdapter.OnItemClickListener {
+                        override fun onItemClick(item: ExpenseList, position: Int) {
+                        }
+                    })
+                }
+                Toast.makeText(context, expenseDetail.isEmpty().toString(), Toast.LENGTH_SHORT)
+            }
+
+            override fun onFailure(call: Call<dailyExpenseResponse>, t: Throwable) {
+                Toast.makeText(mainActivity, "연결 실패", Toast.LENGTH_SHORT).show()
+                val adapter = SpendingAdapter(mainActivity, expenseDetail)
+                val manager = LinearLayoutManager(mainActivity)
+                binding.dailySpendings.layoutManager = manager
+                binding.dailySpendings.adapter = adapter
+                }
+
+        })
+
     }
 
     private fun setCalendarView(date: LocalDate) {
         //calender header
         binding.monthText.text = monthTextFormatting(date)
-        val exactdate = date
         //generate date lists
         iteminfo = arrayListOf<calendarItem>()
         val dayList = dayInMonthArray(date)
@@ -183,7 +236,7 @@ class MainSpendingFragment : Fragment() {
         binding.mainCalendar.layoutManager = manager
         binding.mainCalendar.adapter = adapter.apply {
             setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
-                override fun onItemClick(item: calendarItem, position: Int) {
+                override fun onItemClick(item: calendarItem, position: Int, day: LocalDate?) {
                     when (position % 7) {
                         0 -> binding.spendingDay.text = "일요일"
                         1 -> binding.spendingDay.text = "월요일"
@@ -192,6 +245,9 @@ class MainSpendingFragment : Fragment() {
                         4 -> binding.spendingDay.text = "목요일"
                         5 -> binding.spendingDay.text = "금요일"
                         6 -> binding.spendingDay.text = "토요일"
+                    }
+                    if (day != null) {
+                        setDailyExpenceView(day)
                     }
                 }
             })
@@ -205,7 +261,7 @@ class MainSpendingFragment : Fragment() {
             DayOfWeek.FRIDAY -> binding.spendingDay.text = "금요일"
             DayOfWeek.SATURDAY -> binding.spendingDay.text = "토요일"
         }
-        setDailyExpenceView(expenseDetail, selectedDate)
+        setDailyExpenceView(selectedDate)
     }
 
     private fun monthTextFormatting(date: LocalDate): String {
@@ -275,9 +331,46 @@ class MainSpendingFragment : Fragment() {
         return dayList
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
-        //TODO: refresh data
         super.onResume()
+
+        bottomSheetInit()
+
+        //modaleimg settings
+        binding.cover.isGone = true
+
+        //calendar settings
+        setCalendarView(selectedDate)
+
+        //button events
+        binding.monthLast.setOnClickListener {
+            selectedDate = selectedDate.minusMonths(1)
+            calendarVal.firstDay = -1
+            calendarVal.lastDay = -1
+            setCalendarView(selectedDate)
+        }
+
+        binding.monthNext.setOnClickListener {
+            selectedDate = selectedDate.plusMonths(1)
+            calendarVal.firstDay = -1
+            calendarVal.lastDay = -1
+            setCalendarView(selectedDate)
+        }
+
+        binding.toBills.setOnClickListener {
+            startActivity(Intent(mainActivity, BillManagerActivity::class.java))
+        }
+
+        binding.toAlarm.setOnClickListener {
+            startActivity(Intent(mainActivity, AlarmActivity::class.java))
+        }
+
+        binding.toSearch.setOnClickListener {
+            startActivity(Intent(mainActivity, SearchActivity::class.java))
+        }
+
+        binding.spendingPlus.setOnClickListener {
+            startActivity(Intent(mainActivity, SpendingAddActivity::class.java))
+        }
     }
 }

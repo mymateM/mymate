@@ -5,45 +5,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="20dp"
+        android:id="@+id/listitem"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/listitem">
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="centerInside"
-            android:id="@+id/categoryicon"
-            android:src="@drawable/alarmicon_food"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@android:color/transparent"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/categoryicon"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="10dp"
-            android:fontFamily="@font/suit_semibold"
-            android:textColor="@color/black_text"
-            android:text="동대문엽기떡볶이"
-            android:textSize="16dp"
-            android:id="@+id/marketname"/>
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/listitem"
+        app:layout_constraintBottom_toBottomOf="@id/listitem"
+        android:scaleType="centerInside"
+        android:id="@+id/categoryicon"
+        android:src="@drawable/alarmicon_food"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:fontFamily="@font/montserrat_semibold"
-            android:textSize="16dp"
-            android:textColor="@color/black_text"
-            android:text="20000원"
-            android:id="@+id/billamount"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/categoryicon"
+        app:layout_constraintTop_toTopOf="@id/listitem"
+        app:layout_constraintBottom_toBottomOf="@id/listitem"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textColor="@color/black_text"
+        android:text="동대문엽기떡볶이"
+        android:textSize="16dp"
+        android:id="@+id/marketname"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/listitem"
+        app:layout_constraintBottom_toBottomOf="@id/listitem"
+        app:layout_constraintEnd_toStartOf="@id/billtail"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textSize="16dp"
+        android:textColor="@color/black_text"
+        android:text="20000"
+        android:id="@+id/billamount"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="원"
+        android:fontFamily="@font/suit_semibold"
+        android:textSize="16dp"
+        android:textColor="@color/black_text"
+        app:layout_constraintTop_toTopOf="@id/listitem"
+        app:layout_constraintBottom_toBottomOf="@id/listitem"
+        app:layout_constraintEnd_toEndOf="@id/listitem"
+        android:id="@+id/billtail"/>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="30dp"

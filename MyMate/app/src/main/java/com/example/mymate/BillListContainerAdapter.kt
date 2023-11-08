@@ -2,6 +2,7 @@ package com.example.mymate
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
@@ -26,13 +27,25 @@ class BillListContainerAdapter(val billList: ArrayList<ArrayList<bill>>, val cat
             
             val today = LocalDate.now()
             val formatter = DateTimeFormatter.ofPattern("yyyy")
+            val theyear = list[absoluteAdapterPosition][0].bill_payment_date.split("-")
             val thisyear = item[0].bill_payment_date.split("-")
             val realyear = today.format(formatter)
+
+            binding.strokeheader.isGone = true
+            binding.stroketail.isGone = true
+            binding.yeartext.isGone = true
             
-            if (realyear == thisyear[0]) {
-                binding.yearcomponent.isGone = true
-            } else {
-                binding.yeartext.text = thisyear[0] + "년"
+            if (absoluteAdapterPosition != 0) {
+                if (theyear[0] != realyear && theyear[0] != list[absoluteAdapterPosition - 1][0].bill_payment_date.split("-")[0]) {
+                    binding.strokeheader.isGone = false
+                    binding.stroketail.isGone = false
+                    binding.yeartext.isGone = false
+                    binding.yeartext.text = theyear[0] + "년"
+                } else {
+                    binding.strokeheader.isGone = true
+                    binding.stroketail.isGone = true
+                    binding.yeartext.isGone = true
+                }
             }
 
             val billlist = binding.billList

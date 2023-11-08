@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="9dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="21dp"
+        android:src="@drawable/back"
+        android:scaleType="centerInside"
+        android:id="@+id/backbtn"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/backbtn"
+        app:layout_constraintBottom_toBottomOf="@id/backbtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="설정"
+        android:textSize="18dp"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_bold"
+        android:id="@+id/title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="39dp"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/graydark_text"
+        android:textSize="14dp"
+        android:text="계정"
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/accountsection"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/accountsection"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textSize="16dp"
+        android:textColor="@color/black_text"
+        android:text="초대코드"
+        android:id="@+id/invitecode"/>
+
+    <ImageView
+        android:layout_width="6dp"
+        android:layout_height="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/invitecode"
+        app:layout_constraintBottom_toBottomOf="@id/invitecode"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/arrow_right"
+        app:tint="@color/black"
+        android:scaleType="centerInside"
+        android:id="@+id/toinvitecode"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/invitecode"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="22dp"
+        android:fontFamily="@font/suit_semibold"
+        android:text="비밀번호 변경"
+        android:textColor="@color/black_text"
+        android:textSize="16dp"
+        android:id="@+id/pwdchange"/>
+
+    <ImageView
+        android:layout_width="6dp"
+        android:layout_height="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/pwdchange"
+        app:layout_constraintBottom_toBottomOf="@id/pwdchange"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/arrow_right"
+        app:tint="@color/black"
+        android:scaleType="centerInside"
+        android:id="@+id/topwdchange"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/pwdchange"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="22dp"
+        android:fontFamily="@font/suit_semibold"
+        android:text="인증 및 보안"
+        android:textColor="@color/black_text"
+        android:textSize="16dp"
+        android:id="@+id/security"/>
+
+    <ImageView
+        android:layout_width="6dp"
+        android:layout_height="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/security"
+        app:layout_constraintBottom_toBottomOf="@id/security"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/arrow_right"
+        app:tint="@color/black"
+        android:scaleType="centerInside"
+        android:id="@+id/tosecurity"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/security"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="22dp"
+        android:fontFamily="@font/suit_semibold"
+        android:text="화면 테마"
+        android:textColor="@color/black_text"
+        android:textSize="16dp"
+        android:id="@+id/theme"/>
+
+    <ImageView
+        android:layout_width="6dp"
+        android:layout_height="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/theme"
+        app:layout_constraintBottom_toBottomOf="@id/theme"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/arrow_right"
+        app:tint="@color/black"
+        android:scaleType="centerInside"
+        android:id="@+id/totheme"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        app:layout_constraintTop_toBottomOf="@id/theme"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/icon_defaultrectangle"
+        app:tint="@color/graylight_buttonfill"
+        android:id="@+id/accountsectiondevider"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/accountsectiondevider"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="39dp"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/graydark_text"
+        android:textSize="14dp"
+        android:text="알림"
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/notificationsection"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/notificationsection"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textSize="16dp"
+        android:textColor="@color/black_text"
+        android:text="PUSH 알림"
+        android:id="@+id/pushnoti"/>
+
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/pushnoti"
+        app:layout_constraintBottom_toBottomOf="@id/pushnoti"
+        android:layout_marginEnd="20dp"
+        app:thumbTint="@color/purpleblue_switch"
+        app:trackTint="@color/purpleblue_select"
+        android:id="@+id/pushnotiswitch"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        app:layout_constraintTop_toBottomOf="@id/pushnotiswitch"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/icon_defaultrectangle"
+        app:tint="@color/graylight_buttonfill"
+        android:id="@+id/notificationsectiondevider"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/notificationsectiondevider"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="39dp"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/graydark_text"
+        android:textSize="14dp"
+        android:text="알림"
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/helpsection"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/helpsection"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textSize="16dp"
+        android:textColor="@color/black_text"
+        android:text="FAQ"
+        android:id="@+id/faq"/>
+
+    <ImageView
+        android:layout_width="6dp"
+        android:layout_height="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/faq"
+        app:layout_constraintBottom_toBottomOf="@id/faq"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/arrow_right"
+        app:tint="@color/black"
+        android:scaleType="centerInside"
+        android:id="@+id/tofaq"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/faq"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textSize="16dp"
+        android:textColor="@color/black_text"
+        android:text="로그아웃"
+        android:id="@+id/logout"/>
+
+    <ImageView
+        android:layout_width="6dp"
+        android:layout_height="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/logout"
+        app:layout_constraintBottom_toBottomOf="@id/logout"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/arrow_right"
+        app:tint="@color/black"
+        android:scaleType="centerInside"
+        android:id="@+id/tologout"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/logout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textSize="16dp"
+        android:textColor="@color/black_text"
+        android:text="회원탈퇴"
+        android:id="@+id/signout"/>
+
+    <ImageView
+        android:layout_width="6dp"
+        android:layout_height="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/signout"
+        app:layout_constraintBottom_toBottomOf="@id/signout"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/arrow_right"
+        app:tint="@color/black"
+        android:scaleType="centerInside"
+        android:id="@+id/tosignout"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/signout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textSize="16dp"
+        android:textColor="@color/black_text"
+        android:text="버전정보"
+        android:id="@+id/versioninfotitle"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/versioninfotitle"
+        app:layout_constraintTop_toTopOf="@id/versioninfotitle"
+        app:layout_constraintStart_toEndOf="@id/versioninfotitle"
+        android:layout_marginStart="10dp"
+        android:textSize="14dp"
+        android:textColor="@color/graylight_text"
+        android:text="1.0.0"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/versioninfotitle"
+        app:layout_constraintTop_toTopOf="@id/versioninfotitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="14dp"
+        android:textColor="@color/graylight_text"
+        android:text="최신버전 받으러 가기"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,32 +3,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/getinviteview">
+    android:id="@+id/getinviteview"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="6dp"
+        app:layout_constraintTop_toBottomOf="@id/backbtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/onboardIndi2"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="22dp"
+        android:src="@drawable/graph_graybackground"
+        app:tint="@color/purpleblue_select"
+        android:id="@+id/onboardIndi1"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="6dp"
+        android:id="@+id/onboardIndi2"
+        app:layout_constraintTop_toTopOf="@id/onboardIndi1"
+        app:layout_constraintStart_toEndOf="@id/onboardIndi1"
+        app:layout_constraintBottom_toBottomOf="@id/onboardIndi1"
+        app:layout_constraintEnd_toStartOf="@id/onboardIndi3"
+        android:layout_marginStart="7dp"
+        android:src="@drawable/graph_graybackground"
+        app:tint="@color/purpleblue_select"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="6dp"
+        android:id="@+id/onboardIndi3"
+        app:layout_constraintTop_toTopOf="@id/onboardIndi2"
+        app:layout_constraintStart_toEndOf="@id/onboardIndi2"
+        app:layout_constraintBottom_toBottomOf="@id/onboardIndi2"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="7dp"
+        android:src="@drawable/graph_graybackground"
+        app:tint="@color/purpleblue_select"/>
+
+    <ImageView
+        android:layout_width="9dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:id="@+id/backbtn"
+        android:src="@drawable/back"
+        android:scaleType="fitCenter"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="19.2dp"
-        android:text="이전으로"
-        android:textSize="11.2dp"
-        android:fontFamily="@font/suit_regular"
-        android:textColor="@color/black_text"
-        android:id="@+id/backbtn"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="100dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="142dp"
+        android:layout_marginStart="20dp"
         android:textColor="@color/black_text"
         android:textSize="18dp"
-        android:text="초대 코드를 전달받았나요?"
-        android:fontFamily="@font/suit_semibold"
+        android:text="초대코드를 전달받았나요?"
+        android:fontFamily="@font/happiness_sans_title"
         android:id="@+id/topText"/>
 
     <EditText
@@ -37,13 +73,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topText"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="58dp"
-        android:hint="8자리 초대코드 입력"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="70dp"
+        android:hint="6자리 초대코드"
+        android:textColorHint="@color/graylight_text"
+        android:backgroundTint="@color/graylight_text"
         android:id="@+id/inviteEdit"
         android:maxLines="1"
-        android:maxLength="8"/>
+        android:maxLength="6"/>
 
     <Button
         android:layout_width="match_parent"
@@ -51,12 +89,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/box_modale"
-        android:backgroundTint="@color/graylight_tabtext"
-        android:text="다음으로"
+        android:background="@drawable/box_noradius"
+        android:backgroundTint="@color/graylight_wireframe"
+        android:text="계속하기"
         android:textColor="@color/white"
         android:fontFamily="@font/suit_bold"
-        android:textSize="16dp"
+        android:textSize="20dp"
         android:id="@+id/nextbtn"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

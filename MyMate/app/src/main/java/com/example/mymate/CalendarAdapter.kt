@@ -25,7 +25,7 @@ class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, 
     private var onItemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(item: calendarItem, position: Int)
+        fun onItemClick(item: calendarItem, position: Int, day: LocalDate?)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -62,7 +62,7 @@ class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, 
 
             if (onItemClickListener != null) {
                 binding.calendarItem.setOnClickListener {
-                    onItemClickListener?.onItemClick(info, absoluteAdapterPosition)
+                    onItemClickListener?.onItemClick(info, absoluteAdapterPosition, dayList[absoluteAdapterPosition])
                     calendarVal.setDay(absoluteAdapterPosition)
                     calendarVal.daycheck()
                     /*if (calendarVal.firstDay == absoluteAdapterPosition) {

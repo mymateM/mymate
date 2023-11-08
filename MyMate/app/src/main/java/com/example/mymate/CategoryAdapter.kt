@@ -39,16 +39,15 @@ class CategoryAdapter(val context: Context, val imgList: ArrayList<Drawable>, va
                 binding.categoryitem.setOnClickListener {
                     onItemClickListener?.onItemClick(absoluteAdapterPosition)
                     if (!thetag[absoluteAdapterPosition]) {
-                        icon.setImageDrawable(selectedimg)
-                        background.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_circlebtnselected))
+                        for (i in 0 until thetag.size) {
+                            thetag[i] = false
+                        }
                         thetag[absoluteAdapterPosition] = true
                     } else {
-                        icon.setImageDrawable(img)
-                        background.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_circlebtndefault))
                         thetag[absoluteAdapterPosition] = false
                     }
 
-                    notifyItemChanged(absoluteAdapterPosition)
+                    notifyDataSetChanged()
                 }
             }
         }

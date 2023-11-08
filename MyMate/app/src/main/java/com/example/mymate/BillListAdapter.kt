@@ -50,7 +50,6 @@ class BillListAdapter(val billList: ArrayList<bill>, val category: String): Recy
                     detailIntent.putExtra("itemid", item.bill_id)
                     detailIntent.putExtra("category", category)
                     context.startActivity(detailIntent)
-                    //TODO: StartActivity -> detail info
                 }
             }
         }
