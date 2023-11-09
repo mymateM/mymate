@@ -36,38 +36,38 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
         }
 
         firstday.setOnClickListener {
-            firstday.setImageDrawable(getDrawable(R.drawable.icon_defaultrectangle))
-            fifteenthday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-            endday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-            customday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
+            firstday.setImageDrawable(getDrawable(R.drawable.button_selectedbox))
+            fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+            endday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+            customday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
             binding.nextbtn.isEnabled = true
             hidekeyboard()
         }
 
         fifteenthday.setOnClickListener {
-            firstday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-            fifteenthday.setImageDrawable(getDrawable(R.drawable.icon_defaultrectangle))
-            endday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-            customday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
+            firstday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+            fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectedbox))
+            endday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+            customday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
             binding.nextbtn.isEnabled = true
             hidekeyboard()
         }
 
         endday.setOnClickListener {
-            firstday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-            fifteenthday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-            endday.setImageDrawable(getDrawable(R.drawable.icon_defaultrectangle))
-            customday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
+            firstday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+            fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+            endday.setImageDrawable(getDrawable(R.drawable.button_selectedbox))
+            customday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
             binding.nextbtn.isEnabled = true
             hidekeyboard()
         }
 
         customday.setOnClickListener {
             if (message.isNotEmpty()) {
-                firstday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-                fifteenthday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-                endday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-                customday.setImageDrawable(getDrawable(R.drawable.icon_defaultrectangle))
+                firstday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+                fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+                endday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+                customday.setImageDrawable(getDrawable(R.drawable.button_selectedbox))
                 binding.nextbtn.isEnabled = true
                 binding.dayText.isGone = false
             } else {
@@ -85,10 +85,10 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
                 message = customtext.text.toString()
                 if (message.isNotEmpty()) {
                     if (message == "29" || message == "30" || message == "31") {
-                        firstday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-                        fifteenthday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-                        endday.setImageDrawable(getDrawable(R.drawable.icon_defaultrectangle))
-                        customday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
+                        firstday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+                        fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+                        endday.setImageDrawable(getDrawable(R.drawable.button_selectedbox))
+                        customday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
                         Toast.makeText(applicationContext, "설정하신 날짜가 29일, 30일, 31일 중 하나일 경우 자동으로 말일로 변경됩니다.", Toast.LENGTH_SHORT).show()
                         binding.nextbtn.isEnabled = true
                         binding.dayText.isGone = false
@@ -97,18 +97,18 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
                         Toast.makeText(applicationContext, "유효한 날짜를 입력해주세요.", Toast.LENGTH_SHORT).show()
                         customtext.text.clear()
                     } else {
-                        firstday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-                        fifteenthday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-                        endday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-                        customday.setImageDrawable(getDrawable(R.drawable.icon_defaultrectangle))
+                        firstday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+                        fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+                        endday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+                        customday.setImageDrawable(getDrawable(R.drawable.button_selectedbox))
                         binding.nextbtn.isEnabled = true
                         binding.dayText.isGone = false
                     }
                 } else {
-                    firstday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-                    fifteenthday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-                    endday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
-                    customday.setImageDrawable(getDrawable(R.drawable.box_modalelist))
+                    firstday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+                    fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+                    endday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+                    customday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
                     binding.nextbtn.isEnabled = false
                     binding.dayText.isGone = true
                 }
@@ -119,9 +119,6 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
             startActivity(Intent(this, OnboardingSettlementbudgetActivity::class.java))
         }
 
-        binding.contbtn.setOnClickListener {
-            startActivity(Intent(this, OnboardingSettlementbudgetActivity::class.java))
-        }
     }
 
     private fun hidekeyboard() {

@@ -2,8 +2,12 @@ package com.example.mymate
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.TypefaceSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import androidx.datastore.dataStore
 import androidx.datastore.preferences.preferencesDataStore
@@ -27,6 +32,8 @@ import org.checkerframework.common.subtyping.qual.Bottom
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.create
+import java.lang.reflect.Type
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -47,6 +54,8 @@ class MainSpendingFragment : Fragment() {
     lateinit var calendarVal: CalendarValues
     lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
     lateinit var userRepo: DataStoreRepoUser
+    lateinit var montBoldTypeface: Typeface
+    lateinit var suitBoldTypeface: Typeface
 
     private var year = ""
     private var month = ""
@@ -57,11 +66,14 @@ class MainSpendingFragment : Fragment() {
     var retrofit = RetrofitClientInstance.client
     var endpoint = retrofit?.create(getDailyExpense::class.java)
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
         calendarVal = CalendarValues()
         userRepo = DataStoreRepoUser(context.dataStore)
+        montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
+        suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -176,6 +188,7 @@ class MainSpendingFragment : Fragment() {
         setCalendarView(selectedDate)
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun setDailyExpenceView(date: LocalDate) {
         var accessToken = ""
         var detailResponse: dailyExpenseResponse
@@ -192,6 +205,21 @@ class MainSpendingFragment : Fragment() {
         } else {
             date.dayOfMonth.toString()
         }
+        val todaynoti = SpannableStringBuilder(date.monthValue.toString() + "월 " + date.dayOfMonth.toString() + "일")
+        if (date.monthValue < 10 && date.dayOfMonth < 10) {
+            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), todaynoti.length - 2, todaynoti.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        } else if (date.monthValue < 10) {
+            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), todaynoti.length - 3, todaynoti.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        } else if (date.dayOfMonth < 10) {
+            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), todaynoti.length - 2, todaynoti.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        } else {
+            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), todaynoti.length - 3, todaynoti.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        binding.today.text = todaynoti
         year = date.year.toString()
         endpoint!!.getDailyExpense("Bearer $accessToken", year, month, day).enqueue(object : Callback<dailyExpenseResponse> {
             override fun onResponse(
@@ -209,7 +237,6 @@ class MainSpendingFragment : Fragment() {
                         }
                     })
                 }
-                Toast.makeText(context, expenseDetail.isEmpty().toString(), Toast.LENGTH_SHORT)
             }
 
             override fun onFailure(call: Call<dailyExpenseResponse>, t: Throwable) {
@@ -224,44 +251,72 @@ class MainSpendingFragment : Fragment() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun setCalendarView(date: LocalDate) {
         //calender header
-        binding.monthText.text = monthTextFormatting(date)
+        val monthText = SpannableStringBuilder(monthTextFormatting(date))
+        monthText.setSpan(TypefaceSpan(montBoldTypeface), 0, monthText.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.monthText.text = monthText
         //generate date lists
         iteminfo = arrayListOf<calendarItem>()
         val dayList = dayInMonthArray(date)
-        //recyclerview setting
-        val adapter = CalendarAdapter(mainActivity, dayList, iteminfo, calendarVal, date)
-        var manager: RecyclerView.LayoutManager = GridLayoutManager(mainActivity, 7)
-        binding.mainCalendar.layoutManager = manager
-        binding.mainCalendar.adapter = adapter.apply {
-            setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
-                override fun onItemClick(item: calendarItem, position: Int, day: LocalDate?) {
-                    when (position % 7) {
-                        0 -> binding.spendingDay.text = "일요일"
-                        1 -> binding.spendingDay.text = "월요일"
-                        2 -> binding.spendingDay.text = "화요일"
-                        3 -> binding.spendingDay.text = "수요일"
-                        4 -> binding.spendingDay.text = "목요일"
-                        5 -> binding.spendingDay.text = "금요일"
-                        6 -> binding.spendingDay.text = "토요일"
+        //item info comms
+        var calendarendpoint = retrofit?.create(getCalendar::class.java)
+        var accessToken = ""
+        runBlocking {
+            accessToken = userRepo.userAccessReadFlow.first().toString()
+        }
+        calendarendpoint!!.getCalendar("Bearer $accessToken", date.year.toString(), date.monthValue.toString(), date.dayOfMonth.toString()).enqueue(object : Callback<calendarResponse> {
+            override fun onResponse(
+                call: Call<calendarResponse>,
+                response: Response<calendarResponse>
+            ) {
+                if (response.isSuccessful) {
+                    var spendList = response.body()!!.data
+                    val adapter = CalendarAdapter(mainActivity, dayList, iteminfo, calendarVal, spendList)
+                    var manager: RecyclerView.LayoutManager = GridLayoutManager(mainActivity, 7)
+                    binding.mainCalendar.layoutManager = manager
+                    binding.mainCalendar.adapter = adapter.apply {
+                        setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
+                            @RequiresApi(Build.VERSION_CODES.P)
+                            override fun onItemClick(item: calendarItem, position: Int, day: LocalDate?) {
+                                when (position % 7) {
+                                    0 -> binding.spendingDay.text = "일요일"
+                                    1 -> binding.spendingDay.text = "월요일"
+                                    2 -> binding.spendingDay.text = "화요일"
+                                    3 -> binding.spendingDay.text = "수요일"
+                                    4 -> binding.spendingDay.text = "목요일"
+                                    5 -> binding.spendingDay.text = "금요일"
+                                    6 -> binding.spendingDay.text = "토요일"
+                                }
+                                if (day != null) {
+                                    setDailyExpenceView(day)
+                                }
+                            }
+                        })
                     }
-                    if (day != null) {
-                        setDailyExpenceView(day)
+                    when (selectedDate.dayOfWeek) {
+                        DayOfWeek.SUNDAY -> binding.spendingDay.text = "일요일"
+                        DayOfWeek.MONDAY -> binding.spendingDay.text = "월요일"
+                        DayOfWeek.TUESDAY -> binding.spendingDay.text = "화요일"
+                        DayOfWeek.WEDNESDAY -> binding.spendingDay.text = "수요일"
+                        DayOfWeek.THURSDAY -> binding.spendingDay.text = "목요일"
+                        DayOfWeek.FRIDAY -> binding.spendingDay.text = "금요일"
+                        DayOfWeek.SATURDAY -> binding.spendingDay.text = "토요일"
                     }
+                    setDailyExpenceView(selectedDate)
+                } else {
+                    Toast.makeText(context, "연결 오류(캘린더)", Toast.LENGTH_SHORT).show()
                 }
-            })
-        }
-        when (selectedDate.dayOfWeek) {
-            DayOfWeek.SUNDAY -> binding.spendingDay.text = "일요일"
-            DayOfWeek.MONDAY -> binding.spendingDay.text = "월요일"
-            DayOfWeek.TUESDAY -> binding.spendingDay.text = "화요일"
-            DayOfWeek.WEDNESDAY -> binding.spendingDay.text = "수요일"
-            DayOfWeek.THURSDAY -> binding.spendingDay.text = "목요일"
-            DayOfWeek.FRIDAY -> binding.spendingDay.text = "금요일"
-            DayOfWeek.SATURDAY -> binding.spendingDay.text = "토요일"
-        }
-        setDailyExpenceView(selectedDate)
+            }
+
+            override fun onFailure(call: Call<calendarResponse>, t: Throwable) {
+                Toast.makeText(context, "연결 실패(캘린더)", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+        //recyclerview setting
+
     }
 
     private fun monthTextFormatting(date: LocalDate): String {

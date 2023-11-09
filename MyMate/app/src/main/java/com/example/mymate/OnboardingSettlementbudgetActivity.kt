@@ -66,10 +66,6 @@ class OnboardingSettlementbudgetActivity: AppCompatActivity() {
 
         select(selection, budgetText)
 
-        binding.settlepersistent.modaledismiss.setOnClickListener {
-            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
-
         binding.settlementbudgetview.setOnClickListener {
             behavior.state = BottomSheetBehavior.STATE_COLLAPSED
             hidekeyboard()
@@ -137,41 +133,41 @@ class OnboardingSettlementbudgetActivity: AppCompatActivity() {
 
     private fun select(selection: String, budgetText: String) {
         if (selection == "allow5") {
-            binding.settlepersistent.allownone.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow5.background = ContextCompat.getDrawable(this, R.drawable.box_modalebutton)
-            binding.settlepersistent.allow10.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow15.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow20.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
+            binding.settlepersistent.allownone.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow5.background = ContextCompat.getDrawable(this, R.drawable.button_selectedboxradi32)
+            binding.settlepersistent.allow10.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow15.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow20.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
         } else if (selection == "allow10") {
-            binding.settlepersistent.allownone.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow5.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow10.background = ContextCompat.getDrawable(this, R.drawable.box_modalebutton)
-            binding.settlepersistent.allow15.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow20.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
+            binding.settlepersistent.allownone.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow5.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow10.background = ContextCompat.getDrawable(this, R.drawable.button_selectedboxradi32)
+            binding.settlepersistent.allow15.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow20.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
         } else if (selection == "allow15") {
-            binding.settlepersistent.allownone.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow5.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow10.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow15.background = ContextCompat.getDrawable(this, R.drawable.box_modalebutton)
-            binding.settlepersistent.allow20.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
+            binding.settlepersistent.allownone.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow5.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow10.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow15.background = ContextCompat.getDrawable(this, R.drawable.button_selectedboxradi32)
+            binding.settlepersistent.allow20.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
         } else if (selection == "allow20") {
-            binding.settlepersistent.allownone.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow5.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow10.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow15.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow20.background = ContextCompat.getDrawable(this, R.drawable.box_modalebutton)
+            binding.settlepersistent.allownone.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow5.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow10.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow15.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow20.background = ContextCompat.getDrawable(this, R.drawable.button_selectedboxradi32)
         } else if (selection == "none") {
-            binding.settlepersistent.allownone.background = ContextCompat.getDrawable(this, R.drawable.box_modalebutton)
-            binding.settlepersistent.allow5.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow10.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow15.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow20.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
+            binding.settlepersistent.allownone.background = ContextCompat.getDrawable(this, R.drawable.button_selectedboxradi32)
+            binding.settlepersistent.allow5.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow10.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow15.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow20.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
         } else {
-            binding.settlepersistent.allownone.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow5.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow10.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow15.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
-            binding.settlepersistent.allow20.background = ContextCompat.getDrawable(this, R.drawable.box_modalelist)
+            binding.settlepersistent.allownone.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow5.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow10.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow15.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
+            binding.settlepersistent.allow20.background = ContextCompat.getDrawable(this, R.drawable.button_selectboxradi32)
         }
 
         binding.settleallowbudget.text = budgetText

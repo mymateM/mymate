@@ -7,9 +7,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isGone
 import com.airbnb.lottie.utils.Utils
@@ -30,39 +32,56 @@ class OnboardingProfileActivity: AppCompatActivity() {
         val nameEdit = binding.nameEdit
         val putDatabutton = binding.nextbtn
         var message = ""
+        val imgList = arrayListOf<ImageView>()
+        imgList.add(bottomsheet.gridimg1)
+        imgList.add(bottomsheet.gridimg2)
+        imgList.add(bottomsheet.gridimg3)
+        imgList.add(bottomsheet.gridimg4)
+        imgList.add(bottomsheet.gridimg5)
+        imgList.add(bottomsheet.gridimg6)
+        imgList.add(bottomsheet.gridimg7)
+        imgList.add(bottomsheet.gridimg8)
 
         bottomSheetInit()
 
         bottomsheet.gridimg1.setOnClickListener {
-            profileimg.setImageDrawable(bottomsheet.gridimg1.drawable)
+            profileimg.setImageDrawable(bottomsheet.gridmain1.drawable)
+            imgSelection(bottomsheet.gridimg1, imgList)
         }
 
         bottomsheet.gridimg2.setOnClickListener {
-            profileimg.setImageDrawable(bottomsheet.gridimg2.drawable)
+            profileimg.setImageDrawable(bottomsheet.gridmain2.drawable)
+            imgSelection(bottomsheet.gridimg2, imgList)
         }
 
         bottomsheet.gridimg3.setOnClickListener {
-            profileimg.setImageDrawable(bottomsheet.gridimg3.drawable)
+            profileimg.setImageDrawable(bottomsheet.gridmain3.drawable)
+            imgSelection(bottomsheet.gridimg3, imgList)
         }
 
         bottomsheet.gridimg4.setOnClickListener {
-            profileimg.setImageDrawable(bottomsheet.gridimg4.drawable)
+            profileimg.setImageDrawable(bottomsheet.gridmain4.drawable)
+            imgSelection(bottomsheet.gridimg4, imgList)
         }
 
         bottomsheet.gridimg5.setOnClickListener {
-            profileimg.setImageDrawable(bottomsheet.gridimg5.drawable)
+            profileimg.setImageDrawable(bottomsheet.gridmain5.drawable)
+            imgSelection(bottomsheet.gridimg5, imgList)
         }
 
         bottomsheet.gridimg6.setOnClickListener {
-            profileimg.setImageDrawable(bottomsheet.gridimg6.drawable)
+            profileimg.setImageDrawable(bottomsheet.gridmain6.drawable)
+            imgSelection(bottomsheet.gridimg6, imgList)
         }
 
         bottomsheet.gridimg7.setOnClickListener {
-            profileimg.setImageDrawable(bottomsheet.gridimg7.drawable)
+            profileimg.setImageDrawable(bottomsheet.gridmain7.drawable)
+            imgSelection(bottomsheet.gridimg7, imgList)
         }
 
         bottomsheet.gridimg8.setOnClickListener {
-            profileimg.setImageDrawable(bottomsheet.gridimg8.drawable)
+            profileimg.setImageDrawable(bottomsheet.gridmain8.drawable)
+            imgSelection(bottomsheet.gridimg8, imgList)
         }
 
         tonext.setOnClickListener {
@@ -75,12 +94,7 @@ class OnboardingProfileActivity: AppCompatActivity() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 message = nameEdit.text.toString()
-                if (message.isNotEmpty()) {
-                    putDatabutton.isEnabled = true
-                    //TODO: 버튼 이미지 바꾸기
-                } else {
-                    putDatabutton.isEnabled = false
-                }
+                putDatabutton.isEnabled = message.isNotEmpty()
             }
 
             override fun afterTextChanged(p0: Editable?) { }
@@ -89,6 +103,16 @@ class OnboardingProfileActivity: AppCompatActivity() {
         putDatabutton.setOnClickListener {
             //TODO: 여기서 값을 서버로 올리거나 클래스에 저장함
             startActivity(Intent(this, OnboardingAccountActivity::class.java))
+        }
+    }
+
+    private fun imgSelection(profilepic: ImageView, picList: ArrayList<ImageView>) {
+        for (i in 0 until picList.size) {
+            if (profilepic == picList[i]) {
+                profilepic.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.button_selectedprofile))
+            } else {
+                profilepic.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.box_radius20))
+            }
         }
     }
 
@@ -121,12 +145,6 @@ class OnboardingProfileActivity: AppCompatActivity() {
         binding.profileEdit.setOnClickListener {
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             binding.profileEdit.isGone = true
-            hidekeyboard()
-        }
-
-        binding.profilepersistent.modaledismiss.setOnClickListener {
-            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            binding.profileEdit.isGone = false
             hidekeyboard()
         }
 

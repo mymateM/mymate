@@ -18,11 +18,8 @@ import java.time.YearMonth
 
 class CalendarModaleAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, val iteminfo: ArrayList<calendarItem>, val calendarVal: CalendarValues): RecyclerView.Adapter<CalendarModaleAdapter.DayViewHolder>() {
     private var onItemClickListener: OnItemClickListener? = null
-    @RequiresApi(Build.VERSION_CODES.O)
     private val yearMonth = YearMonth.from(dayList[8])
-    @RequiresApi(Build.VERSION_CODES.O)
     private val dayOfWeek = dayList[8]!!.dayOfWeek!!.value
-    @RequiresApi(Build.VERSION_CODES.O)
     private val length = dayList[8]!!.lengthOfMonth()
 
     interface OnItemClickListener {
@@ -32,7 +29,6 @@ class CalendarModaleAdapter(val context: Context, val dayList: ArrayList<LocalDa
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.onItemClickListener = listener
     }
-    @RequiresApi(Build.VERSION_CODES.O)
     inner class DayViewHolder(val binding: ListitemCalendarBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: String, color: String, info: calendarItem) {
             val day = binding.dayText
@@ -97,7 +93,6 @@ class CalendarModaleAdapter(val context: Context, val dayList: ArrayList<LocalDa
             }
         }
     }
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewHolder {
         val binding = ListitemCalendarBinding.inflate(LayoutInflater.from(context), parent, false)
         return DayViewHolder(binding)
@@ -107,7 +102,6 @@ class CalendarModaleAdapter(val context: Context, val dayList: ArrayList<LocalDa
         return dayList.size
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
         var day = dayList[position]
         var daytext = ""

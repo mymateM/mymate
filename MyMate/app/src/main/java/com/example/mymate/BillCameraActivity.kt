@@ -67,6 +67,7 @@ class BillCameraActivity: AppCompatActivity() {
 
         binding.guideoverlay.setOnClickListener {
             binding.guideoverlay.isGone = true
+
         }
 
         permissionCheck()

@@ -320,7 +320,7 @@ class SearchActivity: AppCompatActivity() {
             "쇼핑" -> categorytosend = "SHOPPING"
             "교통" -> categorytosend = "TRANSPORT"
             "의료" -> categorytosend = "MEDICAL"
-            "생활" -> categorytosend = "HOUSEITEM"
+            "생활" -> categorytosend = "HOUSE_ITEM"
             "교육" -> categorytosend = "EDUCATION"
             "기타" -> categorytosend = "ETC"
             "고지서" -> categorytosend = "BILLS"

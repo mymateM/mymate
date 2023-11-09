@@ -19,6 +19,7 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 import java.time.LocalDate
 
 class BillDetailOCRActivity: AppCompatActivity() {
@@ -32,6 +33,9 @@ class BillDetailOCRActivity: AppCompatActivity() {
     private var today = 1
 
     var category = ""
+    var savedPath = ""
+
+    //TODO: 이미지 서버가 완성되면, savedPath를 삭제하는 대신 이미지를 서버로 전송할 것
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +49,7 @@ class BillDetailOCRActivity: AppCompatActivity() {
         category = intent.getStringExtra("category").toString()
         val day = intent.getStringExtra("itemday")
         val amount = intent.getStringExtra("itemamount")
-        val savedPath = intent.getStringExtra("savedUri")
+        savedPath = intent.getStringExtra("savedUri").toString()
 
         if (!day.isNullOrBlank()) {
             year = day.substring(0 until 4).toInt()
@@ -98,10 +102,16 @@ class BillDetailOCRActivity: AppCompatActivity() {
 
         binding.scanbtn.setOnClickListener {
             startActivity(Intent(this, BillCameraActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+            if (File(savedPath!!.toUri().path!!).exists()) {
+                File(savedPath.toUri().path!!).delete()
+            }
         }
         binding.backbtn.setOnClickListener {
             startActivity(toManager)
             overridePendingTransition(android.R.anim.fade_in, R.anim.vertical_exit)
+            if (File(savedPath!!.toUri().path!!).exists()) {
+                File(savedPath.toUri().path!!).delete()
+            }
         }
 
         val year = (LocalDate.now().year % 1000 % 100).toString()
@@ -138,6 +148,10 @@ class BillDetailOCRActivity: AppCompatActivity() {
         binding.cover.setOnClickListener {
             behavior.state = BottomSheetBehavior.STATE_COLLAPSED
             binding.cover.isGone = true
+            binding.closeoverlay.isGone = true
+            binding.scanbtn.isGone = true
+            binding.ocrimg.isGone = true
+            binding.scandesc.isGone = true
         }
     }
 
@@ -148,6 +162,9 @@ class BillDetailOCRActivity: AppCompatActivity() {
         backintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(backintent)
         overridePendingTransition(android.R.anim.fade_in, R.anim.vertical_exit)
+        if (File(savedPath!!.toUri().path!!).exists()) {
+            File(savedPath.toUri().path!!).delete()
+        }
     }
 
     private fun digitprocessing(digits: String): String {
@@ -234,6 +251,9 @@ class BillDetailOCRActivity: AppCompatActivity() {
                     backintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(backintent)
                     overridePendingTransition(android.R.anim.fade_in, R.anim.vertical_exit)
+                    if (File(savedPath!!.toUri().path!!).exists()) {
+                        File(savedPath.toUri().path!!).delete()
+                    }
                 }
 
                 override fun onFailure(call: Call<postbillResponse>, t: Throwable) {

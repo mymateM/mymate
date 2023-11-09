@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter
 import kotlin.math.abs
 import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Local
 
-class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, val iteminfo: ArrayList<calendarItem>, val calendarVal: CalendarValues, val date: LocalDate): RecyclerView.Adapter<CalendarAdapter.DayViewHolder>() {
+class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, val iteminfo: ArrayList<calendarItem>, val calendarVal: CalendarValues, val spendList: calendarList): RecyclerView.Adapter<CalendarAdapter.DayViewHolder>() {
 
     private var onItemClickListener: OnItemClickListener? = null
 
@@ -33,7 +33,7 @@ class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, 
     }
 
     inner class DayViewHolder(val binding: ListitemCalendarBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: String, color: String, info: calendarItem) {
+        fun bind(item: String, color: String, info: calendarItem, spendList: calendarList) {
             val day = binding.dayText
             val spend = binding.billText
             day.text = item
@@ -45,6 +45,13 @@ class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, 
                 spend.setTextColor(Color.TRANSPARENT)
                 binding.background.isGone = true
             } else {
+                for (i in 0 until spendList.household_daily_expenses.size) {
+                    if (item == spendList.household_daily_expenses[i].expense_date) {
+                        spend.isInvisible = false
+                        val spendtext = "-" + digitprocessing(spendList.household_daily_expenses[i].daily_total_expense.toFloat().toInt().toString())
+                        spend.text = spendtext
+                    }
+                }
                 if(info.startorEnd) {
                     binding.background.isGone = false
                     binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.white))
@@ -168,6 +175,35 @@ class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, 
             iteminfo[position].startorEnd = false
         }*/
 
-        holder.bind(daytext, colortext, iteminfo[position])
+        holder.bind(daytext, colortext, iteminfo[position], spendList)
+    }
+
+    private fun digitprocessing(digits: String): String {
+        var textlength = digits.length
+        var processed = ""
+        while (0 < textlength) {
+            var substring1 = ""
+            if (textlength == 3) {
+                if (processed == "") {
+                    processed = digits.substring(0 until 3)
+                } else {
+                    processed = digits.substring(0 until 3) + "," + processed
+                }
+            } else if (textlength > 3) {
+                substring1 = digits.substring(textlength - 3 until textlength)
+                if (processed == "") {
+                    processed = substring1
+                } else {
+                    processed = "$substring1,$processed"
+                }
+            } else {
+                substring1 = digits.substring(0 until textlength)
+                processed = "$substring1,$processed"
+            }
+
+            textlength -= 3
+        }
+
+        return processed
     }
 }

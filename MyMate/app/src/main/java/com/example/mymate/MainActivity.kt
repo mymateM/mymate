@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
-        val tabicons = listOf(ContextCompat.getDrawable(this, R.drawable.icon_hometab), ContextCompat.getDrawable(this, R.drawable.icon_calendartab), ContextCompat.getDrawable(this, R.drawable.icon_reporttab), ContextCompat.getDrawable(this, R.drawable.icon_mypagetab))
+        val tabicons = listOf(ContextCompat.getDrawable(this, R.drawable.home_default), ContextCompat.getDrawable(this, R.drawable.ledger_default), ContextCompat.getDrawable(this, R.drawable.mypage_default), ContextCompat.getDrawable(this, R.drawable.report_default))
         val tabtext = listOf("홈", "가계부", "리포트", "마이페이지")
 
         //TODO: tabicon color tint failed, try a solid change
@@ -135,11 +135,11 @@ class MainActivity : AppCompatActivity() {
         binding.mainbottomtab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.position?.let {binding.mainpager.setCurrentItem(it, false)}
-                tab?.icon?.setTint(getColor(R.color.purplevivid_graph)) //선택된 아이콘 컬러 변경
+                tab?.icon?.setTint(getColor(R.color.purplemute_background)) //선택된 아이콘 컬러 변경
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                tab?.icon?.setTint(getColor(R.color.graymute_tab)) //선택되지 않은 아이콘 컬러 변경
+                tab?.icon?.setTint(getColor(R.color.gray_tab)) //선택되지 않은 아이콘 컬러 변경
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {

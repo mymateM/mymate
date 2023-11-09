@@ -42,6 +42,7 @@
                 app:layout_constraintTop_toBottomOf="@id/profilepic"
                 app:layout_constraintStart_toStartOf="@id/profilepic"
                 app:layout_constraintEnd_toEndOf="@id/profilepic"
+                android:layout_marginTop="16dp"
                 android:textSize="20dp"
                 android:fontFamily="@font/suit_bold"
                 android:textColor="@color/black_text"
@@ -96,7 +97,7 @@
                 android:layout_marginTop="7dp"
                 android:fontFamily="@font/suit_medium"
                 android:textColor="@color/graydark_text"
-                android:text="해피하우스 예산"
+                android:text="전체 예산"
                 android:textSize="14dp"
                 android:id="@+id/budgetdesc"/>
 
@@ -158,6 +159,8 @@
                 app:layout_constraintTop_toTopOf="@id/budgetamount"
                 app:layout_constraintBottom_toBottomOf="@id/budgetdesc"
                 app:layout_constraintEnd_toStartOf="@id/deviderend"
+                android:src="@drawable/box_noradius"
+                app:tint="@color/graylight_strokelight"
                 android:id="@+id/deviderstart"/>
 
             <ImageView
@@ -167,6 +170,8 @@
                 app:layout_constraintTop_toTopOf="@id/budgetamount"
                 app:layout_constraintBottom_toBottomOf="@id/budgetdesc"
                 app:layout_constraintStart_toEndOf="@id/deviderstart"
+                android:src="@drawable/box_noradius"
+                app:tint="@color/graylight_strokelight"
                 android:id="@+id/deviderend"/>
 
             <ImageView
@@ -338,6 +343,8 @@
                 app:layout_constraintTop_toBottomOf="@id/settledaycontainer"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="38dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"

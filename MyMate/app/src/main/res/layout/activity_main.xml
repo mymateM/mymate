@@ -26,7 +26,7 @@
         app:tabPaddingTop="28dp"
         app:tabPaddingBottom="19dp"
         app:tabTextColor="@color/graymute_tab"
-        app:tabSelectedTextColor="@color/purplevivid_graph"
+        app:tabSelectedTextColor="@color/purplemute_background"
         app:tabTextAppearance="@style/tabview_maintextstyle"
         app:tabIndicatorColor="@android:color/transparent"
         android:elevation="20dp"

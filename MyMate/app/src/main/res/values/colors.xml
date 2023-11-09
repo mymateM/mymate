@@ -56,4 +56,14 @@
     <color name="purpleblue_selectlight">#F5F4FF</color>
     <color name="mypage_stroke">#DDDDDD</color>
     <color name="purpleblue_switch">#5856D6</color>
+    <color name="gray_tab">#D0CFD4</color>
+    <color name="graylight_strokelight">#E9E9E9</color>
+    <color name="graylight_modaletop">#EFEFEF</color>
+    <color name="pie_blue">#80ADF0</color>
+    <color name="pie_green">#5CC7BB</color>
+    <color name="pie_pink">#EA9BE5</color>
+    <color name="pie_purple">#A19CF7</color>
+    <color name="pie_yellow">#FECD43</color>
+    <color name="pie_red">#EE8686</color>
+    <color name="pie_gray">#848484</color>
 </resources>

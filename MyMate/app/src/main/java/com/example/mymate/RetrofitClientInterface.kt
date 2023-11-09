@@ -174,6 +174,34 @@ data class expenseSingle (
     var expense_register_date: String = ""
 )
 
+data class calendarList (
+    var household_daily_expenses: ArrayList<calendarListitem> = ArrayList()
+)
+
+data class calendarListitem (
+    var expense_date: String = "",
+    var daily_total_expense: String = ""
+)
+
+data class myPageData (
+    var user_image_url: String = "",
+    var user_nickname: String = "",
+    var user_settlement_ratio: String = "",
+    var household_settlement_date: String = "",
+    var household_budget_amount: String = ""
+)
+
+data class houseRatioList (
+    var household_members: ArrayList<houseMembers> = ArrayList()
+)
+
+data class houseMembers (
+    var user_id: String = "",
+    var user_profile_image: String = "",
+    var user_nickname: String = "",
+    var user_settlement_ratio: String = ""
+)
+
 // data class for responses
 
 data class defaultResponse (
@@ -267,6 +295,24 @@ data class searchResponse (
     var data: dailyExpenseDetail = dailyExpenseDetail()
 )
 
+data class calendarResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: calendarList = calendarList()
+)
+
+data class myPageApiResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: myPageData = myPageData()
+)
+
+data class houseRatioResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: houseRatioList = houseRatioList()
+)
+
 //login + token interface
 
 interface localLogin {
@@ -325,6 +371,11 @@ interface getExpenseNoti {
 }
 
 //Calendar Api
+
+interface getCalendar {
+    @GET("api/v1/expense/daily-total/month/{year}/{month}/{day}")
+    fun getCalendar(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("day") day: String) : Call<calendarResponse>
+}
 
 //Bills Api
 
@@ -391,3 +442,15 @@ interface searchExpense {
 }
 
 //Reports API
+
+//Mypage API
+
+interface myPageApi {
+    @GET("api/v1/mypage")
+    fun myPageApi(@Header("Authorization") Authorization: String): Call<myPageApiResponse>
+}
+
+interface getHouseRatio {
+    @GET("api/v1/members/settlement-ratio")
+    fun getHouseRatio(@Header("Authorization") Authorization: String): Call<houseRatioResponse>
+}

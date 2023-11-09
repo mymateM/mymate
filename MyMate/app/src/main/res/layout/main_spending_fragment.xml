@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/monthText"
                 app:layout_constraintBottom_toBottomOf="@id/monthText"
+                android:layout_marginBottom="1dp"
                 android:id="@+id/yeartext"
                 android:text="2023"
                 android:fontFamily="@font/montserrat_semibold"
@@ -241,10 +242,23 @@
                 android:layout_marginTop="0dp"
                 android:text="목요일"
                 android:background="@android:color/transparent"
-                android:fontFamily="@font/suit_semibold"
-                android:textSize="15dp"
+                android:fontFamily="@font/suit_bold"
+                android:textSize="22dp"
                 android:textColor="@color/black_text"
                 android:id="@+id/spendingDay"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/spendingDay"
+                app:layout_constraintBottom_toBottomOf="@id/spendingDay"
+                android:layout_marginBottom="-1dp"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/suit_bold"
+                android:textSize="16dp"
+                android:textColor="@color/black_text"
+                android:text="0월 00일"
+                android:id="@+id/today"/>
 
             <ImageView
                 android:layout_width="84dp"

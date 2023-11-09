@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
+import androidx.core.view.isGone
 import com.example.mymate.databinding.ActivityBillocrBinding
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -46,6 +47,9 @@ class BillOCRActivity: AppCompatActivity() {
         binding.previewImage.setImageURI(savedPath?.toUri())
         binding.daytemp.setImageURI(moneyUri)
         binding.moneytemp.setImageURI(dayUri)
+
+        binding.daytemp.isGone = true
+        binding.moneytemp.isGone = true
 
         val passmoney = InputImage.fromFilePath(this, moneyUri)
         val passday = InputImage.fromFilePath(this, dayUri)
@@ -134,9 +138,6 @@ class BillOCRActivity: AppCompatActivity() {
             }
             if (File(dayPath.toUri().path!!).exists()) {
                 File(dayPath.toUri().path!!).delete()
-            }
-            if (File(savedPath!!.toUri().path!!).exists()) {
-                File(savedPath!!.toUri().path!!).delete()
             }
             startActivity(listintent)
         }

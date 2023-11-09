@@ -26,7 +26,7 @@
         android:text="정산 비율 변경"
         android:textSize="18dp"
         android:textColor="@color/black_text"
-        android:fontFamily="@font/suit_bold"
+        android:fontFamily="@font/suit_extrabold"
         android:id="@+id/title"/>
 
     <TextView
@@ -40,5 +40,7 @@
         android:fontFamily="@font/suit_medium"
         android:textColor="@color/purpleblue_select"
         android:text="완료"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,8 +26,9 @@
         android:text="프로필 수정"
         android:textSize="18dp"
         android:textColor="@color/black_text"
-        android:fontFamily="@font/suit_bold"
+        android:fontFamily="@font/suit_extrabold"
         android:id="@+id/title"/>
+
 
     <ImageView
         android:layout_width="126dp"
