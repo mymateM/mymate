@@ -127,7 +127,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/alarmbutton"
                     android:layout_marginLeft="17dp"
                     android:src="@drawable/logo"
-                    android:visibility="gone"/>
+                    app:tint="@color/white"/>
 
                 <ImageButton
                     android:id="@+id/alarmbutton"
