@@ -30,8 +30,23 @@
         app:tabTextAppearance="@style/tabview_maintextstyle"
         app:tabIndicatorColor="@android:color/transparent"
         android:elevation="20dp"
+        app:tabRippleColor="@null"
         />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/splash"
+        android:background="@color/white"/>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/splashicon"
+        android:src="@drawable/mymate_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

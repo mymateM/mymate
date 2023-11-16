@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:fillViewport="true">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="36dp"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/suit_bold"
+                android:textSize="20dp"
+                android:textColor="@color/black_text"
+                android:text="잘하고 있어요!\n예산에 딱 맞게 썼어요"
+                android:id="@+id/title"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="229dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                android:layout_marginTop="24dp"
+                android:id="@+id/character"
+                android:src="@drawable/character_report_fit"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/character"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="56dp"
+                android:fontFamily="@font/suit_bold"
+                android:text="이 달의 많이 쓴 카테고리는\n이것이에요"
+                android:textColor="@color/black_text"
+                android:textSize="20dp"
+                android:id="@+id/categorytitle"/>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:id="@+id/categorypie"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/categorytitle"
+                android:layout_marginTop="32dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="6dp"
+                app:layout_constraintEnd_toEndOf="@id/categorypie"
+                app:layout_constraintStart_toStartOf="@id/categorypie"
+                app:layout_constraintBottom_toBottomOf="@id/categorypie"
+                app:layout_constraintTop_toTopOf="@id/categorypie"
+                android:textColor="@color/black_text"
+                android:textSize="20dp"
+                android:text="총 지출\n000000원"
+                android:gravity="center"
+                android:fontFamily="@font/montserrat_bold"
+                android:id="@+id/pieMidText"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/categorypie"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="36dp"
+                tools:listitem="@layout/listitem_report"
+                android:id="@+id/householdlist"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

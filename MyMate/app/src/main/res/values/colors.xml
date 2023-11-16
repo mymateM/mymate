@@ -66,4 +66,12 @@
     <color name="pie_yellow">#FECD43</color>
     <color name="pie_red">#EE8686</color>
     <color name="pie_gray">#848484</color>
+    <color name="white_graphbackground">#F0F0F0</color>
+    <color name="graylight_dash">#C3C3C3</color>
+    <color name="purplelight_graphlight">#CCC9FF</color>
+    <color name="lime_main">#E1FA75</color>
+    <color name="purplemute_darkback">#34313F</color>
+    <color name="graylight_settlegraph">#F8F8FA</color>
+    <color name="purplelight_settlegraph">#A39EF4</color>
+    <color name="graylight_settlefill">#F7F6FF</color>
 </resources>

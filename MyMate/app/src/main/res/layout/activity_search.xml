@@ -95,7 +95,7 @@
                             android:gravity="center"
                             android:paddingLeft="12dp"
                             android:paddingRight="12dp"
-                            android:drawableRight="@drawable/arrow_filter"
+                            android:drawableRight="@drawable/arrow_down"
                             android:drawablePadding="4dp"
                             android:id="@+id/calendarbutton"/>
                         <TextView
@@ -110,7 +110,7 @@
                             android:gravity="center"
                             android:paddingLeft="12dp"
                             android:paddingRight="12dp"
-                            android:drawableRight="@drawable/arrow_filter"
+                            android:drawableRight="@drawable/arrow_down"
                             android:drawablePadding="4dp"
                             android:id="@+id/categorybutton"/>
                         <TextView
@@ -125,7 +125,7 @@
                             android:gravity="center"
                             android:paddingLeft="12dp"
                             android:paddingRight="12dp"
-                            android:drawableRight="@drawable/arrow_filter"
+                            android:drawableRight="@drawable/arrow_down"
                             android:drawablePadding="4dp"
                             android:id="@+id/amountbutton"/>
                         <TextView
@@ -140,7 +140,7 @@
                             android:gravity="center"
                             android:paddingLeft="12dp"
                             android:paddingRight="12dp"
-                            android:drawableRight="@drawable/arrow_filter"
+                            android:drawableRight="@drawable/arrow_down"
                             android:drawablePadding="4dp"
                             android:id="@+id/listupbutton"/>
                     </LinearLayout>

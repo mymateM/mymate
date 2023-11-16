@@ -4,25 +4,62 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="83dp"
+        android:id="@+id/toppanel"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="리포트입니다"
-        android:id="@+id/tempText"
-        />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        <ImageButton
+            android:layout_width="9dp"
+            android:layout_height="4dp"
+            android:id="@+id/dropbox"
+            app:layout_constraintTop_toTopOf="@id/toppanel"
+            app:layout_constraintBottom_toBottomOf="@id/toppanel"
+            app:layout_constraintStart_toEndOf="@id/thisperiod"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/arrow_down"
+            app:tint="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/toppanel"
+            app:layout_constraintStart_toStartOf="@id/toppanel"
+            app:layout_constraintEnd_toEndOf="@id/toppanel"
+            app:layout_constraintBottom_toBottomOf="@id/toppanel"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:fontFamily="@font/suit_extrabold"
+            android:text="0월 00일 - 0월 00일"
+            android:id="@+id/thisperiod"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:id="@+id/reportTab"
+        app:layout_constraintBottom_toTopOf="@id/reportPager"
+        app:layout_constraintTop_toBottomOf="@id/toppanel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tempText"
-        android:layout_marginTop="40dp"
-        android:id="@+id/pieTest"/>
+        app:tabSelectedTextColor="@color/black_text"
+        app:tabTextColor="@color/graylight_tabtext"
+        app:tabIndicatorColor="@color/black_text"
+        app:tabIndicatorGravity="bottom"
+        app:tabBackground="@drawable/tab_unselectedindicator"
+        app:tabTextAppearance="@style/tabview_alarmtextstyle">
+    </com.google.android.material.tabs.TabLayout>
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/reportPager"
+        app:layout_constraintTop_toBottomOf="@id/reportTab"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

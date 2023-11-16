@@ -41,6 +41,11 @@ class MypageBudgetActivity: AppCompatActivity() {
         }
 
         binding.budgetview.setOnClickListener {
+            binding.descheader.isGone = true
+            binding.desc.isGone = true
+        }
+
+        binding.about.setOnClickListener {
             if (!binding.descheader.isGone) {
                 binding.descheader.isGone = true
                 binding.desc.isGone = true
@@ -48,11 +53,6 @@ class MypageBudgetActivity: AppCompatActivity() {
                 binding.descheader.isGone = false
                 binding.desc.isGone = false
             }
-        }
-
-        binding.about.setOnClickListener {
-            binding.descheader.isGone = false
-            binding.desc.isGone = false
         }
 
         binding.amountEdit.setOnClickListener {

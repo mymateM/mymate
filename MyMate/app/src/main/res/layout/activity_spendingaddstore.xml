@@ -38,7 +38,7 @@
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/suit_medium"
         android:textSize="14dp"
-        android:textColor="@color/graydark_text"
+        android:textColor="@color/purpleblue_select"
         android:text="완료"
         android:id="@+id/completedbtn"/>
 

@@ -52,7 +52,7 @@ class AlarmSpdFragment : Fragment() {
         runBlocking {
             accesstoken = userRepo.userAccessReadFlow.first().toString()
         }
-        endpoint!!.expenseNoti("Bearer " + accesstoken).enqueue(object: Callback<expenseNotiResponse> {
+        endpoint!!.expenseNoti("Bearer $accesstoken").enqueue(object: Callback<expenseNotiResponse> {
             override fun onResponse(
                 call: Call<expenseNotiResponse>,
                 response: Response<expenseNotiResponse>
@@ -81,12 +81,13 @@ class AlarmSpdFragment : Fragment() {
                 val manager: RecyclerView.LayoutManager = LinearLayoutManager(context)
                 binding.alarmspdlist.layoutManager = manager
                 binding.alarmspdlist.adapter = adapter
+
+
             }
 
             override fun onFailure(call: Call<expenseNotiResponse>, t: Throwable) {
-                Toast.makeText(context, "연결 실패", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "연결 실패", Toast.LENGTH_SHORT).show()
             }
-
         })
     }
 

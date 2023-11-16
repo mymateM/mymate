@@ -80,6 +80,7 @@ class MainSpendingFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -128,6 +129,7 @@ class MainSpendingFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun bottomSheetInit() {
         behavior = BottomSheetBehavior.from(binding.datepicker.root)
         behavior.peekHeight = 0
@@ -170,6 +172,7 @@ class MainSpendingFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun getDate() {
         val tempmonth = binding.datepicker.spinnerpicker.month + 1
         month = if (tempmonth < 10) {
@@ -386,6 +389,7 @@ class MainSpendingFragment : Fragment() {
         return dayList
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onResume() {
         super.onResume()
 

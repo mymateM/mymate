@@ -3,10 +3,13 @@ package com.example.mymate
 import android.Manifest
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Window
@@ -17,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import androidx.datastore.core.DataStore
 import androidx.viewpager2.widget.ViewPager2
 import com.example.mymate.databinding.ActivityMainBinding
@@ -26,10 +30,22 @@ import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import okhttp3.internal.wait
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityMainBinding
+
+    val homeFragment = MainHomeFragment()
+    val spendingFragment = MainSpendingFragment()
+    val reportFragment = MainReportFragment()
+    val mypageFragment = MainMypageFragment()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,12 +54,18 @@ class MainActivity : AppCompatActivity() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         supportActionBar?.hide()
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         var repouser = DataStoreRepoUser(dataStore)
         val keyhash = Utility.getKeyHash(this)
         Log.d ("Hash", keyhash)
-        initViewPager()
         NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "MyMate")
+        var accessToken = ""
+        runBlocking {
+            accessToken = repouser.userAccessReadFlow.first().toString()
+        }
+        if (accessToken.isBlank()) {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+        initViewPager()
         //권한 설정(리팩토링 필요)
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             var permission = mutableMapOf<String, String>()
@@ -94,14 +116,11 @@ class MainActivity : AppCompatActivity() {
                 Log.d("permissions: manage storage", "PERMISSION_GRANTED")
             }
         }
-        //화면 로그
-        val display = this.applicationContext?.resources?.displayMetrics
-        val deviceWidth = display?.widthPixels
-        val deviceHeight = display?.heightPixels
-
-        Log.d("devicesizewidth", "${pxtodp(deviceWidth!!, this)}")
-        Log.d("devicesizeheight", "${pxtodp(deviceHeight!!, this)}")
-        //TODO: 로그인되어 있지 않다면 로그인 화면으로 보내기. 즉, 이 액티비티를 루트로 두고 로그인/로그아웃을 쌓는 형태.
+        setContentView(binding.root)
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.splash.isGone = true
+            binding.splashicon.isGone = true
+        }, 500)
     }
 
     private fun pxtodp(px: Int, context: Context): Float {
@@ -110,13 +129,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewPager() {
         var pager2Adapter = viewPager2Adapter(this)
-        pager2Adapter.addFragment(MainHomeFragment())
-        pager2Adapter.addFragment(MainSpendingFragment())
-        pager2Adapter.addFragment(MainReportFragment())
-        pager2Adapter.addFragment(MainMypageFragment()) //홈화면 탭에 연결할 fragment를 adapter에 추가
+        pager2Adapter.addFragment(homeFragment)
+        pager2Adapter.addFragment(spendingFragment)
+        pager2Adapter.addFragment(reportFragment)
+        pager2Adapter.addFragment(mypageFragment) //홈화면 탭에 연결할 fragment를 adapter에 추가
 
         binding.mainpager.offscreenPageLimit = 4
-        binding.mainpager.setUserInputEnabled(false)
+        binding.mainpager.isUserInputEnabled = false
 
         binding.mainpager.apply {
             adapter = pager2Adapter
@@ -145,6 +164,8 @@ class MainActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
         })
+
+
 
         TabLayoutMediator(binding.mainbottomtab, binding.mainpager) {tab, position ->
             tab.icon = tabicons[position]

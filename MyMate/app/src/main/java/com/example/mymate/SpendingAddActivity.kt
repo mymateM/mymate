@@ -88,7 +88,9 @@ class SpendingAddActivity: AppCompatActivity() {
         }
 
         binding.completedbtn.setOnClickListener {
-            pushspending()
+            if (binding.category.text != "없음" && binding.amountEdit.text.isNotEmpty()) {
+                pushspending()
+            }
         }
 
         binding.bottomlayout.setOnClickListener {
@@ -160,7 +162,7 @@ class SpendingAddActivity: AppCompatActivity() {
                         "쇼핑" -> sending.expenseCategory = "SHOPPING"
                         "교통" -> sending.expenseCategory = "TRANSPORT"
                         "의료" -> sending.expenseCategory = "MEDICAL"
-                        "생활" -> sending.expenseCategory = "HOUSEITEM"
+                        "생활" -> sending.expenseCategory = "HOUSE_ITEM"
                         "교육" -> sending.expenseCategory = "EDUCATION"
                         "기타" -> sending.expenseCategory = "ETC"
                     }
@@ -245,7 +247,6 @@ class SpendingAddActivity: AppCompatActivity() {
         categorynameList.add("쇼핑")
         categorynameList.add("교통")
         categorynameList.add("의료")
-        categorynameList.add("고지서")
         categorynameList.add("교육")
         categorynameList.add("기타")
 
@@ -276,6 +277,7 @@ class SpendingAddActivity: AppCompatActivity() {
                         data = ""
                         binding.category.text = "없음"
                         binding.category.setTextColor(ContextCompat.getColor(context, R.color.graydark_text))
+                        binding.categorymodale.categoryset.setBackgroundResource(R.drawable.button_loginbardefault)
                     } else {
                         for (i in 0 until dataList.size) {
                             dataList[i] = false
@@ -284,6 +286,7 @@ class SpendingAddActivity: AppCompatActivity() {
                         data = categorynameList[position]
                         binding.category.text = data
                         binding.category.setTextColor(ContextCompat.getColor(context, R.color.black_text))
+                        binding.categorymodale.categoryset.setBackgroundResource(R.drawable.button_loginbarselected)
                     }
                 }
             })

@@ -1,6 +1,7 @@
 package com.example.mymate
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -31,7 +32,16 @@ class AlarmActContainerAdapter(val alarmList: ArrayList<ArrayList<activityNoti>>
             val adapter = AlarmActAdapter(item)
             val manager: RecyclerView.LayoutManager = LinearLayoutManager(context)
             binding.alarmlist.layoutManager = manager
-            binding.alarmlist.adapter = adapter
+            binding.alarmlist.adapter = adapter.apply {
+                setOnItemClickListener(object : AlarmActAdapter.OnItemClickListener {
+                    override fun onItemClick(item: activityNoti, position: Int) {
+                        if (item.category_title == "정산 디데이") {
+                            context.startActivity(Intent(context, SettlementActivity::class.java))
+                        }
+                    }
+
+                })
+            }
         }
     }
 

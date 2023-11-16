@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/box_radius12"
+        app:tint="@color/graylight_buttonfill"
+        android:id="@+id/itemcontainer"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toStartOf="@id/itemcontainer"
+        app:layout_constraintTop_toTopOf="@id/itemcontainer"
+        android:layout_marginTop="22dp"
+        android:layout_marginStart="22dp"
+        android:id="@+id/icon"
+        android:src="@drawable/alarmicon_food"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/itemcontainer"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="22dp"
+        android:textSize="16dp"
+        android:text="생활"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_bold"
+        android:id="@+id/categorytext"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/categorytext"
+        app:layout_constraintTop_toBottomOf="@id/categorytext"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/graydark_text"
+        android:text="00.0%"
+        android:textSize="13dp"
+        android:fontFamily="@font/suit_semibold"
+        android:id="@+id/percentText"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/itemcontainer"
+        app:layout_constraintTop_toTopOf="@id/itemcontainer"
+        app:layout_constraintBottom_toBottomOf="@id/itemcontainer"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="2dp"
+        android:textSize="16dp"
+        android:textColor="@color/black_text"
+        android:text="000000원"
+        android:fontFamily="@font/suit_bold"
+        android:id="@+id/absText"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        app:layout_constraintTop_toBottomOf="@id/itemcontainer"
+        android:src="@color/white"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

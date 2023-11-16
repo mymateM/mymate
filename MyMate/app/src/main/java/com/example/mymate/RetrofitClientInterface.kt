@@ -202,11 +202,100 @@ data class houseMembers (
     var user_settlement_ratio: String = ""
 )
 
+data class myAccount (
+    var account_bank: String = "",
+    var account_number: String = "",
+    var account_image_url: String = ""
+)
+
+data class homeHousehold (
+    var house_id: String = "",
+    var household_name: String = "",
+    var by_now_expense: String = "",
+    var by_now_budget_ratio: String = "",
+    var settlement_d_day: String = "",
+    var by_previous_expense: String = "",
+    var now_expense_diff: String = "",
+    var is_household_budget_over_warn: Boolean = false,
+    var expense_duration: String = ""
+)
+
+data class homeMe (
+    var user_id: String = "",
+    var user_total_budget: String = "",
+    var user_by_now_total_expense: String = "",
+    var user_by_now_left_expense: String = ""
+)
+
+data class homeInfo (
+    var household: homeHousehold = homeHousehold(),
+    var me: homeMe = homeMe()
+)
+
+data class householdReportdata (
+    var report_date: report_date = report_date(),
+    var is_expense_over_budget: Boolean = false,
+    var budget_real_expense_diff: String = "",
+    var total_expense: String = "",
+    var expense_categories: ArrayList<expense_category> = ArrayList()
+)
+
+data class report_date (
+    var date_start: String = "",
+    var date_end: String = ""
+)
+
+data class expense_category (
+    var category_name: String = "",
+    var category_img: String = "",
+    var total_expense_ratio: String = "",
+    var total_expense_amount: String = ""
+)
+
+data class mySettleInfoData (
+    var household_expense_total: String = "",
+    var settlement_date: report_date = report_date(),
+    var user: mySettleInfo = mySettleInfo()
+)
+
+data class mySettleInfo (
+    var id: String = "",
+    var name: String = "",
+    var real_expense: String = "",
+    var ratio_expense: String = "",
+    var is_settlement_sender: Boolean = false,
+    var settlement_amount: String = ""
+)
+
+data class mySettleShortInfo (
+    var id: String = "",
+    var name: String = "",
+    var is_settlement_sender: Boolean = false,
+    var settlement_amount: String = ""
+)
+
+data class mateSettleInfoData (
+    var settlement_date: report_date = report_date(),
+    var user: mySettleShortInfo = mySettleShortInfo(),
+    var roommates: ArrayList<mateSettleInfo> = ArrayList()
+)
+
+data class mateSettleInfo (
+    var id: String = "",
+    var name: String = "",
+    var settlement_amount: String = "",
+    var account_bank: String = "",
+    var account_number: String = ""
+)
+
+
+
 // data class for responses
 
 data class defaultResponse (
-    var data: String = "",
-    var links: String = ""
+    var message: String = "",
+    var status: String = "",
+    var data: String? = ""
 )
 
 data class localLoginResponse (
@@ -313,6 +402,42 @@ data class houseRatioResponse (
     var data: houseRatioList = houseRatioList()
 )
 
+data class myAccountResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: myAccount = myAccount()
+)
+
+data class homeInfoResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: homeInfo = homeInfo()
+)
+
+data class settlementDateResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: String = ""
+)
+
+data class householdReportResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: householdReportdata = householdReportdata()
+)
+
+data class mySettleInfoResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: mySettleInfoData = mySettleInfoData()
+)
+
+data class mateSettleInfoResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: mateSettleInfoData = mateSettleInfoData()
+)
+
 //login + token interface
 
 interface localLogin {
@@ -354,9 +479,24 @@ interface getMemberId {
 
 //이하 완료되지 않은 API interface
 
-//Household API
+//Home API
+
+interface getHomeInfo {
+    @GET("api/v1/household/home")
+    fun getHomeInfo(@Header("Authorization") Authorization: String): Call<homeInfoResponse>
+}
 
 //Settlement API
+
+interface getMySettleInfo {
+    @GET("api/v1/settlement/user")
+    fun getMySettleInfo(@Header("Authorization") Authorization: String, @Query("start_date") start_date: String, @Query("end_date") end_date: String): Call<mySettleInfoResponse>
+}
+
+interface getMateSettleInfo {
+    @GET("api/v1/settlement")
+    fun getMateSettleInfo(@Header("Authorization") Authorization: String, @Query("start_date") start_date: String, @Query("end_date") end_date: String): Call<mateSettleInfoResponse>
+}
 
 //Alarm API
 
@@ -368,6 +508,16 @@ interface getActivityNoti {
 interface getExpenseNoti {
     @GET("api/v1/notifications/expense")
     fun expenseNoti(@Header("Authorization") Authorization: String) : Call<expenseNotiResponse>
+}
+
+interface readActivityNoti {
+    @POST("api/v1/notifications/activity/is-read/true")
+    fun readActivityNoti(@Header("Authorization") Authorization: String, @Query("activity_notification_ids") activity_notification_ids: String): Call<defaultResponse>
+}
+
+interface readExpenseNoti {
+    @POST("api/v1/notifications/expense/is-read/true")
+    fun readExpenseNoti(@Header("Authorization") Authorization: String, @Query("expense_notification_ids") expense_notification_ids: String): Call<defaultResponse>
 }
 
 //Calendar Api
@@ -443,6 +593,16 @@ interface searchExpense {
 
 //Reports API
 
+interface getSettlementDate {
+    @GET("api/v1/household/settlement/date")
+    fun getSettlementDate(@Header("Authorization") Authorization: String): Call<settlementDateResponse>
+}
+
+interface getHouseholdReport {
+    @GET("api/v1/report/household/{report-start-date}")
+    fun getHouseholdReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Call<householdReportResponse>
+}
+
 //Mypage API
 
 interface myPageApi {
@@ -453,4 +613,9 @@ interface myPageApi {
 interface getHouseRatio {
     @GET("api/v1/members/settlement-ratio")
     fun getHouseRatio(@Header("Authorization") Authorization: String): Call<houseRatioResponse>
+}
+
+interface getMyAccount {
+    @GET("api/v1/user/account")
+    fun getMyAccount(@Header("Authorization") Authorization: String): Call<myAccountResponse>
 }

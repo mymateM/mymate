@@ -33,7 +33,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="118dp"
-                android:id="@+id/profilepic"/>
+                android:id="@+id/profilepic"
+                android:src="@drawable/my_profile"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -72,7 +73,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="26dp"
                 android:layout_marginEnd="20dp"
-                android:src="@drawable/setting"
+                android:src="@drawable/icon_setting"
                 android:scaleType="centerInside"
                 android:id="@+id/toSetting"/>
 
@@ -150,6 +151,7 @@
                 android:textColor="@color/graydark_text"
                 android:textSize="14dp"
                 android:text="내 비율"
+                android:fontFamily="@font/suit_medium"
                 android:id="@+id/myratiodesc"/>
 
             <ImageView
@@ -216,7 +218,8 @@
                 app:layout_constraintBottom_toBottomOf="@id/ratiocontainer"
                 app:layout_constraintStart_toStartOf="@id/ratiocontainer"
                 android:layout_marginStart="25dp"
-                android:id="@+id/ratioicon"/>
+                android:id="@+id/ratioicon"
+                android:src="@drawable/mypage_rate"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -263,7 +266,8 @@
                 app:layout_constraintBottom_toBottomOf="@id/budgetcontainer"
                 app:layout_constraintStart_toStartOf="@id/budgetcontainer"
                 android:layout_marginStart="25dp"
-                android:id="@+id/budgeticon"/>
+                android:id="@+id/budgeticon"
+                android:src="@drawable/mypage_budget"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -310,7 +314,8 @@
                 app:layout_constraintBottom_toBottomOf="@id/settledaycontainer"
                 app:layout_constraintStart_toStartOf="@id/settledaycontainer"
                 android:layout_marginStart="25dp"
-                android:id="@+id/settleicon"/>
+                android:id="@+id/settleicon"
+                android:src="@drawable/calendar"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -359,7 +364,8 @@
                 app:layout_constraintBottom_toBottomOf="@id/accountcontainer"
                 app:layout_constraintStart_toStartOf="@id/accountcontainer"
                 android:layout_marginStart="25dp"
-                android:id="@+id/accounticon"/>
+                android:id="@+id/accounticon"
+                android:src="@drawable/mypage_account"/>
 
             <TextView
                 android:layout_width="wrap_content"

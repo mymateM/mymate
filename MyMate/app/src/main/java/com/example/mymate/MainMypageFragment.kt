@@ -16,19 +16,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.mymate.databinding.MainMypageFragmentBinding
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.reflect.Type
+import retrofit2.create
 
 class MainMypageFragment : Fragment() {
     lateinit var binding: MainMypageFragmentBinding
@@ -89,7 +85,6 @@ class MainMypageFragment : Fragment() {
             override fun onFailure(call: Call<myPageApiResponse>, t: Throwable) {
                 Toast.makeText(mainActivity, "연결 실패(마이페이지)", Toast.LENGTH_SHORT).show()
             }
-
         })
 
         binding.toSetting.setOnClickListener {

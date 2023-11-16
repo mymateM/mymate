@@ -72,17 +72,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="7dp"
         android:layout_height="7dp"
-        app:layout_constraintTop_toTopOf="@id/badgeguide1"
-        app:layout_constraintStart_toStartOf="@id/badgeguide1"
-        app:layout_constraintEnd_toEndOf="@id/badgeguide1"
-        android:layout_marginStart="73dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/icon_alarmbadge"
-        android:id="@+id/tabBadge0">
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="7dp"
-        android:layout_height="7dp"
         app:layout_constraintTop_toTopOf="@id/badgeguide2"
         app:layout_constraintStart_toStartOf="@id/badgeguide2"
         app:layout_constraintEnd_toEndOf="@id/badgeguide2"

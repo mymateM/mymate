@@ -2,11 +2,18 @@ package com.example.mymate
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.os.Build
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.TypefaceSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.databinding.ListitemBillBinding
 
@@ -19,6 +26,7 @@ class BillListAdapter(val billList: ArrayList<bill>, val category: String): Recy
     }
 
     inner class BillListHolder(val binding: ListitemBillBinding, val context: Context, val category: String): RecyclerView.ViewHolder(binding.root) {
+        @RequiresApi(Build.VERSION_CODES.P)
         fun bind(item: bill, category: String) {
             val itemimage = binding.billimage
             val itemday = binding.billdate
@@ -36,8 +44,14 @@ class BillListAdapter(val billList: ArrayList<bill>, val category: String): Recy
 
             val text = item.bill_payment_date.split("-")
             itemday.text = text[1] + "월 " + text[2] + "일까지 납부"
-
-            itemamount.text = digitprocessing(item.bill_payment_amount) + "원"
+            val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_bold), Typeface.NORMAL)
+            val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_bold), Typeface.NORMAL)
+            val montSemiboldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_semibold), Typeface.NORMAL)
+            val suitSemiboldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_semibold), Typeface.NORMAL)
+            val amount = SpannableStringBuilder("${digitprocessing(item.bill_payment_amount)}원")
+            amount.setSpan(TypefaceSpan(montBoldTypeface), 0, amount.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            amount.setSpan(TypefaceSpan(suitSemiboldTypeface), amount.length - 1, amount.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            itemamount.text = amount
 
             //itemimage.setImageDrawable(item.drawable)
             //itemday.text = item.date
@@ -68,6 +82,7 @@ class BillListAdapter(val billList: ArrayList<bill>, val category: String): Recy
         return billList.size
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onBindViewHolder(holder: BillListHolder, position: Int) {
         var item = billList[position]
         holder.bind(item, category)

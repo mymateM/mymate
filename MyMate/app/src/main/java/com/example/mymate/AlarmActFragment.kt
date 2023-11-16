@@ -17,6 +17,7 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.create
 import java.text.SimpleDateFormat
 
 class AlarmActFragment : Fragment() {
@@ -54,7 +55,7 @@ class AlarmActFragment : Fragment() {
         runBlocking {
             accesstoken = userRepo.userAccessReadFlow.first().toString()
         }
-        endpoint!!.activityNoti("Bearer " + accesstoken).enqueue(object : Callback<activityNotiResponse> {
+        endpoint!!.activityNoti("Bearer $accesstoken").enqueue(object : Callback<activityNotiResponse> {
             override fun onResponse(
                 call: Call<activityNotiResponse>,
                 response: Response<activityNotiResponse>
@@ -83,10 +84,25 @@ class AlarmActFragment : Fragment() {
                 val manager: RecyclerView.LayoutManager = LinearLayoutManager(context)
                 binding.alarmactlist.layoutManager = manager
                 binding.alarmactlist.adapter = adapter
+
+                val readEndpoint = retrofit?.create(readActivityNoti::class.java)
+                readEndpoint!!.readActivityNoti("Bearer $accesstoken", notiList[0].activity_notification_id).enqueue(object: Callback<defaultResponse> {
+                    override fun onResponse(
+                        call: Call<defaultResponse>,
+                        response: Response<defaultResponse>
+                    ) {
+
+                    }
+
+                    override fun onFailure(call: Call<defaultResponse>, t: Throwable) {
+                        Toast.makeText(alarmActivity, "연결 실패(활동-읽음)", Toast.LENGTH_SHORT).show()
+                    }
+
+                })
             }
 
             override fun onFailure(call: Call<activityNotiResponse>, t: Throwable) {
-                Toast.makeText(context, "연결 실패", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "연결 실패", Toast.LENGTH_SHORT).show()
             }
 
         })

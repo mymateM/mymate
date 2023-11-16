@@ -3,16 +3,35 @@ package com.example.mymate
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.TypefaceSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.datastore.dataStore
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import com.example.mymate.databinding.MainHomeFragmentBinding
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -20,7 +39,9 @@ import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -30,6 +51,8 @@ import okhttp3.internal.wait
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.reflect.Type
+import kotlin.math.absoluteValue
 
 class MainHomeFragment : Fragment() {
     lateinit var binding: MainHomeFragmentBinding
@@ -51,6 +74,7 @@ class MainHomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,11 +83,6 @@ class MainHomeFragment : Fragment() {
         binding = MainHomeFragmentBinding.inflate(inflater, container, false)
         val alarmIntent = Intent(mainActivity, AlarmActivity::class.java)
         binding.alarmbutton.setOnClickListener{startActivity(alarmIntent)}
-
-        //retrofit code
-        var retrofit = RetrofitClientInstance.client
-        var endpoint = retrofit?.create(localRefresh::class.java)
-        userRepo = DataStoreRepoUser(mainActivity.dataStore)
 
 
         val templogin = binding.logoimage
@@ -97,14 +116,6 @@ class MainHomeFragment : Fragment() {
             startActivity(Intent(mainActivity, LoginActivity::class.java))
         }
 
-        val temprefresh = binding.homecharacter
-        temprefresh.setOnClickListener {
-            runBlocking {
-                refreshcode = userRepo.userRefreshReadFlow.first().toString()
-                Log.i("initfirst", refreshcode)
-            }
-        }
-
         val tempOnboardingFlow = binding.spendpercentbox
         tempOnboardingFlow.setOnClickListener {
             startActivity(Intent(mainActivity, OnboardingTermsActivity::class.java))
@@ -113,8 +124,170 @@ class MainHomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        comms(mainActivity)
+    }
+
+    fun comms(context: Context) {
+        mainActivity = context as MainActivity
+        var retrofit = RetrofitClientInstance.client
+        var endpoint = retrofit?.create(getHomeInfo::class.java)
+        userRepo = DataStoreRepoUser(mainActivity.dataStore)
+        var accessToken = ""
+        runBlocking {
+            accessToken = userRepo.userAccessReadFlow.first().toString()
+        }
+        endpoint!!.getHomeInfo("Bearer $accessToken").enqueue(object: Callback<homeInfoResponse> {
+            @RequiresApi(Build.VERSION_CODES.P)
+            override fun onResponse(
+                call: Call<homeInfoResponse>,
+                response: Response<homeInfoResponse>
+            ) {
+                if (response.isSuccessful) {
+                    var household = response.body()!!.data.household
+                    var me = response.body()!!.data.me
+
+                    val ratio = household.by_now_expense.toInt() / household.by_previous_expense.toInt()
+                    var comparebigtext = SpannableStringBuilder("지난 달 대비")
+                    binding.dDay.text = "정산일 D-${household.settlement_d_day}"
+                    val expensetitle = digitprocessing(household.by_now_expense)
+                    binding.nownotitext.text = expensetitle
+                    if (household.by_previous_expense.toInt() < household.by_now_expense.toInt()) {
+                        comparebigtext = SpannableStringBuilder("지난 달 ${household.expense_duration}일간 대비 더 썼어요")
+                        binding.statusbilltext.setTextColor(ContextCompat.getColor(mainActivity, R.color.red_text))
+                        binding.statussubtextsmall.setTextColor(ContextCompat.getColor(mainActivity, R.color.red_text))
+                        binding.presentComparetop.isGone = false
+                        binding.presentComparebody.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.box_noradius))
+                        binding.presentguidetop.setGuidelinePercent(0.185f)
+                        binding.presentguidemid.setGuidelinePercent(0.365f)
+                    } else {
+                        comparebigtext = SpannableStringBuilder("지난 달 ${household.expense_duration}일간 대비 덜 썼어요")
+                        binding.statusbilltext.setTextColor(ContextCompat.getColor(mainActivity, R.color.pie_green))
+                        binding.statussubtextsmall.setTextColor(ContextCompat.getColor(mainActivity, R.color.pie_green))
+                        binding.presentComparetop.isGone = true
+                        binding.presentComparebody.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.graph_hometop))
+                        binding.presentguidemid.setGuidelinePercent((0.365 + 0.235 * (household.by_now_expense.toFloat() / household.by_previous_expense.toFloat())).toFloat())
+                    }
+                    comparebigtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purpleblue_select)), comparebigtext.length - 5, comparebigtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    binding.comparebigtxt.text = comparebigtext
+                    binding.statusbilltext.text = digitprocessing(household.now_expense_diff.toInt().absoluteValue.toString())
+                    val spendpercent = SpannableStringBuilder("지금까지 예산의 ${household.by_now_budget_ratio}%를 썼어요")
+                    spendpercent.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purpleblue_select)), 9, 9 + household.by_now_budget_ratio.length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    binding.spendnoti.text = spendpercent
+                    binding.spendgraphguide.setGuidelinePercent((0.06 + 0.88 * (household.by_now_budget_ratio.toFloat() / 100)).toFloat())
+                    binding.spendgraphpercent.text = "${household.by_now_budget_ratio}%"
+                    if (household.is_household_budget_over_warn) {
+                        binding.homestatustxt.text = "이대로라면 예산을 초과할 것 같아요"
+                    } else {
+                        binding.homestatustxt.text = "아주 잘 하고 있어요. 이대로만 유지하는 게 좋겠어요!"
+                    }
+                    binding.remainingbudget.text = "${digitprocessing(me.user_by_now_left_expense)}원"
+                    binding.totalbudget.text = "${digitprocessing(me.user_by_now_total_expense)}원"
+                    val spentpercentfloat = (me.user_by_now_total_expense.toFloat() / me.user_total_budget.toFloat() * 100)
+                    val leftpercentfloat = (me.user_by_now_left_expense.toFloat() / me.user_total_budget.toFloat() * 100)
+                    pieapply(me.user_total_budget.toInt(), spentpercentfloat, leftpercentfloat, me.user_by_now_total_expense.toInt())
+                    //TODO: 그래프 특수경우 대응
+                }
+            }
+
+            override fun onFailure(call: Call<homeInfoResponse>, t: Throwable) {
+                Toast.makeText(context, "연결 실패(홈)", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        val alarmEndpoint = retrofit?.create(getActivityNoti::class.java)
+        alarmEndpoint!!.activityNoti("Bearer $accessToken").enqueue(object: Callback<activityNotiResponse> {
+            override fun onResponse(
+                call: Call<activityNotiResponse>,
+                response: Response<activityNotiResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val notiresponse = response.body()!!.data.activityNotificationResponses
+                    binding.alarmnoti.isGone = notiresponse[0].is_read
+                }
+            }
+
+            override fun onFailure(call: Call<activityNotiResponse>, t: Throwable) {
+                Toast.makeText(context, "연결 실패(홈-알람)", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    private fun pieapply(total: Int, now_left: Float, now_total: Float, realtotal: Int) {
+        val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
+        val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
+        val piemidtext = SpannableStringBuilder("${digitprocessing(realtotal.toString())}원\n오늘까지 썼어요")
+        piemidtext.setSpan(AbsoluteSizeSpan(18, true), 0, digitprocessing(realtotal.toString()).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(AbsoluteSizeSpan(16, true), digitprocessing(realtotal.toString()).length + 2, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(TypefaceSpan(montBoldTypeface), 0, digitprocessing(realtotal.toString()).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(TypefaceSpan(suitBoldTypeface), digitprocessing(realtotal.toString()).length, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purpleblue_select)), 0, digitprocessing(realtotal.toString()).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.black_text)), digitprocessing(realtotal.toString()).length, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.myPieMidText.text = piemidtext
+        val pieChart = binding.myPieChart
+        pieChart.maxAngle = 180f
+        pieChart.setUsePercentValues(true)
+        val entries = ArrayList<PieEntry>()
+        val spendfornow = (now_total)
+        val leftfornow = (now_left)
+        entries.add(PieEntry(spendfornow))
+        entries.add(PieEntry(leftfornow))
+        val colorItem = ArrayList<Int>()
+        colorItem.add(ContextCompat.getColor(mainActivity, R.color.purpleblue_select))
+        colorItem.add(ContextCompat.getColor(mainActivity, R.color.white_graphbackground))
+        val pieDataSet = PieDataSet(entries, "")
+        pieDataSet.apply {
+            colors = colorItem
+            setDrawValues(false)
+        }
+        pieChart.apply {
+            data = PieData(pieDataSet)
+            description.isEnabled = false
+            isRotationEnabled = false
+            transparentCircleRadius = 0f
+            holeRadius = 81f
+            setHoleColor(ContextCompat.getColor(mainActivity, R.color.graylight_buttonfill))
+            legend.isEnabled = false
+            rotation = -90f
+        }
+        pieChart.invalidate()
+    }
+
+    private fun digitprocessing(digits: String): String {
+        var textlength = digits.length
+        var processed = ""
+        while (0 < textlength) {
+            var substring1 = ""
+            if (textlength == 3) {
+                if (processed == "") {
+                    processed = digits.substring(0 until 3)
+                } else {
+                    processed = digits.substring(0 until 3) + "," + processed
+                }
+            } else if (textlength > 3) {
+                substring1 = digits.substring(textlength - 3 until textlength)
+                if (processed == "") {
+                    processed = substring1
+                } else {
+                    processed = "$substring1,$processed"
+                }
+            } else {
+                substring1 = digits.substring(0 until textlength)
+                processed = "$substring1,$processed"
+            }
+
+            textlength -= 3
+        }
+
+        return processed
+    }
+
     override fun onResume() {
         //TODO: refresh data
         super.onResume()
+
+        comms(mainActivity)
     }
 }

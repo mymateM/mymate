@@ -1,6 +1,7 @@
 package com.example.mymate
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -10,6 +11,12 @@ import com.example.mymate.databinding.ListitemAlarmBinding
 
 class AlarmActAdapter(val notiList: ArrayList<activityNoti>): RecyclerView.Adapter<AlarmActAdapter.AlarmActHolder>() {
 
+    private var onItemClickListener: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onItemClick(item: activityNoti, position: Int)
+    }
+
     inner class AlarmActHolder(val binding: ListitemAlarmBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: activityNoti) {
             val itemicon = binding.alarmicon
@@ -18,14 +25,14 @@ class AlarmActAdapter(val notiList: ArrayList<activityNoti>): RecyclerView.Adapt
 
             when (item.category_title) {
                 "초대 수락" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_newmate))
-                "정산 디데이" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_money))
-                "정산일 변경" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_money))
+                "정산 디데이" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_settlement))
+                "정산일 변경" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_settlement))
                 "예산 변경" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_money))
                 "정산 비율 변경" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_money))
                 "고지서" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_bill))
                 "경고" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_alert))
                 "예산 초과 경고" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_alert))
-                "월별 리포트" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_money)) //TODO:리포트 아이콘 현재 없음
+                "월별 리포트" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_report))
             }
 
             when (item.category_title) {
@@ -45,7 +52,17 @@ class AlarmActAdapter(val notiList: ArrayList<activityNoti>): RecyclerView.Adapt
                 "월별 리포트" -> itemdata.text = "한달 지출을 분석했어요!"
             }
 
+            if (onItemClickListener != null) {
+                binding.alarmlistcontainer.setOnClickListener {
+                    onItemClickListener?.onItemClick(item, absoluteAdapterPosition)
+                }
+            }
+
         }
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.onItemClickListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmActHolder {

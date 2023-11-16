@@ -131,6 +131,7 @@ class SearchActivity: AppCompatActivity() {
             behavioramount.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorlistup.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorcategory.state = BottomSheetBehavior.STATE_COLLAPSED
+            search()
         }
 
         binding.amountbutton.setOnClickListener {
@@ -148,6 +149,7 @@ class SearchActivity: AppCompatActivity() {
             behaviorcalendar.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorlistup.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorcategory.state = BottomSheetBehavior.STATE_COLLAPSED
+            search()
         }
 
         binding.categorybutton.setOnClickListener {
@@ -165,6 +167,7 @@ class SearchActivity: AppCompatActivity() {
             behaviorcalendar.state = BottomSheetBehavior.STATE_COLLAPSED
             behavioramount.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorlistup.state = BottomSheetBehavior.STATE_COLLAPSED
+            search()
         }
 
         binding.listupbutton.setOnClickListener {
@@ -182,6 +185,7 @@ class SearchActivity: AppCompatActivity() {
             behaviorcalendar.state = BottomSheetBehavior.STATE_COLLAPSED
             behavioramount.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorcategory.state = BottomSheetBehavior.STATE_COLLAPSED
+            search()
         }
 
         binding.cover.setOnClickListener {
@@ -201,6 +205,7 @@ class SearchActivity: AppCompatActivity() {
             if (binding.categorybutton.text == "카테고리") {
                 unselected(binding.categorybutton)
             }
+            search()
             binding.cover.isGone = true
         }
 
