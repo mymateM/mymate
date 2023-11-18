@@ -32,6 +32,8 @@ class BillListAdapter(val billList: ArrayList<bill>, val category: String): Recy
             val itemday = binding.billdate
             val itemamount = binding.billamount
 
+            binding.billitem.background = ContextCompat.getDrawable(context, R.drawable.box_bill)
+
             if (category == "도시가스") {
                 itemimage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_list_gas))
             } else if (category == "수도") {

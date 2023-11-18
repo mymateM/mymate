@@ -224,9 +224,10 @@ class MainReportHouseholdFragment: Fragment() {
             description.isEnabled = false
             isRotationEnabled = false
             transparentCircleRadius = 0f
-            holeRadius = 80f
+            holeRadius = 85f
             setHoleColor(ContextCompat.getColor(mainActivity, R.color.white))
             legend.isEnabled = false
+            setTouchEnabled(false)
         }
         pieChart.invalidate()
 

@@ -1,10 +1,14 @@
 package com.example.mymate
 
 import android.content.Context
+import android.graphics.Typeface
+import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.databinding.ListitemReportBinding
 
@@ -26,7 +30,11 @@ class MainReportListAdapter(val nameList: ArrayList<String>, val percentList: Ar
 
             binding.categorytext.text = nameitem
             val percentText = "${percentitem * 100}%"
-            val absText = "${digitprocessing(absitem.toString())}원"
+            val absText = SpannableStringBuilder("${digitprocessing(absitem.toString())}원")
+            val montSemiBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_semibold), Typeface.NORMAL)
+            val suitSemiBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_semibold), Typeface.NORMAL)
+            absText.setSpan(TypefaceSpan(montSemiBoldTypeface), 0, absText.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            absText.setSpan(TypefaceSpan(suitSemiBoldTypeface), absText.length - 1, absText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.percentText.text = percentText
             binding.absText.text = absText
         }

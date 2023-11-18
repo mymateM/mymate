@@ -24,5 +24,15 @@ class SettingInvitecodeActivity: AppCompatActivity() {
             val clip = ClipData.newPlainText("inviteCode", invitecode)
             clipboard.setPrimaryClip(clip)
         }
+
+        binding.backbtn.setOnClickListener {
+            finish()
+            overridePendingTransition(R.anim.none, R.anim.left_exit)
+        }
+    }
+
+    override fun onBackPressed() {
+        finish()
+        overridePendingTransition(R.anim.none, R.anim.left_exit)
     }
 }

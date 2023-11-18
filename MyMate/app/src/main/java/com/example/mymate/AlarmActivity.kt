@@ -31,11 +31,17 @@ class AlarmActivity : AppCompatActivity() {
 
         binding.alarmdissmiss.setOnClickListener{
             finish()
+            overridePendingTransition(R.anim.none, R.anim.left_exit)
         }
 
         binding.tabBadge1.isGone = true
 
         initViewPager()
+    }
+
+    override fun onBackPressed() {
+        finish()
+        overridePendingTransition(R.anim.none, R.anim.left_exit)
     }
 
     private fun initViewPager() {

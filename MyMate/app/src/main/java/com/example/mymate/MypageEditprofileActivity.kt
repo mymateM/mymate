@@ -21,6 +21,12 @@ class MypageEditprofileActivity: AppCompatActivity() {
 
         binding.backbtn.setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.none, R.anim.left_exit)
         }
+    }
+
+    override fun onBackPressed() {
+        finish()
+        overridePendingTransition(R.anim.none, R.anim.left_exit)
     }
 }

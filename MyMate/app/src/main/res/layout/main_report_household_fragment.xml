@@ -28,6 +28,7 @@
                 android:fontFamily="@font/suit_bold"
                 android:textSize="20dp"
                 android:textColor="@color/black_text"
+                android:lineSpacingExtra="3dp"
                 android:text="잘하고 있어요!\n예산에 딱 맞게 썼어요"
                 android:id="@+id/title"/>
 
@@ -52,7 +53,8 @@
                 android:text="이 달의 많이 쓴 카테고리는\n이것이에요"
                 android:textColor="@color/black_text"
                 android:textSize="20dp"
-                android:id="@+id/categorytitle"/>
+                android:id="@+id/categorytitle"
+                android:lineSpacingExtra="3dp"/>
 
             <com.github.mikephil.charting.charts.PieChart
                 android:layout_width="220dp"

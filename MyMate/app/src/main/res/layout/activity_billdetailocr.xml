@@ -230,7 +230,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@drawable/icon_defaultcircle"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="22dp"
                 android:id="@+id/deletebtn"/>
 
             <ImageView
@@ -249,7 +249,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="72dp"
+                android:layout_marginBottom="66dp"
                 android:text="00년 0월 00일 등록"
                 android:textSize="16dp"
                 android:textColor="@color/graylight_text"

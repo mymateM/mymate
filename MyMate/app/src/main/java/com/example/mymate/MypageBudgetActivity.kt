@@ -38,6 +38,7 @@ class MypageBudgetActivity: AppCompatActivity() {
 
         binding.backbtn.setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.none, R.anim.left_exit)
         }
 
         binding.budgetview.setOnClickListener {
@@ -60,5 +61,10 @@ class MypageBudgetActivity: AppCompatActivity() {
             editIntent.putExtra("budget", binding.amountText.text.substring(0 until binding.amountText.text.length - 1))
             startActivity(editIntent)
         }
+    }
+
+    override fun onBackPressed() {
+        finish()
+        overridePendingTransition(R.anim.none, R.anim.left_exit)
     }
 }

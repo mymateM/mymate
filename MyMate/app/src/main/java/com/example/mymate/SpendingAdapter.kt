@@ -2,10 +2,16 @@ package com.example.mymate
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.databinding.ListitemSpendingBinding
 
@@ -23,7 +29,13 @@ class SpendingAdapter(val context: Context, val expenseList: ArrayList<ExpenseLi
             val amount = binding.spendingAmount
             val store = binding.spendingStore
 
-            amount.text = digitprocessing(item.expenseAmount) + "원"
+            val amounttext = SpannableStringBuilder("${digitprocessing(item.expenseAmount)}원")
+            val montSemiBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_semibold), Typeface.NORMAL)
+            val suitSemiBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_semibold), Typeface.NORMAL)
+            amounttext.setSpan(TypefaceSpan(montSemiBoldTypeface), 0, amounttext.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            amounttext.setSpan(TypefaceSpan(suitSemiBoldTypeface), amounttext.length - 1, amounttext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            amount.text = amounttext
             store.text = item.expenseStore
 
             when (item.expenseCategoryName) {

@@ -170,12 +170,15 @@ class SettlementActivity : AppCompatActivity() {
                                     val modaletxt = SpannableStringBuilder("${digitprocessing(mydata.user.settlement_amount)}원 보내러 가기")
                                     modaletxt.setSpan(TypefaceSpan(montBoldTypeface), 0, digitprocessing(mydata.user.settlement_amount).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                                     binding.modaletext.text = modaletxt
+                                    binding.modale.copyandsendtxt.text = "계좌 복사"
                                     binding.limegraphtop.isGone = false
                                 } else {
                                     binding.takeorgive.text = "정산을 받아야 해요"
                                     val modaletxt = SpannableStringBuilder("${digitprocessing(mydata.user.settlement_amount)}원 받으러 가기")
                                     modaletxt.setSpan(TypefaceSpan(montBoldTypeface), 0, digitprocessing(mydata.user.settlement_amount).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                                     binding.modaletext.text = modaletxt
+                                    binding.modale.copyandsendtxt.text = "송금 요청"
+                                    
                                     binding.limegraphtop.isGone = true
                                 }
 
@@ -216,12 +219,52 @@ class SettlementActivity : AppCompatActivity() {
                                     header.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.purpleblue_select)), 17, 17 + digitprocessing(matedata.user.settlement_amount).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                                     header.setSpan(TypefaceSpan(montBoldTypeface), 17, 17 + digitprocessing(matedata.user.settlement_amount).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                                     modale.modaleheader.text = header
+                                    binding.modale.copyandsendbtn.setOnClickListener {
+                                        when (accountType) {
+                                            "KB" -> accountType = "국민"
+                                            "SC" -> accountType = "SC제일"
+                                            "WOORI" -> accountType = "우리"
+                                        }
+
+                                        val account = "$accountType $accountNumber"
+                                        val clip = ClipData.newPlainText("account", account)
+                                        val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                                        clipboard.setPrimaryClip(clip)
+
+                                        val toasttxt = "${mateName}의\n계좌를 복사했어요"
+                                        binding.toastTxt.text= toasttxt
+                                        binding.toppopup.isGone = false
+                                        binding.toHome.setOnClickListener {
+                                            startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                                        }
+                                        binding.toppopup.setOnClickListener {
+
+                                        }
+                                        Handler(Looper.getMainLooper()).postDelayed({
+                                            binding.toppopup.isGone = true
+                                        }, 3000)
+                                    }
                                 } else {
                                     val header = SpannableStringBuilder("내가 이번 달에 받을 돈은\n총 ${matedata.user.settlement_amount}원 입니다!")
                                     header.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.purpleblue_select)), 8, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                                     header.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.purpleblue_select)), 17, 17 + digitprocessing(matedata.user.settlement_amount).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                                     header.setSpan(TypefaceSpan(montBoldTypeface), 17, 17 + digitprocessing(matedata.user.settlement_amount).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                                     modale.modaleheader.text = header
+                                    binding.modale.copyandsendbtn.setOnClickListener {
+
+                                        val toasttxt = "${mateName}에게\n송금 요청을 보냈어요"
+                                        binding.toastTxt.text= toasttxt
+                                        binding.toppopup.isGone = false
+                                        binding.toHome.setOnClickListener {
+                                            startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                                        }
+                                        binding.toppopup.setOnClickListener {
+
+                                        }
+                                        Handler(Looper.getMainLooper()).postDelayed({
+                                            binding.toppopup.isGone = true
+                                        }, 3000)
+                                    }
                                 }
 
                                 modale.modallist.layoutManager = manager
@@ -246,32 +289,6 @@ class SettlementActivity : AppCompatActivity() {
                                             }
                                         }
                                     })
-                                }
-
-                                binding.modale.copyandsendbtn.setOnClickListener {
-                                    when (accountType) {
-                                        "KB" -> accountType = "국민"
-                                        "SC" -> accountType = "SC제일"
-                                        "WOORI" -> accountType = "우리"
-                                    }
-
-                                    val account = "$accountType $accountNumber"
-                                    val clip = ClipData.newPlainText("account", account)
-                                    val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                                    clipboard.setPrimaryClip(clip)
-
-                                    val toasttxt = "${mateName}의\n계좌를 복사했어요"
-                                    binding.toastTxt.text= toasttxt
-                                    binding.toppopup.isGone = false
-                                    binding.toHome.setOnClickListener {
-                                        startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                                    }
-                                    binding.toppopup.setOnClickListener {
-
-                                    }
-                                    Handler(Looper.getMainLooper()).postDelayed({
-                                        binding.toppopup.isGone = true
-                                    }, 3000)
                                 }
                             }
                         }

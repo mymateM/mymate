@@ -164,15 +164,16 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/basicprofile"
+        android:layout_marginEnd="58dp"
+        android:src="@drawable/camera_btn"
         android:background="@android:color/transparent"
-        android:id="@+id/capturebtn"/>
+        android:id="@+id/capturebtn"
+        android:scaleType="centerInside"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -185,14 +186,26 @@
             android:id="@+id/cover"/>
 
         <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/indicator"
+            android:layout_marginEnd="70dp"
+            android:visibility="gone"
+            android:id="@+id/indicator"/>
+
+        <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginEnd="70dp"
-            android:layout_marginBottom="8dp"
+            app:layout_constraintEnd_toStartOf="@id/scanguideright"
+            app:layout_constraintStart_toEndOf="@id/scanguideleft"
+            android:layout_marginEnd="78dp"
+            android:layout_marginBottom="45dp"
             android:src="@drawable/scan_guide2"
             android:scaleType="centerInside"
             android:id="@+id/scanguidecenter"/>
@@ -204,10 +217,9 @@
             android:textColor="@color/white"
             android:textSize="14dp"
             android:text="평평한 곳에\n놓아주세요"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/scanguidecenter"
+            app:layout_constraintEnd_toEndOf="@id/scanguidecenter"
             app:layout_constraintTop_toBottomOf="@id/scanguidecenter"
-            android:layout_marginEnd="70dp"
             android:layout_marginTop="16dp"
             android:gravity="center"/>
 
@@ -219,7 +231,9 @@
             app:layout_constraintBottom_toBottomOf="@id/scanguidecenter"
             app:layout_constraintEnd_toStartOf="@id/scanguidecenter"
             android:src="@drawable/scan_guide1"
-            android:id="@+id/scanguideleft"/>
+            android:id="@+id/scanguideleft"
+            android:layout_marginEnd="78dp"
+            app:layout_constraintHorizontal_chainStyle="packed"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -228,8 +242,8 @@
             android:textColor="@color/white"
             android:textSize="14dp"
             android:text="가로로\n촬영하세요"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/scanguidecenter"
+            app:layout_constraintStart_toStartOf="@id/scanguideleft"
+            app:layout_constraintEnd_toEndOf="@id/scanguideleft"
             app:layout_constraintTop_toBottomOf="@id/scanguideleft"
             android:layout_marginTop="16dp"
             android:gravity="center"/>
@@ -243,7 +257,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="70dp"
             android:src="@drawable/scan_guide3"
-            android:scaleType="centerInside"/>
+            android:scaleType="centerInside"
+            android:id="@+id/scanguideright"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -255,9 +270,8 @@
             android:layout_marginTop="16dp"
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@id/scanguidecenter"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/scanguidecenter"
-            android:layout_marginEnd="70dp"/>
+            app:layout_constraintEnd_toEndOf="@id/scanguideright"
+            app:layout_constraintStart_toStartOf="@id/scanguideright"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
         android:layout_width="wrap_content"

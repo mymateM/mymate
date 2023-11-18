@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.isGone
 import com.example.mymate.databinding.ActivityBillcameraBinding
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.FileOutputStream
 import java.lang.Exception
@@ -67,7 +68,7 @@ class BillCameraActivity: AppCompatActivity() {
 
         binding.guideoverlay.setOnClickListener {
             binding.guideoverlay.isGone = true
-
+            binding.guidetext.text = "고지서의 가장 마지막 장을 화면에 맞춰 촬영해주세요"
         }
 
         permissionCheck()
@@ -85,8 +86,9 @@ class BillCameraActivity: AppCompatActivity() {
         dayfile = File(outputDirectory, SimpleDateFormat("yy-mm-dd", Locale.KOREA).format(System.currentTimeMillis()) + "2.png")
 
         binding.capturebtn.setOnClickListener {
+            binding.cover.isGone = false
+            binding.indicator.isGone = false
             savePhoto()
-            //overridePendingTransition(0, 0)
         }
 
         binding.backbtn.setOnClickListener {

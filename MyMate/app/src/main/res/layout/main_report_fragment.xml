@@ -13,15 +13,15 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageButton
-            android:layout_width="9dp"
-            android:layout_height="4dp"
+            android:layout_width="11dp"
+            android:layout_height="6dp"
             android:id="@+id/dropbox"
             app:layout_constraintTop_toTopOf="@id/toppanel"
             app:layout_constraintBottom_toBottomOf="@id/toppanel"
             app:layout_constraintStart_toEndOf="@id/thisperiod"
             android:layout_marginStart="10dp"
             android:src="@drawable/arrow_down"
-            app:tint="@color/black"/>
+            app:tint="@color/graydark_text"/>
 
         <TextView
             android:layout_width="wrap_content"

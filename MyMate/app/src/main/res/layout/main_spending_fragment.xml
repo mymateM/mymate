@@ -50,40 +50,43 @@
                 android:background="@android:color/transparent"/>
 
             <ImageButton
-                android:layout_width="9dp"
-                android:layout_height="4dp"
+                android:layout_width="15dp"
+                android:layout_height="7dp"
                 app:layout_constraintStart_toEndOf="@id/yeartext"
-                app:layout_constraintTop_toTopOf="@id/monthText"
-                app:layout_constraintBottom_toBottomOf="@id/monthText"
+                app:layout_constraintTop_toTopOf="@id/yeartext"
+                app:layout_constraintBottom_toBottomOf="@id/yeartext"
                 android:layout_marginStart="12dp"
                 android:src="@drawable/arrow_down"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
+                app:tint="@color/graydark_text"
                 android:id="@+id/selectdate"/>
 
             <ImageButton
-                android:layout_width="5dp"
-                android:layout_height="9dp"
+                android:layout_width="7dp"
+                android:layout_height="15dp"
                 app:layout_constraintEnd_toStartOf="@id/monthNext"
-                app:layout_constraintTop_toTopOf="@id/monthText"
-                app:layout_constraintBottom_toBottomOf="@id/monthText"
+                app:layout_constraintTop_toTopOf="@id/yeartext"
+                app:layout_constraintBottom_toBottomOf="@id/yeartext"
                 android:layout_marginEnd="25.62dp"
                 android:src="@drawable/arrow_left"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
+                app:tint="@color/graydark_text"
                 android:id="@+id/monthLast"/>
 
             <ImageButton
-                android:layout_width="5dp"
-                android:layout_height="9dp"
+                android:layout_width="7dp"
+                android:layout_height="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/monthText"
-                app:layout_constraintBottom_toBottomOf="@id/monthText"
+                app:layout_constraintTop_toTopOf="@id/yeartext"
+                app:layout_constraintBottom_toBottomOf="@id/yeartext"
                 android:layout_marginStart="15.2dp"
                 android:src="@drawable/arrow_right"
                 android:layout_marginEnd="20dp"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
+                app:tint="@color/graydark_text"
                 android:id="@+id/monthNext"/>
 
             <ImageButton
@@ -93,7 +96,7 @@
                 app:layout_constraintTop_toTopOf="@id/toSearch"
                 app:layout_constraintBottom_toBottomOf="@id/toSearch"
                 android:layout_marginEnd="20dp"
-                android:src="@drawable/icon_alarm"
+                android:src="@drawable/alarm_black"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
 

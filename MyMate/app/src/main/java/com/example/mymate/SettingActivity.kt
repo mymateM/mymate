@@ -19,12 +19,19 @@ class SettingActivity: AppCompatActivity() {
 
         binding.backbtn.setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.none, R.anim.left_exit)
         }
 
         binding.toinvitecode.setOnClickListener {
             startActivity(Intent(context, SettingInvitecodeActivity::class.java))
+            overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
 
+    }
+
+    override fun onBackPressed() {
+        finish()
+        overridePendingTransition(R.anim.none, R.anim.left_exit)
     }
 }

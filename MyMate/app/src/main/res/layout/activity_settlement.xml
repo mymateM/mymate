@@ -23,7 +23,7 @@
                     android:id="@+id/nestedview">
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="504dp"
+                        android:layout_height="474dp"
                         app:layout_constraintTop_toTopOf="parent"
                         android:src="@drawable/settlement_background"
                         android:scaleType="centerCrop"
@@ -33,15 +33,25 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="@id/topbox"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/settlement_overlay"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="19dp"
+                        app:layout_constraintBottom_toBottomOf="@id/topbox"
                         android:src="@drawable/settlement_character"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="center"/>
 
                     <ImageButton
                         android:layout_width="9dp"
                         android:layout_height="16dp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="30dp"
                         android:layout_marginStart="20dp"
                         android:id="@+id/settlementdismiss"
                         android:src="@drawable/back"
@@ -52,10 +62,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/settlementmonth"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/settlementdismiss"
+                        app:layout_constraintBottom_toBottomOf="@id/settlementdismiss"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginTop="17dp"
                         android:text="13.32 - 14.32"
                         android:textSize="16dp"
                         android:fontFamily="@font/montserrat_semibold"

@@ -82,7 +82,10 @@ class MainHomeFragment : Fragment() {
     ): View? {
         binding = MainHomeFragmentBinding.inflate(inflater, container, false)
         val alarmIntent = Intent(mainActivity, AlarmActivity::class.java)
-        binding.alarmbutton.setOnClickListener{startActivity(alarmIntent)}
+        binding.alarmbutton.setOnClickListener{
+            startActivity(alarmIntent)
+            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
+        }
 
 
         val templogin = binding.logoimage
@@ -153,6 +156,8 @@ class MainHomeFragment : Fragment() {
                     binding.dDay.text = "정산일 D-${household.settlement_d_day}"
                     val expensetitle = digitprocessing(household.by_now_expense)
                     binding.nownotitext.text = expensetitle
+                    val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
+                    val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
                     if (household.by_previous_expense.toInt() < household.by_now_expense.toInt()) {
                         comparebigtext = SpannableStringBuilder("지난 달 ${household.expense_duration}일간 대비 더 썼어요")
                         binding.statusbilltext.setTextColor(ContextCompat.getColor(mainActivity, R.color.red_text))
@@ -169,11 +174,12 @@ class MainHomeFragment : Fragment() {
                         binding.presentComparebody.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.graph_hometop))
                         binding.presentguidemid.setGuidelinePercent((0.365 + 0.235 * (household.by_now_expense.toFloat() / household.by_previous_expense.toFloat())).toFloat())
                     }
-                    comparebigtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purpleblue_select)), comparebigtext.length - 5, comparebigtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    comparebigtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline)), comparebigtext.length - 5, comparebigtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     binding.comparebigtxt.text = comparebigtext
                     binding.statusbilltext.text = digitprocessing(household.now_expense_diff.toInt().absoluteValue.toString())
                     val spendpercent = SpannableStringBuilder("지금까지 예산의 ${household.by_now_budget_ratio}%를 썼어요")
-                    spendpercent.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purpleblue_select)), 9, 9 + household.by_now_budget_ratio.length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    spendpercent.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline)), 9, 9 + household.by_now_budget_ratio.length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    spendpercent.setSpan(TypefaceSpan(montBoldTypeface), 9, 9 + household.by_now_budget_ratio.length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     binding.spendnoti.text = spendpercent
                     binding.spendgraphguide.setGuidelinePercent((0.06 + 0.88 * (household.by_now_budget_ratio.toFloat() / 100)).toFloat())
                     binding.spendgraphpercent.text = "${household.by_now_budget_ratio}%"
@@ -182,8 +188,12 @@ class MainHomeFragment : Fragment() {
                     } else {
                         binding.homestatustxt.text = "아주 잘 하고 있어요. 이대로만 유지하는 게 좋겠어요!"
                     }
-                    binding.remainingbudget.text = "${digitprocessing(me.user_by_now_left_expense)}원"
-                    binding.totalbudget.text = "${digitprocessing(me.user_by_now_total_expense)}원"
+                    val remainingbudget = SpannableStringBuilder("${digitprocessing(me.user_by_now_left_expense)}원")
+                    val totalbudget = SpannableStringBuilder("${digitprocessing(me.user_total_budget)}원")
+                    remainingbudget.setSpan(TypefaceSpan(suitBoldTypeface), remainingbudget.length - 1, remainingbudget.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    totalbudget.setSpan(TypefaceSpan(suitBoldTypeface), totalbudget.length - 1, totalbudget.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    binding.remainingbudget.text = remainingbudget
+                    binding.totalbudget.text = totalbudget
                     val spentpercentfloat = (me.user_by_now_total_expense.toFloat() / me.user_total_budget.toFloat() * 100)
                     val leftpercentfloat = (me.user_by_now_left_expense.toFloat() / me.user_total_budget.toFloat() * 100)
                     pieapply(me.user_total_budget.toInt(), spentpercentfloat, leftpercentfloat, me.user_by_now_total_expense.toInt())
@@ -217,14 +227,16 @@ class MainHomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.P)
     private fun pieapply(total: Int, now_left: Float, now_total: Float, realtotal: Int) {
         val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
+        val suitMediumTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_medium), Typeface.NORMAL)
         val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
         val piemidtext = SpannableStringBuilder("${digitprocessing(realtotal.toString())}원\n오늘까지 썼어요")
         piemidtext.setSpan(AbsoluteSizeSpan(18, true), 0, digitprocessing(realtotal.toString()).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(AbsoluteSizeSpan(16, true), digitprocessing(realtotal.toString()).length + 2, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(TypefaceSpan(montBoldTypeface), 0, digitprocessing(realtotal.toString()).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        piemidtext.setSpan(TypefaceSpan(suitBoldTypeface), digitprocessing(realtotal.toString()).length, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        piemidtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purpleblue_select)), 0, digitprocessing(realtotal.toString()).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        piemidtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.black_text)), digitprocessing(realtotal.toString()).length, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(TypefaceSpan(suitBoldTypeface), digitprocessing(realtotal.toString()).length, digitprocessing(realtotal.toString()).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(TypefaceSpan(suitMediumTypeface), digitprocessing(realtotal.toString()).length + 1, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline)), 0, digitprocessing(realtotal.toString()).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.black_text)), digitprocessing(realtotal.toString()).length + 1, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.myPieMidText.text = piemidtext
         val pieChart = binding.myPieChart
         pieChart.maxAngle = 180f
@@ -235,7 +247,7 @@ class MainHomeFragment : Fragment() {
         entries.add(PieEntry(spendfornow))
         entries.add(PieEntry(leftfornow))
         val colorItem = ArrayList<Int>()
-        colorItem.add(ContextCompat.getColor(mainActivity, R.color.purpleblue_select))
+        colorItem.add(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline))
         colorItem.add(ContextCompat.getColor(mainActivity, R.color.white_graphbackground))
         val pieDataSet = PieDataSet(entries, "")
         pieDataSet.apply {
@@ -248,9 +260,10 @@ class MainHomeFragment : Fragment() {
             isRotationEnabled = false
             transparentCircleRadius = 0f
             holeRadius = 81f
-            setHoleColor(ContextCompat.getColor(mainActivity, R.color.graylight_buttonfill))
+            setHoleColor(ContextCompat.getColor(mainActivity, android.R.color.transparent))
             legend.isEnabled = false
             rotation = -90f
+            setTouchEnabled(false)
         }
         pieChart.invalidate()
     }

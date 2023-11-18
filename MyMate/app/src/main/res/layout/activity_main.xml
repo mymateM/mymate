@@ -17,19 +17,19 @@
         android:id="@+id/mainbottomtab"
         android:contentDescription="maintab_bottomposition"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="81dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/white_bottomtab"
         app:tabBackground="@android:color/transparent"
-        app:tabPaddingTop="28dp"
-        app:tabPaddingBottom="19dp"
+        app:tabPaddingTop="21dp"
+        app:tabPaddingBottom="15dp"
         app:tabTextColor="@color/graymute_tab"
         app:tabSelectedTextColor="@color/purplemute_background"
         app:tabTextAppearance="@style/tabview_maintextstyle"
         app:tabIndicatorColor="@android:color/transparent"
-        android:elevation="20dp"
+        android:elevation="10dp"
         app:tabRippleColor="@null"
         />
 
@@ -37,16 +37,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/splash"
-        android:background="@color/white"/>
+        android:background="@drawable/splash_bg"
+        android:elevation="20dp"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/splashicon"
-        android:src="@drawable/mymate_icon"
+        android:src="@drawable/splash"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import com.example.mymate.databinding.ModaleBillcategoryBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -92,6 +93,10 @@ class BillManagerModaleFragment : BottomSheetDialogFragment() {
                 binding.etciconcontainer.setImageDrawable(ContextCompat.getDrawable(billManagerActivity, R.drawable.icon_circlebtndefault))
             }
         }
+
+        binding.etciconcontainer.isGone = true
+        binding.etcicon.isGone = true
+        binding.etcname.isGone = true
 
         binding.etciconcontainer.setOnClickListener {
             if (clicked == "기타") {

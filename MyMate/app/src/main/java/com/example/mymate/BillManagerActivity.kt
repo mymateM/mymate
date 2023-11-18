@@ -79,6 +79,7 @@ class BillManagerActivity: AppCompatActivity() {
 
         binding.backbtn.setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.none, R.anim.left_exit)
         }
         binding.gasview.setOnClickListener {
             managerlist.putExtra("category", "도시가스")
@@ -113,6 +114,11 @@ class BillManagerActivity: AppCompatActivity() {
                 return@setOnMenuItemClickListener false
             }
         }
+    }
+
+    override fun onBackPressed() {
+        finish()
+        overridePendingTransition(R.anim.none, R.anim.left_exit)
     }
 
     private fun digitprocessing(digits: String): String {

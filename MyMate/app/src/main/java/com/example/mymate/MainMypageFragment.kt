@@ -89,26 +89,31 @@ class MainMypageFragment : Fragment() {
 
         binding.toSetting.setOnClickListener {
             startActivity(Intent(mainActivity, SettingActivity::class.java))
+            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
         binding.profileEdit.setOnClickListener {
             val profileIntent = Intent(mainActivity, MypageEditprofileActivity::class.java)
             profileIntent.putExtra("nickname", binding.nickname.text.toString())
             startActivity(profileIntent)
+            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
         binding.ratiocontainer.setOnClickListener {
             val ratioIntent = Intent(mainActivity, MypageRatiodetailActivity::class.java)
             ratioIntent.putExtra("ratio", binding.myratio.text.toString())
             startActivity(ratioIntent)
+            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
         binding.budgetcontainer.setOnClickListener {
             startActivity(budgetIntent)
+            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
         binding.accountcontainer.setOnClickListener {
             startActivity(Intent(mainActivity, MypageAccountActivity::class.java))
+            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
         return binding.root
