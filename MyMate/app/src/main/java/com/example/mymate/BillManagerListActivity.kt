@@ -128,6 +128,8 @@ class BillManagerListActivity: AppCompatActivity() {
                             itemlist[0].add(iteminfo.bills[i])
                         }
                     }
+                } else if (iteminfo.bills.size == 1) {
+                    itemlist[0].add(iteminfo.bills[0])
                 }
 
                 val adapter = BillListContainerAdapter(itemlist, category!!)
@@ -142,7 +144,7 @@ class BillManagerListActivity: AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<billListResponse>, t: Throwable) {
-                Toast.makeText(context, "연결 실패(고지서 리스트)", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "연결 실패(고지서-가스)", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -181,6 +183,8 @@ class BillManagerListActivity: AppCompatActivity() {
                             itemlist[0].add(iteminfo.bills[i])
                         }
                     }
+                } else if (iteminfo.bills.size == 1) {
+                    itemlist[0].add(iteminfo.bills[0])
                 }
 
                 val adapter = BillListContainerAdapter(itemlist, category)
@@ -195,7 +199,7 @@ class BillManagerListActivity: AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<billListResponse>, t: Throwable) {
-                Toast.makeText(context, "연결 실패", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "연결 실패(고지서-전기)", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -233,6 +237,8 @@ class BillManagerListActivity: AppCompatActivity() {
                             itemlist[0].add(iteminfo.bills[i])
                         }
                     }
+                } else if (iteminfo.bills.size == 1) {
+                    itemlist[0].add(iteminfo.bills[0])
                 }
 
                 val adapter = BillListContainerAdapter(itemlist, category!!)
@@ -247,7 +253,7 @@ class BillManagerListActivity: AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<billListResponse>, t: Throwable) {
-                Toast.makeText(context, "연결 실패", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "연결 실패(고지서-수도)", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -285,6 +291,8 @@ class BillManagerListActivity: AppCompatActivity() {
                             itemlist[0].add(iteminfo.bills[i])
                         }
                     }
+                } else if (iteminfo.bills.size == 1) {
+                    itemlist[0].add(iteminfo.bills[0])
                 }
 
                 val adapter = BillListContainerAdapter(itemlist, category!!)
@@ -299,7 +307,7 @@ class BillManagerListActivity: AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<billListResponse>, t: Throwable) {
-                Toast.makeText(context, "연결 실패", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "연결 실패(고지서-기타)", Toast.LENGTH_SHORT).show()
             }
 
         })

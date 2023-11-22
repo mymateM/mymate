@@ -33,6 +33,8 @@ class AlarmActAdapter(val notiList: ArrayList<activityNoti>): RecyclerView.Adapt
                 "경고" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_alert))
                 "예산 초과 경고" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_alert))
                 "월별 리포트" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_report))
+                "고지서 보관" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_bill))
+                "송금 요청" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_settlement))
             }
 
             when (item.category_title) {
@@ -50,6 +52,8 @@ class AlarmActAdapter(val notiList: ArrayList<activityNoti>): RecyclerView.Adapt
                 "경고" -> itemdata.text = "앗! 지출이 예산을 넘겼어요"
                 "예산 초과 경고" -> itemdata.text = "앗! 지출이 예산을 넘겼어요" //TODO: 같은 타이틀에 문구 2개
                 "월별 리포트" -> itemdata.text = "한달 지출을 분석했어요!"
+                "고지서 보관" -> itemdata.text = "새로운 고지서를 확인하세요!"
+                "송금 요청" -> itemdata.text = "${item.trigger}님이 송금을 요청했어요"
             }
 
             if (onItemClickListener != null) {

@@ -419,6 +419,7 @@ class MainSpendingFragment : Fragment() {
 
         binding.toBills.setOnClickListener {
             startActivity(Intent(mainActivity, BillManagerActivity::class.java))
+            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
         binding.toAlarm.setOnClickListener {

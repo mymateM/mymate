@@ -70,7 +70,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
         builder.setContentTitle(title)
             .setContentText(body)
-            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setSmallIcon(R.drawable.mymate_icon)
 
         val notification = builder.build()
         if (ActivityCompat.checkSelfPermission(

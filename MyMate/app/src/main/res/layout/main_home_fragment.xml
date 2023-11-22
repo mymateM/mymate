@@ -233,6 +233,22 @@
                         app:layout_constraintGuide_percent="0.94"
                         android:id="@+id/spendgraphguide"/>
 
+                    <androidx.constraintlayout.widget.Guideline
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="20dp"
+                        app:layout_constraintGuide_percent="0.125"
+                        android:id="@+id/spendgraphicguide"/>
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="20dp"
+                        app:layout_constraintGuide_percent="0.7"
+                        android:id="@+id/spendoverguide"/>
+
                     <ImageView
                         android:layout_width="0dp"
                         android:layout_height="16dp"
@@ -246,19 +262,30 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/trangle"
+                        android:src="@drawable/trangle_purple"
                         android:rotation="180"
-                        app:layout_constraintEnd_toEndOf="@id/spendgraphguide"
-                        app:layout_constraintStart_toStartOf="@id/spendgraphguide"
+                        app:layout_constraintEnd_toEndOf="@id/spendgraphicguide"
+                        app:layout_constraintStart_toStartOf="@id/spendgraphicguide"
                         app:layout_constraintBottom_toTopOf="@id/spendgraphback"
                         android:layout_marginBottom="-8dp"
-                        app:tint="@color/purplevivid_buttonline"
                         android:id="@+id/graphgraphichead"/>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="16dp"
+                        app:layout_constraintStart_toStartOf="@id/spendoverguide"
+                        app:layout_constraintEnd_toEndOf="@id/spendgraphback"
+                        app:layout_constraintBottom_toBottomOf="@id/spendgraphback"
+                        app:layout_constraintTop_toTopOf="@id/spendgraphback"
+                        android:src="@drawable/box_radius0100"
+                        app:tint="@color/red_graph"
+                        android:id="@+id/spendgraphover"/>
+
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/box_radius8"
+                        android:background="@drawable/box_radius8_purple"
                         app:layout_constraintStart_toStartOf="@id/graphgraphichead"
                         app:layout_constraintEnd_toEndOf="@id/graphgraphichead"
                         app:layout_constraintBottom_toTopOf="@id/graphgraphichead"
@@ -267,7 +294,6 @@
                         android:textColor="@color/white"
                         android:fontFamily="@font/montserrat_bold"
                         android:text="00%"
-                        android:backgroundTint="@color/purplevivid_buttonline"
                         android:paddingBottom="5dp"
                         android:paddingStart="9dp"
                         android:paddingEnd="9dp"

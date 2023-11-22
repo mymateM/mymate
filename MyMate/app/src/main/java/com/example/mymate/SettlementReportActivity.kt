@@ -75,10 +75,11 @@ class SettlementReportActivity: AppCompatActivity() {
                 if(response.isSuccessful) {
                     var date = response.body()!!.data
                     if (LocalDate.now().dayOfMonth < date.toInt()) {
-                        var thisdate = LocalDate.now().minusMonths(2)
+                        //var thisdate = LocalDate.now().minusMonths(2)
+                        var thisdate = LocalDate.now().minusMonths(1)
                         thisdate = thisdate.withDayOfMonth(date.toInt())
                         date = thisdate.format(formatter)
-                        val thisperiod = "${thisdate.monthValue}월 ${thisdate.dayOfMonth + 1}일 - ${thisdate.monthValue + 1}월 ${thisdate.dayOfMonth}"
+                        val thisperiod = "${thisdate.monthValue}월 ${thisdate.dayOfMonth + 1}일 - ${thisdate.monthValue + 1}월 ${thisdate.dayOfMonth}일"
                         binding.thisperiod.text = thisperiod
                     } else {
                         var thisdate = LocalDate.now().minusMonths(1)

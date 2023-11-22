@@ -81,24 +81,23 @@ class LocalLoginActivity: AppCompatActivity() {
                         Log.d("getaccesscode", accessToken)
                     }
                     fcm.sendFirebaseToken()
-                    deviceendpoint!!.localDevice("Bearer " + accessToken, devicebearer).enqueue(object : Callback<Response<Void>> {
+                    deviceendpoint!!.localDevice("Bearer $accessToken", devicebearer).enqueue(object : Callback<Response<Void>> {
                         override fun onResponse(
                             call: Call<Response<Void>>,
                             response: Response<Response<Void>>
                         ) {
                             Log.d("devicetoken", "success")
+                            startActivity(Intent(context, MainActivity::class.java))
                         }
 
                         override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
                             Log.d("devicetoken", "failed")
+                            startActivity(Intent(context, MainActivity::class.java))
                         }
-
-
                     })
-                    startActivity(Intent(context, MainActivity::class.java))
                 }
                 override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
-                    Toast.makeText(context, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                 }
             })
 

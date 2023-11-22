@@ -463,7 +463,7 @@ interface socialLogin {
 //TODO: local register error API response error receiving (1: DataClass, 2: receiving check)
 
 interface localDevice {
-    @POST("api/v1/auth/user/device-token")
+    @POST("api/v1/user/device-token")
     fun localDevice(@Header("Authorization") Authorization: String, @Body req: devicetoken) : Call<Response<Void>>
 }
 
@@ -476,8 +476,6 @@ interface getMemberId {
     @GET("api/v1/household/member/ids")
     fun getMemberId(@Header("Authorization") Authorization: String) : Call<getMemberIdResponse>
 }
-
-//이하 완료되지 않은 API interface
 
 //Home API
 
@@ -496,6 +494,11 @@ interface getMySettleInfo {
 interface getMateSettleInfo {
     @GET("api/v1/settlement")
     fun getMateSettleInfo(@Header("Authorization") Authorization: String, @Query("start_date") start_date: String, @Query("end_date") end_date: String): Call<mateSettleInfoResponse>
+}
+
+interface sendMoneyRequest {
+    @GET("api/v1/notifications/send-money/{user_id}")
+    fun sendMoneyRequest(@Header("Authorization") Authorization: String, @Path("user_id") user_id: String): Call<Response<Void>>
 }
 
 //Alarm API

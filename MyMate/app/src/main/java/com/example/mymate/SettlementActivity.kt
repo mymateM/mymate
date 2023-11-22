@@ -139,10 +139,11 @@ class SettlementActivity : AppCompatActivity() {
                     var date = LocalDate.now()
                     var previousdate = date
                     if (date.dayOfMonth < response.body()!!.data.toInt()) {
-                        date = date.minusMonths(1).withDayOfMonth(response.body()!!.data.toInt())
+                        //date = date.minusMonths(1).withDayOfMonth(response.body()!!.data.toInt())
                     } else {
-                        date = date.withDayOfMonth(response.body()!!.data.toInt())
+                        //date = date.withDayOfMonth(response.body()!!.data.toInt())
                     }
+                    date = date.withDayOfMonth(response.body()!!.data.toInt())
                     previousdate = date.minusMonths(1).withDayOfMonth(response.body()!!.data.toInt() + 1)
 
                     val startDate = previousdate.format(formatter)
@@ -178,7 +179,6 @@ class SettlementActivity : AppCompatActivity() {
                                     modaletxt.setSpan(TypefaceSpan(montBoldTypeface), 0, digitprocessing(mydata.user.settlement_amount).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                                     binding.modaletext.text = modaletxt
                                     binding.modale.copyandsendtxt.text = "송금 요청"
-                                    
                                     binding.limegraphtop.isGone = true
                                 }
 
@@ -212,6 +212,8 @@ class SettlementActivity : AppCompatActivity() {
                                 var accountType = ""
                                 var accountNumber = ""
                                 var mateName = ""
+
+                                var mateId = ""
 
                                 if (matedata.user.is_settlement_sender) {
                                     val header = SpannableStringBuilder("내가 이번 달에 보낼 돈은\n총 ${digitprocessing(matedata.user.settlement_amount)}원 입니다!")
@@ -252,18 +254,35 @@ class SettlementActivity : AppCompatActivity() {
                                     modale.modaleheader.text = header
                                     binding.modale.copyandsendbtn.setOnClickListener {
 
-                                        val toasttxt = "${mateName}에게\n송금 요청을 보냈어요"
-                                        binding.toastTxt.text= toasttxt
-                                        binding.toppopup.isGone = false
-                                        binding.toHome.setOnClickListener {
-                                            startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                                        }
-                                        binding.toppopup.setOnClickListener {
+                                        val requestEndpoint = retrofit?.create(sendMoneyRequest::class.java)
+                                        if (mateId != "") {
+                                            requestEndpoint!!.sendMoneyRequest("Bearer $accessToken", mateId).enqueue(object : Callback<Response<Void>> {
+                                                override fun onResponse(
+                                                    call: Call<Response<Void>>,
+                                                    response: Response<Response<Void>>
+                                                ) {
+                                                    val toasttxt = "${mateName}에게\n송금 요청을 보냈어요"
+                                                    binding.toastTxt.text= toasttxt
+                                                    binding.toppopup.isGone = false
+                                                    binding.toHome.setOnClickListener {
+                                                        startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                                                    }
+                                                    binding.toppopup.setOnClickListener {
 
+                                                    }
+                                                    Handler(Looper.getMainLooper()).postDelayed({
+                                                        binding.toppopup.isGone = true
+                                                    }, 3000)
+                                                }
+
+                                                override fun onFailure(
+                                                    call: Call<Response<Void>>,
+                                                    t: Throwable
+                                                ) {
+                                                    Toast.makeText(context, "연결 실패(송금 요청)", Toast.LENGTH_SHORT).show()
+                                                }
+                                            })
                                         }
-                                        Handler(Looper.getMainLooper()).postDelayed({
-                                            binding.toppopup.isGone = true
-                                        }, 3000)
                                     }
                                 }
 
@@ -280,12 +299,14 @@ class SettlementActivity : AppCompatActivity() {
                                                 accountNumber = ""
                                                 accountType = ""
                                                 mateName = ""
+                                                mateId = ""
                                             } else {
                                                 accountType = matedata.roommates[position].account_bank
                                                 accountNumber = matedata.roommates[position].account_number
                                                 modale.copyandsendbtn.isEnabled = accountType != ""
                                                 mateName = matedata.roommates[position].name
                                                 modale.copyandsendbtn.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.button_loginbarselected))
+                                                mateId = matedata.roommates[position].id
                                             }
                                         }
                                     })

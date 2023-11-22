@@ -177,12 +177,38 @@ class MainHomeFragment : Fragment() {
                     comparebigtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline)), comparebigtext.length - 5, comparebigtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     binding.comparebigtxt.text = comparebigtext
                     binding.statusbilltext.text = digitprocessing(household.now_expense_diff.toInt().absoluteValue.toString())
-                    val spendpercent = SpannableStringBuilder("지금까지 예산의 ${household.by_now_budget_ratio}%를 썼어요")
+                    var spendpercent = SpannableStringBuilder("지금까지 예산의 ${household.by_now_budget_ratio}%를 썼어요")
                     spendpercent.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline)), 9, 9 + household.by_now_budget_ratio.length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     spendpercent.setSpan(TypefaceSpan(montBoldTypeface), 9, 9 + household.by_now_budget_ratio.length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     binding.spendnoti.text = spendpercent
                     binding.spendgraphguide.setGuidelinePercent((0.06 + 0.88 * (household.by_now_budget_ratio.toFloat() / 100)).toFloat())
                     binding.spendgraphpercent.text = "${household.by_now_budget_ratio}%"
+                    if (household.by_now_budget_ratio.toInt() > 100) {
+                        binding.spendgraphicguide.setGuidelinePercent(0.87f)
+                        binding.spendgraphguide.setGuidelinePercent(0.94f)
+                        binding.spendoverguide.setGuidelinePercent((0.94 - 0.88 * (household.by_now_budget_ratio.toFloat() / 100)).toFloat())
+                        binding.graphgraphichead.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.trangle_red))
+                        binding.spendgraphpercent.setBackgroundResource(R.drawable.box_radius8_red)
+                        spendpercent = SpannableStringBuilder("지금까지 예산을 ${household.by_now_budget_ratio.toInt() - 100}% 초과했어요")
+                        spendpercent.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline)), 9, 9 + (household.by_now_budget_ratio.toInt() - 100).toString().length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        spendpercent.setSpan(TypefaceSpan(montBoldTypeface), 9, 9 + (household.by_now_budget_ratio.toInt() - 100).toString().length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                    } else if ((0.06 + 0.88 * (household.by_now_budget_ratio.toFloat() / 100)).toFloat() > 0.87f) {
+                        binding.spendgraphicguide.setGuidelinePercent(0.87f)
+                        binding.spendoverguide.setGuidelinePercent(0.94f)
+                        binding.graphgraphichead.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.trangle_purple))
+                        binding.spendgraphpercent.setBackgroundResource(R.drawable.box_radius8_purple)
+                    } else if ((0.06 + 0.88 * (household.by_now_budget_ratio.toFloat() / 100)).toFloat() < 0.125f) {
+                        binding.spendgraphicguide.setGuidelinePercent(0.125f)
+                        binding.spendoverguide.setGuidelinePercent(0.94f)
+                        binding.graphgraphichead.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.trangle_purple))
+                        binding.spendgraphpercent.setBackgroundResource(R.drawable.box_radius8_purple)
+                    } else {
+                        binding.spendgraphicguide.setGuidelinePercent((0.06 + 0.88 * (household.by_now_budget_ratio.toFloat() / 100)).toFloat())
+                        binding.spendoverguide.setGuidelinePercent(0.94f)
+                        binding.graphgraphichead.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.trangle_purple))
+                        binding.spendgraphpercent.setBackgroundResource(R.drawable.box_radius8_purple)
+                    }
                     if (household.is_household_budget_over_warn) {
                         binding.homestatustxt.text = "이대로라면 예산을 초과할 것 같아요"
                     } else {
@@ -242,8 +268,8 @@ class MainHomeFragment : Fragment() {
         pieChart.maxAngle = 180f
         pieChart.setUsePercentValues(true)
         val entries = ArrayList<PieEntry>()
-        val spendfornow = (now_total)
-        val leftfornow = (now_left)
+        val spendfornow = (now_left)
+        val leftfornow = (now_total)
         entries.add(PieEntry(spendfornow))
         entries.add(PieEntry(leftfornow))
         val colorItem = ArrayList<Int>()
