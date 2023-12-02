@@ -95,6 +95,9 @@ class OnboardingProfileActivity: AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 message = nameEdit.text.toString()
                 putDatabutton.isEnabled = message.isNotEmpty()
+                if (putDatabutton.isEnabled) {
+                    putDatabutton.setBackgroundResource(R.drawable.button_wfseleted)
+                }
             }
 
             override fun afterTextChanged(p0: Editable?) { }
@@ -104,6 +107,10 @@ class OnboardingProfileActivity: AppCompatActivity() {
             //TODO: 여기서 값을 서버로 올리거나 클래스에 저장함
             startActivity(Intent(this, OnboardingAccountActivity::class.java))
         }
+
+        binding.backbtn.setOnClickListener {
+            finish()
+        }
     }
 
     private fun imgSelection(profilepic: ImageView, picList: ArrayList<ImageView>) {
@@ -111,7 +118,7 @@ class OnboardingProfileActivity: AppCompatActivity() {
             if (profilepic == picList[i]) {
                 profilepic.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.button_selectedprofile))
             } else {
-                profilepic.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.box_radius20))
+                picList[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.box_radius20))
             }
         }
     }

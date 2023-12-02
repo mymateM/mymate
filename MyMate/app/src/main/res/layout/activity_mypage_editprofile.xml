@@ -47,7 +47,7 @@
         android:layout_height="26dp"
         app:layout_constraintBottom_toBottomOf="@id/profilepic"
         app:layout_constraintEnd_toEndOf="@id/profilepic"
-        android:src="@drawable/edit_dark"
+        android:src="@drawable/edit_profile"
         android:id="@+id/editprofile"/>
 
     <TextView

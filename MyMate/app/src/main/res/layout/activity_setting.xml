@@ -177,7 +177,6 @@
         android:text="PUSH 알림"
         android:id="@+id/pushnoti"/>
 
-
     <androidx.appcompat.widget.SwitchCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -185,8 +184,8 @@
         app:layout_constraintTop_toTopOf="@id/pushnoti"
         app:layout_constraintBottom_toBottomOf="@id/pushnoti"
         android:layout_marginEnd="20dp"
-        app:thumbTint="@color/purpleblue_switch"
-        app:trackTint="@color/purpleblue_select"
+        android:thumb="@drawable/switch_thumb"
+        app:track="@drawable/switch_track"
         android:id="@+id/pushnotiswitch"/>
 
     <ImageView
@@ -320,5 +319,6 @@
         android:layout_marginEnd="20dp"
         android:textSize="14dp"
         android:textColor="@color/graylight_text"
-        android:text="최신버전 받으러 가기"/>
+        android:text="최신버전 받으러 가기"
+        android:id="@+id/tonewversion"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

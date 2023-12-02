@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@id/title"
         android:layout_marginTop="39dp"
         android:scaleType="centerInside"
-        android:src="@drawable/money"
+        android:src="@drawable/cash"
         android:id="@+id/ratiographic"/>
 
     <TextView

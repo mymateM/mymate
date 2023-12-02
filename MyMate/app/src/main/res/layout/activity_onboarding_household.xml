@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toStartOf="@id/onboardIndi3"
         android:layout_marginStart="7dp"
         android:src="@drawable/graph_graybackground"
-        app:tint="@color/purpleblue_select"/>
+        app:tint="@color/graylight_indicator"/>
 
     <ImageView
         android:layout_width="0dp"
@@ -41,7 +41,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginStart="7dp"
         android:src="@drawable/graph_graybackground"
-        app:tint="@color/purpleblue_select"/>
+        app:tint="@color/graylight_indicator"/>
 
     <ImageView
         android:layout_width="9dp"
@@ -148,8 +148,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/box_noradius"
-        android:backgroundTint="@color/graylight_wireframe"
+        android:background="@drawable/button_wfdefault"
         android:text="다음으로"
         android:textColor="@color/white"
         android:fontFamily="@font/suit_bold"

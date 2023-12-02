@@ -125,7 +125,8 @@
         android:text="1일"
         android:textColor="@color/graylight_text"
         android:fontFamily="@font/suit_semibold"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:id="@+id/settleDay1Text"/>
 
     <ImageView
         android:layout_width="0dp"
@@ -149,7 +150,8 @@
         android:text="15일"
         android:textColor="@color/graylight_text"
         android:fontFamily="@font/suit_semibold"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:id="@+id/settleDay15Text"/>
 
     <ImageView
         android:layout_width="0dp"

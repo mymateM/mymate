@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="@id/amountHead"
         android:layout_marginTop="77dp"
         android:id="@+id/amountGraphic"
-        android:src="@drawable/money"
+        android:src="@drawable/cash"
         android:scaleType="centerInside"/>
 
     <TextView

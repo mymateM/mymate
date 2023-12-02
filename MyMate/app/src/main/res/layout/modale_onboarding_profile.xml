@@ -55,7 +55,7 @@
         app:layout_constraintStart_toStartOf="@id/gridimg1"
         app:layout_constraintEnd_toEndOf="@id/gridimg1"
         android:id="@+id/gridmain1"
-        android:src="@drawable/home_character"/>
+        android:src="@drawable/profile1"/>
 
     <ImageView
         android:layout_width="76dp"
@@ -67,7 +67,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:id="@+id/gridimg2"
-        android:src="@drawable/button_selectedprofile"/>
+        android:src="@drawable/box_radius20"/>
 
     <ImageView
         android:layout_width="72dp"
@@ -77,7 +77,7 @@
         app:layout_constraintStart_toStartOf="@id/gridimg2"
         app:layout_constraintEnd_toEndOf="@id/gridimg2"
         android:id="@+id/gridmain2"
-        android:src="@drawable/settlement_character"/>
+        android:src="@drawable/profile2"/>
 
     <ImageView
         android:layout_width="76dp"
@@ -88,7 +88,7 @@
         app:layout_constraintEnd_toStartOf="@id/gridimg4"
         android:layout_marginStart="10dp"
         android:id="@+id/gridimg3"
-        android:src="@drawable/button_selectedprofile"/>
+        android:src="@drawable/box_radius20"/>
 
     <ImageView
         android:layout_width="72dp"
@@ -98,7 +98,7 @@
         app:layout_constraintStart_toStartOf="@id/gridimg3"
         app:layout_constraintEnd_toEndOf="@id/gridimg3"
         android:id="@+id/gridmain3"
-        android:src="@drawable/yellow_twinkle"/>
+        android:src="@drawable/profile3"/>
 
     <ImageView
         android:layout_width="76dp"
@@ -109,7 +109,7 @@
         android:layout_marginStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="20dp"
-        android:src="@drawable/button_selectedprofile"
+        android:src="@drawable/box_radius20"
         android:id="@+id/gridimg4"/>
 
     <ImageView
@@ -120,7 +120,7 @@
         app:layout_constraintStart_toStartOf="@id/gridimg4"
         app:layout_constraintEnd_toEndOf="@id/gridimg4"
         android:id="@+id/gridmain4"
-        android:src="@drawable/green_twinkle"/>
+        android:src="@drawable/profile4"/>
 
     <ImageView
         android:layout_width="76dp"
@@ -129,7 +129,7 @@
         app:layout_constraintStart_toStartOf="@id/gridimg1"
         app:layout_constraintEnd_toEndOf="@id/gridimg1"
         android:layout_marginTop="24dp"
-        android:src="@drawable/button_selectedprofile"
+        android:src="@drawable/box_radius20"
         android:id="@+id/gridimg5"/>
 
     <ImageView
@@ -140,7 +140,7 @@
         app:layout_constraintStart_toStartOf="@id/gridimg5"
         app:layout_constraintEnd_toEndOf="@id/gridimg5"
         android:id="@+id/gridmain5"
-        android:src="@drawable/purple_twinkle"/>
+        android:src="@drawable/profile5"/>
 
     <ImageView
         android:layout_width="76dp"
@@ -149,7 +149,7 @@
         app:layout_constraintStart_toStartOf="@id/gridimg2"
         app:layout_constraintEnd_toEndOf="@id/gridimg2"
         android:layout_marginTop="24dp"
-        android:src="@drawable/button_selectedprofile"
+        android:src="@drawable/box_radius20"
         android:id="@+id/gridimg6"/>
 
     <ImageView
@@ -160,7 +160,7 @@
         app:layout_constraintStart_toStartOf="@id/gridimg6"
         app:layout_constraintEnd_toEndOf="@id/gridimg6"
         android:id="@+id/gridmain6"
-        android:src="@drawable/blue_twinkle"/>
+        android:src="@drawable/profile6"/>
 
     <ImageView
         android:layout_width="76dp"
@@ -169,7 +169,7 @@
         app:layout_constraintStart_toStartOf="@id/gridimg3"
         app:layout_constraintEnd_toEndOf="@id/gridimg3"
         android:layout_marginTop="24dp"
-        android:src="@drawable/button_selectedprofile"
+        android:src="@drawable/box_radius20"
         android:id="@+id/gridimg7"/>
 
     <ImageView
@@ -180,7 +180,7 @@
         app:layout_constraintStart_toStartOf="@id/gridimg7"
         app:layout_constraintEnd_toEndOf="@id/gridimg7"
         android:id="@+id/gridmain7"
-        android:src="@drawable/red_twinkle"/>
+        android:src="@drawable/profile7"/>
 
     <ImageView
         android:layout_width="76dp"
@@ -189,7 +189,7 @@
         app:layout_constraintStart_toStartOf="@id/gridimg4"
         app:layout_constraintEnd_toEndOf="@id/gridimg4"
         android:layout_marginTop="24dp"
-        android:src="@drawable/button_selectedprofile"
+        android:src="@drawable/box_radius20"
         android:id="@+id/gridimg8"/>
 
     <ImageView
@@ -200,7 +200,7 @@
         app:layout_constraintStart_toStartOf="@id/gridimg8"
         app:layout_constraintEnd_toEndOf="@id/gridimg8"
         android:id="@+id/gridmain8"
-        android:src="@drawable/basicprofile"/>
+        android:src="@drawable/profile8"/>
 
     <Button
         android:layout_width="match_parent"
@@ -213,7 +213,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/button_loginbardefault"
+        android:background="@drawable/button_loginbarselected"
         android:text="선택하기"
         android:textSize="18dp"
         android:textColor="@color/white"

@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="81dp"
         android:id="@+id/detailgraphic"
-        android:src="@drawable/money"/>
+        android:src="@drawable/cash"/>
 
     <TextView
         android:layout_width="wrap_content"

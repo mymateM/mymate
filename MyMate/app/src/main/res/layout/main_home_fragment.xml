@@ -141,13 +141,13 @@
 
                 <ImageView
                     android:id="@+id/logoimage"
-                    android:layout_width="94.27dp"
-                    android:layout_height="21.1dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/alarmbutton"
                     app:layout_constraintBottom_toBottomOf="@id/alarmbutton"
                     android:layout_marginLeft="17dp"
-                    android:src="@drawable/logo"
+                    android:src="@drawable/login_mymate"
                     app:tint="@color/white"/>
 
                 <ImageButton

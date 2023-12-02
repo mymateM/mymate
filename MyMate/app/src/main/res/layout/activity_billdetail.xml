@@ -38,7 +38,7 @@
         android:layout_marginTop="81dp"
         android:id="@+id/detailgraphic"
         android:scaleType="centerInside"
-        android:src="@drawable/money"/>
+        android:src="@drawable/cash"/>
 
     <TextView
         android:layout_width="wrap_content"

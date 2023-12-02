@@ -94,14 +94,14 @@
                 app:layout_constraintTop_toBottomOf="@id/title"
                 android:layout_marginTop="70dp"
                 android:id="@+id/profileset"
-                android:src="@drawable/button_loginbardefault"/>
+                android:src="@drawable/profile1"/>
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:layout_constraintEnd_toEndOf="@id/profileset"
                 app:layout_constraintBottom_toBottomOf="@id/profileset"
-                android:src="@drawable/edit_dark"
+                android:src="@drawable/edit_profile"
                 android:id="@+id/profileEdit"/>
 
             <EditText
@@ -128,8 +128,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:background="@drawable/box_noradius"
-                android:backgroundTint="@color/graylight_wireframe"
+                android:background="@drawable/button_wfdefault"
                 android:text="다음으로"
                 android:textColor="@color/white"
                 android:fontFamily="@font/suit_bold"
