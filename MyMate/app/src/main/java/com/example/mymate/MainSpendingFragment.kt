@@ -62,6 +62,7 @@ class MainSpendingFragment : Fragment() {
     private var day = ""
     private var selectedDate = LocalDate.now()
     private var expenseDetail = ArrayList<ExpenseList>()
+    var resumed = "00"
 
     var retrofit = RetrofitClientInstance.client
     var endpoint = retrofit?.create(getDailyExpense::class.java)
@@ -88,7 +89,6 @@ class MainSpendingFragment : Fragment() {
     ): View? {
         binding = MainSpendingFragmentBinding.inflate(inflater, container, false)
         bottomSheetInit()
-
         //modaleimg settings
         binding.cover.isGone = true
 
@@ -117,6 +117,7 @@ class MainSpendingFragment : Fragment() {
 
         binding.toAlarm.setOnClickListener {
             startActivity(Intent(mainActivity, AlarmActivity::class.java))
+            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
         binding.toSearch.setOnClickListener {
@@ -126,7 +127,7 @@ class MainSpendingFragment : Fragment() {
         binding.spendingPlus.setOnClickListener {
             startActivity(Intent(mainActivity, SpendingAddActivity::class.java))
         }
-
+        resumed = "01"
         return binding.root
     }
 
@@ -393,7 +394,6 @@ class MainSpendingFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onResume() {
         super.onResume()
-
         bottomSheetInit()
 
         //modaleimg settings
@@ -424,6 +424,7 @@ class MainSpendingFragment : Fragment() {
 
         binding.toAlarm.setOnClickListener {
             startActivity(Intent(mainActivity, AlarmActivity::class.java))
+            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
         binding.toSearch.setOnClickListener {

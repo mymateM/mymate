@@ -114,6 +114,12 @@ class SearchActivity: AppCompatActivity() {
             val manager = LinearLayoutManager(context)
             binding.searchlistcontainer.adapter = adapter
             binding.searchlistcontainer.layoutManager = manager
+            calendarVal = CalendarValues()
+            calendarVal.firstDay = -1
+            calendarVal.lastDay = -1
+            selectedDate = LocalDate.now()
+            setCalendarView(selectedDate)
+            setCategoryView()
         }
 
         binding.calendarbutton.setOnClickListener {

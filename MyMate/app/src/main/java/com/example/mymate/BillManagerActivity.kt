@@ -1,15 +1,22 @@
 package com.example.mymate
 
 import android.content.Intent
+import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.TypefaceSpan
 import android.util.Log
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import androidx.datastore.core.DataStore
 import com.example.mymate.databinding.ActivityBillmanagerBinding
@@ -37,6 +44,7 @@ class BillManagerActivity: AppCompatActivity() {
 
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(getBillCategory::class.java)
+        val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(this, R.font.suit_bold), Typeface.NORMAL)
 
         var categoryResponse = billCategoryResponse()
         var accessToken = ""
@@ -44,6 +52,7 @@ class BillManagerActivity: AppCompatActivity() {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
         endpoint!!.getBillCategory("Bearer $accessToken").enqueue(object : Callback<billCategoryResponse> {
+            @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
                 call: Call<billCategoryResponse>,
                 response: Response<billCategoryResponse>
@@ -53,7 +62,8 @@ class BillManagerActivity: AppCompatActivity() {
                     for (i in 0 until categoryResponse.data.recent_bill_category.size) {
                         val datelist = categoryResponse.data.recent_bill_category[i].bill_payment_date.split("-")
                         val date = "납부기한 " + datelist[1] + "." + datelist[2]
-                        val amount = digitprocessing(categoryResponse.data.recent_bill_category[i].bill_payment_amount) + "원"
+                        val amount = SpannableStringBuilder(digitprocessing(categoryResponse.data.recent_bill_category[i].bill_payment_amount) + "원")
+                        amount.setSpan(TypefaceSpan(suitBoldTypeface), amount.lastIndex, amount.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         if (categoryResponse.data.recent_bill_category[i].bill_category == "전기") {
                             binding.electronicdaytext.text = date
                             binding.electronicbilltext.text = amount

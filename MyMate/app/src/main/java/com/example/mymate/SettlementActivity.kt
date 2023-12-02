@@ -247,7 +247,7 @@ class SettlementActivity : AppCompatActivity() {
                                         }, 3000)
                                     }
                                 } else {
-                                    val header = SpannableStringBuilder("내가 이번 달에 받을 돈은\n총 ${matedata.user.settlement_amount}원 입니다!")
+                                    val header = SpannableStringBuilder("내가 이번 달에 받을 돈은\n총 ${digitprocessing(matedata.user.settlement_amount)}원 입니다!")
                                     header.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.purpleblue_select)), 8, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                                     header.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.purpleblue_select)), 17, 17 + digitprocessing(matedata.user.settlement_amount).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                                     header.setSpan(TypefaceSpan(montBoldTypeface), 17, 17 + digitprocessing(matedata.user.settlement_amount).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)

@@ -84,7 +84,7 @@
                 android:text="원"
                 android:textSize="30dp"
                 android:textColor="@color/black_text"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/suit_bold"
                 android:id="@+id/billamount"/>
 
             <Button

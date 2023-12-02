@@ -123,7 +123,6 @@ class MainHomeFragment : Fragment() {
         tempOnboardingFlow.setOnClickListener {
             startActivity(Intent(mainActivity, OnboardingTermsActivity::class.java))
         }
-
         return binding.root
     }
 
@@ -186,7 +185,7 @@ class MainHomeFragment : Fragment() {
                     if (household.by_now_budget_ratio.toInt() > 100) {
                         binding.spendgraphicguide.setGuidelinePercent(0.87f)
                         binding.spendgraphguide.setGuidelinePercent(0.94f)
-                        binding.spendoverguide.setGuidelinePercent((0.94 - 0.88 * (household.by_now_budget_ratio.toFloat() / 100)).toFloat())
+                        binding.spendoverguide.setGuidelinePercent((0.94 - 0.88 * ((household.by_now_budget_ratio.toFloat() - 100f) / 100)).toFloat())
                         binding.graphgraphichead.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.trangle_red))
                         binding.spendgraphpercent.setBackgroundResource(R.drawable.box_radius8_red)
                         spendpercent = SpannableStringBuilder("지금까지 예산을 ${household.by_now_budget_ratio.toInt() - 100}% 초과했어요")
@@ -268,8 +267,12 @@ class MainHomeFragment : Fragment() {
         pieChart.maxAngle = 180f
         pieChart.setUsePercentValues(true)
         val entries = ArrayList<PieEntry>()
-        val spendfornow = (now_left)
-        val leftfornow = (now_total)
+        var spendfornow = (now_left)
+        var leftfornow = (now_total)
+        if (now_left + now_total > 100f) {
+            spendfornow = 100f
+            leftfornow = 0f
+        }
         entries.add(PieEntry(spendfornow))
         entries.add(PieEntry(leftfornow))
         val colorItem = ArrayList<Int>()

@@ -28,12 +28,13 @@ class SettlementAdapter(val mateList: ArrayList<mateSettleInfo>): RecyclerView.A
     }
 
     inner class SettlementViewHolder(val binding: ListitemModaleBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
+        val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_bold), Typeface.NORMAL)
+        val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_bold), Typeface.NORMAL)
         @RequiresApi(Build.VERSION_CODES.P)
         fun bind(item: mateSettleInfo) {
             val nametxt = item.name + "에게"
             val billtxt = SpannableStringBuilder("${digitprocessing(item.settlement_amount)}원")
-            val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_bold), Typeface.NORMAL)
-            billtxt.setSpan(TypefaceSpan(suitBoldTypeface), billtxt.lastIndex - 1, billtxt.lastIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            billtxt.setSpan(TypefaceSpan(suitBoldTypeface), billtxt.lastIndex, billtxt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.modalelistname.text = nametxt
             binding.modalelistbill.text = billtxt
 
@@ -46,11 +47,12 @@ class SettlementAdapter(val mateList: ArrayList<mateSettleInfo>): RecyclerView.A
             if (onItemClickListener != null) {
                 binding.modaleunit.setOnClickListener {
                     onItemClickListener?.onItemClick(item, absoluteAdapterPosition)
-                    if (clickposition == -1) {
+                    if (clickposition != absoluteAdapterPosition) {
                         clickposition = absoluteAdapterPosition
-                        notifyItemRangeChanged(0, mateList.size)
+                    } else {
+                        clickposition = -1
                     }
-
+                    notifyItemRangeChanged(0, mateList.size)
                 }
             }
         }

@@ -2,11 +2,18 @@ package com.example.mymate
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.TypefaceSpan
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.contentColorFor
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import com.example.mymate.databinding.ActivityBilldetailBinding
 import kotlinx.coroutines.flow.first
@@ -25,7 +32,6 @@ class BillDetailActivity: AppCompatActivity() {
     var detailresponse: billDetailResponse? = billDetailResponse()
     var endpointdelete = retrofit?.create(deleteBill::class.java)
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,12 +42,14 @@ class BillDetailActivity: AppCompatActivity() {
 
         val id = intent.getStringExtra("itemid")
         val category = intent.getStringExtra("category")
+        val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(this, R.font.suit_bold), Typeface.NORMAL)
 
         var accessToken = ""
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
         endpoint!!.getBill("Bearer $accessToken", id!!).enqueue(object : Callback<billDetailResponse> {
+            @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
                 call: Call<billDetailResponse>,
                 response: Response<billDetailResponse>
@@ -51,7 +59,9 @@ class BillDetailActivity: AppCompatActivity() {
                     binding.category.text = category
                     binding.duedate.text = detailresponse!!.data.bill_payment_date.replace("-", ".")
                     binding.memo.text = detailresponse!!.data.bill_memo
-                    binding.billamount.text = digitprocessing(detailresponse!!.data.bill_payment_amount) + "원"
+                    val amount = SpannableStringBuilder("${digitprocessing(detailresponse!!.data.bill_payment_amount)}원")
+                    amount.setSpan(TypefaceSpan(suitBoldTypeface), amount.length - 1, amount.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    binding.billamount.text = amount
 
                     val datelist = detailresponse!!.data.register_date.split("-")
                     val year = (datelist[0].toInt() % 1000 % 100).toString()

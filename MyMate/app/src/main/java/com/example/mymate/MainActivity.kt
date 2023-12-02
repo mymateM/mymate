@@ -121,6 +121,7 @@ class MainActivity : AppCompatActivity() {
             binding.splash.isGone = true
             binding.splashicon.isGone = true
         }, 500)
+
     }
 
     private fun pxtodp(px: Int, context: Context): Float {
@@ -171,6 +172,14 @@ class MainActivity : AppCompatActivity() {
             tab.icon = tabicons[position]
             tab.text = tabtext[position]
         }.attach()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    override fun onResume() {
+        super.onResume()
+        if (spendingFragment.resumed != "00") {
+            spendingFragment.onResume()
+        }
     }
 
 }

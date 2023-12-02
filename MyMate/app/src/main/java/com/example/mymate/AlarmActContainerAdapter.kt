@@ -37,6 +37,8 @@ class AlarmActContainerAdapter(val alarmList: ArrayList<ArrayList<activityNoti>>
                     override fun onItemClick(item: activityNoti, position: Int) {
                         if (item.category_title == "정산 디데이") {
                             context.startActivity(Intent(context, SettlementActivity::class.java))
+                        } else if (item.category_title == "송금 요청") {
+                            context.startActivity(Intent(context, SettlementActivity::class.java))
                         }
                     }
 
