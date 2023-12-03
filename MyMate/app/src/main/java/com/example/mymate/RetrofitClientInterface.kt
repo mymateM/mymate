@@ -240,6 +240,11 @@ data class householdReportdata (
     var expense_categories: ArrayList<expense_category> = ArrayList()
 )
 
+data class myReportdata (
+    var report_date: report_date = report_date(),
+    var expense_categories: ArrayList<expense_category> = ArrayList()
+)
+
 data class report_date (
     var date_start: String = "",
     var date_end: String = ""
@@ -426,6 +431,12 @@ data class householdReportResponse (
     var data: householdReportdata = householdReportdata()
 )
 
+data class myReportResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: myReportdata = myReportdata()
+)
+
 data class mySettleInfoResponse (
     var message: String = "",
     var status: String = "",
@@ -604,6 +615,11 @@ interface getSettlementDate {
 interface getHouseholdReport {
     @GET("api/v1/report/household/{report-start-date}")
     fun getHouseholdReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Call<householdReportResponse>
+}
+
+interface getMyReport {
+    @GET("api/v1/report/user/{report-start-date}")
+    fun getMyReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Call<myReportResponse>
 }
 
 //Mypage API

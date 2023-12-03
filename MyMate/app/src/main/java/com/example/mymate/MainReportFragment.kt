@@ -45,6 +45,7 @@ class MainReportFragment : Fragment() {
     val meFragment = MainReportMeFragment()
     val retrofit = RetrofitClientInstance.client
     private var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    var resumed = "00"
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -66,6 +67,11 @@ class MainReportFragment : Fragment() {
         initViewPager()
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        resumed = "01"
     }
 
     private fun initViewPager() {
@@ -126,5 +132,6 @@ class MainReportFragment : Fragment() {
     override fun onResume() {
         //TODO: refresh data
         super.onResume()
+        initViewPager()
     }
 }

@@ -25,7 +25,7 @@ class SpendingDetailActivity: AppCompatActivity() {
         userRepo = DataStoreRepoUser(dataStore)
 
         val retrofit = RetrofitClientInstance.client
-        var endpoint = retrofit?.create(getDailySingleExpense::class.java)
+        val endpoint = retrofit?.create(getDailySingleExpense::class.java)
 
         binding.backbtn.setOnClickListener {
             finish()
@@ -61,6 +61,7 @@ class SpendingDetailActivity: AppCompatActivity() {
 
         binding.deletebtn.setOnClickListener {
             //TODO: delete API
+
             finish()
         }
     }

@@ -64,6 +64,7 @@ class MainHomeFragment : Fragment() {
     lateinit var accesscode: String
 
     private var refreshResponse: localRefreshReponse = localRefreshReponse()
+    var resumed = "00"
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -129,6 +130,7 @@ class MainHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         comms(mainActivity)
+        resumed = "01"
     }
 
     fun comms(context: Context) {

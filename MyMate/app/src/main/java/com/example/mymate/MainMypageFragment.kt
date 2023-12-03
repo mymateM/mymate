@@ -30,15 +30,12 @@ class MainMypageFragment : Fragment() {
     lateinit var binding: MainMypageFragmentBinding
     lateinit var mainActivity: MainActivity
     lateinit var userRepo: DataStoreRepoUser
+    var resumed = "00"
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
         userRepo = DataStoreRepoUser(context.dataStore)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -48,7 +45,11 @@ class MainMypageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = MainMypageFragmentBinding.inflate(inflater, container, false)
+        comms()
+        return binding.root
+    }
 
+    private fun comms() {
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(myPageApi::class.java)
         var accessToken = ""
@@ -61,6 +62,7 @@ class MainMypageFragment : Fragment() {
         val budgetIntent = Intent(mainActivity, MypageBudgetActivity::class.java)
 
         endpoint!!.myPageApi("Bearer $accessToken").enqueue(object : Callback<myPageApiResponse> {
+            @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
                 call: Call<myPageApiResponse>,
                 response: Response<myPageApiResponse>
@@ -115,8 +117,11 @@ class MainMypageFragment : Fragment() {
             startActivity(Intent(mainActivity, MypageAccountActivity::class.java))
             mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
+    }
 
-        return binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        resumed = "01"
     }
 
     private fun digitprocessing(digits: String): String {
@@ -151,5 +156,6 @@ class MainMypageFragment : Fragment() {
     override fun onResume() {
         //TODO: refresh data
         super.onResume()
+        comms()
     }
 }

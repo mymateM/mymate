@@ -180,6 +180,15 @@ class MainActivity : AppCompatActivity() {
         if (spendingFragment.resumed != "00") {
             spendingFragment.onResume()
         }
+        if (homeFragment.resumed != "00") {
+            homeFragment.onResume()
+        }
+        if (reportFragment.resumed != "00") {
+            reportFragment.onResume()
+        }
+        if (mypageFragment.resumed != "00") {
+            mypageFragment.onResume()
+        }
     }
 
 }
