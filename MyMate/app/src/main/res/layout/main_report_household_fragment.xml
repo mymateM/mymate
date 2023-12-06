@@ -28,7 +28,7 @@
                 android:fontFamily="@font/suit_bold"
                 android:textSize="20dp"
                 android:textColor="@color/black_text"
-                android:lineSpacingExtra="3dp"
+                android:lineSpacingExtra="5dp"
                 android:text="잘하고 있어요!\n예산에 딱 맞게 썼어요"
                 android:id="@+id/title"/>
 
@@ -54,7 +54,7 @@
                 android:textColor="@color/black_text"
                 android:textSize="20dp"
                 android:id="@+id/categorytitle"
-                android:lineSpacingExtra="3dp"/>
+                android:lineSpacingExtra="5dp"/>
 
             <com.github.mikephil.charting.charts.PieChart
                 android:layout_width="220dp"
@@ -89,6 +89,11 @@
                 android:layout_marginTop="36dp"
                 tools:listitem="@layout/listitem_report"
                 android:id="@+id/householdlist"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                app:layout_constraintTop_toBottomOf="@id/householdlist"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

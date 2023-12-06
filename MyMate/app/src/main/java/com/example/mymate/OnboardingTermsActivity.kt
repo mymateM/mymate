@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintSet
@@ -28,14 +30,73 @@ class OnboardingTermsActivity: AppCompatActivity() {
         setContentView(binding.root)
         val constraintSet = ConstraintSet()
 
+        binding.tonext.isEnabled = false
+
         val servicespan = SpannableStringBuilder(binding.serviceterm.text)
         val infospan = SpannableStringBuilder(binding.infoterm.text)
+        val marketingspan = SpannableStringBuilder(binding.marketingterm.text)
 
         servicespan.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.purpleblue_select)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         infospan.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.purpleblue_select)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        marketingspan.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.graydark_text)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         binding.serviceterm.text = servicespan
         binding.infoterm.text = infospan
+        binding.marketingterm.text = marketingspan
+
+        binding.serviceterm.setOnClickListener {
+            if (binding.servicetermtext.isGone) {
+                binding.servicetermtext.isGone = false
+                binding.infotermtext.isGone = true
+                binding.marketingtermtext.isGone = true
+                rearrange(constraintSet, binding.infoterm.id, binding.servicetermtext.id)
+                rearrange(constraintSet, binding.marketingterm.id, binding.infoterm.id)
+            } else {
+                binding.servicetermtext.isGone = true
+                binding.infotermtext.isGone = true
+                binding.marketingtermtext.isGone = true
+                rearrange(constraintSet, binding.infoterm.id, binding.serviceterm.id)
+                rearrange(constraintSet, binding.marketingterm.id, binding.infoterm.id)
+            }
+        }
+
+        binding.infoterm.setOnClickListener {
+            if (binding.infotermtext.isGone) {
+                binding.servicetermtext.isGone = true
+                binding.infotermtext.isGone = false
+                binding.marketingtermtext.isGone = true
+                rearrange(constraintSet, binding.marketingterm.id, binding.infotermtext.id)
+                rearrange(constraintSet, binding.infoterm.id, binding.serviceterm.id)
+            } else {
+                binding.servicetermtext.isGone = true
+                binding.infotermtext.isGone = true
+                binding.marketingtermtext.isGone = true
+                rearrange(constraintSet, binding.infoterm.id, binding.serviceterm.id)
+                rearrange(constraintSet, binding.marketingterm.id, binding.infoterm.id)
+            }
+        }
+
+        binding.marketingterm.setOnClickListener {
+            if (binding.marketingtermtext.isGone) {
+                binding.servicetermtext.isGone = true
+                binding.infotermtext.isGone = true
+                binding.marketingtermtext.isGone = false
+                rearrange(constraintSet, binding.infoterm.id, binding.serviceterm.id)
+                rearrange(constraintSet, binding.marketingterm.id, binding.infoterm.id)
+            } else {
+                binding.servicetermtext.isGone = true
+                binding.infotermtext.isGone = true
+                binding.marketingtermtext.isGone = true
+                rearrange(constraintSet, binding.infoterm.id, binding.serviceterm.id)
+                rearrange(constraintSet, binding.marketingterm.id, binding.infoterm.id)
+            }
+        }
+
+        val showterm = SpannableStringBuilder("보기")
+        showterm.setSpan(UnderlineSpan(), 0, showterm.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.showinfoterm.text = showterm
+        binding.showmarketingterm.text = showterm
+        binding.showserviceterm.text = showterm
 
         binding.showserviceterm.setOnClickListener {
             if (binding.servicetermtext.isGone) {

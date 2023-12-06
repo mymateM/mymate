@@ -35,8 +35,8 @@
         android:id="@+id/bigText"/>
 
     <ImageView
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bigText"
         app:layout_constraintEnd_toStartOf="@id/gridimg2"
@@ -58,8 +58,8 @@
         android:src="@drawable/profile1"/>
 
     <ImageView
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
         app:layout_constraintStart_toEndOf="@id/gridimg1"
         app:layout_constraintTop_toTopOf="@id/gridimg1"
         app:layout_constraintBottom_toBottomOf="@id/gridimg1"
@@ -80,8 +80,8 @@
         android:src="@drawable/profile2"/>
 
     <ImageView
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
         app:layout_constraintStart_toEndOf="@id/gridimg2"
         app:layout_constraintTop_toTopOf="@id/gridimg1"
         app:layout_constraintBottom_toBottomOf="@id/gridimg1"
@@ -101,8 +101,8 @@
         android:src="@drawable/profile3"/>
 
     <ImageView
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
         app:layout_constraintStart_toEndOf="@id/gridimg3"
         app:layout_constraintTop_toTopOf="@id/gridimg1"
         app:layout_constraintBottom_toBottomOf="@id/gridimg1"
@@ -123,8 +123,8 @@
         android:src="@drawable/profile4"/>
 
     <ImageView
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
         app:layout_constraintTop_toBottomOf="@id/gridimg1"
         app:layout_constraintStart_toStartOf="@id/gridimg1"
         app:layout_constraintEnd_toEndOf="@id/gridimg1"
@@ -143,8 +143,8 @@
         android:src="@drawable/profile5"/>
 
     <ImageView
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
         app:layout_constraintTop_toBottomOf="@id/gridimg2"
         app:layout_constraintStart_toStartOf="@id/gridimg2"
         app:layout_constraintEnd_toEndOf="@id/gridimg2"
@@ -163,8 +163,8 @@
         android:src="@drawable/profile6"/>
 
     <ImageView
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
         app:layout_constraintTop_toBottomOf="@id/gridimg3"
         app:layout_constraintStart_toStartOf="@id/gridimg3"
         app:layout_constraintEnd_toEndOf="@id/gridimg3"
@@ -183,8 +183,8 @@
         android:src="@drawable/profile7"/>
 
     <ImageView
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
         app:layout_constraintTop_toBottomOf="@id/gridimg4"
         app:layout_constraintStart_toStartOf="@id/gridimg4"
         app:layout_constraintEnd_toEndOf="@id/gridimg4"
@@ -218,6 +218,7 @@
         android:textSize="18dp"
         android:textColor="@color/white"
         android:fontFamily="@font/suit_bold"
-        android:id="@+id/selectBtn"/>
+        android:id="@+id/selectBtn"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

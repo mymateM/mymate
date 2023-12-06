@@ -2,8 +2,8 @@
   <item>
     <shape android:shape="rectangle"/>
   </item>
-  <item android:bottom="6dp" android:top="3dp" android:left="5dp" android:right="4dp">
-    <vector xmlns:android="http://schemas.android.com/apk/res/android"
+  <item android:bottom="8dp" android:top="4dp" android:left="6dp" android:right="6dp">
+    <vector
         android:width="34dp"
         android:height="14dp"
         android:viewportWidth="34"

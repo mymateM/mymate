@@ -130,6 +130,8 @@
         android:textColor="@color/white"
         android:textSize="18dp"
         android:fontFamily="@font/suit_bold"
-        android:id="@+id/amountset"/>
+        android:id="@+id/amountset"
+        android:elevation="0dp"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

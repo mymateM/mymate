@@ -29,6 +29,7 @@
                 android:text="이 달의 많이 쓴 카테고리는\n이것이에요"
                 android:textColor="@color/black_text"
                 android:textSize="20dp"
+                android:lineSpacingExtra="5dp"
                 android:id="@+id/categorytitle"/>
 
             <com.github.mikephil.charting.charts.PieChart
@@ -64,6 +65,11 @@
                 android:layout_marginTop="36dp"
                 tools:listitem="@layout/listitem_report"
                 android:id="@+id/mylist"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                app:layout_constraintTop_toBottomOf="@id/mylist"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

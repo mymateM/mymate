@@ -78,4 +78,5 @@
     <color name="pie_gray1">#E5E5E5</color>
     <color name="pie_gray2">#EEEEEE</color>
     <color name="pie_gray3">#F5F5F5</color>
+    <color name="main_stroke">#EDEDF4</color>
 </resources>

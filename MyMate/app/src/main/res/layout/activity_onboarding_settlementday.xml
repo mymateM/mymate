@@ -105,7 +105,7 @@
 
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="104dp"
+        android:layout_height="130dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/subText"
         app:layout_constraintEnd_toStartOf="@id/settleDay15"
@@ -130,7 +130,7 @@
 
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="104dp"
+        android:layout_height="130dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/subText"
         app:layout_constraintStart_toEndOf="@id/settleDay1"
@@ -155,7 +155,7 @@
 
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="104dp"
+        android:layout_height="130dp"
         app:layout_constraintStart_toStartOf="@id/settleDay1"
         app:layout_constraintTop_toBottomOf="@id/settleDay1"
         app:layout_constraintEnd_toEndOf="@id/settleDay1"
@@ -192,7 +192,7 @@
 
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="104dp"
+        android:layout_height="130dp"
         app:layout_constraintStart_toStartOf="@id/settleDay15"
         app:layout_constraintTop_toBottomOf="@id/settleDay15"
         app:layout_constraintEnd_toEndOf="@id/settleDay15"
@@ -244,7 +244,8 @@
         android:text="다음으로"
         android:textColor="@color/white"
         android:fontFamily="@font/suit_bold"
-        android:textSize="16dp"
-        android:id="@+id/nextbtn"/>
+        android:textSize="20dp"
+        android:id="@+id/nextbtn"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

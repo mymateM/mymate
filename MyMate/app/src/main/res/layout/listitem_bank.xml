@@ -43,8 +43,7 @@
         android:text="하나은행"
         android:textSize="16dp"
         android:fontFamily="@font/suit_medium"
-        android:layout_marginTop="7dp"/>
-
+        android:layout_marginTop="10dp"/>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="13dp"

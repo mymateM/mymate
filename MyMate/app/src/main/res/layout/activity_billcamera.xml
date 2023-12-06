@@ -38,7 +38,8 @@
             app:layout_constraintTop_toBottomOf="@id/electronicoverlay"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/black_text"/>
+            android:background="@color/black_text"
+            android:id="@+id/bottommargin"/>
 
         <ImageView
             android:layout_width="0dp"
@@ -278,7 +279,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="35dp"
         android:layout_marginStart="38dp"
         android:text="취소"
         android:textSize="14dp"
@@ -293,7 +294,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="70dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="@font/suit_bold"
         android:textColor="@color/white"
         android:textSize="18dp"
@@ -305,8 +306,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="25dp"
         android:layout_marginEnd="70dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/suit_medium"
         android:text="화면을 터치하면 촬영이 시작돼요!"
         android:textSize="16dp"

@@ -94,6 +94,7 @@
         android:textColor="@color/white"
         android:fontFamily="@font/suit_bold"
         android:textSize="20dp"
-        android:id="@+id/nextbtn"/>
+        android:id="@+id/nextbtn"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

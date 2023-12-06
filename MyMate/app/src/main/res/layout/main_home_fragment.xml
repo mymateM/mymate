@@ -305,7 +305,7 @@
                 <TextView
                     android:id="@+id/homestatustxt"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="57dp"
                     app:layout_constraintTop_toBottomOf="@id/spendpercentbox"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -317,11 +317,11 @@
                     android:backgroundTint="@color/graylight_buttonfill"
                     android:text="이대로라면 예산을 초과할 것 같아요"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/suit_regular_apply"
+                    android:fontFamily="@font/suit_medium"
                     android:gravity="center_vertical"
                     android:drawablePadding="8dp"
-                    android:paddingLeft="16dp"
-                    android:textSize="14dp"/>
+                    android:paddingLeft="22dp"
+                    android:textSize="16dp"/>
 
                 <TextView
                     android:id="@+id/comparebigtxt"
@@ -333,7 +333,7 @@
                     android:text="지난 달 대비 덜 썼어요"
                     android:textColor="@color/blackmute_text"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="48dp"
+                    android:layout_marginTop="56dp"
                     android:layout_marginRight="20dp"
                     android:fontFamily="@font/suit_bold_apply"/>
 
@@ -345,10 +345,10 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:text="그때보다 "
                     android:textColor="@color/graydark_text"
-                    android:textSize="14dp"
+                    android:textSize="16dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="6dp"
-                    android:fontFamily="@font/suit_regular_apply"/>
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/suit_medium"/>
                 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -367,7 +367,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/comparesmalltxtl"
                     app:layout_constraintStart_toEndOf="@id/compareicon"
                     android:text="25,000"
-                    android:textSize="14dp"
+                    android:textSize="16dp"
                     android:textColor="@color/graydark_text"
                     android:fontFamily="@font/montserrat_regular"
                     android:id="@+id/statusbilltext"

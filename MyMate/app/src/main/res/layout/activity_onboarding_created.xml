@@ -59,6 +59,7 @@
         android:fontFamily="@font/suit_bold"
         android:background="@drawable/box_radius50"
         android:backgroundTint="@color/purplemute_background"
-        android:id="@+id/toHome"/>
+        android:id="@+id/toHome"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

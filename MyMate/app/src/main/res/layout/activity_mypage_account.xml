@@ -37,6 +37,7 @@
         app:layout_constraintTop_toBottomOf="@id/title"
         android:layout_marginTop="39dp"
         android:id="@+id/accountgraphic"
+        android:src="@drawable/mypage_account"
         android:scaleType="centerInside"/>
 
     <TextView
@@ -79,7 +80,8 @@
         android:fontFamily="@font/suit_medium"
         android:paddingStart="14dp"
         android:paddingEnd="14dp"
-        android:id="@+id/accountEdit"/>
+        android:id="@+id/accountEdit"
+        android:stateListAnimator="@null"/>
 
     <ImageView
         android:layout_width="match_parent"

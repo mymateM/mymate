@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
 import com.example.mymate.databinding.ActivityLocaljoinemailBinding
 
 class LocalJoinEmailActivity: AppCompatActivity() {
@@ -18,8 +19,13 @@ class LocalJoinEmailActivity: AppCompatActivity() {
         binding = ActivityLocaljoinemailBinding.inflate(layoutInflater)
         context = this
         setContentView(binding.root)
+        binding.clear.isGone = true
 
         binding.tonext.isEnabled = false
+
+        binding.clear.setOnClickListener {
+            binding.email.text = null
+        }
 
         var message = ""
         binding.email.addTextChangedListener(object : TextWatcher {
@@ -27,6 +33,7 @@ class LocalJoinEmailActivity: AppCompatActivity() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 message = binding.email.text.toString()
+                binding.clear.isGone = message.isEmpty()
                 if (binding.email.text.isNotEmpty() && message.contains("@")) {
                     binding.tonext.isEnabled = true
                     binding.tonext.setBackgroundResource(R.drawable.button_loginbarselected)

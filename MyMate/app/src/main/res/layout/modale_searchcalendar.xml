@@ -17,8 +17,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="59dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="66dp"
+        android:layout_marginStart="30dp"
         android:id="@+id/monthText"
         android:text="0월"
         android:fontFamily="@font/suit_bold"
@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/monthText"
         app:layout_constraintBottom_toBottomOf="@id/monthText"
+        android:layout_marginBottom="1dp"
         android:id="@+id/yeartext"
         android:text="2023"
         android:fontFamily="@font/montserrat_semibold"
@@ -38,10 +39,10 @@
         android:layout_marginStart="8dp"/>
 
     <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="@id/monthText"
-        app:layout_constraintBottom_toBottomOf="@id/monthText"
+        android:layout_width="15dp"
+        android:layout_height="7dp"
+        app:layout_constraintTop_toTopOf="@id/yeartext"
+        app:layout_constraintBottom_toBottomOf="@id/yeartext"
         app:layout_constraintStart_toEndOf="@id/yeartext"
         app:layout_constraintEnd_toEndOf="@id/selectdate"
         android:layout_marginEnd="-12dp"
@@ -50,11 +51,11 @@
         android:background="@android:color/transparent"/>
 
     <ImageButton
-        android:layout_width="9dp"
-        android:layout_height="4dp"
+        android:layout_width="15dp"
+        android:layout_height="7dp"
         app:layout_constraintStart_toEndOf="@id/yeartext"
-        app:layout_constraintTop_toTopOf="@id/monthText"
-        app:layout_constraintBottom_toBottomOf="@id/monthText"
+        app:layout_constraintTop_toTopOf="@id/yeartext"
+        app:layout_constraintBottom_toBottomOf="@id/yeartext"
         android:layout_marginStart="12dp"
         android:src="@drawable/arrow_down"
         android:background="@android:color/transparent"
@@ -62,27 +63,28 @@
         android:id="@+id/selectdate"/>
 
     <ImageButton
-        android:layout_width="5dp"
-        android:layout_height="9dp"
+        android:layout_width="7dp"
+        android:layout_height="15dp"
         app:layout_constraintEnd_toStartOf="@id/monthNext"
         app:layout_constraintTop_toTopOf="@id/monthText"
         app:layout_constraintBottom_toBottomOf="@id/monthText"
-        android:layout_marginEnd="25.62dp"
+        android:layout_marginEnd="26dp"
         android:src="@drawable/arrow_left"
         android:scaleType="fitCenter"
         android:background="@android:color/transparent"
         android:id="@+id/monthLast"/>
 
     <ImageButton
-        android:layout_width="5dp"
-        android:layout_height="9dp"
+        android:layout_width="7dp"
+        android:layout_height="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/monthText"
         app:layout_constraintBottom_toBottomOf="@id/monthText"
-        android:layout_marginStart="15.2dp"
+        android:layout_marginStart="26dp"
         android:src="@drawable/arrow_right"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="30dp"
         android:scaleType="fitCenter"
+        app:tint="@color/graydark_text"
         android:background="@android:color/transparent"
         android:id="@+id/monthNext"/>
 
@@ -212,6 +214,8 @@
         android:textColor="@color/white"
         android:textSize="18dp"
         android:fontFamily="@font/suit_bold"
-        android:id="@+id/calendarset"/>
+        android:id="@+id/calendarset"
+        android:elevation="0dp"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

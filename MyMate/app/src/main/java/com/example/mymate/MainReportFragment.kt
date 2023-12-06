@@ -100,23 +100,29 @@ class MainReportFragment : Fragment() {
         val dateEndpoint = retrofit?.create(getSettlementDate::class.java)
 
         dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object : Callback<settlementDateResponse> {
+            @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
                 call: Call<settlementDateResponse>,
                 response: Response<settlementDateResponse>
             ) {
                 if(response.isSuccessful) {
                     var date = response.body()!!.data
+                    val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
                     if (LocalDate.now().dayOfMonth < date.toInt()) {
                         var thisdate = LocalDate.now().minusMonths(1)
                         thisdate = thisdate.withDayOfMonth(date.toInt())
                         date = thisdate.format(formatter)
-                        val thisperiod = "${thisdate.monthValue}월 ${thisdate.dayOfMonth}일 -"
+                        val thisperiod = SpannableStringBuilder("${thisdate.monthValue}월 ${thisdate.dayOfMonth}일 -")
+                        thisperiod.setSpan(TypefaceSpan(montBoldTypeface), 0, thisdate.monthValue.toString().length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        thisperiod.setSpan(TypefaceSpan(montBoldTypeface), thisdate.monthValue.toString().length + 2, thisperiod.length - 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         binding.thisperiod.text = thisperiod
                     } else {
                         var thisdate = LocalDate.now()
                         thisdate = thisdate.withDayOfMonth(date.toInt())
                         date = thisdate.format(formatter)
-                        val thisperiod = "${thisdate.monthValue}월 ${thisdate.dayOfMonth}일 -"
+                        val thisperiod = SpannableStringBuilder("${thisdate.monthValue}월 ${thisdate.dayOfMonth}일 -")
+                        thisperiod.setSpan(TypefaceSpan(montBoldTypeface), 0, thisdate.monthValue.toString().length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        thisperiod.setSpan(TypefaceSpan(montBoldTypeface), thisdate.monthValue.toString().length + 2, thisperiod.length - 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         binding.thisperiod.text = thisperiod
                     }
                 }

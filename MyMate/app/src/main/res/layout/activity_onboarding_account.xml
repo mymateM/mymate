@@ -97,6 +97,7 @@
                 android:text="생활비를 정산할 때, 여기서 등록한 계좌로\n서로에게 간편하게 보낼 수 있어요."
                 android:fontFamily="@font/suit_regular"
                 android:textColor="@color/graydark_text"
+                android:lineSpacingExtra="3dp"
                 android:id="@+id/subText"/>
 
             <Button
@@ -110,7 +111,8 @@
                 android:layout_marginTop="70dp"
                 android:background="@android:color/transparent"
                 android:id="@+id/bankSelect"
-                android:elevation="0dp"/>
+                android:elevation="0dp"
+                android:stateListAnimator="@null"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -181,9 +183,10 @@
                 android:text="다음으로"
                 android:textColor="@color/white"
                 android:fontFamily="@font/suit_bold"
-                android:textSize="16dp"
+                android:textSize="20dp"
                 android:id="@+id/nextbtn"
-                android:elevation="0dp"/>
+                android:elevation="0dp"
+                android:stateListAnimator="@null"/>
 
             <ImageView
                 android:layout_width="match_parent"

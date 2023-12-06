@@ -113,7 +113,8 @@
         android:fontFamily="@font/suit_bold"
         android:textColor="@color/white"
         android:id="@+id/tobefore"
-        android:layout_marginBottom="26dp"/>
+        android:layout_marginBottom="26dp"
+        android:stateListAnimator="@null"/>
 
     <Button
         android:layout_width="0dp"
@@ -129,6 +130,7 @@
         android:fontFamily="@font/suit_bold"
         android:textColor="@color/white"
         android:textSize="18dp"
-        android:id="@+id/tonext"/>
+        android:id="@+id/tonext"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

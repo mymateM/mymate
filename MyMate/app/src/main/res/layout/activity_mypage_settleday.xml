@@ -80,6 +80,7 @@
         android:fontFamily="@font/suit_medium"
         android:paddingStart="14dp"
         android:paddingEnd="14dp"
-        android:id="@+id/dateEdit"/>
+        android:id="@+id/dateEdit"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -90,8 +90,8 @@
                 android:id="@+id/monthNext"/>
 
             <ImageButton
-                android:layout_width="19.2dp"
-                android:layout_height="19.2dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/toSearch"
                 app:layout_constraintBottom_toBottomOf="@id/toSearch"
@@ -99,12 +99,11 @@
                 android:src="@drawable/alarm_black"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
-
                 android:id="@+id/toAlarm"/>
 
             <ImageButton
-                android:layout_width="19.2dp"
-                android:layout_height="19.2dp"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
                 app:layout_constraintEnd_toStartOf="@id/toAlarm"
                 app:layout_constraintTop_toTopOf="@id/toSearch"
                 app:layout_constraintBottom_toBottomOf="@id/toSearch"
@@ -115,8 +114,8 @@
                 android:id="@+id/toBills"/>
 
             <ImageButton
-                android:layout_width="19.2dp"
-                android:layout_height="19.2dp"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
                 app:layout_constraintEnd_toStartOf="@id/toBills"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="25dp"
@@ -280,8 +279,11 @@
                 app:layout_constraintBottom_toBottomOf="@id/pluscontainer"
                 app:layout_constraintEnd_toEndOf="@id/pluscontainer"
                 app:layout_constraintStart_toStartOf="@id/pluscontainer"
-                android:text="+ 내역 추가"
+                android:text="내역 추가"
+                android:drawableLeft="@drawable/plus"
                 android:textSize="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
                 android:textColor="@color/black_text"
                 android:fontFamily="@font/suit_semibold"
                 android:background="@android:color/transparent"

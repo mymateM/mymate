@@ -104,7 +104,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="7dp"
         android:layout_marginBottom="23dp"
-        android:id="@+id/invitedBtn"/>
+        android:id="@+id/invitedBtn"
+        android:stateListAnimator="@null"/>
 
     <Button
         android:layout_width="0dp"
@@ -121,6 +122,7 @@
         android:layout_marginStart="7dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="23dp"
-        android:id="@+id/inviteBtn"/>
+        android:id="@+id/inviteBtn"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

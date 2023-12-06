@@ -167,11 +167,13 @@ class MainHomeFragment : Fragment() {
                         binding.presentComparebody.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.box_noradius))
                         binding.presentguidetop.setGuidelinePercent(0.185f)
                         binding.presentguidemid.setGuidelinePercent(0.365f)
+                        binding.compareicon.setImageResource(R.drawable.more)
                     } else {
                         comparebigtext = SpannableStringBuilder("지난 달 ${household.expense_duration}일간 대비 덜 썼어요")
                         binding.statusbilltext.setTextColor(ContextCompat.getColor(mainActivity, R.color.pie_green))
                         binding.statussubtextsmall.setTextColor(ContextCompat.getColor(mainActivity, R.color.pie_green))
                         binding.presentComparetop.isGone = true
+                        binding.compareicon.setImageResource(R.drawable.less)
                         binding.presentComparebody.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.graph_hometop))
                         binding.presentguidemid.setGuidelinePercent((0.365 + 0.235 * (household.by_now_expense.toFloat() / household.by_previous_expense.toFloat())).toFloat())
                     }
@@ -256,12 +258,13 @@ class MainHomeFragment : Fragment() {
         val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
         val suitMediumTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_medium), Typeface.NORMAL)
         val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
+        val suitSemiBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_semibold), Typeface.NORMAL)
         val piemidtext = SpannableStringBuilder("${digitprocessing(realtotal.toString())}원\n오늘까지 썼어요")
         piemidtext.setSpan(AbsoluteSizeSpan(18, true), 0, digitprocessing(realtotal.toString()).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(AbsoluteSizeSpan(16, true), digitprocessing(realtotal.toString()).length + 2, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(TypefaceSpan(montBoldTypeface), 0, digitprocessing(realtotal.toString()).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(TypefaceSpan(suitBoldTypeface), digitprocessing(realtotal.toString()).length, digitprocessing(realtotal.toString()).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        piemidtext.setSpan(TypefaceSpan(suitMediumTypeface), digitprocessing(realtotal.toString()).length + 1, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(TypefaceSpan(suitSemiBoldTypeface), digitprocessing(realtotal.toString()).length + 1, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline)), 0, digitprocessing(realtotal.toString()).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.black_text)), digitprocessing(realtotal.toString()).length + 1, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.myPieMidText.text = piemidtext

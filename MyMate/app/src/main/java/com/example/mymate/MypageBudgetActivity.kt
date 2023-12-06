@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import com.example.mymate.databinding.ActivityMypageBudgetBinding
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,7 +45,7 @@ class MypageBudgetActivity: AppCompatActivity() {
         val endpoint = retrofit?.create(getMyBudget::class.java)
         var accessToken = ""
         runBlocking {
-            accessToken = userRepo.getAccessToken().first().toString()
+            accessToken = userRepo.userAccessReadFlow.first().toString()
         }
 
         endpoint!!.getMyBudget("Bearer $accessToken").enqueue(object : Callback<myBudgetResponse> {

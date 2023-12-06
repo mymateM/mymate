@@ -76,7 +76,6 @@ class OnboardingAccountActivity: AppCompatActivity() {
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_nh)!!)
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_daegu)!!)
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_citi)!!)
-        imgList.add(ContextCompat.getDrawable(this, R.drawable.edit)!!)
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_shinhan)!!)
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_woori)!!)
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_woochaeguk)!!)
@@ -92,14 +91,13 @@ class OnboardingAccountActivity: AppCompatActivity() {
         nameList.add("NH농협")
         nameList.add("대구")
         nameList.add("시티")
-        nameList.add("새마을")
         nameList.add("신한")
         nameList.add("우리")
         nameList.add("우체국")
         nameList.add("SC제일")
         nameList.add("제주")
-        nameList.add("카카오뱅크")
-        nameList.add("토스뱅크")
+        nameList.add("카카오")
+        nameList.add("토스")
         nameList.add("하나")
     }
 
@@ -129,11 +127,7 @@ class OnboardingAccountActivity: AppCompatActivity() {
         binding.modaleAccount.bankTable.adapter = adapter.apply {
             setOnItemClickListener(object : OnboardingAccountAdapter.OnItemClickListener {
                 override fun onItemClick(img: Drawable, name: String, position: Int) {
-                    if (position == 12 || position == 13) {
-                        binding.bankName.text = name
-                    } else {
-                        binding.bankName.text = "${name}은행"
-                    }
+                    binding.bankName.text = name
                     behavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     binding.cover.isGone = true
                     binding.bankName.setTextColor(ContextCompat.getColor(applicationContext, R.color.black_text))

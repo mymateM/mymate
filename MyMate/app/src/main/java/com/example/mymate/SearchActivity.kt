@@ -1,9 +1,15 @@
 package com.example.mymate
 
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.TextWatcher
+import android.text.style.TypefaceSpan
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
@@ -12,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,6 +61,7 @@ class SearchActivity: AppCompatActivity() {
     private var formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
     private var searchformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -94,18 +102,36 @@ class SearchActivity: AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun bottomSheetInit() {
         behavioramount = BottomSheetBehavior.from(binding.searchamount.root)
         behaviorcalendar = BottomSheetBehavior.from(binding.searchcalendar.root)
         behaviorcategory = BottomSheetBehavior.from(binding.searchcategory.root)
         behaviorlistup = BottomSheetBehavior.from(binding.searchlistup.root)
 
+        binding.searchamount.root.setOnClickListener {
+
+        }
+
+        binding.searchcalendar.root.setOnClickListener {
+
+        }
+
+        binding.searchcategory.root.setOnClickListener {
+
+        }
+
+        binding.searchlistup.root.setOnClickListener {
+
+        }
+
         binding.refreshButton.setOnClickListener {
             binding.amountbutton.text = "가격"
             binding.categorybutton.text = "카테고리"
             binding.listupbutton.text = "최신순"
+            binding.searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.black_text))
             binding.calendarbutton.text = "기간"
-            selected(binding.listupbutton)
+            unselected(binding.listupbutton)
             unselected(binding.amountbutton)
             unselected(binding.categorybutton)
             unselected(binding.calendarbutton)
@@ -137,6 +163,7 @@ class SearchActivity: AppCompatActivity() {
             behavioramount.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorlistup.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorcategory.state = BottomSheetBehavior.STATE_COLLAPSED
+
             search()
         }
 
@@ -186,7 +213,6 @@ class SearchActivity: AppCompatActivity() {
             } else {
                 behaviorlistup.state = BottomSheetBehavior.STATE_EXPANDED
                 binding.cover.isGone = false
-                selected(binding.listupbutton)
             }
             behaviorcalendar.state = BottomSheetBehavior.STATE_COLLAPSED
             behavioramount.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -474,9 +500,20 @@ class SearchActivity: AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun setCalendarView(date: LocalDate) {
         //calendar header
-        binding.searchcalendar.monthText.text = selectedDate.format(monthformatter)
+        val month = SpannableStringBuilder(selectedDate.format(monthformatter))
+        val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_bold), Typeface.NORMAL)
+        val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_bold), Typeface.NORMAL)
+        if (selectedDate.monthValue < 10) {
+            month.setSpan(TypefaceSpan(montBoldTypeface), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            month.setSpan(TypefaceSpan(suitBoldTypeface), month.lastIndex, month.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        } else if (selectedDate.monthValue >= 10) {
+            month.setSpan(TypefaceSpan(montBoldTypeface), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            month.setSpan(TypefaceSpan(suitBoldTypeface), month.lastIndex, month.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        binding.searchcalendar.monthText.text = month
         binding.searchcalendar.yeartext.text = selectedDate.format(yearformatter)
         //generate date lists
         iteminfo = arrayListOf<calendarItem>()

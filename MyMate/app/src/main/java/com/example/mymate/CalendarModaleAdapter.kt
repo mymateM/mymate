@@ -37,6 +37,7 @@ class CalendarModaleAdapter(val context: Context, val dayList: ArrayList<LocalDa
             day.text = item
             binding.background.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.calendar_period_background))
             binding.background.isInvisible = true
+            binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.black_text))
 
             if (info.lastornext) {
                 day.setTextColor(Color.TRANSPARENT)
@@ -44,18 +45,23 @@ class CalendarModaleAdapter(val context: Context, val dayList: ArrayList<LocalDa
                 if (info.startorEnd && calendarVal.firstDay == -1) {
                     binding.background.isInvisible = false
                     binding.backgroundmodale.isInvisible = true
+                    binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
                 } else if (info.startorEnd && calendarVal.lastDay == -1) {
                     binding.background.isInvisible = false
                     binding.backgroundmodale.isInvisible = true
+                    binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
                 } else {
                     binding.background.isInvisible = true
                     binding.backgroundmodale.isInvisible = false
                     if (absoluteAdapterPosition == calendarVal.firstDay && info.startorEnd) {
                         binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.calendar_period_start))
+                        binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
                     } else if (absoluteAdapterPosition == calendarVal.lastDay && info.startorEnd) {
                         binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.calendar_period_end))
+                        binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
                     } else if (info.middle) {
                         binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.calendar_period_middle))
+                        binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.black_text))
                     } else {
                         binding.backgroundmodale.isInvisible = true
                     }

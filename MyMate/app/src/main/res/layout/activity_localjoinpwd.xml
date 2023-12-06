@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
 
     <ImageView
         android:layout_width="9dp"
@@ -26,7 +27,8 @@
         android:textSize="22dp"
         android:textColor="@color/black_text"
         android:fontFamily="@font/happiness_sans_title"
-        android:id="@+id/title"/>
+        android:id="@+id/title"
+        android:lineSpacingExtra="5dp"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -41,9 +43,17 @@
         android:hint="비밀번호"
         android:textSize="20dp"
         android:textColorHint="@color/graylight_text"
-        android:background="@android:color/transparent"
         android:maxLines="1"
         android:id="@+id/pwd"/>
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintEnd_toEndOf="@id/pwd"
+        app:layout_constraintTop_toTopOf="@id/pwd"
+        app:layout_constraintBottom_toBottomOf="@id/pwd"
+        android:src="@drawable/delete"
+        android:id="@+id/clearpwd"/>
 
     <ImageView
         android:layout_width="match_parent"
@@ -70,8 +80,18 @@
         android:textSize="20dp"
         android:maxLines="1"
         android:textColorHint="@color/graylight_text"
-        android:background="@android:color/transparent"
         android:id="@+id/pwdchecktext"
+        android:inputType="textPassword"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintEnd_toEndOf="@id/pwdchecktext"
+        app:layout_constraintTop_toTopOf="@id/pwdchecktext"
+        app:layout_constraintBottom_toBottomOf="@id/pwdchecktext"
+        android:src="@drawable/delete"
+        android:id="@+id/clearpwdcheck"
         android:visibility="gone"/>
 
     <ImageView
@@ -110,6 +130,7 @@
         android:textSize="16dp"
         android:textColor="@color/graylight_text"
         android:visibility="gone"
+        android:inputType="textPassword"
         android:id="@+id/pwdcheckdesc"/>
 
     <Button

@@ -41,6 +41,7 @@
         android:text="확인"
         android:textColor="@color/white"
         android:fontFamily="@font/suit_bold"
-        android:textSize="18dp"/>
+        android:textSize="18dp"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

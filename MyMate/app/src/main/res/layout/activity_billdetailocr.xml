@@ -306,7 +306,8 @@
                 android:paddingTop="6dp"
                 android:paddingStart="14dp"
                 android:paddingEnd="14dp"
-                android:id="@+id/scanbtn"/>
+                android:id="@+id/scanbtn"
+                android:stateListAnimator="@null"/>
 
             <TextView
                 android:layout_width="wrap_content"

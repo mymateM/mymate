@@ -32,7 +32,7 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
         val customtext = binding.settleDayEditText
         var message = ""
 
-        val toptext = SpannableStringBuilder("돈을 정산하고 싶은]\n날짜를 선택해 주세요")
+        val toptext = SpannableStringBuilder("돈을 정산하고 싶은\n날짜를 선택해 주세요")
         toptext.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.purpleblue_select)), 11, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.topText.text = toptext
 

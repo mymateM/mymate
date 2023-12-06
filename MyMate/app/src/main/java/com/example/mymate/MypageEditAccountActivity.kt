@@ -126,6 +126,11 @@ class MypageEditAccountActivity: AppCompatActivity() {
             binding.cover.isGone = false
         }
 
+        binding.bankName.setOnClickListener {
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.cover.isGone = false
+        }
+
         binding.cover.setOnClickListener {
             behavior.state = BottomSheetBehavior.STATE_COLLAPSED
             binding.cover.isGone = true
@@ -159,7 +164,6 @@ class MypageEditAccountActivity: AppCompatActivity() {
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_nh)!!)
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_daegu)!!)
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_citi)!!)
-        imgList.add(ContextCompat.getDrawable(this, R.drawable.edit)!!)
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_shinhan)!!)
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_woori)!!)
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_woochaeguk)!!)
@@ -169,34 +173,32 @@ class MypageEditAccountActivity: AppCompatActivity() {
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_toss)!!)
         imgList.add(ContextCompat.getDrawable(this, R.drawable.bank_hana)!!)
 
-        nameList.add("경남은행")
-        nameList.add("KB국민은행")
-        nameList.add("IBK기업은행")
-        nameList.add("NH농협은행")
-        nameList.add("대구은행")
-        nameList.add("시티뱅크")
-        nameList.add("새마을금고")
-        nameList.add("신한은행")
-        nameList.add("우리은행")
-        nameList.add("우체국예금")
-        nameList.add("SC제일은행")
-        nameList.add("제주은행")
-        nameList.add("카카오뱅크")
-        nameList.add("토스뱅크")
-        nameList.add("하나은행")
+        nameList.add("경남")
+        nameList.add("KB국민")
+        nameList.add("IBK기업")
+        nameList.add("NH농협")
+        nameList.add("대구")
+        nameList.add("시티")
+        nameList.add("신한")
+        nameList.add("우리")
+        nameList.add("우체국")
+        nameList.add("SC제일")
+        nameList.add("제주")
+        nameList.add("카카오")
+        nameList.add("토스")
+        nameList.add("하나")
 
-        codeList.add("KNB")
+        codeList.add("BNK")
         codeList.add("KB")
         codeList.add("IBK")
         codeList.add("NH")
-        codeList.add("DAEGU")
-        codeList.add("CITY")
-        codeList.add("KFCC")
-        codeList.add("SHINHAN")
+        codeList.add("DGB")
+        codeList.add("CITI")
+        codeList.add("SINHAN")
         codeList.add("WOORI")
-        codeList.add("EPOST")
+        codeList.add("POST")
         codeList.add("SC")
-        codeList.add("JEJU")
+        codeList.add("KAKAO") //제주은행 자리
         codeList.add("KAKAO")
         codeList.add("TOSS")
         codeList.add("HANA")

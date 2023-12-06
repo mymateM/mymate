@@ -152,7 +152,8 @@
         android:text="다음으로"
         android:textColor="@color/white"
         android:fontFamily="@font/suit_bold"
-        android:textSize="16dp"
-        android:id="@+id/nextbtn"/>
+        android:textSize="20dp"
+        android:id="@+id/nextbtn"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

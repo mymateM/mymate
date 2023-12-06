@@ -117,10 +117,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         setContentView(binding.root)
-        Handler(Looper.getMainLooper()).postDelayed({
+        /*Handler(Looper.getMainLooper()).postDelayed({
             binding.splash.isGone = true
             binding.splashicon.isGone = true
-        }, 500)
+        }, 500)*/
 
     }
 

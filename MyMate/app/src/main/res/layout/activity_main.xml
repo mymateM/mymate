@@ -13,6 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/mainbottomtab"
         />
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/mainbottomtab"
         android:contentDescription="maintab_bottomposition"
@@ -37,18 +38,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/splash"
-        android:background="@drawable/splash_bg"
+        android:background="@color/purpleblue_select"
         android:elevation="20dp"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/splashicon"
-        android:src="@drawable/splash"
+        android:src="@drawable/mymate_splash"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:elevation="20dp"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
