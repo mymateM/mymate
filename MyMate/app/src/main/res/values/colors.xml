@@ -75,4 +75,7 @@
     <color name="purplelight_settlegraph">#A39EF4</color>
     <color name="graylight_settlefill">#F7F6FF</color>
     <color name="red_graph">#F07463</color>
+    <color name="pie_gray1">#E5E5E5</color>
+    <color name="pie_gray2">#EEEEEE</color>
+    <color name="pie_gray3">#F5F5F5</color>
 </resources>

@@ -73,7 +73,7 @@ class MainMypageFragment : Fragment() {
                     val ratiotext = SpannableStringBuilder(mypagecallback.user_settlement_ratio + "%")
                     ratiotext.setSpan(TypefaceSpan(montBoldTypeface), 0, ratiotext.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     binding.myratio.text = ratiotext
-                    val settledaytext = SpannableStringBuilder(mypagecallback.household_settlement_date.split("-")[2] + "일")
+                    val settledaytext = SpannableStringBuilder(mypagecallback.household_settlement_date + "일")
                     settledaytext.setSpan(TypefaceSpan(montBoldTypeface), 0, settledaytext.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     binding.settleday.text = settledaytext
                     val amounttext = SpannableStringBuilder((mypagecallback.household_budget_amount.toInt() / 10000).toString() + "만원")
@@ -89,16 +89,23 @@ class MainMypageFragment : Fragment() {
             }
         })
 
+        binding.settledaycontainer.setOnClickListener {
+            val dayIntent = Intent(mainActivity, MypageSettledayActivity::class.java)
+            startActivity(dayIntent)
+            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
+        }
+
         binding.toSetting.setOnClickListener {
             startActivity(Intent(mainActivity, SettingActivity::class.java))
             mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
         binding.profileEdit.setOnClickListener {
-            val profileIntent = Intent(mainActivity, MypageEditprofileActivity::class.java)
+            /*val profileIntent = Intent(mainActivity, MypageEditprofileActivity::class.java)
             profileIntent.putExtra("nickname", binding.nickname.text.toString())
             startActivity(profileIntent)
-            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
+            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)*/
+            Toast.makeText(mainActivity, "전시로 인해 프로필 변경이 불가합니다.", Toast.LENGTH_SHORT).show()
         }
 
         binding.ratiocontainer.setOnClickListener {

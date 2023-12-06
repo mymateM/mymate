@@ -48,7 +48,7 @@
         app:layout_constraintTop_toTopOf="@id/accountNumber"
         app:layout_constraintBottom_toBottomOf="@id/accountNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/arrow_right"
+        android:src="@drawable/copypaste"
         android:background="@android:color/transparent"
         android:id="@+id/copypaste"
         android:layout_marginEnd="20dp"

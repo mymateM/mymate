@@ -39,8 +39,169 @@
         android:textSize="14dp"
         android:fontFamily="@font/suit_medium"
         android:textColor="@color/purpleblue_select"
-        android:text="완료"/>
+        android:text="완료"
+        android:id="@+id/completedbtn"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintBottom_toTopOf="@id/member1Head"
+        android:layout_marginStart="90dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textColor="@color/black_text"
+        android:textSize="18dp"
+        android:text="나"
+        android:id="@+id/myHead"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/myHead"
+        app:layout_constraintBottom_toTopOf="@id/member2Head"
+        android:layout_marginStart="90dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textColor="@color/black_text"
+        android:textSize="18dp"
+        android:text="영서"
+        android:id="@+id/member1Head"
+        android:layout_marginTop="33dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/member1Head"
+        app:layout_constraintBottom_toTopOf="@id/member3Head"
+        android:layout_marginStart="90dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textColor="@color/black_text"
+        android:textSize="18dp"
+        android:text="은희"
+        android:id="@+id/member2Head"
+        android:layout_marginTop="33dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/member2Head"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="90dp"
+        android:fontFamily="@font/suit_semibold"
+        android:textColor="@color/black_text"
+        android:textSize="18dp"
+        android:text="가은"
+        android:layout_marginTop="33dp"
+        android:layout_marginBottom="50dp"
+        android:id="@+id/member3Head"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/myHead"
+        app:layout_constraintBottom_toBottomOf="@id/myHead"
+        android:layout_marginEnd="90dp"
+        android:text="%"
+        android:textSize="18dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/black_text"
+        android:id="@+id/myTail"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/member1Head"
+        app:layout_constraintBottom_toBottomOf="@id/member1Head"
+        android:layout_marginEnd="90dp"
+        android:text="%"
+        android:textSize="18dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/black_text"
+        android:id="@+id/member1Tail"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/member2Head"
+        app:layout_constraintBottom_toBottomOf="@id/member2Head"
+        android:layout_marginEnd="90dp"
+        android:text="%"
+        android:textSize="18dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/black_text"
+        android:id="@+id/member2Tail"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/member3Head"
+        app:layout_constraintBottom_toBottomOf="@id/member3Head"
+        android:layout_marginEnd="90dp"
+        android:text="%"
+        android:textSize="18dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/black_text"
+        android:id="@+id/member3Tail"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/myTail"
+        app:layout_constraintTop_toTopOf="@id/myTail"
+        app:layout_constraintBottom_toBottomOf="@id/myTail"
+        android:textColor="@color/black_text"
+        android:textSize="18dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:id="@+id/myEdit"
+        android:maxLines="1"
+        android:inputType="number"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/member1Tail"
+        app:layout_constraintTop_toTopOf="@id/member1Tail"
+        app:layout_constraintBottom_toBottomOf="@id/member1Tail"
+        android:textColor="@color/black_text"
+        android:textSize="18dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:id="@+id/member1Edit"
+        android:maxLines="1"
+        android:inputType="number"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/member2Tail"
+        app:layout_constraintTop_toTopOf="@id/member2Tail"
+        app:layout_constraintBottom_toBottomOf="@id/member2Tail"
+        android:textColor="@color/black_text"
+        android:textSize="18dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:id="@+id/member2Edit"
+        android:maxLines="1"
+        android:inputType="number"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/member3Tail"
+        app:layout_constraintTop_toTopOf="@id/member3Tail"
+        app:layout_constraintBottom_toBottomOf="@id/member3Tail"
+        android:textColor="@color/black_text"
+        android:textSize="18dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:id="@+id/member3Edit"
+        android:maxLines="1"
+        android:inputType="number"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

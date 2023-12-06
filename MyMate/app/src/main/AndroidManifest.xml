@@ -165,6 +165,15 @@
         <activity android:name=".SettlementReportActivity"
             android:theme="@style/Theme.MyMate"
             android:exported="false"/>
+        <activity android:name=".MypageSettledayActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate"/>
+        <activity android:name=".MypageEditdayActivity"
+            android:theme="@style/Theme.MyMate"
+            android:exported="false"/>
+        <activity android:name=".MypageEditAccountActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyMate"/>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">

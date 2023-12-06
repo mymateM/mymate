@@ -7,7 +7,10 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -24,6 +27,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.create
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Local
 
 class SpendingAddActivity: AppCompatActivity() {
@@ -45,13 +49,25 @@ class SpendingAddActivity: AppCompatActivity() {
         userRepo = DataStoreRepoUser(dataStore)
         context = this
 
-        val enrolldate = "${LocalDate.now().year % 100}년 ${LocalDate.now().monthValue}월 ${LocalDate.now().dayOfMonth}일"
+        var enrolldate = "${LocalDate.now().year % 100}년 ${LocalDate.now().monthValue}월 ${LocalDate.now().dayOfMonth}일"
+        if (!intent.getStringExtra("thedate").isNullOrEmpty()) {
+            enrolldate = intent.getStringExtra("thedate")!!
+        }
 
         binding.enrolldate.text = enrolldate
 
         binding.backbtn.setOnClickListener {
             finish()
         }
+
+        binding.amountEdit.setOnEditorActionListener(object: TextView.OnEditorActionListener {
+            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                if (p1 == EditorInfo.IME_ACTION_DONE) {
+                    hidekeyboard()
+                }
+                return false
+            }
+        })
 
         binding.storeEdit.setOnClickListener {
             val storeintent = Intent(context, SpendingAddStoreActivity::class.java)
@@ -167,17 +183,26 @@ class SpendingAddActivity: AppCompatActivity() {
                         "기타" -> sending.expenseCategory = "ETC"
                     }
 
-                    val month = LocalDate.now().monthValue
-                    val today = LocalDate.now().dayOfMonth
+                    var month = LocalDate.now().monthValue
+                    var today = LocalDate.now().dayOfMonth
+                    var year = LocalDate.now().year
+                    val formatter = DateTimeFormatter.ofPattern("yy년 MM월 dd일")
+                    val thedate = intent.getStringExtra("thedate")
 
+                    if (!thedate.isNullOrEmpty()) {
+                        val dateparse = LocalDate.parse(thedate, formatter)
+                        month = dateparse.monthValue
+                        today = dateparse.dayOfMonth
+                        year = dateparse.year
+                    }
                     if (month < 10 && today < 10) {
-                        sending.expenseDate = "${LocalDate.now().year}-0${month}-0${today}"
+                        sending.expenseDate = "${year}-0${month}-0${today}"
                     } else if (month < 10) {
-                        sending.expenseDate = "${LocalDate.now().year}-0${month}-${today}"
+                        sending.expenseDate = "${year}-0${month}-${today}"
                     } else if (today < 10) {
-                        sending.expenseDate = "${LocalDate.now().year}-${month}-0${today}"
+                        sending.expenseDate = "${year}-${month}-0${today}"
                     } else {
-                        sending.expenseDate = "${LocalDate.now().year}-${month}-${today}"
+                        sending.expenseDate = "${year}-${month}-${today}"
                     }
                     endpoint!!.putDailyExpense("Bearer $accessToken", sending).enqueue(object : Callback<postbillResponse> {
                         override fun onResponse(

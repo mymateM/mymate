@@ -195,6 +195,15 @@ data class houseRatioList (
     var household_members: ArrayList<houseMembers> = ArrayList()
 )
 
+data class houseRatioPost (
+    var household_members: ArrayList<houseMemberSimple> = ArrayList()
+)
+
+data class houseMemberSimple (
+    var user_id: String = "",
+    var user_settlement_ratio: String = ""
+)
+
 data class houseMembers (
     var user_id: String = "",
     var user_profile_image: String = "",
@@ -205,7 +214,13 @@ data class houseMembers (
 data class myAccount (
     var account_bank: String = "",
     var account_number: String = "",
-    var account_image_url: String = ""
+    var account_image_url: String = "",
+    var members: ArrayList<mateAccount> = ArrayList()
+)
+
+data class postAccount (
+    var account_bank: String = "",
+    var account_number: String = ""
 )
 
 data class homeHousehold (
@@ -293,7 +308,21 @@ data class mateSettleInfo (
     var account_number: String = ""
 )
 
+data class mateAccount (
+    var user_name: String = "",
+    var user_profile_image: String = "",
+    var account_bank: String = "",
+    var account_number: String = ""
+)
 
+data class settledaytosend (
+    var settlement_day_of_month: String = ""
+)
+
+data class budget (
+    var budget_amount: String = "",
+    var budget_allowance: String = ""
+)
 
 // data class for responses
 
@@ -447,6 +476,12 @@ data class mateSettleInfoResponse (
     var message: String = "",
     var status: String = "",
     var data: mateSettleInfoData = mateSettleInfoData()
+)
+
+data class myBudgetResponse (
+    var message: String = "",
+    var status: String = "",
+    var data: budget = budget()
 )
 
 //login + token interface
@@ -605,6 +640,11 @@ interface searchExpense {
     fun searchExpense(@Header("Authorization") Authorization: String, @Query("expense_date_max") expense_date_max: String, @Query("expense_date_min") expense_date_min: String, @Query("expense_category_name") expense_category_name: String, @Query("expense_amount_max") expense_amount_max: String, @Query("expense_amount_min") expense_amount_min: String, @Query("sorted_by_newest") sorted_by_newest: Boolean): Call<searchResponse>
 }
 
+interface deleteExpense {
+    @DELETE("api/v1/expense/{expense_id}")
+    fun deleteExpense(@Header("Authorization") Authorization: String, @Path("expense_id") expense_id: String): Call<Response<Void>>
+}
+
 //Reports API
 
 interface getSettlementDate {
@@ -630,11 +670,31 @@ interface myPageApi {
 }
 
 interface getHouseRatio {
-    @GET("api/v1/members/settlement-ratio")
+    @GET("api/v1/household/members/settlement-ratio")
     fun getHouseRatio(@Header("Authorization") Authorization: String): Call<houseRatioResponse>
 }
 
 interface getMyAccount {
     @GET("api/v1/user/account")
     fun getMyAccount(@Header("Authorization") Authorization: String): Call<myAccountResponse>
+}
+
+interface postSettleDay {
+    @POST("api/v1/household/settlement-date")
+    fun postSettleDay(@Header("Authorization") Authorization: String, @Body req: settledaytosend): Call<Response<Void>>
+}
+
+interface getMyBudget {
+    @GET("api/v1/household/budget")
+    fun getMyBudget(@Header("Authorization") Authorization: String): Call<myBudgetResponse>
+}
+
+interface postHouseRatio {
+    @POST("api/v1/roomates/settlement-ratio")
+    fun postHouseRatio(@Header("Authorization") Authorization: String, @Body req: houseRatioPost): Call<Response<Void>>
+}
+
+interface postMyAccount {
+    @POST("api/v1/user/account")
+    fun postMyAccount(@Header("Authorization") Authorization: String, @Body req: postAccount): Call<Response<Void>>
 }

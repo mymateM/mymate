@@ -20,7 +20,7 @@ class OnboardingAccountAdapter(val imgList: ArrayList<Drawable>, val nameList: A
     inner class AccountHolder(val binding: ListitemBankBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
         fun bind(img: Drawable, name: String) {
             binding.bankImage.setImageDrawable(img)
-            binding.bankName.text = name
+            binding.bankName.text = name.substring(0 until name.length - 2)
 
             if (onItemClickListener != null) {
                 binding.bankImageContainer.setOnClickListener {

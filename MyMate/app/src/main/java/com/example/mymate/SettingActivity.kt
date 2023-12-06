@@ -62,7 +62,7 @@ class SettingActivity: AppCompatActivity() {
     }
 
     fun sorry() {
-        Toast.makeText(context, "준비중입니다!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "준비중이에요!", Toast.LENGTH_SHORT).show()
     }
 
     override fun onBackPressed() {

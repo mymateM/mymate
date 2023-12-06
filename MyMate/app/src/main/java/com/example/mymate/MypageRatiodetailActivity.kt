@@ -1,6 +1,7 @@
 package com.example.mymate
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -42,13 +43,10 @@ class MypageRatiodetailActivity: AppCompatActivity() {
         pieChart.setUsePercentValues(true)
         var entries = ArrayList<PieEntry>()
         val color = ArrayList<Int>()
-        color.add(ContextCompat.getColor(context, R.color.pie_green))
-        color.add(ContextCompat.getColor(context, R.color.pie_pink))
-        color.add(ContextCompat.getColor(context, R.color.pie_blue))
-        color.add(ContextCompat.getColor(context, R.color.pie_yellow))
-        color.add(ContextCompat.getColor(context, R.color.pie_purple))
-        color.add(ContextCompat.getColor(context, R.color.pie_red))
-        color.add(ContextCompat.getColor(context, R.color.pie_gray))
+        color.add(ContextCompat.getColor(context, R.color.purplemute_background))
+        color.add(ContextCompat.getColor(context, R.color.pie_gray1))
+        color.add(ContextCompat.getColor(context, R.color.pie_gray2))
+        color.add(ContextCompat.getColor(context, R.color.pie_gray3))
         val colorItem = ArrayList<Int>()
 
         val retrofit = RetrofitClientInstance.client
@@ -64,24 +62,39 @@ class MypageRatiodetailActivity: AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     val houseList = response.body()!!.data.household_members
-                    Log.d("MYPAGERATIO!!!", houseList.size.toString())
-                    for (i in 0 until houseList.size) {
+                    /*for (i in 0 until houseList.size) {
                         entries.add(PieEntry(houseList[i].user_settlement_ratio.toFloat(), houseList[i].user_nickname))
-                        colorItem.add(color[i%7])
-                    }
+                        colorItem.add(color[i%4])
+                    }*/
+                    // 전시를 위한 변경
+                    entries.add(PieEntry(houseList[1].user_settlement_ratio.toFloat(), houseList[1].user_nickname))
+                    entries.add(PieEntry(houseList[0].user_settlement_ratio.toFloat(), houseList[0].user_nickname))
+                    entries.add(PieEntry(houseList[2].user_settlement_ratio.toFloat(), houseList[2].user_nickname))
+                    entries.add(PieEntry(houseList[3].user_settlement_ratio.toFloat(), houseList[3].user_nickname))
+                    colorItem.add(color[0])
+                    colorItem.add(color[1])
+                    colorItem.add(color[2])
+                    colorItem.add(color[3])
+                    binding.member1.text = houseList[1].user_nickname
+                    binding.member2.text = houseList[0].user_nickname
+                    binding.member3.text = houseList[2].user_nickname
+                    binding.member4.text = houseList[3].user_nickname
                     val pieDataSet = PieDataSet(entries, "")
                     pieDataSet.apply {
                         colors = colorItem
-                        valueTextColor = ContextCompat.getColor(context, android.R.color.transparent)
                         setDrawValues(false)
                     }
                     pieChart.apply {
                         data = PieData(pieDataSet)
                         description.isEnabled = false
                         isRotationEnabled = false
-                        holeRadius = 85.45.toFloat()
+                        holeRadius = 85.toFloat()
                         transparentCircleRadius = 0f
+                        legend.isEnabled = false
+                        setTouchEnabled(false)
+                        setDrawSliceText(false)
                     }
+                    pieChart.invalidate()
                 } else {
                     pieChart.isInvisible = true
                 }
@@ -90,7 +103,80 @@ class MypageRatiodetailActivity: AppCompatActivity() {
             override fun onFailure(call: Call<houseRatioResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(정산 비율)", Toast.LENGTH_SHORT).show()
             }
+        })
 
+        binding.ratioEdit.setOnClickListener {
+            startActivity(Intent(context, MypageEditratioActivity::class.java))
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val pieChart = binding.ratiochart
+        pieChart.setUsePercentValues(true)
+        var entries = ArrayList<PieEntry>()
+        val color = ArrayList<Int>()
+        color.add(ContextCompat.getColor(context, R.color.purplemute_background))
+        color.add(ContextCompat.getColor(context, R.color.pie_gray1))
+        color.add(ContextCompat.getColor(context, R.color.pie_gray2))
+        color.add(ContextCompat.getColor(context, R.color.pie_gray3))
+        val colorItem = ArrayList<Int>()
+
+        val retrofit = RetrofitClientInstance.client
+        val endpoint = retrofit?.create(getHouseRatio::class.java)
+        var accessToken = ""
+        runBlocking {
+            accessToken = userRepo.userAccessReadFlow.first().toString()
+        }
+        endpoint!!.getHouseRatio("Bearer $accessToken").enqueue(object : Callback<houseRatioResponse> {
+            override fun onResponse(
+                call: Call<houseRatioResponse>,
+                response: Response<houseRatioResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val houseList = response.body()!!.data.household_members
+                    /*for (i in 0 until houseList.size) {
+                        entries.add(PieEntry(houseList[i].user_settlement_ratio.toFloat(), houseList[i].user_nickname))
+                        colorItem.add(color[i%4])
+                    }*/
+                    // 전시를 위한 변경
+                    entries.add(PieEntry(houseList[1].user_settlement_ratio.toFloat(), houseList[1].user_nickname))
+                    entries.add(PieEntry(houseList[0].user_settlement_ratio.toFloat(), houseList[0].user_nickname))
+                    entries.add(PieEntry(houseList[2].user_settlement_ratio.toFloat(), houseList[2].user_nickname))
+                    entries.add(PieEntry(houseList[3].user_settlement_ratio.toFloat(), houseList[3].user_nickname))
+                    colorItem.add(color[0])
+                    colorItem.add(color[1])
+                    colorItem.add(color[2])
+                    colorItem.add(color[3])
+                    binding.member1.text = houseList[1].user_nickname
+                    binding.member2.text = houseList[0].user_nickname
+                    binding.member3.text = houseList[2].user_nickname
+                    binding.member4.text = houseList[3].user_nickname
+                    binding.ratio.text = houseList[1].user_settlement_ratio + "%"
+                    val pieDataSet = PieDataSet(entries, "")
+                    pieDataSet.apply {
+                        colors = colorItem
+                        setDrawValues(false)
+                    }
+                    pieChart.apply {
+                        data = PieData(pieDataSet)
+                        description.isEnabled = false
+                        isRotationEnabled = false
+                        holeRadius = 85.toFloat()
+                        transparentCircleRadius = 0f
+                        legend.isEnabled = false
+                        setTouchEnabled(false)
+                        setDrawSliceText(false)
+                    }
+                    pieChart.invalidate()
+                } else {
+                    pieChart.isInvisible = true
+                }
+            }
+
+            override fun onFailure(call: Call<houseRatioResponse>, t: Throwable) {
+                Toast.makeText(context, "연결 실패(정산 비율)", Toast.LENGTH_SHORT).show()
+            }
         })
     }
 

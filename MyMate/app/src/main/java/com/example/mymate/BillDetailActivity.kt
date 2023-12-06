@@ -140,7 +140,6 @@ class BillDetailActivity: AppCompatActivity() {
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        var deleteid = id
         endpointdelete!!.deleteBill("Bearer $accessToken", bill_id_list = id).enqueue(object : Callback<postbillResponse> {
             override fun onResponse(
                 call: Call<postbillResponse>,

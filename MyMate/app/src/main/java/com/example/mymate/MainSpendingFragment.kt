@@ -28,6 +28,7 @@ import com.example.mymate.databinding.MainSpendingFragmentBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.selects.select
 import org.checkerframework.common.subtyping.qual.Bottom
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,6 +41,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import java.util.Date
 
 data class calendarItem (
     var startorEnd: Boolean = false,
@@ -60,18 +62,20 @@ class MainSpendingFragment : Fragment() {
     private var year = ""
     private var month = ""
     private var day = ""
-    private var selectedDate = LocalDate.now()
+    lateinit var selectedDate: LocalDate
     private var expenseDetail = ArrayList<ExpenseList>()
     var resumed = "00"
 
     var retrofit = RetrofitClientInstance.client
     var endpoint = retrofit?.create(getDailyExpense::class.java)
-
+    
+    private var formatter = DateTimeFormatter.ofPattern("yy년 MM월 dd일")
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
         calendarVal = CalendarValues()
+        selectedDate = LocalDate.now()
         userRepo = DataStoreRepoUser(context.dataStore)
         montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
         suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
@@ -125,7 +129,9 @@ class MainSpendingFragment : Fragment() {
         }
 
         binding.spendingPlus.setOnClickListener {
-            startActivity(Intent(mainActivity, SpendingAddActivity::class.java))
+            val toSpendingPlus = Intent(mainActivity, SpendingAddActivity::class.java)
+            toSpendingPlus.putExtra("thedate", formatter.format(selectedDate))
+            startActivity(Intent(toSpendingPlus))
         }
         resumed = "01"
         return binding.root
@@ -296,6 +302,7 @@ class MainSpendingFragment : Fragment() {
                                 }
                                 if (day != null) {
                                     setDailyExpenceView(day)
+                                    selectedDate = day
                                 }
                             }
                         })
@@ -415,24 +422,6 @@ class MainSpendingFragment : Fragment() {
             calendarVal.firstDay = -1
             calendarVal.lastDay = -1
             setCalendarView(selectedDate)
-        }
-
-        binding.toBills.setOnClickListener {
-            startActivity(Intent(mainActivity, BillManagerActivity::class.java))
-            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
-        }
-
-        binding.toAlarm.setOnClickListener {
-            startActivity(Intent(mainActivity, AlarmActivity::class.java))
-            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
-        }
-
-        binding.toSearch.setOnClickListener {
-            startActivity(Intent(mainActivity, SearchActivity::class.java))
-        }
-
-        binding.spendingPlus.setOnClickListener {
-            startActivity(Intent(mainActivity, SpendingAddActivity::class.java))
         }
     }
 }

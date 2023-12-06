@@ -44,10 +44,10 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
         }
 
         firstday.setOnClickListener {
-            firstday.setImageDrawable(getDrawable(R.drawable.button_selectedbox))
-            fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-            endday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-            customday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+            firstday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectedbox))
+            fifteenthday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+            endday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+            customday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
             binding.nextbtn.isEnabled = true
             binding.nextbtn.setBackgroundResource(R.drawable.button_wfseleted)
             binding.settleDay1Text.setTextColor(ContextCompat.getColor(this, R.color.purpleblue_select))
@@ -60,10 +60,10 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
         }
 
         fifteenthday.setOnClickListener {
-            firstday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-            fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectedbox))
-            endday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-            customday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+            firstday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+            fifteenthday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectedbox))
+            endday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+            customday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
             binding.nextbtn.isEnabled = true
             binding.nextbtn.setBackgroundResource(R.drawable.button_wfseleted)
             binding.settleDay1Text.setTextColor(ContextCompat.getColor(this, R.color.graylight_text))
@@ -76,10 +76,10 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
         }
 
         endday.setOnClickListener {
-            firstday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-            fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-            endday.setImageDrawable(getDrawable(R.drawable.button_selectedbox))
-            customday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+            firstday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+            fifteenthday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+            endday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectedbox))
+            customday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
             binding.nextbtn.isEnabled = true
             binding.nextbtn.setBackgroundResource(R.drawable.button_wfseleted)
             binding.settleDay1Text.setTextColor(ContextCompat.getColor(this, R.color.graylight_text))
@@ -93,10 +93,10 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
 
         customday.setOnClickListener {
             if (message.isNotEmpty()) {
-                firstday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-                fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-                endday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-                customday.setImageDrawable(getDrawable(R.drawable.button_selectedbox))
+                firstday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+                fifteenthday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+                endday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+                customday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectedbox))
                 binding.nextbtn.isEnabled = true
                 binding.nextbtn.setBackgroundResource(R.drawable.button_wfseleted)
                 binding.dayText.isGone = false
@@ -122,10 +122,10 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
                 message = customtext.text.toString()
                 if (message.isNotEmpty()) {
                     if (message == "29" || message == "30" || message == "31") {
-                        firstday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-                        fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-                        endday.setImageDrawable(getDrawable(R.drawable.button_selectedbox))
-                        customday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+                        firstday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+                        fifteenthday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+                        endday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectedbox))
+                        customday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
                         binding.settleDay1Text.setTextColor(ContextCompat.getColor(applicationContext, R.color.graylight_text))
                         binding.settleDay15Text.setTextColor(ContextCompat.getColor(applicationContext, R.color.graylight_text))
                         binding.settleTextEnd.setTextColor(ContextCompat.getColor(applicationContext, R.color.purpleblue_select))
@@ -141,10 +141,10 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
                         Toast.makeText(applicationContext, "유효한 날짜를 입력해주세요.", Toast.LENGTH_SHORT).show()
                         customtext.text.clear()
                     } else {
-                        firstday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-                        fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-                        endday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-                        customday.setImageDrawable(getDrawable(R.drawable.button_selectedbox))
+                        firstday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+                        fifteenthday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+                        endday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+                        customday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectedbox))
                         binding.settleDay1Text.setTextColor(ContextCompat.getColor(applicationContext, R.color.graylight_text))
                         binding.settleDay15Text.setTextColor(ContextCompat.getColor(applicationContext, R.color.graylight_text))
                         binding.settleTextEnd.setTextColor(ContextCompat.getColor(applicationContext, R.color.graylight_text))
@@ -156,10 +156,10 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
                         binding.dayText.isGone = false
                     }
                 } else {
-                    firstday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-                    fifteenthday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-                    endday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
-                    customday.setImageDrawable(getDrawable(R.drawable.button_selectbox))
+                    firstday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+                    fifteenthday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+                    endday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
+                    customday.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.button_selectbox))
                     binding.settleDay1Text.setTextColor(ContextCompat.getColor(applicationContext, R.color.graylight_text))
                     binding.settleDay15Text.setTextColor(ContextCompat.getColor(applicationContext, R.color.graylight_text))
                     binding.settleTextEnd.setTextColor(ContextCompat.getColor(applicationContext, R.color.graylight_text))

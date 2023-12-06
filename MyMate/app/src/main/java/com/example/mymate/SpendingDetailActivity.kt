@@ -10,6 +10,7 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.create
 
 class SpendingDetailActivity: AppCompatActivity() {
     lateinit var binding: ActivitySpendingdetailBinding
@@ -60,9 +61,20 @@ class SpendingDetailActivity: AppCompatActivity() {
         })
 
         binding.deletebtn.setOnClickListener {
-            //TODO: delete API
+            val deleteEndpoint = retrofit?.create(deleteExpense::class.java)
+            deleteEndpoint!!.deleteExpense("Bearer $accessToken", id).enqueue(object : Callback<Response<Void>> {
+                override fun onResponse(
+                    call: Call<Response<Void>>,
+                    response: Response<Response<Void>>
+                ) {
+                    finish()
+                }
 
-            finish()
+                override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
+                    Toast.makeText(context, "연결 실패-내역 삭제",Toast.LENGTH_SHORT).show()
+                }
+
+            })
         }
     }
 

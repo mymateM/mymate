@@ -154,7 +154,7 @@ class MainHomeFragment : Fragment() {
 
                     val ratio = household.by_now_expense.toInt() / household.by_previous_expense.toInt()
                     var comparebigtext = SpannableStringBuilder("지난 달 대비")
-                    binding.dDay.text = "정산일 D-${household.settlement_d_day}"
+                    binding.dDay.text = "정산일 D${household.settlement_d_day}"
                     val expensetitle = digitprocessing(household.by_now_expense)
                     binding.nownotitext.text = expensetitle
                     val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
@@ -271,7 +271,7 @@ class MainHomeFragment : Fragment() {
         val entries = ArrayList<PieEntry>()
         var spendfornow = (now_left)
         var leftfornow = (now_total)
-        if (now_left + now_total > 100f) {
+        if (now_left + now_total >= 100f) {
             spendfornow = 100f
             leftfornow = 0f
         }

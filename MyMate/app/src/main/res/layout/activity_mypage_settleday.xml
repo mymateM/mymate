@@ -23,95 +23,63 @@
         app:layout_constraintBottom_toBottomOf="@id/backbtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="계좌 관리"
+        android:text="정산일"
         android:textSize="18dp"
         android:textColor="@color/black_text"
         android:fontFamily="@font/suit_extrabold"
         android:id="@+id/title"/>
 
     <ImageView
-        android:layout_width="34dp"
-        android:layout_height="25dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
-        android:layout_marginTop="39dp"
-        android:id="@+id/accountgraphic"
-        android:scaleType="centerInside"/>
+        android:layout_marginTop="40dp"
+        android:id="@+id/dateGraphic"
+        android:src="@drawable/calendar"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/accountgraphic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dateGraphic"
+        android:layout_marginTop="22dp"
         android:textSize="18dp"
-        android:text="내 계좌"
         android:textColor="@color/black_text"
         android:fontFamily="@font/suit_medium"
-        android:layout_marginTop="22dp"/>
+        android:text="정산 일자"
+        android:id="@+id/titledesc"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/accountgraphic"
-        android:layout_marginTop="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titledesc"
+        android:layout_marginTop="12dp"
+        android:text="매월 00일"
         android:textColor="@color/black_text"
-        android:text="MM 000000-00-000000"
-        android:textSize="24dp"
         android:fontFamily="@font/montserrat_bold"
-        android:id="@+id/account"/>
+        android:textSize="30dp"
+        android:id="@+id/day"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        app:layout_constraintTop_toBottomOf="@id/account"
-        app:layout_constraintStart_toStartOf="@id/account"
-        app:layout_constraintEnd_toEndOf="@id/account"
+        app:layout_constraintTop_toBottomOf="@id/day"
+        app:layout_constraintStart_toStartOf="@id/day"
+        app:layout_constraintEnd_toEndOf="@id/day"
         android:layout_marginTop="20dp"
         android:background="@drawable/box_radius50"
         android:backgroundTint="@color/graylight_btn"
-        android:text="계좌 변경"
+        android:text="정산일 변경"
         android:textColor="@color/graydark_text"
         android:textSize="14dp"
         android:fontFamily="@font/suit_medium"
         android:paddingStart="14dp"
         android:paddingEnd="14dp"
-        android:id="@+id/accountEdit"/>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        app:layout_constraintTop_toBottomOf="@id/accountEdit"
-        android:layout_marginTop="55dp"
-        android:src="@drawable/icon_defaultrectangle"
-        app:tint="@color/graylight_buttonfill"
-        android:id="@+id/sectiondevider"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sectiondevider"
-        android:layout_marginTop="36dp"
-        android:textSize="18dp"
-        android:text="메이트 계좌"
-        android:textColor="@color/black_text"
-        android:fontFamily="@font/suit_medium"
-        android:id="@+id/mateaccount"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/mateaccount"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:id="@+id/accountList"/>
+        android:id="@+id/dateEdit"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

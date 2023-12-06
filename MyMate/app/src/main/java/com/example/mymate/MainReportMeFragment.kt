@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -116,40 +117,46 @@ class MainReportMeFragment: Fragment() {
                                         maxPosition = i
                                     }
                                 }
-                                maxCategory = mydata.expense_categories[maxPosition].category_name
-                                val categorytitle = SpannableStringBuilder("이 달의 많이 쓴 카테고리는\n${maxCategory}입니다")
-                                val colorItemList = ArrayList<Int>()
-                                colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_yellow))
-                                colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_red))
-                                colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_blue))
-                                colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_gray))
-                                colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_green))
-                                colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_pink))
-                                colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_purple))
-                                var categoryColor = 0
-                                when(maxCategory) {
-                                    "식비" -> categoryColor = colorItemList[0]
-                                    "생활" -> categoryColor = colorItemList[6]
-                                    "쇼핑" -> categoryColor = colorItemList[5]
-                                    "교통" -> categoryColor = colorItemList[2]
-                                    "의료" -> categoryColor = colorItemList[1]
-                                    "고지서" -> categoryColor = colorItemList[0]
-                                    "교육" -> categoryColor = colorItemList[4]
-                                    "기타" -> categoryColor = colorItemList[3]
-                                }
-                                categorytitle.setSpan(ForegroundColorSpan(categoryColor), 16, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                                binding.categorytitle.text = categorytitle
-                                val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
-                                val suitMediumTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_medium), Typeface.NORMAL)
-                                val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
-                                val piemidtxt = SpannableStringBuilder("총 지출\n${digitprocessing(totalExpense.toString())}원")
-                                piemidtxt.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.graydark_text)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                                piemidtxt.setSpan(AbsoluteSizeSpan(16, true), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                                piemidtxt.setSpan(TypefaceSpan(suitMediumTypeface), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                                piemidtxt.setSpan(TypefaceSpan(suitBoldTypeface), piemidtxt.length - 1, piemidtxt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                                binding.pieMidText.text = piemidtxt
+                                if (maxPosition != -1) {
+                                    maxCategory = mydata.expense_categories[maxPosition].category_name
+                                    val categorytitle = SpannableStringBuilder("이 달의 많이 쓴 카테고리는\n${maxCategory}입니다")
+                                    val colorItemList = ArrayList<Int>()
+                                    colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_yellow))
+                                    colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_red))
+                                    colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_blue))
+                                    colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_gray))
+                                    colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_green))
+                                    colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_pink))
+                                    colorItemList.add(ContextCompat.getColor(mainActivity, R.color.pie_purple))
+                                    var categoryColor = 0
+                                    when(maxCategory) {
+                                        "식비" -> categoryColor = colorItemList[0]
+                                        "생활" -> categoryColor = colorItemList[6]
+                                        "쇼핑" -> categoryColor = colorItemList[5]
+                                        "교통" -> categoryColor = colorItemList[2]
+                                        "의료" -> categoryColor = colorItemList[1]
+                                        "고지서" -> categoryColor = colorItemList[0]
+                                        "교육" -> categoryColor = colorItemList[4]
+                                        "기타" -> categoryColor = colorItemList[3]
+                                    }
+                                    categorytitle.setSpan(ForegroundColorSpan(categoryColor), 16, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                                    binding.categorytitle.text = categorytitle
+                                    val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
+                                    val suitMediumTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_medium), Typeface.NORMAL)
+                                    val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
+                                    val piemidtxt = SpannableStringBuilder("총 지출\n${digitprocessing(totalExpense.toString())}원")
+                                    piemidtxt.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.graydark_text)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                                    piemidtxt.setSpan(AbsoluteSizeSpan(16, true), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                                    piemidtxt.setSpan(TypefaceSpan(suitMediumTypeface), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                                    piemidtxt.setSpan(TypefaceSpan(suitBoldTypeface), piemidtxt.length - 1, piemidtxt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                                    binding.pieMidText.text = piemidtxt
 
-                                initPieRecycle(categoryName, categoryRatio, categoryAbs, totalExpense)
+                                    initPieRecycle(categoryName, categoryRatio, categoryAbs, totalExpense)
+                                } else {
+                                    binding.categorypie.isGone = true
+                                    binding.pieMidText.isGone = true
+                                    binding.categorytitle.text = "이번 달에는 소비를 등록하지 않았어요"
+                                }
                             }
                         }
 
