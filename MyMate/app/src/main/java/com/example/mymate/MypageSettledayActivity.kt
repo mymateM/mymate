@@ -55,9 +55,10 @@ class MypageSettledayActivity: AppCompatActivity() {
                     binding.day.text = daytext
 
                     binding.dateEdit.setOnClickListener {
-                        val editIntent = Intent(context, MypageEditdayActivity::class.java)
+                        /*val editIntent = Intent(context, MypageEditdayActivity::class.java)
                         editIntent.putExtra("day", day)
-                        startActivity(editIntent)
+                        startActivity(editIntent)*/
+                        Toast.makeText(context, "전시로 인해 정산일 변경이 불가합니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

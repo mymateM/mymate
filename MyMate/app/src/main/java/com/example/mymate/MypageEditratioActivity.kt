@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.TopAppBar
 import androidx.core.content.ContextCompat
 import com.example.mymate.databinding.ActivityMypageEditratioBinding
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
@@ -58,7 +59,7 @@ class MypageEditratioActivity: AppCompatActivity() {
                     binding.member3Edit.text = Editable.Factory.getInstance().newEditable(list[3].user_settlement_ratio)
 
                     binding.completedbtn.isEnabled = true
-                    binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.purplemute_background))
+                    binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
 
                     binding.myEdit.addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -128,6 +129,115 @@ class MypageEditratioActivity: AppCompatActivity() {
                         }
                     })
 
+                    binding.myEdit.setOnEditorActionListener(object: OnEditorActionListener {
+                        override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                            if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE) {
+                                binding.myEdit.post(Runnable {
+                                    binding.myEdit.requestFocus()
+                                    hidekeyboard()
+                                })
+                                binding.myEdit.requestFocus()
+                                if (binding.myEdit.text.isNullOrEmpty()) {
+                                    Toast.makeText(context, "입력가능한 최소값은 1이에요!", Toast.LENGTH_SHORT).show()
+                                    binding.myEdit.text = Editable.Factory.getInstance().newEditable("1")
+                                }
+                                if (binding.myEdit.text.toString().toInt() > 97) {
+                                    Toast.makeText(context, "더 작은 값을 입력해주세요!", Toast.LENGTH_SHORT).show()
+                                    binding.myEdit.text = Editable.Factory.getInstance().newEditable(list[0].user_settlement_ratio)
+                                    binding.member1Edit.text = Editable.Factory.getInstance().newEditable(list[1].user_settlement_ratio)
+                                    binding.member2Edit.text = Editable.Factory.getInstance().newEditable(list[2].user_settlement_ratio)
+                                    binding.member3Edit.text = Editable.Factory.getInstance().newEditable(list[3].user_settlement_ratio)
+                                } else {
+                                    binding.member1Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.myEdit.text.toString().toInt()) / 3 + (100 - binding.myEdit.text.toString().toInt()) % 3).toString())
+                                    binding.member2Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.myEdit.text.toString().toInt()) / 3).toString())
+                                    binding.member3Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.myEdit.text.toString().toInt()) / 3).toString())
+                                }
+                            }
+                            return false
+                        }
+                    })
+
+                    binding.member1Edit.setOnEditorActionListener(object: OnEditorActionListener {
+                        override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                            if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE) {
+                                binding.member1Edit.post(Runnable {
+                                    binding.member1Edit.requestFocus()
+                                    hidekeyboard()
+                                })
+                                if (binding.member1Edit.text.isNullOrEmpty()) {
+                                    Toast.makeText(context, "입력가능한 최소값은 1이에요!", Toast.LENGTH_SHORT).show()
+                                    binding.member1Edit.text = Editable.Factory.getInstance().newEditable("1")
+                                }
+                                if (binding.member1Edit.text.toString().toInt() > 97) {
+                                    Toast.makeText(context, "더 작은 값을 입력해주세요!", Toast.LENGTH_SHORT).show()
+                                    binding.myEdit.text = Editable.Factory.getInstance().newEditable(list[0].user_settlement_ratio)
+                                    binding.member1Edit.text = Editable.Factory.getInstance().newEditable(list[1].user_settlement_ratio)
+                                    binding.member2Edit.text = Editable.Factory.getInstance().newEditable(list[2].user_settlement_ratio)
+                                    binding.member3Edit.text = Editable.Factory.getInstance().newEditable(list[3].user_settlement_ratio)
+                                } else {
+                                    binding.myEdit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member1Edit.text.toString().toInt()) / 3 + (100 - binding.member1Edit.text.toString().toInt()) % 3).toString())
+                                    binding.member2Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member1Edit.text.toString().toInt()) / 3).toString())
+                                    binding.member3Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member1Edit.text.toString().toInt()) / 3).toString())
+                                }
+                            }
+                            return false
+                        }
+                    })
+
+                    binding.member2Edit.setOnEditorActionListener(object: OnEditorActionListener {
+                        override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                            if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE) {
+                                binding.member2Edit.post(Runnable {
+                                    binding.member2Edit.requestFocus()
+                                    hidekeyboard()
+                                })
+                                if (binding.member2Edit.text.isNullOrEmpty()) {
+                                    Toast.makeText(context, "입력가능한 최소값은 1이에요!", Toast.LENGTH_SHORT).show()
+                                    binding.member2Edit.text = Editable.Factory.getInstance().newEditable("1")
+                                }
+                                if (binding.member2Edit.text.toString().toInt() > 97) {
+                                    Toast.makeText(context, "더 작은 값을 입력해주세요!", Toast.LENGTH_SHORT).show()
+                                    binding.myEdit.text = Editable.Factory.getInstance().newEditable(list[0].user_settlement_ratio)
+                                    binding.member1Edit.text = Editable.Factory.getInstance().newEditable(list[1].user_settlement_ratio)
+                                    binding.member2Edit.text = Editable.Factory.getInstance().newEditable(list[2].user_settlement_ratio)
+                                    binding.member3Edit.text = Editable.Factory.getInstance().newEditable(list[3].user_settlement_ratio)
+                                } else {
+                                    binding.myEdit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member2Edit.text.toString().toInt()) / 3 + (100 - binding.member2Edit.text.toString().toInt()) % 3).toString())
+                                    binding.member1Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member2Edit.text.toString().toInt()) / 3).toString())
+                                    binding.member3Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member2Edit.text.toString().toInt()) / 3).toString())
+                                }
+                            }
+                            return false
+                        }
+                    })
+
+                    binding.member3Edit.setOnEditorActionListener(object: OnEditorActionListener {
+                        override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                            if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE) {
+                                binding.member3Edit.post(Runnable {
+                                    binding.member3Edit.requestFocus()
+                                    hidekeyboard()
+                                })
+                                if (binding.member3Edit.text.isNullOrEmpty()) {
+                                    Toast.makeText(context, "입력가능한 최소값은 1이에요!", Toast.LENGTH_SHORT).show()
+                                    binding.member3Edit.text = Editable.Factory.getInstance().newEditable("1")
+                                }
+                                if (binding.member3Edit.text.toString().toInt() > 97) {
+                                    Toast.makeText(context, "더 작은 값을 입력해주세요!", Toast.LENGTH_SHORT).show()
+                                    binding.myEdit.text = Editable.Factory.getInstance().newEditable(list[0].user_settlement_ratio)
+                                    binding.member1Edit.text = Editable.Factory.getInstance().newEditable(list[1].user_settlement_ratio)
+                                    binding.member2Edit.text = Editable.Factory.getInstance().newEditable(list[2].user_settlement_ratio)
+                                    binding.member3Edit.text = Editable.Factory.getInstance().newEditable(list[3].user_settlement_ratio)
+                                } else {
+                                    binding.myEdit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member3Edit.text.toString().toInt()) / 3 + (100 - binding.member3Edit.text.toString().toInt()) % 3).toString())
+                                    binding.member1Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member3Edit.text.toString().toInt()) / 3).toString())
+                                    binding.member2Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member3Edit.text.toString().toInt()) / 3).toString())
+                                }
+                            }
+                            return false
+                        }
+                    })
+
                     binding.completedbtn.setOnClickListener {
                         val completeEndpoint = retrofit.create(postHouseRatio::class.java)
                         val userIdEndpoint = retrofit.create(getMemberId::class.java)
@@ -184,69 +294,6 @@ class MypageEditratioActivity: AppCompatActivity() {
             }
         })
 
-        binding.myEdit.setOnEditorActionListener(object: OnEditorActionListener {
-            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
-                if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE) {
-                    hidekeyboard()
-                    if (binding.myEdit.text.isNullOrEmpty()) {
-                        Toast.makeText(context, "입력가능한 최소값은 1이에요!", Toast.LENGTH_SHORT).show()
-                        binding.myEdit.text = Editable.Factory.getInstance().newEditable("1")
-                    }
-                    binding.member1Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.myEdit.text.toString().toInt()) / 3 + (100 - binding.myEdit.text.toString().toInt()) % 3).toString())
-                    binding.member2Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.myEdit.text.toString().toInt()) / 3).toString())
-                    binding.member3Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.myEdit.text.toString().toInt()) / 3).toString())
-                }
-                return false
-            }
-        })
-
-        binding.member1Edit.setOnEditorActionListener(object: OnEditorActionListener {
-            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
-                if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE) {
-                    hidekeyboard()
-                    if (binding.member1Edit.text.isNullOrEmpty()) {
-                        Toast.makeText(context, "입력가능한 최소값은 1이에요!", Toast.LENGTH_SHORT).show()
-                        binding.member1Edit.text = Editable.Factory.getInstance().newEditable("1")
-                    }
-                    binding.myEdit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member1Edit.text.toString().toInt()) / 3 + (100 - binding.member1Edit.text.toString().toInt()) % 3).toString())
-                    binding.member2Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member1Edit.text.toString().toInt()) / 3).toString())
-                    binding.member3Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member1Edit.text.toString().toInt()) / 3).toString())
-                }
-                return false
-            }
-        })
-
-        binding.member2Edit.setOnEditorActionListener(object: OnEditorActionListener {
-            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
-                if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE) {
-                    hidekeyboard()
-                    if (binding.member2Edit.text.isNullOrEmpty()) {
-                        Toast.makeText(context, "입력가능한 최소값은 1이에요!", Toast.LENGTH_SHORT).show()
-                        binding.member2Edit.text = Editable.Factory.getInstance().newEditable("1")
-                    }
-                    binding.myEdit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member2Edit.text.toString().toInt()) / 3 + (100 - binding.member2Edit.text.toString().toInt()) % 3).toString())
-                    binding.member1Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member2Edit.text.toString().toInt()) / 3).toString())
-                    binding.member3Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member2Edit.text.toString().toInt()) / 3).toString())
-                }
-                return false
-            }
-        })
-
-        binding.member3Edit.setOnEditorActionListener(object: OnEditorActionListener {
-            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
-                if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE) {
-                    hidekeyboard()
-                    if (binding.member3Edit.text.isNullOrEmpty()) {
-                        Toast.makeText(context, "입력가능한 최소값은 1이에요!", Toast.LENGTH_SHORT).show()
-                        binding.member3Edit.text = Editable.Factory.getInstance().newEditable("1")
-                    }
-                    binding.myEdit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member3Edit.text.toString().toInt()) / 3 + (100 - binding.member3Edit.text.toString().toInt()) % 3).toString())
-                    binding.member1Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member3Edit.text.toString().toInt()) / 3).toString())
-                    binding.member2Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member3Edit.text.toString().toInt()) / 3).toString())
-                }
-                return false
-            }
-        })
 
         binding.root.setOnClickListener {
             val focusview = currentFocus
@@ -284,6 +331,10 @@ class MypageEditratioActivity: AppCompatActivity() {
                 binding.member2Edit.text = Editable.Factory.getInstance().newEditable(((100 - binding.member3Edit.text.toString().toInt()) / 3).toString())
             }
             hidekeyboard()
+        }
+
+        binding.back.setOnClickListener {
+            finish()
         }
     }
 

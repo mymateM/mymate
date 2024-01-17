@@ -66,7 +66,7 @@ class BillManagerListActivity: AppCompatActivity() {
             Toast.makeText(context, "올바르지 않은 접근입니다.", Toast.LENGTH_SHORT).show()
         }
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
         }
     }
@@ -140,6 +140,7 @@ class BillManagerListActivity: AppCompatActivity() {
                     val deleteIntent = Intent(context, BillDeleteActivity::class.java)
                     deleteIntent.putExtra("category", category)
                     startActivity(deleteIntent)
+                    overridePendingTransition(R.anim.none, R.anim.none)
                 }
             }
 
@@ -195,6 +196,7 @@ class BillManagerListActivity: AppCompatActivity() {
                     val deleteIntent = Intent(context, BillDeleteActivity::class.java)
                     deleteIntent.putExtra("category", category)
                     startActivity(deleteIntent)
+                    overridePendingTransition(R.anim.none, R.anim.none)
                 }
             }
 
@@ -249,6 +251,7 @@ class BillManagerListActivity: AppCompatActivity() {
                     val deleteIntent = Intent(context, BillDeleteActivity::class.java)
                     deleteIntent.putExtra("category", category)
                     startActivity(deleteIntent)
+                    overridePendingTransition(R.anim.none, R.anim.none)
                 }
             }
 
@@ -303,6 +306,7 @@ class BillManagerListActivity: AppCompatActivity() {
                     val deleteIntent = Intent(context, BillDeleteActivity::class.java)
                     deleteIntent.putExtra("category", category)
                     startActivity(deleteIntent)
+                    overridePendingTransition(R.anim.none, R.anim.none)
                 }
             }
 

@@ -28,7 +28,7 @@ class SpendingDetailActivity: AppCompatActivity() {
         val retrofit = RetrofitClientInstance.client
         val endpoint = retrofit?.create(getDailySingleExpense::class.java)
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
         }
 

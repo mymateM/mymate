@@ -94,6 +94,8 @@ class BillDetailOCRActivity: AppCompatActivity() {
             binding.scandesc.isGone = true
         }
 
+        binding.categoryEdit.isGone = true
+
         binding.amountEdit.setOnEditorActionListener(object: TextView.OnEditorActionListener {
             override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
                 if (p1 == EditorInfo.IME_ACTION_DONE) {
@@ -142,7 +144,7 @@ class BillDetailOCRActivity: AppCompatActivity() {
                 File(savedPath.toUri().path!!).delete()
             }
         }
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             startActivity(toManager)
             overridePendingTransition(android.R.anim.fade_in, R.anim.vertical_exit)
             if (File(savedPath!!.toUri().path!!).exists()) {

@@ -88,6 +88,8 @@ class MainHomeFragment : Fragment() {
             mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
+        binding.logoimage.isGone = true
+
 
         val templogin = binding.logoimage
         templogin.setOnClickListener {
@@ -120,10 +122,10 @@ class MainHomeFragment : Fragment() {
             startActivity(Intent(mainActivity, LoginActivity::class.java))
         }
 
-        val tempOnboardingFlow = binding.spendpercentbox
+        /*val tempOnboardingFlow = binding.spendpercentbox
         tempOnboardingFlow.setOnClickListener {
-            startActivity(Intent(mainActivity, OnboardingTermsActivity::class.java))
-        }
+            startActivity(Intent(mainActivity, OnboardingProfileActivity::class.java))
+        }*/
         return binding.root
     }
 

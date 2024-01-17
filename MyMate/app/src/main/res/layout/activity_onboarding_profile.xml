@@ -10,7 +10,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/profileroot">
+            android:id="@+id/profileroot"
+            android:background="@color/white">
 
             <ImageView
                 android:layout_width="9dp"
@@ -20,7 +21,6 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
                 android:id="@+id/backbtn"
-                android:src="@drawable/back"
                 android:scaleType="fitCenter"/>
 
             <ImageView

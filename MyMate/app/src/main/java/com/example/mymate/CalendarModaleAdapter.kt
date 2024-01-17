@@ -6,6 +6,7 @@ import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
@@ -53,17 +54,17 @@ class CalendarModaleAdapter(val context: Context, val dayList: ArrayList<LocalDa
                 } else {
                     binding.background.isInvisible = true
                     binding.backgroundmodale.isInvisible = false
-                    if (absoluteAdapterPosition == calendarVal.firstDay && info.startorEnd) {
+                    if (calendarVal.firstDay == absoluteAdapterPosition && info.startorEnd) {
                         binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.calendar_period_start))
                         binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
-                    } else if (absoluteAdapterPosition == calendarVal.lastDay && info.startorEnd) {
+                    } else if (calendarVal.lastDay == absoluteAdapterPosition && info.startorEnd) {
                         binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.calendar_period_end))
                         binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
                     } else if (info.middle) {
                         binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.calendar_period_middle))
                         binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.black_text))
                     } else {
-                        binding.backgroundmodale.isInvisible = true
+                        binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context, android.R.color.transparent))
                     }
                 }
             }
@@ -92,8 +93,8 @@ class CalendarModaleAdapter(val context: Context, val dayList: ArrayList<LocalDa
                             info.lastornext = false
                         }
                         onItemClickListener?.onItemClick(info, absoluteAdapterPosition)
-                        notifyItemRangeChanged(dayOfWeek + 1, length + 1)
-                        //notifyDataSetChanged()
+                        //notifyItemRangeChanged(dayOfWeek + 1, length)
+                        notifyDataSetChanged()
                     }
                 }
             }

@@ -5,29 +5,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
-    <ImageButton
-        android:layout_width="9dp"
-        android:layout_height="16dp"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="25dp"
         android:layout_marginStart="20dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/back"
-        android:scaleType="fitCenter"
-        android:id="@+id/backbtn"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="20dp"
         android:fontFamily="@font/suit_medium"
         android:textSize="14dp"
         android:textColor="@color/graydark_text"
-        android:text="수정"/>
+        android:text="취소"
+        android:background="@android:color/transparent"
+        android:id="@+id/back"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="@id/back"
+        app:layout_constraintBottom_toBottomOf="@id/back"
+        app:layout_constraintEnd_toEndOf="@id/back"
+        app:layout_constraintStart_toStartOf="@id/back"
+        android:id="@+id/backbtn"/>
 
     <ImageView
         android:layout_width="40dp"

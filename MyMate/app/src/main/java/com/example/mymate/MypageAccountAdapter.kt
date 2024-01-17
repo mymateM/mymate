@@ -39,6 +39,10 @@ class MypageAccountAdapter(val members: ArrayList<mateAccount>): RecyclerView.Ad
                 binding.copypaste.setOnClickListener {
                     onItemClickListener?.onItemClick(item, absoluteAdapterPosition)
                 }
+
+                binding.accountNumber.setOnClickListener {
+                    onItemClickListener?.onItemClick(item, absoluteAdapterPosition)
+                }
             }
         }
     }

@@ -84,7 +84,7 @@ class MypageAccountActivity: AppCompatActivity() {
 
         })
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
             overridePendingTransition(R.anim.none, R.anim.left_exit)
         }
@@ -97,56 +97,5 @@ class MypageAccountActivity: AppCompatActivity() {
     override fun onBackPressed() {
         finish()
         overridePendingTransition(R.anim.none, R.anim.left_exit)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_bold), Typeface.NORMAL)
-        val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_bold), Typeface.NORMAL)
-
-        val retrofit = RetrofitClientInstance.client
-        val endpoint = retrofit?.create(getMyAccount::class.java)
-        var accessToken = ""
-        runBlocking {
-            accessToken = userRepo.userAccessReadFlow.first().toString()
-        }
-
-        endpoint!!.getMyAccount("Bearer $accessToken").enqueue(object : Callback<myAccountResponse> {
-            @RequiresApi(Build.VERSION_CODES.P)
-            override fun onResponse(
-                call: Call<myAccountResponse>,
-                response: Response<myAccountResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val myaccount = response.body()!!.data
-                    val banktype = myaccount.account_bank.replace("은행", "")
-                    val banknumber = myaccount.account_number
-                    val fullspan = SpannableStringBuilder("$banktype $banknumber")
-                    fullspan.setSpan(TypefaceSpan(suitBoldTypeface), 0, banktype.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    fullspan.setSpan(TypefaceSpan(montBoldTypeface), banktype.length, fullspan.lastIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    binding.account.text = fullspan
-
-                    val adapter = MypageAccountAdapter(myaccount.members)
-                    val manager = LinearLayoutManager(context)
-                    binding.accountList.layoutManager = manager
-                    binding.accountList.adapter = adapter.apply {
-                        setOnItemClickListener(object : MypageAccountAdapter.OnItemClickListener {
-                            override fun onItemClick(item: mateAccount, position: Int) {
-                                val clip = ClipData.newPlainText("account", item.account_bank.replace("은행", "") + " " + item.account_number)
-                                val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                                clipboard.setPrimaryClip(clip)
-                                val toasttxt = "${item.user_name}의\n계좌를 복사했어요"
-                                Toast.makeText(context, toasttxt, Toast.LENGTH_SHORT).show()
-                            }
-                        })
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<myAccountResponse>, t: Throwable) {
-                Toast.makeText(context, "연결 실패(사용자 계좌)", Toast.LENGTH_SHORT).show()
-            }
-
-        })
     }
 }

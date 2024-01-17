@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -19,7 +21,9 @@ class OnboardingGetinviteActivity: AppCompatActivity() {
         binding = ActivityOnboardingGetinviteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.backbtn.setOnClickListener {
+        binding.nextbtn.isEnabled = false
+
+        binding.back.setOnClickListener {
             hidekeyboard()
             finish()
         }
@@ -29,7 +33,8 @@ class OnboardingGetinviteActivity: AppCompatActivity() {
         }
 
         binding.nextbtn.setOnClickListener {
-            startActivity(Intent(this, OnboardingHouseholdActivity::class.java))
+            startActivity(Intent(this, OnboardingCreatedActivity::class.java))
+            overridePendingTransition(android.R.anim.fade_in, R.anim.vertical_exit)
         }
 
         binding.inviteEdit.addTextChangedListener(object : TextWatcher {
@@ -50,6 +55,14 @@ class OnboardingGetinviteActivity: AppCompatActivity() {
             }
 
         })
+
+        binding.inviteEdit.onFocusChangeListener = OnFocusChangeListener { p0, p1 ->
+            if (p1) {
+                binding.inviteEdit.backgroundTintList = ContextCompat.getColorStateList(this, R.color.purpleblue_select)
+            } else {
+                binding.inviteEdit.backgroundTintList = ContextCompat.getColorStateList(this, R.color.graylight_basic)
+            }
+        }
     }
 
     private fun hidekeyboard() {

@@ -285,7 +285,16 @@
         android:textSize="14dp"
         android:textColor="@color/white"
         android:fontFamily="@font/suit_medium"
-        android:id="@+id/backbtn"/>
+        android:id="@+id/back"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/backbtn"
+        app:layout_constraintStart_toStartOf="@id/back"
+        app:layout_constraintEnd_toEndOf="@id/back"
+        app:layout_constraintTop_toTopOf="@id/back"
+        app:layout_constraintBottom_toBottomOf="@id/back"/>
 
     <TextView
         android:layout_width="wrap_content"

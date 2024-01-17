@@ -48,6 +48,7 @@
             android:exported="false"
             android:theme="@style/Theme.MyMate"/>
         <activity android:name=".OnboardingHouseholdActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false"
             android:theme="@style/Theme.MyMate"/>
         <activity android:name=".OnboardingSettlementbudgetActivity"
@@ -70,10 +71,6 @@
             android:theme="@style/Theme.MyMate" />
         <activity
             android:name=".LocalLoginActivity"
-            android:exported="false"
-            android:theme="@style/Theme.MyMate" />
-        <activity
-            android:name=".LocalJoinActivity"
             android:exported="false"
             android:theme="@style/Theme.MyMate" />
         <activity android:name=".BillManagerActivity"
@@ -101,9 +98,6 @@
         <activity android:name=".OnboardingTermsActivity"
             android:theme="@style/Theme.MyMate"
             android:exported="false"/>
-        <activity android:name=".BillImageActivity"
-            android:exported="false"
-            android:theme="@style/Theme.MyMate"/>
         <activity android:name=".SearchActivity"
             android:exported="false"
             android:theme="@style/Theme.MyMate"/>

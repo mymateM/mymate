@@ -2,18 +2,26 @@ package com.example.mymate
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
+import android.text.style.TypefaceSpan
+import android.text.style.UnderlineSpan
 import android.util.Log
+import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import com.example.mymate.databinding.ActivityOnboardingSettlementdayBinding
 import kotlinx.coroutines.selects.select
@@ -21,6 +29,7 @@ import kotlinx.coroutines.selects.select
 class OnboardingSettlementdayActivity: AppCompatActivity() {
     lateinit var binding: ActivityOnboardingSettlementdayBinding
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOnboardingSettlementdayBinding.inflate(layoutInflater)
@@ -31,6 +40,19 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
         val customday = binding.settleDayEdit
         val customtext = binding.settleDayEditText
         var message = ""
+
+        val postpond = SpannableStringBuilder("나중에 설정할게요")
+        postpond.setSpan(UnderlineSpan(), 0, postpond.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.contbtn.text = postpond
+
+        val firstTxt = SpannableStringBuilder("1일")
+        val fifteenthTxt = SpannableStringBuilder("15일")
+        val montSemiboldTypeface = Typeface.create(ResourcesCompat.getFont(this, R.font.montserrat_semibold), Typeface.NORMAL)
+        val suitSemiboldTypeface = Typeface.create(ResourcesCompat.getFont(this, R.font.suit_semibold), Typeface.NORMAL)
+        firstTxt.setSpan(TypefaceSpan(montSemiboldTypeface), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        fifteenthTxt.setSpan(TypefaceSpan(montSemiboldTypeface), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.settleDay1Text.text = firstTxt
+        binding.settleDay15Text.text = fifteenthTxt
 
         val toptext = SpannableStringBuilder("돈을 정산하고 싶은\n날짜를 선택해 주세요")
         toptext.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.purpleblue_select)), 11, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -173,10 +195,29 @@ class OnboardingSettlementdayActivity: AppCompatActivity() {
             }
         })
 
-        binding.nextbtn.setOnClickListener {
-            startActivity(Intent(this, OnboardingSettlementbudgetActivity::class.java))
+        customtext.onFocusChangeListener = OnFocusChangeListener { p0, p1 ->
+            if (p1) {
+                customtext.backgroundTintList = ContextCompat.getColorStateList(this, R.color.purpleblue_select)
+            } else {
+                customtext.backgroundTintList = ContextCompat.getColorStateList(this, R.color.graylight_basic)
+            }
         }
 
+        binding.nextbtn.setOnClickListener {
+            startActivity(Intent(this, OnboardingSettlementbudgetActivity::class.java))
+            overridePendingTransition(R.anim.none, R.anim.none)
+        }
+
+        binding.contbtn.setOnClickListener {
+            startActivity(Intent(this, OnboardingSettlementbudgetActivity::class.java))
+            overridePendingTransition(R.anim.none, R.anim.none)
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        overridePendingTransition(R.anim.none, R.anim.none)
     }
 
     private fun hidekeyboard() {

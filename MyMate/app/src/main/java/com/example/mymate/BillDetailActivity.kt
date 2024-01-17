@@ -78,6 +78,7 @@ class BillDetailActivity: AppCompatActivity() {
                         deleteBills(id)
                     }
 
+
                     binding.cover.setOnClickListener {
                         binding.deletepopup.isGone = true
                     }

@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.datastore.core.DataStore
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.example.mymate.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -50,10 +51,10 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        KakaoSdk.init(this, getString(R.string.kakao_native_app_key)) //TODO: 이 코드는 카카오 SDK 초기화 코드로, 후에 스플래시액티비티로 옮길 것
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        /*KakaoSdk.init(this, getString(R.string.kakao_native_app_key)) //TODO: 이 코드는 카카오 SDK 초기화 코드로, 후에 스플래시액티비티로 옮길 것
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         supportActionBar?.hide()
-        binding = ActivityMainBinding.inflate(layoutInflater)
         var repouser = DataStoreRepoUser(dataStore)
         val keyhash = Utility.getKeyHash(this)
         Log.d ("Hash", keyhash)
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         }
         initViewPager()
         //권한 설정(리팩토링 필요)
+        //TODO: Refactor (make ifs to arraylist)
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             var permission = mutableMapOf<String, String>()
             permission["notification"] = android.Manifest.permission.POST_NOTIFICATIONS
@@ -116,12 +118,21 @@ class MainActivity : AppCompatActivity() {
                 Log.d("permissions: manage storage", "PERMISSION_GRANTED")
             }
         }
+        Glide.with(this).load(R.raw.mymate_splash).override(500, 500).into(binding.splashicon)
         setContentView(binding.root)
-        /*Handler(Looper.getMainLooper()).postDelayed({
+        loading()*/
+        startActivity(Intent(this, OnboardingProfileActivity::class.java))
+    }
+
+    private fun loading() {
+        if (homeFragment.resumed != "00") {
             binding.splash.isGone = true
             binding.splashicon.isGone = true
-        }, 500)*/
-
+        } else {
+            Handler(Looper.getMainLooper()).postDelayed({
+                loading()
+            }, 500)
+        }
     }
 
     private fun pxtodp(px: Int, context: Context): Float {
@@ -147,7 +158,7 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
-        val tabicons = listOf(ContextCompat.getDrawable(this, R.drawable.home_default), ContextCompat.getDrawable(this, R.drawable.ledger_default), ContextCompat.getDrawable(this, R.drawable.mypage_default), ContextCompat.getDrawable(this, R.drawable.report_default))
+        val tabicons = listOf(ContextCompat.getDrawable(this, R.drawable.home_default), ContextCompat.getDrawable(this, R.drawable.ledger_default), ContextCompat.getDrawable(this, R.drawable.report_default), ContextCompat.getDrawable(this, R.drawable.mypage_default))
         val tabtext = listOf("홈", "가계부", "리포트", "마이페이지")
 
         //TODO: tabicon color tint failed, try a solid change
@@ -165,8 +176,6 @@ class MainActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
         })
-
-
 
         TabLayoutMediator(binding.mainbottomtab, binding.mainpager) {tab, position ->
             tab.icon = tabicons[position]

@@ -1,11 +1,13 @@
 package com.example.mymate
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.compose.material3.contentColorFor
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.databinding.ListitemAlarmcontainerBinding
@@ -37,11 +39,15 @@ class AlarmActContainerAdapter(val alarmList: ArrayList<ArrayList<activityNoti>>
                     override fun onItemClick(item: activityNoti, position: Int) {
                         if (item.category_title == "정산 디데이") {
                             context.startActivity(Intent(context, SettlementActivity::class.java))
+                            (context as Activity).overridePendingTransition(R.anim.right_enter, R.anim.none)
                         } else if (item.category_title == "송금 요청") {
                             context.startActivity(Intent(context, SettlementActivity::class.java))
+                            (context as Activity).overridePendingTransition(R.anim.right_enter, R.anim.none)
+                        } else if (item.category_title == "고지서 보관") {
+                            context.startActivity(Intent(context, BillManagerActivity::class.java))
+                            (context as Activity).overridePendingTransition(R.anim.right_enter, R.anim.none)
                         }
                     }
-
                 })
             }
         }

@@ -18,9 +18,14 @@ class SettingActivity: AppCompatActivity() {
         setContentView(binding.root)
         context = this
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
             overridePendingTransition(R.anim.none, R.anim.left_exit)
+        }
+
+        binding.invitecode.setOnClickListener {
+            startActivity(Intent(context, SettingInvitecodeActivity::class.java))
+            overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
         binding.toinvitecode.setOnClickListener {
@@ -28,7 +33,15 @@ class SettingActivity: AppCompatActivity() {
             overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
+        binding.pwdchange.setOnClickListener {
+            sorry()
+        }
+
         binding.topwdchange.setOnClickListener {
+            sorry()
+        }
+
+        binding.faq.setOnClickListener {
             sorry()
         }
 
@@ -36,7 +49,15 @@ class SettingActivity: AppCompatActivity() {
             sorry()
         }
 
+        binding.logout.setOnClickListener {
+            notSorry()
+        }
+
         binding.tologout.setOnClickListener {
+            notSorry()
+        }
+
+        binding.signout.setOnClickListener {
             notSorry()
         }
 
@@ -44,7 +65,15 @@ class SettingActivity: AppCompatActivity() {
             notSorry()
         }
 
+        binding.security.setOnClickListener {
+            sorry()
+        }
+
         binding.tosecurity.setOnClickListener {
+            sorry()
+        }
+
+        binding.theme.setOnClickListener {
             sorry()
         }
 

@@ -14,8 +14,9 @@ class OnboardingInviteActivity: AppCompatActivity() {
         binding = ActivityOnboardingInviteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.none, R.anim.none)
         }
 
         binding.inviteBtn.setOnClickListener {
@@ -25,5 +26,11 @@ class OnboardingInviteActivity: AppCompatActivity() {
         binding.invitedBtn.setOnClickListener {
             startActivity(Intent(this, OnboardingGetinviteActivity::class.java))
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        overridePendingTransition(R.anim.none, R.anim.none)
     }
 }

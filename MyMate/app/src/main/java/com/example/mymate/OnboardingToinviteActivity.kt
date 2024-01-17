@@ -18,7 +18,7 @@ class OnboardingToinviteActivity: AppCompatActivity() {
         binding = ActivityOnboardingToinviteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
         }
 
@@ -34,8 +34,15 @@ class OnboardingToinviteActivity: AppCompatActivity() {
             clipboard.setPrimaryClip(clip)
         }
 
+        binding.copypasteView.setOnClickListener {
+            val invitecode = binding.inviteCode.text
+            val clip = ClipData.newPlainText("inviteCode", invitecode)
+            clipboard.setPrimaryClip(clip)
+        }
+
         binding.nextbtn.setOnClickListener {
             startActivity(Intent(this, OnboardingHouseholdActivity::class.java))
+            overridePendingTransition(android.R.anim.fade_in, R.anim.vertical_exit)
         }
     }
 }

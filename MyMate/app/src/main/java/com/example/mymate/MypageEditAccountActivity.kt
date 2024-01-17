@@ -10,7 +10,11 @@ import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.TypefaceSpan
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
+import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -74,18 +78,32 @@ class MypageEditAccountActivity: AppCompatActivity() {
             }
         })
 
+        binding.backbtn.setOnClickListener {
+            finish()
+        }
+
+        binding.accountEdit.setOnEditorActionListener(object: OnEditorActionListener {
+            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                if (p1 == EditorInfo.IME_ACTION_DONE || p1 == EditorInfo.IME_ACTION_GO) {
+                    hidekeyboard()
+                }
+                return false
+            }
+
+        })
+
         binding.completedbtn.setOnClickListener {
             var account = postAccount()
             if (positiontosend != -1) {
                 account = postAccount(codeList[positiontosend], binding.accountEdit.text.toString())
-                //sendAccount(account, accessToken)
+                sendAccount(account, accessToken)
             } else if (binding.accountEdit.text.isNotEmpty()) {
                 for (i in 0 until codeList.size) {
-                    if (binding.bankName.text.toString().substring(0 until binding.bankName.text.length - 2) == nameList[i].substring(0 until nameList[i].length - 2)) {
+                    if (nameList[i].contains(binding.bankName.text.toString().substring(0 until 2))) {
                         account = postAccount(codeList[i], binding.accountEdit.text.toString())
                     }
                 }
-                //sendAccount(account, accessToken)
+                sendAccount(account, accessToken)
             } else if (binding.accountEdit.text.isEmpty()) {
                 Toast.makeText(context, "계좌를 입력해주세요!", Toast.LENGTH_SHORT).show()
             }
@@ -95,6 +113,7 @@ class MypageEditAccountActivity: AppCompatActivity() {
     }
 
     private fun sendAccount(account: postAccount, accessToken: String) {
+        Toast.makeText(context, account.account_bank + account.account_number, Toast.LENGTH_SHORT).show()
         val retrofit = RetrofitClientInstance.client
         val completeEndpoint = retrofit?.create(postMyAccount::class.java)
         completeEndpoint!!.postMyAccount("Bearer $accessToken", account).enqueue(object: Callback<Response<Void>> {
@@ -106,7 +125,7 @@ class MypageEditAccountActivity: AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
-                Toast.makeText(context, "연결 실패-계좌 갱신", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "연결 실패(계좌 갱신)", Toast.LENGTH_SHORT).show()
             }
 
         })
@@ -178,7 +197,7 @@ class MypageEditAccountActivity: AppCompatActivity() {
         nameList.add("IBK기업")
         nameList.add("NH농협")
         nameList.add("대구")
-        nameList.add("시티")
+        nameList.add("씨티")
         nameList.add("신한")
         nameList.add("우리")
         nameList.add("우체국")
@@ -198,7 +217,7 @@ class MypageEditAccountActivity: AppCompatActivity() {
         codeList.add("WOORI")
         codeList.add("POST")
         codeList.add("SC")
-        codeList.add("KAKAO") //제주은행 자리
+        codeList.add("JEJU")
         codeList.add("KAKAO")
         codeList.add("TOSS")
         codeList.add("HANA")
@@ -210,5 +229,38 @@ class MypageEditAccountActivity: AppCompatActivity() {
         val focusview = currentFocus
         imm.hideSoftInputFromWindow(this.window.decorView.applicationWindowToken, 0)
         focusview?.clearFocus()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val retrofit = RetrofitClientInstance.client
+        val endpoint = retrofit?.create(getMyAccount::class.java)
+        var accessToken = ""
+        runBlocking {
+            accessToken = userRepo.userAccessReadFlow.first().toString()
+        }
+
+
+        endpoint!!.getMyAccount("Bearer $accessToken").enqueue(object :
+            Callback<myAccountResponse> {
+            @RequiresApi(Build.VERSION_CODES.P)
+            override fun onResponse(
+                call: Call<myAccountResponse>,
+                response: Response<myAccountResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val myaccount = response.body()!!.data
+                    val banktype = myaccount.account_bank
+                    val banknumber = myaccount.account_number
+                    binding.accountEdit.text = Editable.Factory.getInstance().newEditable(banknumber)
+                    binding.bankName.text = banktype
+                }
+            }
+
+            override fun onFailure(call: Call<myAccountResponse>, t: Throwable) {
+                Toast.makeText(context, "연결 실패(사용자 계좌)", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

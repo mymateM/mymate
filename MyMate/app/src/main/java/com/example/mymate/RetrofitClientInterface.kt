@@ -60,7 +60,8 @@ data class ExpenseList (
     var expenseStore: String = "",
     var expenseCategoryName: String = "",
     var expenseCategoryImage: String = "",
-    var settlementSubjects: ArrayList<Expenses> = ArrayList()
+    var settlementSubjects: ArrayList<Expenses> = ArrayList(),
+    var expenseDate: String = ""
 )
 
 data class Expenses (
@@ -360,8 +361,7 @@ data class deviceTokenResponse (
 data class dailyExpenseResponse (
     var message: String = "",
     var status: String = "",
-    var data: dailyExpenseDetail = dailyExpenseDetail(),
-    var links: String = ""
+    var data: dailyExpenseDetail = dailyExpenseDetail()
 )
 
 data class activityNotiResponse (

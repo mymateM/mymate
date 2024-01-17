@@ -34,7 +34,7 @@ class MypageRatiodetailActivity: AppCompatActivity() {
 
         val ratio = intent.getStringExtra("ratio")
         binding.ratio.text = ratio
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
             overridePendingTransition(R.anim.none, R.anim.left_exit)
         }

@@ -131,7 +131,7 @@ class LocalJoinPwdActivity: AppCompatActivity() {
 
         })
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
         }
 

@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="36dp"
         android:text="0월 00일 (오늘)"
         android:textSize="14dp"
         android:textColor="@color/graydark_text"

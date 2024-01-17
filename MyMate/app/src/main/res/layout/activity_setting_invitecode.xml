@@ -16,6 +16,15 @@
         android:scaleType="centerInside"
         android:id="@+id/backbtn"/>
 
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="@id/backbtn"
+        app:layout_constraintBottom_toBottomOf="@id/backbtn"
+        app:layout_constraintEnd_toEndOf="@id/backbtn"
+        app:layout_constraintStart_toStartOf="@id/backbtn"
+        android:id="@+id/back"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -24,6 +24,15 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginStart="20dp"/>
 
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toTopOf="@id/backbtn"
+                app:layout_constraintBottom_toBottomOf="@id/backbtn"
+                app:layout_constraintEnd_toEndOf="@id/backbtn"
+                app:layout_constraintStart_toStartOf="@id/backbtn"
+                android:id="@+id/back"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,6 +44,15 @@
                 android:text="추가"
                 android:textColor="@color/purpleblue_select"
                 android:textSize="14dp"
+                android:id="@+id/add"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toTopOf="@id/add"
+                app:layout_constraintBottom_toBottomOf="@id/add"
+                app:layout_constraintEnd_toEndOf="@id/add"
+                app:layout_constraintStart_toStartOf="@id/add"
                 android:id="@+id/addbtn"/>
 
             <TextView

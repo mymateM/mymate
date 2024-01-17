@@ -38,7 +38,7 @@
         android:textSize="16dp"
         android:layout_marginStart="8dp"/>
 
-    <ImageView
+    <!--<ImageView
         android:layout_width="15dp"
         android:layout_height="7dp"
         app:layout_constraintTop_toTopOf="@id/yeartext"
@@ -48,9 +48,9 @@
         android:layout_marginEnd="-12dp"
         android:id="@+id/selectdatecontainer"
         android:src="@android:color/transparent"
-        android:background="@android:color/transparent"/>
+        android:background="@android:color/transparent"/>-->
 
-    <ImageButton
+    <!--<ImageButton
         android:layout_width="15dp"
         android:layout_height="7dp"
         app:layout_constraintStart_toEndOf="@id/yeartext"
@@ -60,19 +60,28 @@
         android:src="@drawable/arrow_down"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
-        android:id="@+id/selectdate"/>
+        android:id="@+id/selectdate"/>-->
 
     <ImageButton
         android:layout_width="7dp"
         android:layout_height="15dp"
-        app:layout_constraintEnd_toStartOf="@id/monthNext"
+        app:layout_constraintEnd_toStartOf="@id/Next"
         app:layout_constraintTop_toTopOf="@id/monthText"
         app:layout_constraintBottom_toBottomOf="@id/monthText"
         android:layout_marginEnd="26dp"
         android:src="@drawable/arrow_left"
         android:scaleType="fitCenter"
         android:background="@android:color/transparent"
-        android:id="@+id/monthLast"/>
+        android:id="@+id/Last"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/monthLast"
+        app:layout_constraintStart_toStartOf="@id/Last"
+        app:layout_constraintEnd_toEndOf="@id/Last"
+        app:layout_constraintTop_toTopOf="@id/Last"
+        app:layout_constraintBottom_toBottomOf="@id/Last"/>
 
     <ImageButton
         android:layout_width="7dp"
@@ -86,7 +95,16 @@
         android:scaleType="fitCenter"
         app:tint="@color/graydark_text"
         android:background="@android:color/transparent"
-        android:id="@+id/monthNext"/>
+        android:id="@+id/Next"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/monthNext"
+        app:layout_constraintStart_toStartOf="@id/Next"
+        app:layout_constraintEnd_toEndOf="@id/Next"
+        app:layout_constraintTop_toTopOf="@id/Next"
+        app:layout_constraintBottom_toBottomOf="@id/Next"/>
 
     <LinearLayout
         android:layout_width="match_parent"

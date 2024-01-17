@@ -56,7 +56,7 @@ class SpendingAddActivity: AppCompatActivity() {
 
         binding.enrolldate.text = enrolldate
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
         }
 
@@ -169,7 +169,6 @@ class SpendingAddActivity: AppCompatActivity() {
                 if (response.isSuccessful) {
                     id = response.body()!!
                     sending.settlementSubjectIds = id.data
-                    Log.d("sendingIDS", id.data.size.toString())
                     sending.expenseAmount = binding.amountEdit.text.toString()
                     sending.expenseMemo = binding.memo.text.toString()
                     sending.expenseStore = binding.store.text.toString()

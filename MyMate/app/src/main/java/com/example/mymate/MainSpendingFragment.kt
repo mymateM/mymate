@@ -100,32 +100,33 @@ class MainSpendingFragment : Fragment() {
         setCalendarView(selectedDate)
 
         //button events
-        binding.monthLast.setOnClickListener {
+        binding.lastMonth.setOnClickListener {
             selectedDate = selectedDate.minusMonths(1)
             calendarVal.firstDay = -1
             calendarVal.lastDay = -1
             setCalendarView(selectedDate)
         }
 
-        binding.monthNext.setOnClickListener {
+        binding.nextMonth.setOnClickListener {
             selectedDate = selectedDate.plusMonths(1)
             calendarVal.firstDay = -1
             calendarVal.lastDay = -1
             setCalendarView(selectedDate)
         }
 
-        binding.toBills.setOnClickListener {
+        binding.bills.setOnClickListener {
             startActivity(Intent(mainActivity, BillManagerActivity::class.java))
             mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
-        binding.toAlarm.setOnClickListener {
+        binding.alarm.setOnClickListener {
             startActivity(Intent(mainActivity, AlarmActivity::class.java))
             mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
-        binding.toSearch.setOnClickListener {
+        binding.search.setOnClickListener {
             startActivity(Intent(mainActivity, SearchActivity::class.java))
+            mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
         binding.spendingPlus.setOnClickListener {
@@ -145,6 +146,11 @@ class MainSpendingFragment : Fragment() {
         behavior.isHideable = true
 
         binding.selectdate.setOnClickListener {
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.cover.isGone = false
+        }
+
+        binding.yeartext.setOnClickListener {
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             binding.cover.isGone = false
         }
@@ -237,16 +243,18 @@ class MainSpendingFragment : Fragment() {
                 call: Call<dailyExpenseResponse>,
                 response: Response<dailyExpenseResponse>
             ) {
-                detailResponse = response.body()!!
-                expenseDetail = detailResponse.data.expenses
-                val adapter = SpendingAdapter(mainActivity, expenseDetail)
-                val manager = LinearLayoutManager(mainActivity)
-                binding.dailySpendings.layoutManager = manager
-                binding.dailySpendings.adapter = adapter.apply {
-                    setOnItemClickListener(object : SpendingAdapter.OnItemClickListener {
-                        override fun onItemClick(item: ExpenseList, position: Int) {
-                        }
-                    })
+                if (response.isSuccessful) {
+                    detailResponse = response.body()!!
+                    expenseDetail = detailResponse.data.expenses
+                    val adapter = SpendingAdapter(mainActivity, expenseDetail)
+                    val manager = LinearLayoutManager(mainActivity)
+                    binding.dailySpendings.layoutManager = manager
+                    binding.dailySpendings.adapter = adapter.apply {
+                        setOnItemClickListener(object : SpendingAdapter.OnItemClickListener {
+                            override fun onItemClick(item: ExpenseList, position: Int) {
+                            }
+                        })
+                    }
                 }
             }
 
@@ -257,9 +265,7 @@ class MainSpendingFragment : Fragment() {
                 binding.dailySpendings.layoutManager = manager
                 binding.dailySpendings.adapter = adapter
                 }
-
         })
-
     }
 
     @RequiresApi(Build.VERSION_CODES.P)

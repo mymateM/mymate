@@ -5,8 +5,13 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.text.style.UnderlineSpan
 import android.util.Log
+import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -30,20 +35,26 @@ class OnboardingAccountActivity: AppCompatActivity() {
         binding = ActivityOnboardingAccountBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.nextbtn.isEnabled = false
+        val postpond = SpannableStringBuilder("나중에 설정할게요")
+        postpond.setSpan(UnderlineSpan(), 0, postpond.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.contbtn.text = postpond
 
         bottomSheetInit()
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.none, R.anim.none)
         }
 
         binding.contbtn.setOnClickListener {
             startActivity(Intent(this, OnboardingInviteActivity::class.java))
+            overridePendingTransition(R.anim.none, R.anim.none)
         }
 
         binding.nextbtn.setOnClickListener {
             //TODO: 여기서 정보 저장
             startActivity(Intent(this, OnboardingInviteActivity::class.java))
+            overridePendingTransition(R.anim.none, R.anim.none)
         }
 
         binding.accountview.setOnClickListener {
@@ -55,9 +66,12 @@ class OnboardingAccountActivity: AppCompatActivity() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (binding.accountEdit.text.isNotEmpty() && !binding.bankName.text.isNullOrBlank()) {
+                if (binding.accountEdit.text.isNotEmpty() && binding.bankName.text != "은행") {
                     binding.nextbtn.isEnabled = true
                     binding.nextbtn.setBackgroundResource(R.drawable.button_wfseleted)
+                } else {
+                    binding.nextbtn.isEnabled = false
+                    binding.nextbtn.setBackgroundResource(R.drawable.button_wfdefault)
                 }
             }
 
@@ -66,7 +80,21 @@ class OnboardingAccountActivity: AppCompatActivity() {
 
         })
 
+        binding.accountEdit.onFocusChangeListener = OnFocusChangeListener { p0, p1 ->
+            if (p1) {
+                binding.accountEdit.backgroundTintList = ContextCompat.getColorStateList(this, R.color.purpleblue_select)
+            } else {
+                binding.accountEdit.backgroundTintList = ContextCompat.getColorStateList(this, R.color.graylight_basic)
+            }
+        }
+
         //TODO: 정보형 확정나면 adapter 작성
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        overridePendingTransition(R.anim.none, R.anim.none)
     }
 
     private fun listset() {
@@ -131,6 +159,10 @@ class OnboardingAccountActivity: AppCompatActivity() {
                     behavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     binding.cover.isGone = true
                     binding.bankName.setTextColor(ContextCompat.getColor(applicationContext, R.color.black_text))
+                    if (binding.accountEdit.text.isNotEmpty()) {
+                        binding.nextbtn.isEnabled = true
+                        binding.nextbtn.setBackgroundResource(R.drawable.button_wfseleted)
+                    }
                 }
             })
         }
