@@ -22,6 +22,15 @@
                 android:scaleType="fitCenter"
                 android:id="@+id/backbtn"/>
 
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toTopOf="@id/backbtn"
+                app:layout_constraintBottom_toBottomOf="@id/backbtn"
+                app:layout_constraintEnd_toEndOf="@id/backbtn"
+                app:layout_constraintStart_toStartOf="@id/backbtn"
+                android:id="@+id/back"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -33,6 +42,15 @@
                 android:textSize="14dp"
                 android:textColor="@color/purpleblue_select"
                 android:text="완료"
+                android:id="@+id/completed"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toTopOf="@id/completed"
+                app:layout_constraintBottom_toBottomOf="@id/completed"
+                app:layout_constraintEnd_toEndOf="@id/completed"
+                app:layout_constraintStart_toStartOf="@id/completed"
                 android:id="@+id/completedbtn"/>
 
             <ImageView
@@ -135,7 +153,7 @@
                 app:layout_constraintTop_toTopOf="@id/category"
                 app:layout_constraintBottom_toBottomOf="@id/category"
                 android:id="@+id/categoryEdit"
-                android:src="@drawable/edit_light"
+                android:src="@drawable/edit"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:layout_marginEnd="20dp"/>
@@ -171,7 +189,7 @@
                 app:layout_constraintTop_toTopOf="@id/duedate"
                 app:layout_constraintBottom_toBottomOf="@id/duedate"
                 android:id="@+id/dateEdit"
-                android:src="@drawable/edit_light"
+                android:src="@drawable/edit"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:layout_marginEnd="20dp"/>
@@ -207,7 +225,7 @@
                 app:layout_constraintTop_toTopOf="@id/memo"
                 app:layout_constraintBottom_toBottomOf="@id/memo"
                 android:id="@+id/memoEdit"
-                android:src="@drawable/edit_light"
+                android:src="@drawable/edit"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:layout_marginEnd="20dp"/>
@@ -306,7 +324,8 @@
                 android:paddingTop="6dp"
                 android:paddingStart="14dp"
                 android:paddingEnd="14dp"
-                android:id="@+id/scanbtn"/>
+                android:id="@+id/scanbtn"
+                android:stateListAnimator="@null"/>
 
             <TextView
                 android:layout_width="wrap_content"

@@ -32,13 +32,21 @@ class SettlementReportActivity: AppCompatActivity() {
         userRepo = DataStoreRepoUser(dataStore)
         context = this
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.none, R.anim.left_exit)
         }
 
         initViewPager()
 
         setContentView(binding.root)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        overridePendingTransition(R.anim.none, R.anim.left_exit)
+
     }
 
     private fun initViewPager() {

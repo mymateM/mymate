@@ -34,7 +34,7 @@ class BillAddMemoOCRActivity: AppCompatActivity() {
             hidekeyboard()
         }
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
         }
 

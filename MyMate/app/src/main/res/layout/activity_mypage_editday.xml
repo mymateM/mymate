@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="9dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="21dp"
+        android:src="@drawable/back"
+        android:scaleType="centerInside"
+        android:id="@+id/back"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="@id/back"
+        app:layout_constraintBottom_toBottomOf="@id/back"
+        app:layout_constraintEnd_toEndOf="@id/back"
+        app:layout_constraintStart_toStartOf="@id/back"
+        android:id="@+id/backbtn"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/backbtn"
+        app:layout_constraintBottom_toBottomOf="@id/backbtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="정산일 변경"
+        android:textSize="18dp"
+        android:textColor="@color/black_text"
+        android:fontFamily="@font/suit_extrabold"
+        android:id="@+id/title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/title"
+        app:layout_constraintBottom_toBottomOf="@id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        android:textSize="14dp"
+        android:textColor="@color/purpleblue_select"
+        android:text="완료"
+        android:fontFamily="@font/suit_medium"
+        android:id="@+id/completed"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="@id/completed"
+        app:layout_constraintBottom_toBottomOf="@id/completed"
+        app:layout_constraintEnd_toEndOf="@id/completed"
+        app:layout_constraintStart_toStartOf="@id/completed"
+        android:id="@+id/completedbtn"/>
+
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="104dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintEnd_toStartOf="@id/settleDay15"
+        android:layout_marginTop="195dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="8dp"
+        android:id="@+id/settleDay1"
+        android:src="@drawable/button_selectbox"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/settleDay1"
+        app:layout_constraintEnd_toEndOf="@id/settleDay1"
+        app:layout_constraintTop_toTopOf="@id/settleDay1"
+        app:layout_constraintBottom_toBottomOf="@id/settleDay1"
+        android:text="1일"
+        android:textColor="@color/graylight_text"
+        android:fontFamily="@font/suit_semibold"
+        android:textSize="20dp"
+        android:id="@+id/settleDay1Text"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="104dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toEndOf="@id/settleDay1"
+        android:layout_marginTop="195dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="20dp"
+        android:id="@+id/settleDay15"
+        android:src="@drawable/button_selectbox"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/settleDay15"
+        app:layout_constraintEnd_toEndOf="@id/settleDay15"
+        app:layout_constraintTop_toTopOf="@id/settleDay15"
+        app:layout_constraintBottom_toBottomOf="@id/settleDay15"
+        android:text="15일"
+        android:textColor="@color/graylight_text"
+        android:fontFamily="@font/suit_semibold"
+        android:textSize="20dp"
+        android:id="@+id/settleDay15Text"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="104dp"
+        app:layout_constraintStart_toStartOf="@id/settleDay1"
+        app:layout_constraintTop_toBottomOf="@id/settleDay1"
+        app:layout_constraintEnd_toEndOf="@id/settleDay1"
+        android:layout_marginTop="13dp"
+        android:id="@+id/settleDayEnd"
+        android:src="@drawable/button_selectbox"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/settleDayEnd"
+        app:layout_constraintEnd_toEndOf="@id/settleDayEnd"
+        app:layout_constraintTop_toTopOf="@id/settleDayEnd"
+        app:layout_constraintBottom_toTopOf="@id/settleTextEnddesc"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:text="말일"
+        android:textColor="@color/graylight_text"
+        android:fontFamily="@font/suit_semibold"
+        android:textSize="20dp"
+        android:id="@+id/settleTextEnd"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/settleDayEnd"
+        app:layout_constraintEnd_toEndOf="@id/settleDayEnd"
+        app:layout_constraintTop_toBottomOf="@id/settleTextEnd"
+        app:layout_constraintBottom_toBottomOf="@id/settleDayEnd"
+        android:text="매달 마지막 날"
+        android:textColor="@color/graylight_text"
+        android:fontFamily="@font/suit_medium"
+        android:textSize="12dp"
+        android:id="@+id/settleTextEnddesc"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="104dp"
+        app:layout_constraintStart_toStartOf="@id/settleDay15"
+        app:layout_constraintTop_toBottomOf="@id/settleDay15"
+        app:layout_constraintEnd_toEndOf="@id/settleDay15"
+        android:layout_marginTop="13dp"
+        android:id="@+id/settleDayEdit"
+        android:src="@drawable/button_selectbox"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/settleDayEdit"
+        app:layout_constraintEnd_toEndOf="@id/settleDayEdit"
+        app:layout_constraintTop_toTopOf="@id/settleDayEdit"
+        app:layout_constraintBottom_toBottomOf="@id/settleDayEdit"
+        android:id="@+id/settleDayEditText"
+        android:backgroundTint="@color/graydark_text"
+        android:hint="직접입력"
+        android:textColor="@color/purpleblue_select"
+        android:fontFamily="@font/suit_semibold"
+        android:textColorHint="@color/graylight_text"
+        android:textSize="18dp"
+        android:gravity="center"
+        android:maxLength="2"
+        android:maxLines="1"
+        android:inputType="number"
+        android:digits="0123456789"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/settleDayEditText"
+        app:layout_constraintTop_toTopOf="@id/settleDayEditText"
+        app:layout_constraintBottom_toBottomOf="@id/settleDayEditText"
+        android:layout_marginBottom="1dp"
+        android:textColor="@color/graylight_text"
+        android:fontFamily="@font/suit_semibold"
+        android:textSize="18dp"
+        android:text="일"
+        android:id="@+id/dayText"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

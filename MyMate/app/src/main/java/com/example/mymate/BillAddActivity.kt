@@ -6,7 +6,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
+import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -47,6 +51,36 @@ class BillAddActivity: AppCompatActivity() {
         binding.cover.isGone = true
         bottomSheetInit()
         binding.category.text = category
+        binding.completedbtn.isEnabled = false
+        binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.graydark_text))
+
+        binding.amountEdit.setOnEditorActionListener(object: OnEditorActionListener {
+            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                if (p1 == EditorInfo.IME_ACTION_DONE) {
+                    hidekeyboard()
+                }
+                return false
+            }
+        })
+
+        binding.amountEdit.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (binding.amountEdit.text.toString().isNotEmpty() && binding.amountEdit.text.toString().toInt() != 0) {
+                    binding.completedbtn.isEnabled = true
+                    binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
+                } else {
+                    binding.completedbtn.isEnabled = false
+                    binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.graydark_text))
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+        })
 
         if (memo == "없음") {
             binding.memo.text = "없음"
@@ -76,7 +110,7 @@ class BillAddActivity: AppCompatActivity() {
             hidekeyboard()
         }
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
         }
 

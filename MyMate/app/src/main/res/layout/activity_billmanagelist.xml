@@ -17,6 +17,15 @@
         android:scaleType="fitCenter"
         android:id="@+id/backbtn"/>
 
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="@id/backbtn"
+        app:layout_constraintBottom_toBottomOf="@id/backbtn"
+        app:layout_constraintEnd_toEndOf="@id/backbtn"
+        app:layout_constraintStart_toStartOf="@id/backbtn"
+        android:id="@+id/back"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,6 +50,15 @@
         android:textSize="14dp"
         android:textColor="@color/graydark_text"
         android:text="삭제"
+        android:id="@+id/delete"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="@id/delete"
+        app:layout_constraintBottom_toBottomOf="@id/delete"
+        app:layout_constraintEnd_toEndOf="@id/delete"
+        app:layout_constraintStart_toStartOf="@id/delete"
         android:id="@+id/deletebtn"/>
 
     <androidx.recyclerview.widget.RecyclerView

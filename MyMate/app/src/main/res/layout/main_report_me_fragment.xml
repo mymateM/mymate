@@ -29,6 +29,7 @@
                 android:text="이 달의 많이 쓴 카테고리는\n이것이에요"
                 android:textColor="@color/black_text"
                 android:textSize="20dp"
+                android:lineSpacingExtra="5dp"
                 android:id="@+id/categorytitle"/>
 
             <com.github.mikephil.charting.charts.PieChart
@@ -40,6 +41,21 @@
                 app:layout_constraintTop_toBottomOf="@id/categorytitle"
                 android:layout_marginTop="32dp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="6dp"
+                app:layout_constraintEnd_toEndOf="@id/categorypie"
+                app:layout_constraintStart_toStartOf="@id/categorypie"
+                app:layout_constraintBottom_toBottomOf="@id/categorypie"
+                app:layout_constraintTop_toTopOf="@id/categorypie"
+                android:textColor="@color/black_text"
+                android:textSize="20dp"
+                android:text="총 지출\n000000원"
+                android:gravity="center"
+                android:fontFamily="@font/montserrat_bold"
+                android:id="@+id/pieMidText"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,7 +63,13 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="36dp"
-                tools:listitem="@layout/listitem_report"/>
+                tools:listitem="@layout/listitem_report"
+                android:id="@+id/mylist"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                app:layout_constraintTop_toBottomOf="@id/mylist"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

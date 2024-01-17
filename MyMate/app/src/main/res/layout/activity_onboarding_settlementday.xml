@@ -41,7 +41,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginStart="7dp"
         android:src="@drawable/graph_graybackground"
-        app:tint="@color/purpleblue_select"/>
+        app:tint="@color/graylight_indicator"/>
 
     <ImageView
         android:layout_width="9dp"
@@ -53,6 +53,28 @@
         android:id="@+id/backbtn"
         android:src="@drawable/back"
         android:scaleType="fitCenter"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="@id/backbtn"
+        app:layout_constraintBottom_toBottomOf="@id/backbtn"
+        app:layout_constraintEnd_toEndOf="@id/backbtn"
+        app:layout_constraintStart_toStartOf="@id/backbtn"
+        android:id="@+id/back"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="나중에 설정할게요"
+        android:textSize="14dp"
+        android:fontFamily="@font/suit_regular"
+        android:textColor="@color/black_text"
+        android:id="@+id/contbtn"/>
     
     <ImageView
         android:layout_width="100dp"
@@ -105,7 +127,7 @@
 
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="104dp"
+        android:layout_height="130dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/subText"
         app:layout_constraintEnd_toStartOf="@id/settleDay15"
@@ -125,11 +147,12 @@
         android:text="1일"
         android:textColor="@color/graylight_text"
         android:fontFamily="@font/suit_semibold"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:id="@+id/settleDay1Text"/>
 
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="104dp"
+        android:layout_height="130dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/subText"
         app:layout_constraintStart_toEndOf="@id/settleDay1"
@@ -149,11 +172,12 @@
         android:text="15일"
         android:textColor="@color/graylight_text"
         android:fontFamily="@font/suit_semibold"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:id="@+id/settleDay15Text"/>
 
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="104dp"
+        android:layout_height="130dp"
         app:layout_constraintStart_toStartOf="@id/settleDay1"
         app:layout_constraintTop_toBottomOf="@id/settleDay1"
         app:layout_constraintEnd_toEndOf="@id/settleDay1"
@@ -190,7 +214,7 @@
 
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="104dp"
+        android:layout_height="130dp"
         app:layout_constraintStart_toStartOf="@id/settleDay15"
         app:layout_constraintTop_toBottomOf="@id/settleDay15"
         app:layout_constraintEnd_toEndOf="@id/settleDay15"
@@ -206,10 +230,10 @@
         app:layout_constraintTop_toTopOf="@id/settleDayEdit"
         app:layout_constraintBottom_toBottomOf="@id/settleDayEdit"
         android:id="@+id/settleDayEditText"
-        android:backgroundTint="@color/graydark_text"
+        android:backgroundTint="@color/graylight_basic"
         android:hint="직접입력"
         android:textColor="@color/purpleblue_select"
-        android:fontFamily="@font/suit_semibold"
+        android:fontFamily="@font/montserrat_semibold"
         android:textColorHint="@color/graylight_text"
         android:textSize="18dp"
         android:gravity="center"
@@ -237,12 +261,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/box_noradius"
-        android:backgroundTint="@color/graylight_wireframe"
+        android:background="@drawable/button_wfdefault"
         android:text="다음으로"
         android:textColor="@color/white"
         android:fontFamily="@font/suit_bold"
-        android:textSize="16dp"
-        android:id="@+id/nextbtn"/>
+        android:textSize="20dp"
+        android:id="@+id/nextbtn"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

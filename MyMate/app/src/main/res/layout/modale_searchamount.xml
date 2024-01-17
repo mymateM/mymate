@@ -40,8 +40,8 @@
         android:id="@+id/minimumedit"
         android:layout_marginTop="1dp"
         android:background="@android:color/transparent"
-        android:inputType="number"
-        android:digits="0123456789"/>
+        android:maxLines="1"
+        android:inputType="number"/>
     <ImageView
         android:layout_width="0dp"
         android:layout_height="1.4dp"
@@ -89,9 +89,9 @@
         app:layout_constraintEnd_toStartOf="@id/maximumtail"
         android:id="@+id/maximumedit"
         android:layout_marginTop="1dp"
+        android:maxLines="1"
         android:background="@android:color/transparent"
-        android:inputType="number"
-        android:digits="0123456789"/>
+        android:inputType="number"/>
     <ImageView
         android:layout_width="0dp"
         android:layout_height="1.4dp"
@@ -130,6 +130,8 @@
         android:textColor="@color/white"
         android:textSize="18dp"
         android:fontFamily="@font/suit_bold"
-        android:id="@+id/amountset"/>
+        android:id="@+id/amountset"
+        android:elevation="0dp"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

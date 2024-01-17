@@ -11,8 +11,17 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
-        android:id="@+id/settlementdismiss"
+        android:id="@+id/dismiss"
         android:src="@drawable/back"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="@id/dismiss"
+        app:layout_constraintBottom_toBottomOf="@id/dismiss"
+        app:layout_constraintEnd_toEndOf="@id/dismiss"
+        app:layout_constraintStart_toStartOf="@id/dismiss"
+        android:id="@+id/settlementdismiss"/>
 
     <TextView
         android:layout_width="wrap_content"

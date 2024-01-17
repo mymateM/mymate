@@ -15,9 +15,10 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageButton
-            android:layout_width="8.89dp"
-            android:layout_height="16dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:id="@+id/alarmdissmiss"
+            android:background="@android:color/transparent"
             app:layout_constraintStart_toStartOf="@id/toppanel"
             app:layout_constraintTop_toTopOf="@id/toppanel"
             app:layout_constraintBottom_toBottomOf="@id/toppanel"

@@ -51,7 +51,8 @@
         android:textColor="@color/graydark_text"
         android:id="@+id/allownone"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        android:outlineProvider="none"/>
+        android:outlineProvider="none"
+        android:stateListAnimator="@null"/>
 
     <Button
         android:layout_width="60dp"
@@ -66,7 +67,8 @@
         android:textColor="@color/graydark_text"
         android:textSize="12dp"
         android:id="@+id/allow5"
-        android:outlineProvider="none"/>
+        android:outlineProvider="none"
+        android:stateListAnimator="@null"/>
 
     <Button
         android:layout_width="60dp"
@@ -81,7 +83,8 @@
         android:textColor="@color/graydark_text"
         android:textSize="12dp"
         android:id="@+id/allow10"
-        android:outlineProvider="none"/>
+        android:outlineProvider="none"
+        android:stateListAnimator="@null"/>
 
     <Button
         android:layout_width="60dp"
@@ -96,7 +99,8 @@
         android:textColor="@color/graydark_text"
         android:textSize="12dp"
         android:id="@+id/allow15"
-        android:outlineProvider="none"/>
+        android:outlineProvider="none"
+        android:stateListAnimator="@null"/>
 
     <Button
         android:layout_width="60dp"
@@ -112,6 +116,7 @@
         android:textColor="@color/graydark_text"
         android:textSize="12dp"
         android:id="@+id/allow20"
-        android:outlineProvider="none"/>
+        android:outlineProvider="none"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

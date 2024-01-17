@@ -98,7 +98,7 @@ class MainReportHouseholdFragment: Fragment() {
                                     housebind.title.text = "앗!\n예산보다 지출이 커요"
                                     housebind.character.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.character_report_more))
                                 } else {
-                                    housebind.title.text = "대단해요! 예산을 넘지 않았어요"
+                                    housebind.title.text = "대단해요!\n예산을 넘지 않았어요"
                                     housebind.character.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.character_report_less))
                                 }
                                 val categoryName = ArrayList<String>()

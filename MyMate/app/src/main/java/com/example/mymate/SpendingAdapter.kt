@@ -3,12 +3,14 @@ package com.example.mymate
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
+import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.res.ResourcesCompat
@@ -24,6 +26,7 @@ class SpendingAdapter(val context: Context, val expenseList: ArrayList<ExpenseLi
     }
 
     inner class ExpenseViewHolder(val binding: ListitemSpendingBinding): RecyclerView.ViewHolder(binding.root) {
+        @RequiresApi(Build.VERSION_CODES.P)
         fun bind(item: ExpenseList) {
             val categoryImage = binding.spendingicon
             val amount = binding.spendingAmount

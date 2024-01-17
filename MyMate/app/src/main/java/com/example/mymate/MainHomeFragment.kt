@@ -64,6 +64,7 @@ class MainHomeFragment : Fragment() {
     lateinit var accesscode: String
 
     private var refreshResponse: localRefreshReponse = localRefreshReponse()
+    var resumed = "00"
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -86,6 +87,8 @@ class MainHomeFragment : Fragment() {
             startActivity(alarmIntent)
             mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
+
+        binding.logoimage.isGone = true
 
 
         val templogin = binding.logoimage
@@ -119,16 +122,17 @@ class MainHomeFragment : Fragment() {
             startActivity(Intent(mainActivity, LoginActivity::class.java))
         }
 
-        val tempOnboardingFlow = binding.spendpercentbox
+        /*val tempOnboardingFlow = binding.spendpercentbox
         tempOnboardingFlow.setOnClickListener {
-            startActivity(Intent(mainActivity, OnboardingTermsActivity::class.java))
-        }
+            startActivity(Intent(mainActivity, OnboardingProfileActivity::class.java))
+        }*/
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         comms(mainActivity)
+        resumed = "01"
     }
 
     fun comms(context: Context) {
@@ -152,7 +156,7 @@ class MainHomeFragment : Fragment() {
 
                     val ratio = household.by_now_expense.toInt() / household.by_previous_expense.toInt()
                     var comparebigtext = SpannableStringBuilder("지난 달 대비")
-                    binding.dDay.text = "정산일 D-${household.settlement_d_day}"
+                    binding.dDay.text = "정산일 D${household.settlement_d_day}"
                     val expensetitle = digitprocessing(household.by_now_expense)
                     binding.nownotitext.text = expensetitle
                     val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
@@ -165,11 +169,13 @@ class MainHomeFragment : Fragment() {
                         binding.presentComparebody.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.box_noradius))
                         binding.presentguidetop.setGuidelinePercent(0.185f)
                         binding.presentguidemid.setGuidelinePercent(0.365f)
+                        binding.compareicon.setImageResource(R.drawable.more)
                     } else {
                         comparebigtext = SpannableStringBuilder("지난 달 ${household.expense_duration}일간 대비 덜 썼어요")
                         binding.statusbilltext.setTextColor(ContextCompat.getColor(mainActivity, R.color.pie_green))
                         binding.statussubtextsmall.setTextColor(ContextCompat.getColor(mainActivity, R.color.pie_green))
                         binding.presentComparetop.isGone = true
+                        binding.compareicon.setImageResource(R.drawable.less)
                         binding.presentComparebody.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.graph_hometop))
                         binding.presentguidemid.setGuidelinePercent((0.365 + 0.235 * (household.by_now_expense.toFloat() / household.by_previous_expense.toFloat())).toFloat())
                     }
@@ -254,12 +260,13 @@ class MainHomeFragment : Fragment() {
         val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
         val suitMediumTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_medium), Typeface.NORMAL)
         val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
+        val suitSemiBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_semibold), Typeface.NORMAL)
         val piemidtext = SpannableStringBuilder("${digitprocessing(realtotal.toString())}원\n오늘까지 썼어요")
         piemidtext.setSpan(AbsoluteSizeSpan(18, true), 0, digitprocessing(realtotal.toString()).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(AbsoluteSizeSpan(16, true), digitprocessing(realtotal.toString()).length + 2, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(TypefaceSpan(montBoldTypeface), 0, digitprocessing(realtotal.toString()).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(TypefaceSpan(suitBoldTypeface), digitprocessing(realtotal.toString()).length, digitprocessing(realtotal.toString()).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        piemidtext.setSpan(TypefaceSpan(suitMediumTypeface), digitprocessing(realtotal.toString()).length + 1, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(TypefaceSpan(suitSemiBoldTypeface), digitprocessing(realtotal.toString()).length + 1, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline)), 0, digitprocessing(realtotal.toString()).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.black_text)), digitprocessing(realtotal.toString()).length + 1, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.myPieMidText.text = piemidtext
@@ -269,7 +276,7 @@ class MainHomeFragment : Fragment() {
         val entries = ArrayList<PieEntry>()
         var spendfornow = (now_left)
         var leftfornow = (now_total)
-        if (now_left + now_total > 100f) {
+        if (now_left + now_total >= 100f) {
             spendfornow = 100f
             leftfornow = 0f
         }

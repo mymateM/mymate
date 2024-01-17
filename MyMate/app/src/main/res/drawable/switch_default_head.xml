@@ -1,0 +1,13 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <item>
+    <vector
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+      <path
+          android:pathData="M12,11m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0"
+          android:fillColor="@color/graylight_buttonfill"/>
+    </vector>
+  </item>
+</layer-list>

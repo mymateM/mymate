@@ -53,6 +53,15 @@
         android:src="@drawable/back"
         android:scaleType="fitCenter"/>
 
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="@id/backbtn"
+        app:layout_constraintBottom_toBottomOf="@id/backbtn"
+        app:layout_constraintEnd_toEndOf="@id/backbtn"
+        app:layout_constraintStart_toStartOf="@id/backbtn"
+        android:id="@+id/back"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,7 +70,7 @@
         android:layout_marginTop="142dp"
         android:layout_marginStart="20dp"
         android:textColor="@color/black_text"
-        android:textSize="18dp"
+        android:textSize="22dp"
         android:text="나의 동거인을 초대해 보세요"
         android:fontFamily="@font/happiness_sans_title"
         android:id="@+id/topText"/>
@@ -125,12 +134,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/box_noradius"
-        android:backgroundTint="@color/graylight_wireframe"
-        android:text="다음으로"
+        android:background="@drawable/button_wfseleted"
+        android:text="계속하기"
         android:textColor="@color/white"
         android:fontFamily="@font/suit_bold"
-        android:textSize="16dp"
-        android:id="@+id/nextbtn"/>
+        android:textSize="20dp"
+        android:id="@+id/nextbtn"
+        android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,6 +25,15 @@
                 android:id="@+id/backbtn"/>
 
             <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toTopOf="@id/backbtn"
+                app:layout_constraintBottom_toBottomOf="@id/backbtn"
+                app:layout_constraintEnd_toEndOf="@id/backbtn"
+                app:layout_constraintStart_toStartOf="@id/backbtn"
+                android:id="@+id/back"/>
+
+            <ImageView
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 app:layout_constraintTop_toTopOf="@id/backbtn"
@@ -37,7 +46,7 @@
                 android:scaleType="centerInside"
                 android:id="@+id/searchcontainer"/>
 
-            <EditText
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="@id/searchcontainer"
@@ -47,6 +56,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:background="@android:color/transparent"
+                android:id="@+id/searchEdit"
                 android:hint="내역을 검색해 보세요"
                 android:fontFamily="@font/suit_medium"
                 android:textSize="14dp"
@@ -146,6 +156,54 @@
                     </LinearLayout>
                 </HorizontalScrollView>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/startgraphic">
+
+                <ImageView
+                    android:layout_width="85dp"
+                    android:layout_height="95dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:src="@drawable/search_character"
+                    android:id="@+id/searchcharacter"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/searchcharacter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textColor="@color/black_text"
+                    android:fontFamily="@font/suit_semibold"
+                    android:textSize="18dp"
+                    android:text="어떤 내역을 찾으시나요?"
+                    android:layout_marginTop="22dp"
+                    android:id="@+id/emptydesc"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:layout_constraintTop_toBottomOf="@id/emptydesc"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textSize="14dp"
+                    android:fontFamily="@font/suit_medium"
+                    android:textColor="@color/graydark_text"
+                    android:text="금액, 거래처, 카테고리 등을 검색해 볼 수 있어요.\n예) 다이소"
+                    android:lineSpacingExtra="8dp"
+                    android:layout_marginTop="12dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -153,10 +211,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/searchbtnlist"
-                android:layout_marginTop="36dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:nestedScrollingEnabled="true"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toBottomOf="@id/searchlistcontainer"/>
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

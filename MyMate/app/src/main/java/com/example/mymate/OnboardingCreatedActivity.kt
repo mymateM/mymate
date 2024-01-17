@@ -13,11 +13,11 @@ class OnboardingCreatedActivity: AppCompatActivity() {
         binding = ActivityOnboardingCreatedBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.toHome.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+            startActivity(Intent(this, OnboardingProfileActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         }
     }
 
     override fun onBackPressed() {
-        startActivity(Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        startActivity(Intent(this, OnboardingProfileActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
     }
 }

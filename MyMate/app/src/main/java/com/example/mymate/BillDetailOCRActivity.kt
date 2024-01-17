@@ -4,7 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextWatcher
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -67,6 +72,9 @@ class BillDetailOCRActivity: AppCompatActivity() {
         binding.ocrimg.isGone = true
         binding.scandesc.isGone = true
 
+        binding.completedbtn.isEnabled = true
+        binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
+
         binding.category.text = category
         val duedate = year.toString().substring(2 until 4) + "년 " + month.toString() + "월 " + today.toString() + "일"
         binding.duedate.text = duedate
@@ -85,6 +93,36 @@ class BillDetailOCRActivity: AppCompatActivity() {
             binding.ocrimg.isGone = true
             binding.scandesc.isGone = true
         }
+
+        binding.categoryEdit.isGone = true
+
+        binding.amountEdit.setOnEditorActionListener(object: TextView.OnEditorActionListener {
+            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                if (p1 == EditorInfo.IME_ACTION_DONE) {
+                    hidekeyboard()
+                }
+                return false
+            }
+        })
+
+        binding.amountEdit.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (binding.amountEdit.text.toString().isNotEmpty() && binding.amountEdit.text.toString().toInt() != 0) {
+                    binding.completedbtn.isEnabled = true
+                    binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
+                } else {
+                    binding.completedbtn.isEnabled = false
+                    binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.graydark_text))
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+        })
 
         binding.memoEdit.setOnClickListener {
             val toMemoEdit = Intent(this, BillAddMemoOCRActivity::class.java)
@@ -106,7 +144,7 @@ class BillDetailOCRActivity: AppCompatActivity() {
                 File(savedPath.toUri().path!!).delete()
             }
         }
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             startActivity(toManager)
             overridePendingTransition(android.R.anim.fade_in, R.anim.vertical_exit)
             if (File(savedPath!!.toUri().path!!).exists()) {
@@ -262,5 +300,13 @@ class BillDetailOCRActivity: AppCompatActivity() {
 
             })
         }
+    }
+
+    private fun hidekeyboard() {
+        //키보드 내리기
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val focusview = currentFocus
+        imm.hideSoftInputFromWindow(this.window.decorView.applicationWindowToken, 0)
+        focusview?.clearFocus()
     }
 }

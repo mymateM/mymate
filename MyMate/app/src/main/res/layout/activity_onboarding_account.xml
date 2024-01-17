@@ -1,179 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/accountview">
 
-    <ImageView
-        android:layout_width="9dp"
-        android:layout_height="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:id="@+id/backbtn"
-        android:src="@drawable/back"
-        android:scaleType="fitCenter"/>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="6dp"
-        app:layout_constraintTop_toBottomOf="@id/backbtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/onboardIndi2"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="22dp"
-        android:src="@drawable/graph_graybackground"
-        app:tint="@color/purpleblue_select"
-        android:id="@+id/onboardIndi1"/>
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="6dp"
-        android:id="@+id/onboardIndi2"
-        app:layout_constraintTop_toTopOf="@id/onboardIndi1"
-        app:layout_constraintStart_toEndOf="@id/onboardIndi1"
-        app:layout_constraintBottom_toBottomOf="@id/onboardIndi1"
-        app:layout_constraintEnd_toStartOf="@id/onboardIndi3"
-        android:layout_marginStart="7dp"
-        android:src="@drawable/graph_graybackground"
-        app:tint="@color/purpleblue_select"/>
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="6dp"
-        android:id="@+id/onboardIndi3"
-        app:layout_constraintTop_toTopOf="@id/onboardIndi2"
-        app:layout_constraintStart_toEndOf="@id/onboardIndi2"
-        app:layout_constraintBottom_toBottomOf="@id/onboardIndi2"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="7dp"
-        android:src="@drawable/graph_graybackground"
-        app:tint="@color/graylight_indicator"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/backbtn"
-        app:layout_constraintBottom_toBottomOf="@id/backbtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="20dp"
-        android:text="나중에 설정할게요"
-        android:textSize="14dp"
-        android:fontFamily="@font/suit_regular"
-        android:textColor="@color/graydark_text"
-        android:id="@+id/contbtn"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/onboardIndi2"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="78.4dp"
-        android:layout_marginStart="16dp"
-        android:textColor="@color/black_text"
-        android:textSize="22dp"
-        android:text="정산 받을 계좌를 입력해 주세요"
-        android:fontFamily="@font/happiness_sans_title"
-        android:id="@+id/topText"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topText"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:textSize="16dp"
-        android:text="생활비를 정산할 때, 여기서 등록한 계좌로\n서로에게 간편하게 보낼 수 있어요."
-        android:fontFamily="@font/suit_regular"
-        android:textColor="@color/graydark_text"
-        android:id="@+id/subText"/>
-    
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="37dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintTop_toBottomOf="@id/subText"
-        android:layout_marginTop="70dp"
-        android:background="@android:color/transparent"
-        android:id="@+id/bankSelect"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/bankSelect"
-        app:layout_constraintStart_toStartOf="@id/bankSelect"
-        android:text="은행"
-        android:textSize="20dp"
-        android:fontFamily="@font/suit_semibold"
-        android:textColor="@color/graylight_text"/>
-
-    <ImageView
-        android:layout_width="12dp"
-        android:layout_height="7dp"
-        app:layout_constraintEnd_toEndOf="@id/bankSelect"
-        app:layout_constraintTop_toTopOf="@id/bankSelect"
-        app:layout_constraintBottom_toBottomOf="@id/bankSelect"
-        android:src="@drawable/icon_bank_dropmodale"
-        android:scaleType="fitCenter"/>
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="1.4dp"
-        app:layout_constraintBottom_toBottomOf="@id/bankSelect"
-        app:layout_constraintStart_toStartOf="@id/bankSelect"
-        app:layout_constraintEnd_toEndOf="@id/bankSelect"
-        android:src="@drawable/box_edittextunderline"/>
-
-    <EditText
-        android:layout_width="0dp"
-        android:layout_height="37dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bankSelect"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="36dp"
-        android:hint="계좌번호"
-        android:textSize="20dp"
-        android:textColorHint="@color/graylight_text"
-        android:fontFamily="@font/suit_semibold"
-        android:background="@android:color/transparent"
-        android:textCursorDrawable="@drawable/cursor"
-        android:id="@+id/accountEdit"
-        android:maxLength="12"
-        android:maxLines="1"
-        android:inputType="number"
-        android:digits="0123456789"/>
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="1.4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/accountEdit"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/box_edittextunderline"/>
-
-    <Button
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/icon_defaultrectangle"
-        android:backgroundTint="@color/graylight_wireframe"
-        android:text="다음으로"
-        android:textColor="@color/white"
-        android:fontFamily="@font/suit_bold"
-        android:textSize="16dp"
-        android:id="@+id/nextbtn"/>
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/accountview"
+            android:background="@color/white">
+
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:id="@+id/backbtn"
+                android:src="@drawable/back"
+                android:scaleType="fitCenter"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toTopOf="@id/backbtn"
+                app:layout_constraintBottom_toBottomOf="@id/backbtn"
+                app:layout_constraintEnd_toEndOf="@id/backbtn"
+                app:layout_constraintStart_toStartOf="@id/backbtn"
+                android:id="@+id/back"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="6dp"
+                app:layout_constraintTop_toBottomOf="@id/backbtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/onboardIndi2"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="22dp"
+                android:src="@drawable/graph_graybackground"
+                app:tint="@color/purpleblue_select"
+                android:id="@+id/onboardIndi1"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="6dp"
+                android:id="@+id/onboardIndi2"
+                app:layout_constraintTop_toTopOf="@id/onboardIndi1"
+                app:layout_constraintStart_toEndOf="@id/onboardIndi1"
+                app:layout_constraintBottom_toBottomOf="@id/onboardIndi1"
+                app:layout_constraintEnd_toStartOf="@id/onboardIndi3"
+                android:layout_marginStart="7dp"
+                android:src="@drawable/graph_graybackground"
+                app:tint="@color/purpleblue_select"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="6dp"
+                android:id="@+id/onboardIndi3"
+                app:layout_constraintTop_toTopOf="@id/onboardIndi2"
+                app:layout_constraintStart_toEndOf="@id/onboardIndi2"
+                app:layout_constraintBottom_toBottomOf="@id/onboardIndi2"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="7dp"
+                android:src="@drawable/graph_graybackground"
+                app:tint="@color/graylight_indicator"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/backbtn"
+                app:layout_constraintBottom_toBottomOf="@id/backbtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="20dp"
+                android:text="나중에 설정할게요"
+                android:textSize="14dp"
+                android:fontFamily="@font/suit_regular"
+                android:textColor="@color/graydark_text"
+                android:id="@+id/contbtn"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/onboardIndi2"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="78.4dp"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/black_text"
+                android:textSize="22dp"
+                android:text="정산 받을 계좌를 입력해 주세요"
+                android:fontFamily="@font/happiness_sans_title"
+                android:id="@+id/topText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/topText"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:textSize="16dp"
+                android:text="생활비를 정산할 때, 여기서 등록한 계좌로\n서로에게 간편하게 보낼 수 있어요."
+                android:fontFamily="@font/suit_regular"
+                android:textColor="@color/graydark_text"
+                android:lineSpacingExtra="5dp"
+                android:id="@+id/subText"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="37dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintTop_toBottomOf="@id/subText"
+                android:layout_marginTop="70dp"
+                android:background="@android:color/transparent"
+                android:id="@+id/bankSelect"
+                android:elevation="0dp"
+                android:stateListAnimator="@null"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/bankSelect"
+                app:layout_constraintStart_toStartOf="@id/bankSelect"
+                android:text="은행"
+                android:textSize="20dp"
+                android:fontFamily="@font/suit_semibold"
+                android:textColor="@color/graylight_text"
+                android:id="@+id/bankName"/>
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="7dp"
+                app:layout_constraintEnd_toEndOf="@id/bankSelect"
+                app:layout_constraintTop_toTopOf="@id/bankSelect"
+                app:layout_constraintBottom_toBottomOf="@id/bankSelect"
+                android:src="@drawable/arrow_down"
+                app:tint="@color/graylight_text"
+                android:scaleType="fitCenter"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="1.4dp"
+                app:layout_constraintBottom_toBottomOf="@id/bankSelect"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/box_edittextunderline"/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bankSelect"
+                android:layout_marginEnd="17dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="36dp"
+                android:hint="계좌번호"
+                android:textSize="20dp"
+                android:textColorHint="@color/graylight_text"
+                android:fontFamily="@font/suit_semibold"
+                android:backgroundTint="@color/graylight_basic"
+                android:textColor="@color/black_text"
+                android:id="@+id/accountEdit"
+                android:maxLength="12"
+                android:maxLines="1"
+                android:inputType="number"
+                android:digits="0123456789"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:background="@drawable/button_wfdefault"
+                android:text="다음으로"
+                android:textColor="@color/white"
+                android:fontFamily="@font/suit_bold"
+                android:textSize="20dp"
+                android:id="@+id/nextbtn"
+                android:stateListAnimator="@null"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@color/modalecover"
+                android:elevation="2dp"
+                android:id="@+id/cover"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            layout="@layout/modale_onboarding_account"
+            android:id="@+id/modaleAccount"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

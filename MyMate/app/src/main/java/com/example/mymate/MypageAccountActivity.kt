@@ -1,6 +1,9 @@
 package com.example.mymate
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -11,6 +14,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.mymate.databinding.ActivityMypageAccountBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -55,6 +60,21 @@ class MypageAccountActivity: AppCompatActivity() {
                     fullspan.setSpan(TypefaceSpan(suitBoldTypeface), 0, banktype.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     fullspan.setSpan(TypefaceSpan(montBoldTypeface), banktype.length, fullspan.lastIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     binding.account.text = fullspan
+
+                    val adapter = MypageAccountAdapter(myaccount.members)
+                    val manager = LinearLayoutManager(context)
+                    binding.accountList.layoutManager = manager
+                    binding.accountList.adapter = adapter.apply {
+                        setOnItemClickListener(object : MypageAccountAdapter.OnItemClickListener {
+                            override fun onItemClick(item: mateAccount, position: Int) {
+                                val clip = ClipData.newPlainText("account", item.account_bank.replace("은행", "") + " " + item.account_number)
+                                val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                                clipboard.setPrimaryClip(clip)
+                                val toasttxt = "${item.user_name}의\n계좌를 복사했어요"
+                                Toast.makeText(context, toasttxt, Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    }
                 }
             }
 
@@ -64,9 +84,13 @@ class MypageAccountActivity: AppCompatActivity() {
 
         })
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
             overridePendingTransition(R.anim.none, R.anim.left_exit)
+        }
+
+        binding.accountEdit.setOnClickListener {
+            startActivity(Intent(context, MypageEditAccountActivity::class.java))
         }
     }
 

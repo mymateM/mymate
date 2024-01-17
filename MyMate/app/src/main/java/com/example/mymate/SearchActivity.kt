@@ -1,17 +1,27 @@
 package com.example.mymate
 
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.TextWatcher
+import android.text.style.TypefaceSpan
 import android.util.Log
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,6 +64,7 @@ class SearchActivity: AppCompatActivity() {
     private var formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
     private var searchformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -72,7 +83,8 @@ class SearchActivity: AppCompatActivity() {
         setCalendarView(selectedDate)
         setCategoryView()
 
-        selected(binding.listupbutton)
+        unselected(binding.listupbutton)
+        binding.searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.black_text))
         binding.listupbutton.text = "최신순"
 
         binding.searchcalendar.monthLast.setOnClickListener {
@@ -89,23 +101,52 @@ class SearchActivity: AppCompatActivity() {
             setCalendarView(selectedDate)
         }
 
-        binding.backbtn.setOnClickListener {
+        binding.searchEdit.setOnClickListener {
+            Toast.makeText(context, "준비중이에요! 지금은 검색 조건을 사용해 보세요!", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.back.setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.none, R.anim.left_exit)
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        overridePendingTransition(R.anim.none, R.anim.left_exit)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun bottomSheetInit() {
         behavioramount = BottomSheetBehavior.from(binding.searchamount.root)
         behaviorcalendar = BottomSheetBehavior.from(binding.searchcalendar.root)
         behaviorcategory = BottomSheetBehavior.from(binding.searchcategory.root)
         behaviorlistup = BottomSheetBehavior.from(binding.searchlistup.root)
 
+        binding.searchamount.root.setOnClickListener {
+
+        }
+
+        binding.searchcalendar.root.setOnClickListener {
+
+        }
+
+        binding.searchcategory.root.setOnClickListener {
+
+        }
+
+        binding.searchlistup.root.setOnClickListener {
+
+        }
+
         binding.refreshButton.setOnClickListener {
             binding.amountbutton.text = "가격"
             binding.categorybutton.text = "카테고리"
             binding.listupbutton.text = "최신순"
+            binding.searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.black_text))
             binding.calendarbutton.text = "기간"
-            selected(binding.listupbutton)
+            unselected(binding.listupbutton)
             unselected(binding.amountbutton)
             unselected(binding.categorybutton)
             unselected(binding.calendarbutton)
@@ -120,6 +161,7 @@ class SearchActivity: AppCompatActivity() {
             selectedDate = LocalDate.now()
             setCalendarView(selectedDate)
             setCategoryView()
+            binding.startgraphic.isGone = false
         }
 
         binding.calendarbutton.setOnClickListener {
@@ -137,7 +179,6 @@ class SearchActivity: AppCompatActivity() {
             behavioramount.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorlistup.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorcategory.state = BottomSheetBehavior.STATE_COLLAPSED
-            search()
         }
 
         binding.amountbutton.setOnClickListener {
@@ -155,7 +196,6 @@ class SearchActivity: AppCompatActivity() {
             behaviorcalendar.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorlistup.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorcategory.state = BottomSheetBehavior.STATE_COLLAPSED
-            search()
         }
 
         binding.categorybutton.setOnClickListener {
@@ -173,7 +213,6 @@ class SearchActivity: AppCompatActivity() {
             behaviorcalendar.state = BottomSheetBehavior.STATE_COLLAPSED
             behavioramount.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorlistup.state = BottomSheetBehavior.STATE_COLLAPSED
-            search()
         }
 
         binding.listupbutton.setOnClickListener {
@@ -186,12 +225,13 @@ class SearchActivity: AppCompatActivity() {
             } else {
                 behaviorlistup.state = BottomSheetBehavior.STATE_EXPANDED
                 binding.cover.isGone = false
-                selected(binding.listupbutton)
             }
             behaviorcalendar.state = BottomSheetBehavior.STATE_COLLAPSED
             behavioramount.state = BottomSheetBehavior.STATE_COLLAPSED
             behaviorcategory.state = BottomSheetBehavior.STATE_COLLAPSED
-            search()
+            if (binding.amountbutton.text != "가격" || binding.calendarbutton.text != "기간" || binding.categorybutton.text != "카테고리") {
+                search()
+            }
         }
 
         binding.cover.setOnClickListener {
@@ -205,13 +245,12 @@ class SearchActivity: AppCompatActivity() {
             if (binding.amountbutton.text == "가격") {
                 unselected(binding.amountbutton)
             }
-            if (binding.listupbutton.text == "정렬") {
-                unselected(binding.listupbutton)
-            }
             if (binding.categorybutton.text == "카테고리") {
                 unselected(binding.categorybutton)
             }
-            search()
+            if (binding.calendarbutton.text == "기간" && binding.amountbutton.text == "가격" && binding.categorybutton.text == "카테고리") {
+                binding.startgraphic.isGone = false
+            }
             binding.cover.isGone = true
         }
 
@@ -219,10 +258,14 @@ class SearchActivity: AppCompatActivity() {
             var minimum = ""
             var maximum = ""
             var amount = "가격"
-            if (binding.searchamount.minimumedit.text.isNotEmpty()) {
+            if (binding.searchamount.minimumedit.text.isNotEmpty() && binding.searchamount.maximumedit.text.isNotEmpty()) {
+                if (binding.searchamount.minimumedit.text.toString().toInt() > binding.searchamount.maximumedit.text.toString().toInt()) {
+                    minimum = digitprocessing(binding.searchamount.maximumedit.text.toString())
+                    maximum = digitprocessing(binding.searchamount.minimumedit.text.toString())
+                }
+            } else if (binding.searchamount.minimumedit.text.isNotEmpty()) {
                 minimum = digitprocessing(binding.searchamount.minimumedit.text.toString())
-            }
-            if (binding.searchamount.maximumedit.text.isNotEmpty()) {
+            } else if (binding.searchamount.maximumedit.text.isNotEmpty()) {
                 maximum = digitprocessing(binding.searchamount.maximumedit.text.toString())
             }
             if (minimum == "" && maximum == "") {
@@ -242,6 +285,58 @@ class SearchActivity: AppCompatActivity() {
             binding.cover.isGone = true
             search()
         }
+
+        binding.searchamount.minimumedit.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (binding.searchamount.minimumedit.text.isNotEmpty()) {
+                    binding.searchamount.amountset.setBackgroundResource(R.drawable.button_loginbarselected)
+                } else if (binding.searchamount.maximumedit.text.isEmpty()) {
+                    binding.searchamount.amountset.setBackgroundResource(R.drawable.button_loginbardefault)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
+
+        binding.searchamount.minimumedit.setOnEditorActionListener(object: OnEditorActionListener {
+            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE || p1 == EditorInfo.IME_ACTION_SEARCH) {
+                    hidekeyboard()
+                }
+                return false
+            }
+
+        })
+
+        binding.searchamount.maximumedit.setOnEditorActionListener(object: OnEditorActionListener {
+            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE || p1 == EditorInfo.IME_ACTION_SEND) {
+                    hidekeyboard()
+                }
+                return false
+            }
+
+        })
+
+        binding.searchamount.maximumedit.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (binding.searchamount.maximumedit.text.isNotEmpty()) {
+                    binding.searchamount.amountset.setBackgroundResource(R.drawable.button_loginbarselected)
+                } else if (binding.searchamount.minimumedit.text.isEmpty()) {
+                    binding.searchamount.amountset.setBackgroundResource(R.drawable.button_loginbardefault)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
 
         binding.searchcalendar.calendarset.setOnClickListener {
             behaviorcalendar.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -267,7 +362,9 @@ class SearchActivity: AppCompatActivity() {
             binding.searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.black_text))
             binding.searchlistup.listfromold.setTextColor(ContextCompat.getColor(context, R.color.graylight_text))
             binding.cover.isGone = true
-            search()
+            if (binding.amountbutton.text != "가격" || binding.calendarbutton.text != "기간" || binding.categorybutton.text != "카테고리") {
+                search()
+            }
         }
 
         binding.searchlistup.listfromold.setOnClickListener {
@@ -276,18 +373,23 @@ class SearchActivity: AppCompatActivity() {
             binding.searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.graylight_text))
             binding.searchlistup.listfromold.setTextColor(ContextCompat.getColor(context, R.color.black_text))
             binding.cover.isGone = true
-            search()
+            if (binding.amountbutton.text != "가격" || binding.calendarbutton.text != "기간" || binding.categorybutton.text != "카테고리") {
+                search()
+            }
         }
     }
 
     private fun selected(view: TextView) {
         view.setBackgroundResource(R.drawable.button_selectedboxround)
         view.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
+        view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down_selection, 0)
+        binding.startgraphic.isGone = true
     }
 
     private fun unselected(view: TextView) {
         view.setBackgroundResource(R.drawable.button_selectboxnull)
         view.setTextColor(ContextCompat.getColor(context, R.color.graydark_text))
+        view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down, 0)
     }
 
     private fun search() {
@@ -349,13 +451,25 @@ class SearchActivity: AppCompatActivity() {
                     Log.d("SEARCH!!!", "성공")
                     var listitem = response.body()!!.data.expenses
                     var itemlist = ArrayList<ArrayList<ExpenseList>>()
+                    var index = 0
+                    for (i in 0 until listitem.size) {
+                        if (i == 0) {
+                            itemlist.add(ArrayList<ExpenseList>())
+                            itemlist[0].add(listitem[0])
+                        } else if (listitem[i].expenseDate != listitem[i-1].expenseDate) {
+                            itemlist.add(ArrayList<ExpenseList>())
+                            index += 1
+                            itemlist[index].add(listitem[i])
+                        } else {
+                            itemlist[index].add(listitem[i])
+                        }
+                    }
                     itemlist.add(listitem)
                     val manager: RecyclerView.LayoutManager = LinearLayoutManager(context)
                     val adapter = SearchListContainerAdapter(itemlist)
                     binding.searchlistcontainer.adapter = adapter
                     binding.searchlistcontainer.layoutManager = manager
                 }
-                Log.d("SEARCH!!!", "반환형 이상함")
             }
 
             override fun onFailure(call: Call<searchResponse>, t: Throwable) {
@@ -460,6 +574,7 @@ class SearchActivity: AppCompatActivity() {
                         dataList[position] = false
                         data = ""
                         binding.categorybutton.text = "카테고리"
+                        binding.searchcategory.categoryset.setBackgroundResource(R.drawable.button_loginbardefault)
                     } else {
                         for (i in 0 until dataList.size) {
                             dataList[i] = false
@@ -467,6 +582,7 @@ class SearchActivity: AppCompatActivity() {
                         dataList[position] = true
                         data = categorynameList[position]
                         binding.categorybutton.text = data
+                        binding.searchcategory.categoryset.setBackgroundResource(R.drawable.button_loginbarselected)
                     }
                 }
 
@@ -474,9 +590,20 @@ class SearchActivity: AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun setCalendarView(date: LocalDate) {
         //calendar header
-        binding.searchcalendar.monthText.text = selectedDate.format(monthformatter)
+        val month = SpannableStringBuilder(selectedDate.format(monthformatter))
+        val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_bold), Typeface.NORMAL)
+        val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_bold), Typeface.NORMAL)
+        if (selectedDate.monthValue < 10) {
+            month.setSpan(TypefaceSpan(montBoldTypeface), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            month.setSpan(TypefaceSpan(suitBoldTypeface), month.lastIndex, month.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        } else if (selectedDate.monthValue >= 10) {
+            month.setSpan(TypefaceSpan(montBoldTypeface), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            month.setSpan(TypefaceSpan(suitBoldTypeface), month.lastIndex, month.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        binding.searchcalendar.monthText.text = month
         binding.searchcalendar.yeartext.text = selectedDate.format(yearformatter)
         //generate date lists
         iteminfo = arrayListOf<calendarItem>()
@@ -504,12 +631,14 @@ class SearchActivity: AppCompatActivity() {
                     val calendartext = "$firstdaytext-$lastdaytext"
                     binding.calendarbutton.text = calendartext
                     selected(binding.calendarbutton)
+                    binding.searchcalendar.calendarset.setBackgroundResource(R.drawable.button_loginbarselected)
                     if (firstdaytext == "") {
                         if (lastdaytext != "") {
                             binding.calendarbutton.text = lastdaytext
                         } else {
                             binding.calendarbutton.text = "기간"
                             unselected(binding.calendarbutton)
+                            binding.searchcalendar.calendarset.setBackgroundResource(R.drawable.button_loginbardefault)
                         }
                     } else if (lastdaytext == "") {
                         binding.calendarbutton.text = firstdaytext

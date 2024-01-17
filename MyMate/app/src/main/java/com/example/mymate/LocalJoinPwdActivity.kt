@@ -33,12 +33,38 @@ class LocalJoinPwdActivity: AppCompatActivity() {
         var pwdcheck = false
 
         val email = intent.getStringExtra("email")
+        binding.clearpwd.isGone = true
+        binding.clearpwdcheck.isGone = true
+
+        binding.clearpwd.setOnClickListener {
+            binding.pwd.text = null
+        }
+
+        binding.clearpwdcheck.setOnClickListener {
+            binding.pwdchecktext.text = null
+        }
+
+        binding.pwd.setOnClickListener {
+            binding.pwd.backgroundTintList = ContextCompat.getColorStateList(context, R.color.purpleblue_select)
+            binding.pwdchecktext.backgroundTintList = ContextCompat.getColorStateList(context, R.color.graylight_buttonline)
+        }
+
+        binding.pwdchecktext.setOnClickListener {
+            binding.pwdchecktext.backgroundTintList = ContextCompat.getColorStateList(context, R.color.purpleblue_select)
+            binding.pwd.backgroundTintList = ContextCompat.getColorStateList(context, R.color.graylight_buttonline)
+        }
 
         binding.pwd.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 message = binding.pwd.text.toString()
+                binding.clearpwd.isGone = message.isEmpty()
+                if (message.isEmpty()) {
+                    binding.pwd.backgroundTintList = ContextCompat.getColorStateList(context, R.color.graylight_buttonline)
+                } else {
+                    binding.pwd.backgroundTintList = ContextCompat.getColorStateList(context, R.color.purpleblue_select)
+                }
                 val matcherEngNum = patternEngNum.matcher(message)
                 val matcherSpecial = patternSpecial.matcher(message)
                 if (message.length > 7) {
@@ -50,7 +76,6 @@ class LocalJoinPwdActivity: AppCompatActivity() {
                     engnumcheck(matcherEngNum.find())
                     spcheck(matcherSpecial.find())
                 }
-
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -82,6 +107,12 @@ class LocalJoinPwdActivity: AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 checkmessage = binding.pwdchecktext.text.toString()
                 message = binding.pwd.text.toString()
+                binding.clearpwdcheck.isGone = message.isEmpty()
+                if (message.isEmpty()) {
+                    binding.pwdchecktext.backgroundTintList = ContextCompat.getColorStateList(context, R.color.graylight_buttonline)
+                } else {
+                    binding.pwdchecktext.backgroundTintList = ContextCompat.getColorStateList(context, R.color.purpleblue_select)
+                }
                 if (checkmessage == message) {
                     hidekeyboard()
                     binding.pwdcheck.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_check_active))
@@ -100,7 +131,7 @@ class LocalJoinPwdActivity: AppCompatActivity() {
 
         })
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
         }
 
@@ -183,5 +214,7 @@ class LocalJoinPwdActivity: AppCompatActivity() {
         val focusview = currentFocus
         imm.hideSoftInputFromWindow(this.window.decorView.applicationWindowToken, 0)
         focusview?.clearFocus()
+        binding.pwd.backgroundTintList = ContextCompat.getColorStateList(context, R.color.graylight_buttonline)
+        binding.pwdchecktext.backgroundTintList = ContextCompat.getColorStateList(context, R.color.graylight_buttonline)
     }
 }

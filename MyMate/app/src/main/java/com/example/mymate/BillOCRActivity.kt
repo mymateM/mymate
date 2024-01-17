@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
+import androidx.core.text.isDigitsOnly
 import androidx.core.view.isGone
 import com.example.mymate.databinding.ActivityBillocrBinding
 import com.google.android.gms.tasks.Task
@@ -64,31 +65,32 @@ class BillOCRActivity: AppCompatActivity() {
             var day = ""
             var money = ""
 
-            var temp0 = daytask.result.text.length - 1
             day = daytask.result.text
             money = moneytask.result.text
 
-            while (temp0 != 0 && temp0 > 0) {
-                if (day[temp0] < '0' || day[temp0] > '9') {
-                    val daybefore = day[temp0]
-                    if (daybefore.toString() == ".") {
-                        day = day.replace(daybefore.toString(), "")
-                    } else {
-                        day = day.replace(daybefore.toString(), "0")
+            if (!day.isDigitsOnly()) {
+                for (i in day.indices) {
+                    if (!day[i].isDigit()) {
+                        day.replace(day[i].toString(), "0")
                     }
                 }
-                temp0--
             }
 
-            if (day.length in 1..7) {
-                var temp1 = day.length
-                while (temp1 < 8) {
+            if (day.length < 8) {
+                for (i in 0 until (8 - day.length)) {
                     day += "0"
-                    temp1++
                 }
-            } else if (day.length > 8) {
-                day = day.substring(0 until 8)
             }
+
+            if (!money.isDigitsOnly()) {
+                for (i in money.indices) {
+                    if (!money[i].isDigit()) {
+                        money.replace(money[i].toString(), "0")
+                    }
+                }
+            }
+
+
 
             /*var daytext = ""
 
@@ -98,15 +100,6 @@ class BillOCRActivity: AppCompatActivity() {
                 daytext = ""
             }*/
 
-            var temp2 = moneytask.result.text.length - 1
-
-            while (temp2 != 0 && temp0 > 0) {
-                if (money[temp2] < '0' || money[temp2] > '9') {
-                    val moneybefore = money.substring(0 until temp2) + money.substring(temp2 until money.length)
-                    money = moneybefore
-                }
-                temp2--
-            }
             bottomSheetInit(day, money, moneyPath, dayPath)
         }
     }
@@ -119,17 +112,17 @@ class BillOCRActivity: AppCompatActivity() {
 
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
 
-        binding.billpersistent.duedate.text = day
-        var moneytext = money
-        binding.billpersistent.billamount.text = moneytext
+        val daytext = day.substring(2, 4) + "년 " + day.substring(4, 6).toInt().toString() + "월 " + day.substring(6, 8).toInt().toString() + "일"
+
+        binding.billpersistent.duedate.text = daytext
+        binding.billpersistent.billamount.text = digitprocessing(money)
 
 
         binding.billpersistent.tonext.setOnClickListener {
             val category = intent.getStringExtra("category")
             var listintent = Intent(this, BillDetailOCRActivity::class.java)
             listintent.putExtra("category", category)
-            val daytext = day
-            listintent.putExtra("itemday", daytext)
+            listintent.putExtra("itemday", day.trim())
             listintent.putExtra("itemamount", money.trim())
             listintent.putExtra("savedUri", savedPath)
 
@@ -175,5 +168,34 @@ class BillOCRActivity: AppCompatActivity() {
         }
 
         return money
+    }
+
+    private fun digitprocessing(digits: String): String {
+        var textlength = digits.length
+        var processed = ""
+        while (0 < textlength) {
+            var substring1 = ""
+            if (textlength == 3) {
+                if (processed == "") {
+                    processed = digits.substring(0 until 3)
+                } else {
+                    processed = digits.substring(0 until 3) + "," + processed
+                }
+            } else if (textlength > 3) {
+                substring1 = digits.substring(textlength - 3 until textlength)
+                if (processed == "") {
+                    processed = substring1
+                } else {
+                    processed = "$substring1,$processed"
+                }
+            } else {
+                substring1 = digits.substring(0 until textlength)
+                processed = "$substring1,$processed"
+            }
+
+            textlength -= 3
+        }
+
+        return processed
     }
 }

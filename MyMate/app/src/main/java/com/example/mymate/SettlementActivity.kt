@@ -57,6 +57,7 @@ class SettlementActivity : AppCompatActivity() {
         context = this
         binding.settlementdismiss.setOnClickListener{
             finish()
+            overridePendingTransition(R.anim.none, R.anim.left_exit)
         }
 
         binding.desc.isGone = true
@@ -85,10 +86,17 @@ class SettlementActivity : AppCompatActivity() {
 
         binding.toReport.setOnClickListener {
             startActivity(Intent(context, SettlementReportActivity::class.java))
+            overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
         bottomSheetInit()
         dataInit()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        overridePendingTransition(R.anim.none, R.anim.left_exit)
     }
 
     private fun bottomSheetInit() {

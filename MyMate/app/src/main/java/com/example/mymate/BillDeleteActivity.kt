@@ -40,6 +40,7 @@ class BillDeleteActivity: AppCompatActivity() {
         context = this
 
         val category = intent.getStringExtra("category")
+        binding.title.text = category
 
         if (category == "도시가스") {
             getGasList(category)
@@ -53,9 +54,16 @@ class BillDeleteActivity: AppCompatActivity() {
             Toast.makeText(context, "올바르지 않은 접근입니다.", Toast.LENGTH_SHORT).show()
         }
 
-        binding.backbtn.setOnClickListener {
+        binding.back.setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.none, R.anim.none)
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        overridePendingTransition(R.anim.none, R.anim.none)
     }
 
     private fun getGasList(category: String) {
@@ -419,6 +427,7 @@ class BillDeleteActivity: AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     finish()
+                    overridePendingTransition(R.anim.none, R.anim.none)
                 }
             }
 
