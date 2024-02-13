@@ -6,6 +6,7 @@ import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
+import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.TypefaceSpan
 import android.util.Log
@@ -274,6 +275,8 @@ class MainSpendingFragment : Fragment() {
         val monthText = SpannableStringBuilder(monthTextFormatting(date))
         monthText.setSpan(TypefaceSpan(montBoldTypeface), 0, monthText.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.monthText.text = monthText
+        val yearText = SpannableStringBuilder(yearTextFormatting(date))
+        binding.yeartext.text = yearText
         //generate date lists
         iteminfo = arrayListOf<calendarItem>()
         val dayList = dayInMonthArray(date)
@@ -339,6 +342,11 @@ class MainSpendingFragment : Fragment() {
 
     private fun monthTextFormatting(date: LocalDate): String {
         var formatter = DateTimeFormatter.ofPattern("MM월")
+        return date.format(formatter)
+    }
+
+    private fun yearTextFormatting(date: LocalDate): String {
+        var formatter = DateTimeFormatter.ofPattern("yyyy")
         return date.format(formatter)
     }
 

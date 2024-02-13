@@ -48,6 +48,7 @@
         android:layout_marginTop="70dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:paddingBottom="12dp"
         android:fontFamily="@font/suit_semibold"
         android:hint="비밀번호"
         android:textSize="20dp"
@@ -72,7 +73,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="12dp"
         android:src="@color/graylight_indicator"/>
 
     <EditText
@@ -84,6 +84,7 @@
         android:layout_marginTop="36dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:paddingBottom="12dp"
         android:fontFamily="@font/suit_semibold"
         android:hint="비밀번호 확인"
         android:textSize="20dp"
@@ -111,7 +112,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="12dp"
         android:src="@color/graylight_indicator"
         android:id="@+id/pwdcheckindi"
         android:visibility="gone"/>

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import com.example.mymate.databinding.ActivityLocaljoinemailBinding
@@ -22,6 +23,18 @@ class LocalJoinEmailActivity: AppCompatActivity() {
         binding.clear.isGone = true
 
         binding.tonext.isEnabled = false
+
+        binding.root.setOnClickListener {
+            hidekeyboard()
+        }
+
+        binding.emailcontainer.setOnClickListener {
+            binding.email.post(Runnable {
+                binding.email.requestFocus()
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(binding.email.findFocus(), InputMethodManager.SHOW_IMPLICIT)
+            })
+        }
 
         binding.clear.setOnClickListener {
             binding.email.text = null
@@ -56,5 +69,13 @@ class LocalJoinEmailActivity: AppCompatActivity() {
             intent.putExtra("email", binding.email.text.toString())
             startActivity(intent)
         }
+    }
+
+    private fun hidekeyboard() {
+        //키보드 내리기
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val focusview = currentFocus
+        imm.hideSoftInputFromWindow(this.window.decorView.applicationWindowToken, 0)
+        focusview?.clearFocus()
     }
 }

@@ -40,15 +40,18 @@ class OnboardingHouseholdActivity: AppCompatActivity() {
         binding.topText.text = toptext
 
         binding.contbtn.setOnClickListener {
+            hidekeyboard()
             startActivity(Intent(this, OnboardingSettlementdayActivity::class.java))
             overridePendingTransition(R.anim.none, R.anim.none)
         }
 
         binding.back.setOnClickListener {
+            hidekeyboard()
             finish()
         }
 
         binding.nextbtn.setOnClickListener {
+            hidekeyboard()
             startActivity(Intent(this, OnboardingSettlementdayActivity::class.java))
             overridePendingTransition(R.anim.none, R.anim.none)
         }
@@ -97,6 +100,7 @@ class OnboardingHouseholdActivity: AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        hidekeyboard()
         finish()
     }
 

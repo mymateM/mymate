@@ -40,6 +40,17 @@
         android:lineSpacingExtra="5dp"
         android:stateListAnimator="@null"/>
 
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/email"
+        app:layout_constraintEnd_toEndOf="@id/email"
+        app:layout_constraintTop_toTopOf="@id/email"
+        app:layout_constraintBottom_toBottomOf="@id/email"
+        android:layout_marginTop="-12dp"
+        android:layout_marginBottom="-12dp"
+        android:id="@+id/emailcontainer"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
