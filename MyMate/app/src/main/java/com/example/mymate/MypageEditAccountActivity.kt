@@ -1,15 +1,10 @@
 package com.example.mymate
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.TypefaceSpan
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -22,7 +17,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mymate.data.dto.setting.response.UserAccountRequest
+import com.example.mymate.data.dto.setting.response.UserAccountResponse
 import com.example.mymate.databinding.ActivityMypageEditaccountBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
@@ -58,11 +54,11 @@ class MypageEditAccountActivity: AppCompatActivity() {
         }
 
         endpoint!!.getMyAccount("Bearer $accessToken").enqueue(object :
-            Callback<myAccountResponse> {
+            Callback<UserAccountResponse> {
             @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
-                call: Call<myAccountResponse>,
-                response: Response<myAccountResponse>
+                call: Call<UserAccountResponse>,
+                response: Response<UserAccountResponse>
             ) {
                 if (response.isSuccessful) {
                     val myaccount = response.body()!!.data
@@ -73,7 +69,7 @@ class MypageEditAccountActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<myAccountResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserAccountResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(사용자 계좌)", Toast.LENGTH_SHORT).show()
             }
         })
@@ -93,14 +89,14 @@ class MypageEditAccountActivity: AppCompatActivity() {
         })
 
         binding.completedbtn.setOnClickListener {
-            var account = postAccount()
+            var account = UserAccountRequest()
             if (positiontosend != -1) {
-                account = postAccount(codeList[positiontosend], binding.accountEdit.text.toString())
+                account = UserAccountRequest(codeList[positiontosend], binding.accountEdit.text.toString())
                 sendAccount(account, accessToken)
             } else if (binding.accountEdit.text.isNotEmpty()) {
                 for (i in 0 until codeList.size) {
                     if (nameList[i].contains(binding.bankName.text.toString().substring(0 until 2))) {
-                        account = postAccount(codeList[i], binding.accountEdit.text.toString())
+                        account = UserAccountRequest(codeList[i], binding.accountEdit.text.toString())
                     }
                 }
                 sendAccount(account, accessToken)
@@ -112,7 +108,7 @@ class MypageEditAccountActivity: AppCompatActivity() {
         bottomSheetInit()
     }
 
-    private fun sendAccount(account: postAccount, accessToken: String) {
+    private fun sendAccount(account: UserAccountRequest, accessToken: String) {
         Toast.makeText(context, account.account_bank + account.account_number, Toast.LENGTH_SHORT).show()
         val retrofit = RetrofitClientInstance.client
         val completeEndpoint = retrofit?.create(postMyAccount::class.java)
@@ -243,11 +239,11 @@ class MypageEditAccountActivity: AppCompatActivity() {
 
 
         endpoint!!.getMyAccount("Bearer $accessToken").enqueue(object :
-            Callback<myAccountResponse> {
+            Callback<UserAccountResponse> {
             @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
-                call: Call<myAccountResponse>,
-                response: Response<myAccountResponse>
+                call: Call<UserAccountResponse>,
+                response: Response<UserAccountResponse>
             ) {
                 if (response.isSuccessful) {
                     val myaccount = response.body()!!.data
@@ -258,7 +254,7 @@ class MypageEditAccountActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<myAccountResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserAccountResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(사용자 계좌)", Toast.LENGTH_SHORT).show()
             }
         })

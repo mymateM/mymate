@@ -26,22 +26,20 @@ import androidx.core.view.isGone
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.example.mymate.data.dto.expense.CalendarItem
+import com.example.mymate.data.dto.expense.ExpenseSummary
+import com.example.mymate.data.dto.expense.response.SearchResponse
 import com.example.mymate.databinding.ActivitySearchBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import okhttp3.internal.format
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
-import kotlin.math.max
-import kotlin.math.min
 
 class SearchActivity: AppCompatActivity() {
     lateinit var binding: ActivitySearchBinding
@@ -51,7 +49,7 @@ class SearchActivity: AppCompatActivity() {
     lateinit var behaviorcalendar: BottomSheetBehavior<ConstraintLayout>
     lateinit var behaviorcategory: BottomSheetBehavior<ConstraintLayout>
     lateinit var behaviorlistup: BottomSheetBehavior<ConstraintLayout>
-    lateinit var iteminfo: ArrayList<calendarItem>
+    lateinit var iteminfo: ArrayList<CalendarItem>
     lateinit var userRepo: DataStoreRepoUser
 
     private var selectedDate = LocalDate.now()
@@ -150,7 +148,7 @@ class SearchActivity: AppCompatActivity() {
             unselected(binding.amountbutton)
             unselected(binding.categorybutton)
             unselected(binding.calendarbutton)
-            var itemlistrefresh = ArrayList<ArrayList<ExpenseList>>()
+            var itemlistrefresh = ArrayList<ArrayList<ExpenseSummary>>()
             val adapter = SearchListContainerAdapter(itemlistrefresh)
             val manager = LinearLayoutManager(context)
             binding.searchlistcontainer.adapter = adapter
@@ -445,19 +443,19 @@ class SearchActivity: AppCompatActivity() {
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        endpoint!!.searchExpense("Bearer $accessToken", expense_amount_min = expense_amount_min, expense_amount_max = expense_amount_max, sorted_by_newest = newest, expense_date_min = firstday, expense_date_max = lastday, expense_category_name = categorytosend).enqueue(object : Callback<searchResponse> {
-            override fun onResponse(call: Call<searchResponse>, response: Response<searchResponse>) {
+        endpoint!!.searchExpense("Bearer $accessToken", expense_amount_min = expense_amount_min, expense_amount_max = expense_amount_max, sorted_by_newest = newest, expense_date_min = firstday, expense_date_max = lastday, expense_category_name = categorytosend).enqueue(object : Callback<SearchResponse> {
+            override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
                 if (response.isSuccessful) {
                     Log.d("SEARCH!!!", "성공")
                     var listitem = response.body()!!.data.expenses
-                    var itemlist = ArrayList<ArrayList<ExpenseList>>()
+                    var itemlist = ArrayList<ArrayList<ExpenseSummary>>()
                     var index = 0
                     for (i in 0 until listitem.size) {
                         if (i == 0) {
-                            itemlist.add(ArrayList<ExpenseList>())
+                            itemlist.add(ArrayList<ExpenseSummary>())
                             itemlist[0].add(listitem[0])
                         } else if (listitem[i].expenseDate != listitem[i-1].expenseDate) {
-                            itemlist.add(ArrayList<ExpenseList>())
+                            itemlist.add(ArrayList<ExpenseSummary>())
                             index += 1
                             itemlist[index].add(listitem[i])
                         } else {
@@ -472,7 +470,7 @@ class SearchActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<searchResponse>, t: Throwable) {
+            override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(검색)", Toast.LENGTH_SHORT).show()
             }
 
@@ -606,7 +604,7 @@ class SearchActivity: AppCompatActivity() {
         binding.searchcalendar.monthText.text = month
         binding.searchcalendar.yeartext.text = selectedDate.format(yearformatter)
         //generate date lists
-        iteminfo = arrayListOf<calendarItem>()
+        iteminfo = arrayListOf<CalendarItem>()
         val dayList = dayInMonthArray(date)
         //recyclerview setting
         val adapter = CalendarModaleAdapter(context, dayList, iteminfo, calendarVal)
@@ -617,7 +615,7 @@ class SearchActivity: AppCompatActivity() {
         binding.searchcalendar.mainCalendar.layoutManager = manager
         binding.searchcalendar.mainCalendar.adapter = adapter.apply {
             setOnItemClickListener(object : CalendarModaleAdapter.OnItemClickListener {
-                override fun onItemClick(item: calendarItem, position: Int) {
+                override fun onItemClick(item: CalendarItem, position: Int) {
                     if (calendarVal.firstDay != -1) {
                         firstdaytext = dayList[calendarVal.firstDay]?.format(formatter) ?: ""
                     } else {
@@ -664,17 +662,17 @@ class SearchActivity: AppCompatActivity() {
             for (i in 1..yearMonth.lengthOfMonth()) {
                 if (nowdate == i) {
                     dayList.add(LocalDate.of(date.year, date.monthValue, i))
-                    iteminfo.add(calendarItem(false, false, false))
+                    iteminfo.add(CalendarItem(false, false, false))
                 } else {
                     dayList.add(LocalDate.of(date.year, date.monthValue, i))
-                    iteminfo.add(calendarItem(false, false, false))
+                    iteminfo.add(CalendarItem(false, false, false))
                 }
             }
             for (i in 1 .. 11) {
                 tempmonth = date.plusMonths(1)
                 tempday = tempmonth.withDayOfMonth(1).plusDays(tempint.toLong())
                 dayList.add(tempday)
-                iteminfo.add(calendarItem(false, false, true))
+                iteminfo.add(CalendarItem(false, false, true))
                 tempint++
             }
         } else {
@@ -684,20 +682,20 @@ class SearchActivity: AppCompatActivity() {
                     tempday = tempmonth.withDayOfMonth(tempmonth.lengthOfMonth())
                         .minusDays(dayOfWeek.toLong() - i)
                     dayList.add(tempday)
-                    iteminfo.add(calendarItem(false, false, true))
+                    iteminfo.add(CalendarItem(false, false, true))
                 } else if (i > lastDay + dayOfWeek) {
                     tempmonth = date.plusMonths(1)
                     tempday = tempmonth.withDayOfMonth(1).plusDays(tempint.toLong())
                     dayList.add(tempday)
-                    iteminfo.add(calendarItem(false, false, true))
+                    iteminfo.add(CalendarItem(false, false, true))
                     tempint++
                 } else {
                     if (nowdate == (i - dayOfWeek)) {
                         dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
-                        iteminfo.add(calendarItem(false, false, false))
+                        iteminfo.add(CalendarItem(false, false, false))
                     } else {
                         dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
-                        iteminfo.add(calendarItem(false, false, false))
+                        iteminfo.add(CalendarItem(false, false, false))
                     }
                 }
             }

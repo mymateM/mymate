@@ -6,12 +6,8 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
-import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
@@ -24,10 +20,10 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
-import androidx.core.view.isInvisible
-import androidx.datastore.dataStore
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
+import com.example.mymate.data.dto.auth.response.LocalRefreshResponse
+import com.example.mymate.data.dto.expense.response.HomeInfoResponse
+import com.example.mymate.data.dto.notification.response.UserActNotiResponse
 import com.example.mymate.databinding.MainHomeFragmentBinding
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -37,21 +33,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import okhttp3.internal.wait
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.reflect.Type
 import kotlin.math.absoluteValue
 
 class MainHomeFragment : Fragment() {
@@ -63,7 +49,7 @@ class MainHomeFragment : Fragment() {
     lateinit var refreshcode: String
     lateinit var accesscode: String
 
-    private var refreshResponse: localRefreshReponse = localRefreshReponse()
+    private var refreshResponse: LocalRefreshResponse = LocalRefreshResponse()
     var resumed = "00"
 
     override fun onAttach(context: Context) {
@@ -144,11 +130,11 @@ class MainHomeFragment : Fragment() {
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        endpoint!!.getHomeInfo("Bearer $accessToken").enqueue(object: Callback<homeInfoResponse> {
+        endpoint!!.getHomeInfo("Bearer $accessToken").enqueue(object: Callback<HomeInfoResponse> {
             @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
-                call: Call<homeInfoResponse>,
-                response: Response<homeInfoResponse>
+                call: Call<HomeInfoResponse>,
+                response: Response<HomeInfoResponse>
             ) {
                 if (response.isSuccessful) {
                     var household = response.body()!!.data.household
@@ -232,16 +218,16 @@ class MainHomeFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<homeInfoResponse>, t: Throwable) {
+            override fun onFailure(call: Call<HomeInfoResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(홈)", Toast.LENGTH_SHORT).show()
             }
         })
 
         val alarmEndpoint = retrofit?.create(getActivityNoti::class.java)
-        alarmEndpoint!!.activityNoti("Bearer $accessToken").enqueue(object: Callback<activityNotiResponse> {
+        alarmEndpoint!!.activityNoti("Bearer $accessToken").enqueue(object: Callback<UserActNotiResponse> {
             override fun onResponse(
-                call: Call<activityNotiResponse>,
-                response: Response<activityNotiResponse>
+                call: Call<UserActNotiResponse>,
+                response: Response<UserActNotiResponse>
             ) {
                 if (response.isSuccessful) {
                     val notiresponse = response.body()!!.data.activityNotificationResponses
@@ -249,7 +235,7 @@ class MainHomeFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<activityNotiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserActNotiResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(홈-알람)", Toast.LENGTH_SHORT).show()
             }
         })

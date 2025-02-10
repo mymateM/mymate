@@ -4,13 +4,13 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mymate.data.dto.expense.response.DailySingleExpenseResponse
 import com.example.mymate.databinding.ActivitySpendingdetailBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 
 class SpendingDetailActivity: AppCompatActivity() {
     lateinit var binding: ActivitySpendingdetailBinding
@@ -38,10 +38,10 @@ class SpendingDetailActivity: AppCompatActivity() {
         }
         val id = intent.getStringExtra("id")
 
-        endpoint!!.getDailySingleExpense("Bearer $accessToken", id!!).enqueue(object : Callback<getDailySingleExpenseResult> {
+        endpoint!!.getDailySingleExpense("Bearer $accessToken", id!!).enqueue(object : Callback<DailySingleExpenseResponse> {
             override fun onResponse(
-                call: Call<getDailySingleExpenseResult>,
-                response: Response<getDailySingleExpenseResult>
+                call: Call<DailySingleExpenseResponse>,
+                response: Response<DailySingleExpenseResponse>
             ) {
                 if (response.isSuccessful) {
                     val result = response.body()!!.data
@@ -55,7 +55,7 @@ class SpendingDetailActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<getDailySingleExpenseResult>, t: Throwable) {
+            override fun onFailure(call: Call<DailySingleExpenseResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(내역 상세)", Toast.LENGTH_SHORT).show()
             }
         })

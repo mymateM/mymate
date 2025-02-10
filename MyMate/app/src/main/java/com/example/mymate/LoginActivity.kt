@@ -4,49 +4,33 @@ import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
-import android.content.IntentSender
 import android.os.Bundle
-import android.os.UserManager
-import android.text.InputFilter.LengthFilter
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
+import com.example.mymate.data.dto.auth.DeviceToken
+import com.example.mymate.data.dto.auth.request.SocialLoginRequest
+import com.example.mymate.data.dto.auth.response.LocalLoginResponse
 import com.example.mymate.databinding.ActivityLoginBinding
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.Identity
-import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.tasks.Task
 import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
-import com.kakao.sdk.user.model.User
 import com.navercorp.nid.NaverIdLoginSDK
-import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.math.sign
 
 class LoginActivity: AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
@@ -82,7 +66,7 @@ class LoginActivity: AppCompatActivity() {
         var deviceEndpoint = retrofit?.create(localDevice::class.java)
 
         var fcm = MyFirebaseMessagingService()
-        var devicebearer = devicetoken(fcm.getFirebaseToken())
+        var devicebearer = DeviceToken(fcm.getFirebaseToken())
         //kakao login
         val kakaologin = binding.kakaologin
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
@@ -90,10 +74,10 @@ class LoginActivity: AppCompatActivity() {
                 Log.e(TAG, "카카오톡으로 로그인 실패", error)
             } else if (token != null) {
                 Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
-                endpoint!!.soicalLogin(socialUserLogin("KAKAO", token.accessToken)).enqueue(object: Callback<localLoginResponse>{
+                endpoint!!.socialLogin(SocialLoginRequest("KAKAO", token.accessToken)).enqueue(object: Callback<LocalLoginResponse>{
                     override fun onResponse(
-                        call: Call<localLoginResponse>,
-                        response: Response<localLoginResponse>
+                        call: Call<LocalLoginResponse>,
+                        response: Response<LocalLoginResponse>
                     ) {
                         var socialResponse = response.body()!!
                         runBlocking {
@@ -119,7 +103,7 @@ class LoginActivity: AppCompatActivity() {
                         })
                         startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                     }
-                    override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<LocalLoginResponse>, t: Throwable) {
                         Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
                     }
                 })
@@ -137,10 +121,10 @@ class LoginActivity: AppCompatActivity() {
                         UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
                     } else if (token != null) {
                         Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
-                        endpoint!!.soicalLogin(socialUserLogin("KAKAO", token.accessToken)).enqueue(object: Callback<localLoginResponse>{
+                        endpoint!!.socialLogin(SocialLoginRequest("KAKAO", token.accessToken)).enqueue(object: Callback<LocalLoginResponse>{
                             override fun onResponse(
-                                call: Call<localLoginResponse>,
-                                response: Response<localLoginResponse>
+                                call: Call<LocalLoginResponse>,
+                                response: Response<LocalLoginResponse>
                             ) {
                                 var socialResponse = response.body()!!
                                 runBlocking {
@@ -166,7 +150,7 @@ class LoginActivity: AppCompatActivity() {
                                 })
                                 startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                             }
-                            override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
+                            override fun onFailure(call: Call<LocalLoginResponse>, t: Throwable) {
                                 Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
                             }
                         })
@@ -206,10 +190,10 @@ class LoginActivity: AppCompatActivity() {
 
                 override fun onSuccess() {
                     Log.i("네이버 로그인", "login success: ${NaverIdLoginSDK.getAccessToken().toString()}")
-                    endpoint!!.soicalLogin(socialUserLogin("NAVER", NaverIdLoginSDK.getAccessToken().toString())).enqueue(object: Callback<localLoginResponse>{
+                    endpoint!!.socialLogin(SocialLoginRequest("NAVER", NaverIdLoginSDK.getAccessToken().toString())).enqueue(object: Callback<LocalLoginResponse>{
                         override fun onResponse(
-                            call: Call<localLoginResponse>,
-                            response: Response<localLoginResponse>
+                            call: Call<LocalLoginResponse>,
+                            response: Response<LocalLoginResponse>
                         ) {
                             var socialResponse = response.body()!!
                             runBlocking {
@@ -236,7 +220,7 @@ class LoginActivity: AppCompatActivity() {
                             })
                             startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         }
-                        override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<LocalLoginResponse>, t: Throwable) {
                             Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
                         }
                     })
@@ -276,12 +260,12 @@ class LoginActivity: AppCompatActivity() {
             var deviceEndpoint = retrofit?.create(localDevice::class.java)
 
             var fcm = MyFirebaseMessagingService()
-            var devicebearer = devicetoken(fcm.getFirebaseToken())
+            var devicebearer = DeviceToken(fcm.getFirebaseToken())
 
-            endpoint!!.soicalLogin(socialUserLogin("GOOGLE", idtoken)).enqueue(object: Callback<localLoginResponse>{
+            endpoint!!.socialLogin(SocialLoginRequest("GOOGLE", idtoken)).enqueue(object: Callback<LocalLoginResponse>{
                 override fun onResponse(
-                    call: Call<localLoginResponse>,
-                    response: Response<localLoginResponse>
+                    call: Call<LocalLoginResponse>,
+                    response: Response<LocalLoginResponse>
                 ) {
                     var socialResponse = response.body()!!
                     runBlocking {
@@ -307,7 +291,7 @@ class LoginActivity: AppCompatActivity() {
                     })
                     startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 }
-                override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
+                override fun onFailure(call: Call<LocalLoginResponse>, t: Throwable) {
                     Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
                 }
             })
@@ -319,10 +303,10 @@ class LoginActivity: AppCompatActivity() {
     private fun sendSocialCode(type: String, code: String) {
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(socialLogin::class.java)
-        endpoint!!.soicalLogin(socialUserLogin(type, code)).enqueue(object: Callback<localLoginResponse>{
+        endpoint!!.socialLogin(SocialLoginRequest(type, code)).enqueue(object: Callback<LocalLoginResponse>{
             override fun onResponse(
-                call: Call<localLoginResponse>,
-                response: Response<localLoginResponse>
+                call: Call<LocalLoginResponse>,
+                response: Response<LocalLoginResponse>
             ) {
                 var socialResponse = response.body()!!
                 runBlocking {
@@ -334,7 +318,7 @@ class LoginActivity: AppCompatActivity() {
                 Log.d("socialLogin function $type", socialResponse.data.access_token)
                 startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
             }
-            override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
+            override fun onFailure(call: Call<LocalLoginResponse>, t: Throwable) {
                 Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
             }
         })

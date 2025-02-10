@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mymate.data.dto.common.DefaultResponse
 import com.example.mymate.databinding.ActivitySettlementReportBinding
 import com.example.mymate.databinding.MainReportHouseholdFragmentBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -75,14 +76,14 @@ class SettlementReportActivity: AppCompatActivity() {
         val dateEndpoint = retrofit?.create(getSettlementDate::class.java)
 
         dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object :
-            Callback<settlementDateResponse> {
+            Callback<DefaultResponse> {
             override fun onResponse(
-                call: Call<settlementDateResponse>,
-                response: Response<settlementDateResponse>
+                call: Call<DefaultResponse>,
+                response: Response<DefaultResponse>
             ) {
                 if(response.isSuccessful) {
                     var date = response.body()!!.data
-                    if (LocalDate.now().dayOfMonth < date.toInt()) {
+                    if (LocalDate.now().dayOfMonth < date!!.toInt()) {
                         //var thisdate = LocalDate.now().minusMonths(2)
                         var thisdate = LocalDate.now().minusMonths(1)
                         thisdate = thisdate.withDayOfMonth(date.toInt())
@@ -99,7 +100,7 @@ class SettlementReportActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<settlementDateResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(리포트-정산일)", Toast.LENGTH_SHORT).show()
             }
 

@@ -4,33 +4,26 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.text.InputFilter
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.contentColorFor
+import com.example.mymate.data.dto.auth.DeviceToken
+import com.example.mymate.data.dto.auth.request.LocalLoginRequest
+import com.example.mymate.data.dto.auth.response.LocalLoginResponse
 import com.example.mymate.databinding.ActivityLocalloginBinding
-import com.google.firebase.messaging.FirebaseMessaging
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
-import java.util.regex.Pattern
 
 class LocalLoginActivity: AppCompatActivity() {
     lateinit var binding: ActivityLocalloginBinding
     lateinit var context: Context
     lateinit var userRepo: DataStoreRepoUser
 
-    private var loginResponse: localLoginResponse = localLoginResponse()
-    private var deviceresponse: deviceTokenResponse = deviceTokenResponse()
+    private var loginResponse: LocalLoginResponse = LocalLoginResponse()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,17 +47,17 @@ class LocalLoginActivity: AppCompatActivity() {
             var email = binding.localloginid.text.toString()
             var password = binding.localloginpwd.text.toString()
 
-            var userData = loginUser(email, password)
+            var userData = LocalLoginRequest(email, password)
 
             var fcm = MyFirebaseMessagingService()
             var accessToken = ""
-            var devicebearer = devicetoken(fcm.getFirebaseToken())
+            var devicebearer = DeviceToken(fcm.getFirebaseToken())
             Log.d("devicebearer", devicebearer.deviceToken)
 
-            endpoint!!.localLogin(userData).enqueue(object: Callback<localLoginResponse> {
+            endpoint!!.localLogin(userData).enqueue(object: Callback<LocalLoginResponse> {
                 override fun onResponse(
-                    call: Call<localLoginResponse>,
-                    response: Response<localLoginResponse>
+                    call: Call<LocalLoginResponse>,
+                    response: Response<LocalLoginResponse>
                 ) {
                     loginResponse = response.body()!!
                     runBlocking {
@@ -96,7 +89,7 @@ class LocalLoginActivity: AppCompatActivity() {
                         }
                     })
                 }
-                override fun onFailure(call: Call<localLoginResponse>, t: Throwable) {
+                override fun onFailure(call: Call<LocalLoginResponse>, t: Throwable) {
                     Toast.makeText(context, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                 }
             })

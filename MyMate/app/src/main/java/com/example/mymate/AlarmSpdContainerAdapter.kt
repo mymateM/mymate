@@ -7,15 +7,16 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.notification.UserExpNotiDetail
 import com.example.mymate.databinding.ListitemAlarmcontainerBinding
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 
-class AlarmSpdContainerAdapter(val alarmList: ArrayList<ArrayList<expenseNoti>>): RecyclerView.Adapter<AlarmSpdContainerAdapter.AlarmSpdContainerHolder>() {
+class AlarmSpdContainerAdapter(val alarmList: ArrayList<ArrayList<UserExpNotiDetail>>): RecyclerView.Adapter<AlarmSpdContainerAdapter.AlarmSpdContainerHolder>() {
 
     inner class AlarmSpdContainerHolder(val binding: ListitemAlarmcontainerBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
-        fun bind(item: ArrayList<expenseNoti>) {
+        fun bind(item: ArrayList<UserExpNotiDetail>) {
             val datetocompare = SimpleDateFormat("yyyy-mm-dd")
             val datetoshow = SimpleDateFormat("mm월 dd일")
             val datecompare = datetocompare.parse(item[0].created_at)

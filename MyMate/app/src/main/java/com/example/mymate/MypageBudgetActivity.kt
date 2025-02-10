@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.TypefaceSpan
@@ -18,13 +17,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.isGone
+import com.example.mymate.data.dto.setting.response.UserBudgetResponse
 import com.example.mymate.databinding.ActivityMypageBudgetBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.reflect.Type
 
 class MypageBudgetActivity: AppCompatActivity() {
     lateinit var binding: ActivityMypageBudgetBinding
@@ -63,10 +62,10 @@ class MypageBudgetActivity: AppCompatActivity() {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
 
-        endpoint!!.getMyBudget("Bearer $accessToken").enqueue(object : Callback<myBudgetResponse> {
+        endpoint!!.getMyBudget("Bearer $accessToken").enqueue(object : Callback<UserBudgetResponse> {
             override fun onResponse(
-                call: Call<myBudgetResponse>,
-                response: Response<myBudgetResponse>
+                call: Call<UserBudgetResponse>,
+                response: Response<UserBudgetResponse>
             ) {
                 Log.d("budgets", response.message())
                 if (response.isSuccessful) {
@@ -157,7 +156,7 @@ class MypageBudgetActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<myBudgetResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserBudgetResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(마이페이지-예산)", Toast.LENGTH_SHORT).show()
             }
 

@@ -11,8 +11,10 @@ import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.TopAppBar
-import androidx.core.content.ContextCompat
+import com.example.mymate.data.dto.common.MemberIdResponse
+import com.example.mymate.data.dto.setting.HouseMemberRatio
+import com.example.mymate.data.dto.setting.request.HouseMemberRatioRequest
+import com.example.mymate.data.dto.setting.response.HouseSettlementRatioResponse
 import com.example.mymate.databinding.ActivityMypageEditratioBinding
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.flow.first
@@ -20,7 +22,6 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 
 class MypageEditratioActivity: AppCompatActivity() {
     lateinit var binding: ActivityMypageEditratioBinding
@@ -38,14 +39,14 @@ class MypageEditratioActivity: AppCompatActivity() {
         val endpoint = retrofit?.create(getHouseRatio::class.java)
         var accessToken = ""
         binding.completedbtn.isEnabled = false
-        binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.graydark_text))
+        //binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.graydark_text))
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        endpoint!!.getHouseRatio("Bearer $accessToken").enqueue(object: Callback<houseRatioResponse> {
+        endpoint!!.getHouseRatio("Bearer $accessToken").enqueue(object: Callback<HouseSettlementRatioResponse> {
             override fun onResponse(
-                call: Call<houseRatioResponse>,
-                response: Response<houseRatioResponse>
+                call: Call<HouseSettlementRatioResponse>,
+                response: Response<HouseSettlementRatioResponse>
             ) {
                 if (response.isSuccessful) {
                     val list = response.body()!!.data.household_members
@@ -59,7 +60,7 @@ class MypageEditratioActivity: AppCompatActivity() {
                     binding.member3Edit.text = Editable.Factory.getInstance().newEditable(list[3].user_settlement_ratio)
 
                     binding.completedbtn.isEnabled = true
-                    binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
+                    //binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
 
                     binding.myEdit.addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -241,10 +242,10 @@ class MypageEditratioActivity: AppCompatActivity() {
                     binding.completedbtn.setOnClickListener {
                         val completeEndpoint = retrofit.create(postHouseRatio::class.java)
                         val userIdEndpoint = retrofit.create(getMemberId::class.java)
-                        userIdEndpoint.getMemberId("Bearer $accessToken").enqueue(object : Callback<getMemberIdResponse> {
+                        userIdEndpoint.getMemberId("Bearer $accessToken").enqueue(object : Callback<MemberIdResponse> {
                             override fun onResponse(
-                                call: Call<getMemberIdResponse>,
-                                response: Response<getMemberIdResponse>
+                                call: Call<MemberIdResponse>,
+                                response: Response<MemberIdResponse>
                             ) {
                                 if (response.isSuccessful) {
                                     val first = binding.myEdit.text.toString()
@@ -254,11 +255,11 @@ class MypageEditratioActivity: AppCompatActivity() {
                                     val data = response.body()!!.data
 
                                     if (first.toInt() + second.toInt() + third.toInt() + fourth.toInt() == 100) {
-                                        val listToSend = houseRatioPost()
-                                        listToSend.household_members.add(houseMemberSimple(data[0], first))
-                                        listToSend.household_members.add(houseMemberSimple(data[1], second))
-                                        listToSend.household_members.add(houseMemberSimple(data[2], third))
-                                        listToSend.household_members.add(houseMemberSimple(data[3], fourth))
+                                        val listToSend = HouseMemberRatioRequest()
+                                        listToSend.household_members.add(HouseMemberRatio(data[0], first))
+                                        listToSend.household_members.add(HouseMemberRatio(data[1], second))
+                                        listToSend.household_members.add(HouseMemberRatio(data[2], third))
+                                        listToSend.household_members.add(HouseMemberRatio(data[3], fourth))
 
                                         completeEndpoint.postHouseRatio("Bearer $accessToken", listToSend).enqueue(object: Callback<Response<Void>> {
                                             override fun onResponse(
@@ -280,7 +281,7 @@ class MypageEditratioActivity: AppCompatActivity() {
                                 }
                             }
 
-                            override fun onFailure(call: Call<getMemberIdResponse>, t: Throwable) {
+                            override fun onFailure(call: Call<MemberIdResponse>, t: Throwable) {
                                 Toast.makeText(context, "연결 실패(정산 비율-멤버 Id)", Toast.LENGTH_SHORT).show()
                             }
 
@@ -289,7 +290,7 @@ class MypageEditratioActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<houseRatioResponse>, t: Throwable) {
+            override fun onFailure(call: Call<HouseSettlementRatioResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(비율 수정-비율 조회)", Toast.LENGTH_SHORT).show()
             }
         })

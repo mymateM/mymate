@@ -6,7 +6,6 @@ import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.TypefaceSpan
 import android.util.Log
@@ -18,42 +17,30 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
-import androidx.datastore.dataStore
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.example.mymate.data.dto.expense.CalendarItem
+import com.example.mymate.data.dto.expense.ExpenseSummary
+import com.example.mymate.data.dto.expense.response.CalendarResponse
+import com.example.mymate.data.dto.expense.response.DailyExpenseResponse
 import com.example.mymate.databinding.MainSpendingFragmentBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.selects.select
-import org.checkerframework.common.subtyping.qual.Bottom
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
-import java.lang.reflect.Type
-import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
-import java.util.Calendar
-import java.util.Date
-
-data class calendarItem (
-    var startorEnd: Boolean = false,
-    var middle: Boolean = false,
-    var lastornext: Boolean = false
-)
 
 class MainSpendingFragment : Fragment() {
     lateinit var binding: MainSpendingFragmentBinding
     lateinit var mainActivity: MainActivity
-    lateinit var iteminfo: ArrayList<calendarItem>
+    lateinit var iteminfo: ArrayList<CalendarItem>
     lateinit var calendarVal: CalendarValues
     lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
     lateinit var userRepo: DataStoreRepoUser
@@ -64,7 +51,7 @@ class MainSpendingFragment : Fragment() {
     private var month = ""
     private var day = ""
     lateinit var selectedDate: LocalDate
-    private var expenseDetail = ArrayList<ExpenseList>()
+    private var expenseSummary = ArrayList<ExpenseSummary>()
     var resumed = "00"
 
     var retrofit = RetrofitClientInstance.client
@@ -209,7 +196,7 @@ class MainSpendingFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.P)
     private fun setDailyExpenceView(date: LocalDate) {
         var accessToken = ""
-        var detailResponse: dailyExpenseResponse
+        var detailResponse: DailyExpenseResponse
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
@@ -239,29 +226,29 @@ class MainSpendingFragment : Fragment() {
         }
         binding.today.text = todaynoti
         year = date.year.toString()
-        endpoint!!.getDailyExpense("Bearer $accessToken", year, month, day).enqueue(object : Callback<dailyExpenseResponse> {
+        endpoint!!.getDailyExpense("Bearer $accessToken", year, month, day).enqueue(object : Callback<DailyExpenseResponse> {
             override fun onResponse(
-                call: Call<dailyExpenseResponse>,
-                response: Response<dailyExpenseResponse>
+                call: Call<DailyExpenseResponse>,
+                response: Response<DailyExpenseResponse>
             ) {
                 if (response.isSuccessful) {
                     detailResponse = response.body()!!
-                    expenseDetail = detailResponse.data.expenses
-                    val adapter = SpendingAdapter(mainActivity, expenseDetail)
+                    expenseSummary = detailResponse.data.expenses
+                    val adapter = SpendingAdapter(mainActivity, expenseSummary)
                     val manager = LinearLayoutManager(mainActivity)
                     binding.dailySpendings.layoutManager = manager
                     binding.dailySpendings.adapter = adapter.apply {
                         setOnItemClickListener(object : SpendingAdapter.OnItemClickListener {
-                            override fun onItemClick(item: ExpenseList, position: Int) {
+                            override fun onItemClick(item: ExpenseSummary, position: Int) {
                             }
                         })
                     }
                 }
             }
 
-            override fun onFailure(call: Call<dailyExpenseResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DailyExpenseResponse>, t: Throwable) {
                 Toast.makeText(mainActivity, "연결 실패", Toast.LENGTH_SHORT).show()
-                val adapter = SpendingAdapter(mainActivity, expenseDetail)
+                val adapter = SpendingAdapter(mainActivity, expenseSummary)
                 val manager = LinearLayoutManager(mainActivity)
                 binding.dailySpendings.layoutManager = manager
                 binding.dailySpendings.adapter = adapter
@@ -278,7 +265,7 @@ class MainSpendingFragment : Fragment() {
         val yearText = SpannableStringBuilder(yearTextFormatting(date))
         binding.yeartext.text = yearText
         //generate date lists
-        iteminfo = arrayListOf<calendarItem>()
+        iteminfo = arrayListOf<CalendarItem>()
         val dayList = dayInMonthArray(date)
         //item info comms
         var calendarendpoint = retrofit?.create(getCalendar::class.java)
@@ -286,10 +273,10 @@ class MainSpendingFragment : Fragment() {
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        calendarendpoint!!.getCalendar("Bearer $accessToken", date.year.toString(), date.monthValue.toString(), date.dayOfMonth.toString()).enqueue(object : Callback<calendarResponse> {
+        calendarendpoint!!.getCalendar("Bearer $accessToken", date.year.toString(), date.monthValue.toString(), date.dayOfMonth.toString()).enqueue(object : Callback<CalendarResponse> {
             override fun onResponse(
-                call: Call<calendarResponse>,
-                response: Response<calendarResponse>
+                call: Call<CalendarResponse>,
+                response: Response<CalendarResponse>
             ) {
                 if (response.isSuccessful) {
                     var spendList = response.body()!!.data
@@ -299,7 +286,7 @@ class MainSpendingFragment : Fragment() {
                     binding.mainCalendar.adapter = adapter.apply {
                         setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
                             @RequiresApi(Build.VERSION_CODES.P)
-                            override fun onItemClick(item: calendarItem, position: Int, day: LocalDate?) {
+                            override fun onItemClick(item: CalendarItem, position: Int, day: LocalDate?) {
                                 when (position % 7) {
                                     0 -> binding.spendingDay.text = "일요일"
                                     1 -> binding.spendingDay.text = "월요일"
@@ -331,7 +318,7 @@ class MainSpendingFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<calendarResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CalendarResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(캘린더)", Toast.LENGTH_SHORT).show()
             }
 
@@ -368,17 +355,17 @@ class MainSpendingFragment : Fragment() {
                     calendarVal.firstDay = nowdate -1
                     calendarVal.lastDay = nowdate -1
                     dayList.add(LocalDate.of(date.year, date.monthValue, i))
-                    iteminfo.add(calendarItem(true, false, false))
+                    iteminfo.add(CalendarItem(true, false, false))
                 } else {
                     dayList.add(LocalDate.of(date.year, date.monthValue, i))
-                    iteminfo.add(calendarItem(false, false, false))
+                    iteminfo.add(CalendarItem(false, false, false))
                 }
             }
             for (i in 1 .. 11) {
                 tempmonth = date.plusMonths(1)
                 tempday = tempmonth.withDayOfMonth(1).plusDays(tempint.toLong())
                 dayList.add(tempday)
-                iteminfo.add(calendarItem(false, false, true))
+                iteminfo.add(CalendarItem(false, false, true))
                 tempint++
             }
         } else {
@@ -387,12 +374,12 @@ class MainSpendingFragment : Fragment() {
                     tempmonth = date.minusMonths(1)
                     tempday = tempmonth.withDayOfMonth(tempmonth.lengthOfMonth()).minusDays(dayOfWeek.toLong() - i)
                     dayList.add(tempday)
-                    iteminfo.add(calendarItem(false, false, true))
+                    iteminfo.add(CalendarItem(false, false, true))
                 } else if (i > lastDay + dayOfWeek) {
                     tempmonth = date.plusMonths(1)
                     tempday = tempmonth.withDayOfMonth(1).plusDays(tempint.toLong())
                     dayList.add(tempday)
-                    iteminfo.add(calendarItem(false, false, true))
+                    iteminfo.add(CalendarItem(false, false, true))
                     tempint++
                 } else {
                     if (nowdate == (i - dayOfWeek)) {
@@ -400,10 +387,10 @@ class MainSpendingFragment : Fragment() {
                         calendarVal.lastDay = i - 1
                         Log.d("DATE", calendarVal.firstDay.toString())
                         dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
-                        iteminfo.add(calendarItem(true, false, false))
+                        iteminfo.add(CalendarItem(true, false, false))
                     } else {
                         dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
-                        iteminfo.add(calendarItem(false, false, false))
+                        iteminfo.add(CalendarItem(false, false, false))
                     }
                 }
             }

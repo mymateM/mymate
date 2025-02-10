@@ -19,6 +19,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.common.DefaultResponse
+import com.example.mymate.data.dto.report.response.HouseholdReportResponse
 import com.example.mymate.databinding.MainReportHouseholdFragmentBinding
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -28,7 +30,6 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.reflect.Type
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -68,14 +69,14 @@ class MainReportHouseholdFragment: Fragment() {
         }
 
         dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object :
-            Callback<settlementDateResponse> {
+            Callback<DefaultResponse> {
             override fun onResponse(
-                call: Call<settlementDateResponse>,
-                response: Response<settlementDateResponse>
+                call: Call<DefaultResponse>,
+                response: Response<DefaultResponse>
             ) {
                 if(response.isSuccessful) {
                     var date = response.body()!!.data
-                    if (LocalDate.now().dayOfMonth < date.toInt()) {
+                    if (LocalDate.now().dayOfMonth < date!!.toInt()) {
                         var thisdate = LocalDate.now().minusMonths(1)
                         thisdate = thisdate.withDayOfMonth(date.toInt())
                         date = thisdate.format(formatter)
@@ -86,11 +87,11 @@ class MainReportHouseholdFragment: Fragment() {
                         date = thisdate.format(formatter)
                         val thisperiod = "${thisdate.monthValue}월 ${thisdate.dayOfMonth}일 -"
                     }
-                    housereportEndpoint!!.getHouseholdReport("Bearer $accessToken", date).enqueue(object : Callback<householdReportResponse> {
+                    housereportEndpoint!!.getHouseholdReport("Bearer $accessToken", date).enqueue(object : Callback<HouseholdReportResponse> {
                         @RequiresApi(Build.VERSION_CODES.P)
                         override fun onResponse(
-                            call: Call<householdReportResponse>,
-                            response: Response<householdReportResponse>
+                            call: Call<HouseholdReportResponse>,
+                            response: Response<HouseholdReportResponse>
                         ) {
                             if (response.isSuccessful) {
                                 val housedata = response.body()!!.data
@@ -160,7 +161,7 @@ class MainReportHouseholdFragment: Fragment() {
                             }
                         }
 
-                        override fun onFailure(call: Call<householdReportResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<HouseholdReportResponse>, t: Throwable) {
                             Toast.makeText(mainActivity, "연결 실패(리포트-가구)", Toast.LENGTH_SHORT).show()
                         }
 
@@ -168,7 +169,7 @@ class MainReportHouseholdFragment: Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<settlementDateResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
                 Toast.makeText(mainActivity, "연결 실패(리포트-정산일)", Toast.LENGTH_SHORT).show()
             }
 

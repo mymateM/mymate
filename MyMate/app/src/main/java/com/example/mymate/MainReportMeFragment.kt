@@ -20,6 +20,8 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.common.DefaultResponse
+import com.example.mymate.data.dto.report.response.UserReportResponse
 import com.example.mymate.databinding.MainReportMeFragmentBinding
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -31,7 +33,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Local
 
 class MainReportMeFragment: Fragment() {
     lateinit var binding: MainReportMeFragmentBinding
@@ -68,14 +69,14 @@ class MainReportMeFragment: Fragment() {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
 
-        dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object: Callback<settlementDateResponse> {
+        dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object: Callback<DefaultResponse> {
             override fun onResponse(
-                call: Call<settlementDateResponse>,
-                response: Response<settlementDateResponse>
+                call: Call<DefaultResponse>,
+                response: Response<DefaultResponse>
             ) {
                 if (response.isSuccessful) {
                     var date = response.body()!!.data
-                    if (LocalDate.now().dayOfMonth < date.toInt()) {
+                    if (LocalDate.now().dayOfMonth < date!!.toInt()) {
                         var thisdate = LocalDate.now().minusMonths(1)
                         thisdate = thisdate.withDayOfMonth(date.toInt())
                         date = thisdate.format(formatter)
@@ -86,11 +87,11 @@ class MainReportMeFragment: Fragment() {
                         date = thisdate.format(formatter)
                         val thisperiod = "${thisdate.monthValue}월 ${thisdate.dayOfMonth}일 -"
                     }
-                    myreportEndpoint!!.getMyReport("Bearer $accessToken", date).enqueue(object : Callback<myReportResponse> {
+                    myreportEndpoint!!.getMyReport("Bearer $accessToken", date).enqueue(object : Callback<UserReportResponse> {
                         @RequiresApi(Build.VERSION_CODES.P)
                         override fun onResponse(
-                            call: Call<myReportResponse>,
-                            response: Response<myReportResponse>
+                            call: Call<UserReportResponse>,
+                            response: Response<UserReportResponse>
                         ) {
                             if (response.isSuccessful) {
                                 val mydata = response.body()!!.data
@@ -160,7 +161,7 @@ class MainReportMeFragment: Fragment() {
                             }
                         }
 
-                        override fun onFailure(call: Call<myReportResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<UserReportResponse>, t: Throwable) {
                             Toast.makeText(mainActivity, "연결 실패(리포트-개인)", Toast.LENGTH_SHORT).show()
                         }
 
@@ -168,7 +169,7 @@ class MainReportMeFragment: Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<settlementDateResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
                 Toast.makeText(mainActivity, "연결 실패(리포트-정산일)", Toast.LENGTH_SHORT).show()
             }
 

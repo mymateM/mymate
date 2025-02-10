@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ReportFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.common.DefaultResponse
 import com.example.mymate.databinding.MainReportFragmentBinding
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -99,16 +100,16 @@ class MainReportFragment : Fragment() {
         }
         val dateEndpoint = retrofit?.create(getSettlementDate::class.java)
 
-        dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object : Callback<settlementDateResponse> {
+        dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object : Callback<DefaultResponse> {
             @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
-                call: Call<settlementDateResponse>,
-                response: Response<settlementDateResponse>
+                call: Call<DefaultResponse>,
+                response: Response<DefaultResponse>
             ) {
                 if(response.isSuccessful) {
                     var date = response.body()!!.data
                     val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
-                    if (LocalDate.now().dayOfMonth < date.toInt()) {
+                    if (LocalDate.now().dayOfMonth < date!!.toInt()) {
                         var thisdate = LocalDate.now().minusMonths(1)
                         thisdate = thisdate.withDayOfMonth(date.toInt())
                         date = thisdate.format(formatter)
@@ -128,7 +129,7 @@ class MainReportFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<settlementDateResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
                 Toast.makeText(mainActivity, "연결 실패(리포트-정산일)", Toast.LENGTH_SHORT).show()
             }
 

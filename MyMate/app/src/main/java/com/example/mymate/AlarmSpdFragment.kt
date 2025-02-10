@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.notification.UserExpNotiDetail
+import com.example.mymate.data.dto.notification.response.UserExpNotiResponse
 import com.example.mymate.databinding.AlarmSpdFragmentBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -22,7 +23,7 @@ class AlarmSpdFragment : Fragment() {
     lateinit var binding: AlarmSpdFragmentBinding
     lateinit var userRepo: DataStoreRepoUser
     private val retrofit = RetrofitClientInstance.client
-    private var notiList = ArrayList<expenseNoti>()
+    private var notiList = ArrayList<UserExpNotiDetail>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -47,15 +48,15 @@ class AlarmSpdFragment : Fragment() {
     fun getNoti() {
         val endpoint = retrofit?.create(getExpenseNoti::class.java)
         var accesstoken = ""
-        var notiResponse: expenseNotiResponse
-        var alarmList = ArrayList<ArrayList<expenseNoti>>()
+        var notiResponse: UserExpNotiResponse
+        var alarmList = ArrayList<ArrayList<UserExpNotiDetail>>()
         runBlocking {
             accesstoken = userRepo.userAccessReadFlow.first().toString()
         }
-        endpoint!!.expenseNoti("Bearer $accesstoken").enqueue(object: Callback<expenseNotiResponse> {
+        endpoint!!.expenseNoti("Bearer $accesstoken").enqueue(object: Callback<UserExpNotiResponse> {
             override fun onResponse(
-                call: Call<expenseNotiResponse>,
-                response: Response<expenseNotiResponse>
+                call: Call<UserExpNotiResponse>,
+                response: Response<UserExpNotiResponse>
             ) {
                 notiResponse = response.body()!!
                 notiList = notiResponse.data.notification_expenses
@@ -85,7 +86,7 @@ class AlarmSpdFragment : Fragment() {
 
             }
 
-            override fun onFailure(call: Call<expenseNotiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserExpNotiResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패", Toast.LENGTH_SHORT).show()
             }
         })

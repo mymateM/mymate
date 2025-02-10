@@ -2,11 +2,8 @@ package com.example.mymate
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -18,6 +15,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.common.DefaultResponse
+import com.example.mymate.data.dto.common.MemberIdResponse
+import com.example.mymate.data.dto.expense.request.ExpenseWriteRequest
 import com.example.mymate.databinding.ActivitySpendingaddBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
@@ -25,10 +25,8 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Local
 
 class SpendingAddActivity: AppCompatActivity() {
     lateinit var binding: ActivitySpendingaddBinding
@@ -155,16 +153,16 @@ class SpendingAddActivity: AppCompatActivity() {
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(putDailyExpense::class.java)
         var memberendpoint = retrofit?.create(getMemberId::class.java)
-        var sending: expensetosend = expensetosend()
-        var id: getMemberIdResponse = getMemberIdResponse()
+        var sending: ExpenseWriteRequest = ExpenseWriteRequest()
+        var id: MemberIdResponse = MemberIdResponse()
         var accessToken = ""
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        memberendpoint!!.getMemberId("Bearer $accessToken").enqueue(object : Callback<getMemberIdResponse> {
+        memberendpoint!!.getMemberId("Bearer $accessToken").enqueue(object : Callback<MemberIdResponse> {
             override fun onResponse(
-                call: Call<getMemberIdResponse>,
-                response: Response<getMemberIdResponse>
+                call: Call<MemberIdResponse>,
+                response: Response<MemberIdResponse>
             ) {
                 if (response.isSuccessful) {
                     id = response.body()!!
@@ -203,24 +201,24 @@ class SpendingAddActivity: AppCompatActivity() {
                     } else {
                         sending.expenseDate = "${year}-${month}-${today}"
                     }
-                    endpoint!!.putDailyExpense("Bearer $accessToken", sending).enqueue(object : Callback<postbillResponse> {
+                    endpoint!!.putDailyExpense("Bearer $accessToken", sending).enqueue(object : Callback<DefaultResponse> {
                         override fun onResponse(
-                            call: Call<postbillResponse>,
-                            response: Response<postbillResponse>
+                            call: Call<DefaultResponse>,
+                            response: Response<DefaultResponse>
                         ) {
                             if (response.isSuccessful) {
                                 finish()
                             }
                         }
 
-                        override fun onFailure(call: Call<postbillResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
                             Toast.makeText(context, "연결 실패(내역 추가)", Toast.LENGTH_SHORT).show()
                         }
                     })
                 }
             }
 
-            override fun onFailure(call: Call<getMemberIdResponse>, t: Throwable) {
+            override fun onFailure(call: Call<MemberIdResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(멤버 id)", Toast.LENGTH_SHORT).show()
             }
 

@@ -3,21 +3,19 @@ package com.example.mymate
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
-import androidx.compose.material3.contentColorFor
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.notification.UserActNotiDetail
 import com.example.mymate.databinding.ListitemAlarmcontainerBinding
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 
-class AlarmActContainerAdapter(val alarmList: ArrayList<ArrayList<activityNoti>>): RecyclerView.Adapter<AlarmActContainerAdapter.AlarmActContainerHolder>() {
+class AlarmActContainerAdapter(val alarmList: ArrayList<ArrayList<UserActNotiDetail>>): RecyclerView.Adapter<AlarmActContainerAdapter.AlarmActContainerHolder>() {
 
     inner class AlarmActContainerHolder(val binding: ListitemAlarmcontainerBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ArrayList<activityNoti>) {
+        fun bind(item: ArrayList<UserActNotiDetail>) {
             val datetocompare = SimpleDateFormat("yyyy-mm-dd")
             val datetoshow = SimpleDateFormat("mm월 dd일")
             val datecompare = datetocompare.parse(item[0].created_at)
@@ -36,7 +34,7 @@ class AlarmActContainerAdapter(val alarmList: ArrayList<ArrayList<activityNoti>>
             binding.alarmlist.layoutManager = manager
             binding.alarmlist.adapter = adapter.apply {
                 setOnItemClickListener(object : AlarmActAdapter.OnItemClickListener {
-                    override fun onItemClick(item: activityNoti, position: Int) {
+                    override fun onItemClick(item: UserActNotiDetail, position: Int) {
                         if (item.category_title == "정산 디데이") {
                             context.startActivity(Intent(context, SettlementActivity::class.java))
                             (context as Activity).overridePendingTransition(R.anim.right_enter, R.anim.none)

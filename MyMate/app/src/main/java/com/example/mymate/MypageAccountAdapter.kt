@@ -5,14 +5,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.setting.MemberAccount
 import com.example.mymate.databinding.ListitemMypageaccountBinding
 
-class MypageAccountAdapter(val members: ArrayList<mateAccount>): RecyclerView.Adapter<MypageAccountAdapter.AccountHolder>() {
+class MypageAccountAdapter(val members: ArrayList<MemberAccount>): RecyclerView.Adapter<MypageAccountAdapter.AccountHolder>() {
 
     private var onItemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(item: mateAccount, position: Int)
+        fun onItemClick(item: MemberAccount, position: Int)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -20,7 +21,7 @@ class MypageAccountAdapter(val members: ArrayList<mateAccount>): RecyclerView.Ad
     }
 
     inner class AccountHolder(val binding: ListitemMypageaccountBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: mateAccount) {
+        fun bind(item: MemberAccount) {
             binding.accountNumber.text = item.account_bank.replace("은행", "") + " " + item.account_number
             binding.accountOwner.text = item.user_name
             when (item.user_profile_image) {

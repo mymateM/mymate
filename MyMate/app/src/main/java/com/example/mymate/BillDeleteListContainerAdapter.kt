@@ -1,28 +1,29 @@
 package com.example.mymate
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.bill.BillItem
+import com.example.mymate.data.dto.bill.BillSummary
 import com.example.mymate.databinding.ListitemBillcontainerBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class BillDeleteListContainerAdapter(val billList: ArrayList<ArrayList<bill>>, val category: String, val values: BillListValues, var checkall: Boolean): RecyclerView.Adapter<BillDeleteListContainerAdapter.BillDeleteListContainerHolder>() {
+class BillDeleteListContainerAdapter(val billList: ArrayList<ArrayList<BillSummary>>, val category: String, val values: BillListValues, var checkall: Boolean): RecyclerView.Adapter<BillDeleteListContainerAdapter.BillDeleteListContainerHolder>() {
     private var onItemClickListener: BillDeleteListContainerAdapter.OnItemClickListener? = null
     lateinit var manager: RecyclerView.LayoutManager
     lateinit var context: Context
     lateinit var adapter: BillDeleteListAdapter
 
     interface OnItemClickListener {
-        fun onItemClick(item: billListItem, position: Int)
+        fun onItemClick(item: BillItem, position: Int)
     }
 
     inner class BillDeleteListContainerHolder(val binding: ListitemBillcontainerBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ArrayList<bill>, context: Context, list: ArrayList<ArrayList<bill>>) {
+        fun bind(item: ArrayList<BillSummary>, context: Context, list: ArrayList<ArrayList<BillSummary>>) {
 
             val today = LocalDate.now()
             val formatter = DateTimeFormatter.ofPattern("yyyy")
@@ -52,7 +53,7 @@ class BillDeleteListContainerAdapter(val billList: ArrayList<ArrayList<bill>>, v
             billlist.layoutManager = manager
             billlist.adapter = adapter.apply {
                 setOnItemClickListener(object : BillDeleteListAdapter.OnItemClickListener {
-                    override fun onItemClick(item: bill, position: Int) {
+                    override fun onItemClick(item: BillSummary, position: Int) {
                     }
                 })
             }

@@ -1,24 +1,23 @@
 package com.example.mymate
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import com.example.mymate.data.dto.notification.UserActNotiDetail
 import com.example.mymate.databinding.ListitemAlarmBinding
 
-class AlarmActAdapter(val notiList: ArrayList<activityNoti>): RecyclerView.Adapter<AlarmActAdapter.AlarmActHolder>() {
+class AlarmActAdapter(val notiList: ArrayList<UserActNotiDetail>): RecyclerView.Adapter<AlarmActAdapter.AlarmActHolder>() {
 
     private var onItemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(item: activityNoti, position: Int)
+        fun onItemClick(item: UserActNotiDetail, position: Int)
     }
 
     inner class AlarmActHolder(val binding: ListitemAlarmBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: activityNoti) {
+        fun bind(item: UserActNotiDetail) {
             val itemicon = binding.alarmicon
             val itemtype = binding.alarmtype
             val itemdata = binding.alarmdata

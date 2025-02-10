@@ -3,31 +3,30 @@ package com.example.mymate
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.TypefaceSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.bill.BillSummary
 import com.example.mymate.databinding.ListitemBillBinding
 
-class BillListAdapter(val billList: ArrayList<bill>, val category: String): RecyclerView.Adapter<BillListAdapter.BillListHolder>() {
+class BillListAdapter(val billList: ArrayList<BillSummary>, val category: String): RecyclerView.Adapter<BillListAdapter.BillListHolder>() {
 
     private var onItemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(item: bill, position: Int)
+        fun onItemClick(item: BillSummary, position: Int)
     }
 
     inner class BillListHolder(val binding: ListitemBillBinding, val context: Context, val category: String): RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.P)
-        fun bind(item: bill, category: String) {
+        fun bind(item: BillSummary, category: String) {
             val itemimage = binding.billimage
             val itemday = binding.billdate
             val itemamount = binding.billamount

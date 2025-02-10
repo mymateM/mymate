@@ -3,21 +3,18 @@ package com.example.mymate
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import androidx.core.view.isGone
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.example.mymate.data.dto.common.DefaultResponse
+import com.example.mymate.data.dto.notification.UserExpNotiDetail
+import com.example.mymate.data.dto.notification.response.UserExpNotiResponse
 import com.example.mymate.databinding.ActivityAlarmBinding
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 
 class AlarmActivity : AppCompatActivity() {
     lateinit var binding: ActivityAlarmBinding
@@ -56,19 +53,19 @@ class AlarmActivity : AppCompatActivity() {
         val userRepo = DataStoreRepoUser(dataStore)
         val endpoint = retrofit?.create(getExpenseNoti::class.java)
         var accesstoken = ""
-        var notiResponse: expenseNotiResponse
-        var notiList = ArrayList<expenseNoti>()
-        val alarmList = ArrayList<ArrayList<expenseNoti>>()
+        var notiResponse: UserExpNotiResponse
+        var notiList = ArrayList<UserExpNotiDetail>()
+        val alarmList = ArrayList<ArrayList<UserExpNotiDetail>>()
 
         runBlocking {
             accesstoken = userRepo.userAccessReadFlow.first().toString()
         }
 
         endpoint!!.expenseNoti("Bearer $accesstoken").enqueue(object:
-            Callback<expenseNotiResponse> {
+            Callback<UserExpNotiResponse> {
             override fun onResponse(
-                call: Call<expenseNotiResponse>,
-                response: Response<expenseNotiResponse>
+                call: Call<UserExpNotiResponse>,
+                response: Response<UserExpNotiResponse>
             ) {
                 notiResponse = response.body()!!
                 notiList = notiResponse.data.notification_expenses
@@ -76,7 +73,7 @@ class AlarmActivity : AppCompatActivity() {
                 binding.tabBadge1.isGone = notiList[0].is_read
             }
 
-            override fun onFailure(call: Call<expenseNotiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserExpNotiResponse>, t: Throwable) {
                 Toast.makeText(applicationContext, "연결 실패(지출)", Toast.LENGTH_SHORT).show()
             }
         })
@@ -89,24 +86,24 @@ class AlarmActivity : AppCompatActivity() {
                     super.onPageSelected(position)
                     if (position == 1) {
                         endpoint!!.expenseNoti("Bearer $accesstoken").enqueue(object:
-                            Callback<expenseNotiResponse> {
+                            Callback<UserExpNotiResponse> {
                             override fun onResponse(
-                                call: Call<expenseNotiResponse>,
-                                response: Response<expenseNotiResponse>
+                                call: Call<UserExpNotiResponse>,
+                                response: Response<UserExpNotiResponse>
                             ) {
                                 notiResponse = response.body()!!
                                 notiList = notiResponse.data.notification_expenses
 
-                                readEndpoint!!.readExpenseNoti("Bearer $accesstoken", notiList[0].expense_notification_id).enqueue(object: Callback<defaultResponse> {
+                                readEndpoint!!.readExpenseNoti("Bearer $accesstoken", notiList[0].expense_notification_id).enqueue(object: Callback<DefaultResponse> {
                                     override fun onResponse(
-                                        call: Call<defaultResponse>,
-                                        response: Response<defaultResponse>
+                                        call: Call<DefaultResponse>,
+                                        response: Response<DefaultResponse>
                                     ) {
 
                                     }
 
                                     override fun onFailure(
-                                        call: Call<defaultResponse>,
+                                        call: Call<DefaultResponse>,
                                         t: Throwable
                                     ) {
                                         Toast.makeText(context, "연결 실패(지출-읽기)", Toast.LENGTH_SHORT).show()
@@ -115,7 +112,7 @@ class AlarmActivity : AppCompatActivity() {
                                 })
                             }
 
-                            override fun onFailure(call: Call<expenseNotiResponse>, t: Throwable) {
+                            override fun onFailure(call: Call<UserExpNotiResponse>, t: Throwable) {
                                 Toast.makeText(context, "연결 실패(지출)", Toast.LENGTH_SHORT).show()
                             }
                         })

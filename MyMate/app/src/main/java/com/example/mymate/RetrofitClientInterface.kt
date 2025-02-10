@@ -1,545 +1,59 @@
 package com.example.mymate
 
-import android.icu.text.CaseMap.Title
-import androidx.camera.camera2.internal.compat.quirk.StillCaptureFlashStopRepeatingQuirk
+import com.example.mymate.data.dto.auth.*
+import com.example.mymate.data.dto.auth.request.*
+import com.example.mymate.data.dto.common.*
+import com.example.mymate.data.dto.auth.response.*
+import com.example.mymate.data.dto.notification.response.*
+import com.example.mymate.data.dto.bill.response.*
+import com.example.mymate.data.dto.bill.request.*
+import com.example.mymate.data.dto.setting.response.*
+import com.example.mymate.data.dto.setting.request.*
+import com.example.mymate.data.dto.report.response.*
+import com.example.mymate.data.dto.expense.request.*
+import com.example.mymate.data.dto.expense.response.*
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
-//User API
-
-// data class
-
-data class error (
-    var field: String = "",
-    var value: String = "",
-    var reason: String = ""
-)
-
-data class localUser (
-    var user_email: String = "",
-    var user_password: String = ""
-)
-
-data class loginUser (
-    var email: String = "",
-    var password: String = ""
-)
-
-data class localUserRegister (
-    var nickname: String = "",
-    var email: String = "",
-    var password: String = ""
-)
-
-data class socialUserLogin (
-    var socialAuthType: String = "",
-    var socialAccessToken: String = ""
-)
-
-data class token (
-    var access_token: String = "",
-    var refresh_token: String = ""
-)
-
-data class devicetoken (
-    var deviceToken: String = ""
-)
-
-data class senddeviceToken (
-    var device_token: String = ""
-)
-
-data class dailyExpenseDetail (
-    var expenses: ArrayList<ExpenseList> = ArrayList()
-)
-
-data class ExpenseList (
-    var expenseId: String = "",
-    var expenseAmount: String = "",
-    var expenseStore: String = "",
-    var expenseCategoryName: String = "",
-    var expenseCategoryImage: String = "",
-    var settlementSubjects: ArrayList<Expenses> = ArrayList(),
-    var expenseDate: String = ""
-)
-
-data class Expenses (
-    var userId: String = "",
-    var userName: String = "",
-    var isExpenseConsumer: Boolean = false,
-    var userProfileImage: String = ""
-)
-
-data class datePeriod (
-    var date_start: String = "",
-    var date_end: String = ""
-)
-
-data class householdExpenseDetail (
-    var expense_id: String = "",
-    var expense_date: String = "",
-    var expense_day_of_week: String = "",
-    var expense_category_name: String = "",
-    var expense_category_image_url: String = "",
-    var expense_store: String = "",
-    var expense_consumer: String = ""
-)
-
-data class activityNoti (
-    var activity_notification_id: String = "",
-    var category_title: String = "",
-    var category_image_url: String = "",
-    var is_read: Boolean = false,
-    var created_at: String = "",
-    var trigger: String? = ""
-)
-
-data class notiActivityData (
-    var activityNotificationResponses: ArrayList<activityNoti> = ArrayList()
-)
-
-data class notiExpenseData (
-    var notification_expenses: ArrayList<expenseNoti> = ArrayList()
-)
-
-data class expenseNoti (
-    var expense_notification_id: String = "",
-    var expense_category_image_url: String = "",
-    var created_at: String = "",
-    var is_read: Boolean = false,
-    var expense_amount: String = "",
-    var spender_name: String = ""
-)
-
-data class bills (
-    var bills: ArrayList<bill> = ArrayList()
-)
-
-data class bill (
-    var bill_id: String = "",
-    var bill_image_url: String = "",
-    var bill_payment_date: String = "",
-    var bill_store: String = "",
-    var bill_payment_amount: String = ""
-)
-
-data class billdetail (
-    var bill_category: String = "",
-    var bill_payment_amount: String = "",
-    var bill_image_url: String = "",
-    var bill_payment_date: String = "",
-    var bill_memo: String? = "",
-    var register_date: String = ""
-)
-
-data class billcategoryList (
-    var recent_bill_category: ArrayList<billcategory> = ArrayList()
-)
-
-data class billcategory (
-    var bill_category: String = "",
-    var bill_payment_date: String = "",
-    var bill_payment_amount: String = ""
-)
-
-data class billtosend (
-    var bill_payment_date: String = "",
-    var bill_image: String = "",
-    var bill_payment_amount: String = "",
-    var bill_store: String = "",
-    var bill_category_title: String = "",
-    var bill_memo: String = "",
-    var virtual_accounts: ArrayList<virtualAccounts> = ArrayList()
-)
-
-data class virtualAccounts (
-    var bank_name: String = "",
-    var account_number: String = ""
-)
-
-data class expensetosend (
-    var expenseDate: String = "",
-    var expenseAmount: String = "",
-    var settlementSubjectIds: ArrayList<String> = ArrayList(),
-    var expenseStore: String = "",
-    var expenseCategory: String = "",
-    var expenseMemo: String = ""
-)
-
-data class expenseSingle (
-    var payment_amount: String = "",
-    var expense_memo: String = "",
-    var expense_category: String = "",
-    var expense_store: String = "",
-    var expense_register_date: String = ""
-)
-
-data class calendarList (
-    var household_daily_expenses: ArrayList<calendarListitem> = ArrayList()
-)
-
-data class calendarListitem (
-    var expense_date: String = "",
-    var daily_total_expense: String = ""
-)
-
-data class myPageData (
-    var user_image_url: String = "",
-    var user_nickname: String = "",
-    var user_settlement_ratio: String = "",
-    var household_settlement_date: String = "",
-    var household_budget_amount: String = ""
-)
-
-data class houseRatioList (
-    var household_members: ArrayList<houseMembers> = ArrayList()
-)
-
-data class houseRatioPost (
-    var household_members: ArrayList<houseMemberSimple> = ArrayList()
-)
-
-data class houseMemberSimple (
-    var user_id: String = "",
-    var user_settlement_ratio: String = ""
-)
-
-data class houseMembers (
-    var user_id: String = "",
-    var user_profile_image: String = "",
-    var user_nickname: String = "",
-    var user_settlement_ratio: String = ""
-)
-
-data class myAccount (
-    var account_bank: String = "",
-    var account_number: String = "",
-    var account_image_url: String = "",
-    var members: ArrayList<mateAccount> = ArrayList()
-)
-
-data class postAccount (
-    var account_bank: String = "",
-    var account_number: String = ""
-)
-
-data class homeHousehold (
-    var house_id: String = "",
-    var household_name: String = "",
-    var by_now_expense: String = "",
-    var by_now_budget_ratio: String = "",
-    var settlement_d_day: String = "",
-    var by_previous_expense: String = "",
-    var now_expense_diff: String = "",
-    var is_household_budget_over_warn: Boolean = false,
-    var expense_duration: String = ""
-)
-
-data class homeMe (
-    var user_id: String = "",
-    var user_total_budget: String = "",
-    var user_by_now_total_expense: String = "",
-    var user_by_now_left_expense: String = ""
-)
-
-data class homeInfo (
-    var household: homeHousehold = homeHousehold(),
-    var me: homeMe = homeMe()
-)
-
-data class householdReportdata (
-    var report_date: report_date = report_date(),
-    var is_expense_over_budget: Boolean = false,
-    var budget_real_expense_diff: String = "",
-    var total_expense: String = "",
-    var expense_categories: ArrayList<expense_category> = ArrayList()
-)
-
-data class myReportdata (
-    var report_date: report_date = report_date(),
-    var expense_categories: ArrayList<expense_category> = ArrayList()
-)
-
-data class report_date (
-    var date_start: String = "",
-    var date_end: String = ""
-)
-
-data class expense_category (
-    var category_name: String = "",
-    var category_img: String = "",
-    var total_expense_ratio: String = "",
-    var total_expense_amount: String = ""
-)
-
-data class mySettleInfoData (
-    var household_expense_total: String = "",
-    var settlement_date: report_date = report_date(),
-    var user: mySettleInfo = mySettleInfo()
-)
-
-data class mySettleInfo (
-    var id: String = "",
-    var name: String = "",
-    var real_expense: String = "",
-    var ratio_expense: String = "",
-    var is_settlement_sender: Boolean = false,
-    var settlement_amount: String = ""
-)
-
-data class mySettleShortInfo (
-    var id: String = "",
-    var name: String = "",
-    var is_settlement_sender: Boolean = false,
-    var settlement_amount: String = ""
-)
-
-data class mateSettleInfoData (
-    var settlement_date: report_date = report_date(),
-    var user: mySettleShortInfo = mySettleShortInfo(),
-    var roommates: ArrayList<mateSettleInfo> = ArrayList()
-)
-
-data class mateSettleInfo (
-    var id: String = "",
-    var name: String = "",
-    var settlement_amount: String = "",
-    var account_bank: String = "",
-    var account_number: String = ""
-)
-
-data class mateAccount (
-    var user_name: String = "",
-    var user_profile_image: String = "",
-    var account_bank: String = "",
-    var account_number: String = ""
-)
-
-data class settledaytosend (
-    var settlement_day_of_month: String = ""
-)
-
-data class budget (
-    var budget_amount: String = "",
-    var budget_allowance: String = ""
-)
-
-// data class for responses
-
-data class defaultResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: String? = ""
-)
-
-data class localLoginResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: token = token()
-)
-
-data class localRegisterResponse (
-    var message: String = "",
-    var status: String = "",
-    var code: String = "",
-    var data: token = token(),
-    var errors: ArrayList<error> = ArrayList()
-)
-
-data class localRefreshReponse (
-    var access_token: String = "",
-    var refresh_token: String = ""
-)
-
-data class deviceTokenResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: senddeviceToken = senddeviceToken()
-)
-
-data class dailyExpenseResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: dailyExpenseDetail = dailyExpenseDetail()
-)
-
-data class activityNotiResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: notiActivityData = notiActivityData()
-)
-
-data class expenseNotiResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: notiExpenseData = notiExpenseData()
-)
-
-data class billListResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: bills = bills()
-)
-
-data class billDetailResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: billdetail = billdetail()
-)
-
-data class billCategoryResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: billcategoryList = billcategoryList()
-)
-
-data class postbillResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: String = ""
-)
-
-data class getMemberIdResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: ArrayList<String> = ArrayList()
-)
-
-data class getDailySingleExpenseResult (
-    var message: String = "",
-    var status: String = "",
-    var data: expenseSingle = expenseSingle()
-)
-
-data class searchResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: dailyExpenseDetail = dailyExpenseDetail()
-)
-
-data class calendarResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: calendarList = calendarList()
-)
-
-data class myPageApiResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: myPageData = myPageData()
-)
-
-data class houseRatioResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: houseRatioList = houseRatioList()
-)
-
-data class myAccountResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: myAccount = myAccount()
-)
-
-data class homeInfoResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: homeInfo = homeInfo()
-)
-
-data class settlementDateResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: String = ""
-)
-
-data class householdReportResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: householdReportdata = householdReportdata()
-)
-
-data class myReportResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: myReportdata = myReportdata()
-)
-
-data class mySettleInfoResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: mySettleInfoData = mySettleInfoData()
-)
-
-data class mateSettleInfoResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: mateSettleInfoData = mateSettleInfoData()
-)
-
-data class myBudgetResponse (
-    var message: String = "",
-    var status: String = "",
-    var data: budget = budget()
-)
-
-//login + token interface
 
 interface localLogin {
     @POST("api/v1/auth/authenticate")
-    fun localLogin(@Body req: loginUser) : Call<localLoginResponse>
-}
-
-interface localRefresh {
-    @GET("api/v1/auth/reissue")
-    fun localRefresh(@Header("Authorization") Authorization: String) : Call<localRefreshReponse>
-}
-
-interface localRegister {
-    @POST("api/v1/auth/register")
-    fun localRegister(@Body req: loginUser) : Call<localRegisterResponse>
+    fun localLogin(@Body req: LocalLoginRequest) : Call<LocalLoginResponse>
 }
 
 interface socialLogin {
     @POST("api/v1/auth/authenticate/social")
-    fun soicalLogin(@Body req: socialUserLogin) : Call<localLoginResponse>
+    fun socialLogin(@Body req: SocialLoginRequest) : Call<LocalLoginResponse>
 }
-
-//TODO: local register error API response error receiving (1: DataClass, 2: receiving check)
 
 interface localDevice {
     @POST("api/v1/user/device-token")
-    fun localDevice(@Header("Authorization") Authorization: String, @Body req: devicetoken) : Call<Response<Void>>
-}
-
-interface getlocalDevice {
-    @GET("api/v1/user/device-token")
-    fun localDevice(@Header("Authorization") Authorization: String) : Call<deviceTokenResponse>
+    fun localDevice(@Header("Authorization") Authorization: String, @Body req: DeviceToken) : Call<Response<Void>>
 }
 
 interface getMemberId {
     @GET("api/v1/household/member/ids")
-    fun getMemberId(@Header("Authorization") Authorization: String) : Call<getMemberIdResponse>
+    fun getMemberId(@Header("Authorization") Authorization: String) : Call<MemberIdResponse>
 }
 
 //Home API
 
 interface getHomeInfo {
     @GET("api/v1/household/home")
-    fun getHomeInfo(@Header("Authorization") Authorization: String): Call<homeInfoResponse>
+    fun getHomeInfo(@Header("Authorization") Authorization: String): Call<HomeInfoResponse>
 }
 
 //Settlement API
 
 interface getMySettleInfo {
     @GET("api/v1/settlement/user")
-    fun getMySettleInfo(@Header("Authorization") Authorization: String, @Query("start_date") start_date: String, @Query("end_date") end_date: String): Call<mySettleInfoResponse>
+    fun getMySettleInfo(@Header("Authorization") Authorization: String, @Query("start_date") start_date: String, @Query("end_date") end_date: String): Call<UserSettlementInfoResponse>
 }
 
 interface getMateSettleInfo {
     @GET("api/v1/settlement")
-    fun getMateSettleInfo(@Header("Authorization") Authorization: String, @Query("start_date") start_date: String, @Query("end_date") end_date: String): Call<mateSettleInfoResponse>
+    fun getMateSettleInfo(@Header("Authorization") Authorization: String, @Query("start_date") start_date: String, @Query("end_date") end_date: String): Call<MemberSettlementInfoResponse>
 }
 
 interface sendMoneyRequest {
@@ -551,93 +65,93 @@ interface sendMoneyRequest {
 
 interface getActivityNoti {
     @GET("api/v1/notifications/activity")
-    fun activityNoti(@Header("Authorization") Authorization: String) : Call<activityNotiResponse>
+    fun activityNoti(@Header("Authorization") Authorization: String) : Call<UserActNotiResponse>
 }
 
 interface getExpenseNoti {
     @GET("api/v1/notifications/expense")
-    fun expenseNoti(@Header("Authorization") Authorization: String) : Call<expenseNotiResponse>
+    fun expenseNoti(@Header("Authorization") Authorization: String) : Call<UserExpNotiResponse>
 }
 
 interface readActivityNoti {
     @POST("api/v1/notifications/activity/is-read/true")
-    fun readActivityNoti(@Header("Authorization") Authorization: String, @Query("activity_notification_ids") activity_notification_ids: String): Call<defaultResponse>
+    fun readActivityNoti(@Header("Authorization") Authorization: String, @Query("activity_notification_ids") activity_notification_ids: String): Call<DefaultResponse>
 }
 
 interface readExpenseNoti {
     @POST("api/v1/notifications/expense/is-read/true")
-    fun readExpenseNoti(@Header("Authorization") Authorization: String, @Query("expense_notification_ids") expense_notification_ids: String): Call<defaultResponse>
+    fun readExpenseNoti(@Header("Authorization") Authorization: String, @Query("expense_notification_ids") expense_notification_ids: String): Call<DefaultResponse>
 }
 
 //Calendar Api
 
 interface getCalendar {
     @GET("api/v1/expense/daily-total/month/{year}/{month}/{day}")
-    fun getCalendar(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("day") day: String) : Call<calendarResponse>
+    fun getCalendar(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("day") day: String) : Call<CalendarResponse>
 }
 
 //Bills Api
 
 interface getGasBillList {
     @GET("api/v1/bills/GAS")
-    fun getGasBillList(@Header("Authorization") Authorization: String) : Call<billListResponse>
+    fun getGasBillList(@Header("Authorization") Authorization: String) : Call<BillsResponse>
 }
 
 interface getElectricityBillList {
     @GET("api/v1/bills/ELECTRICITY")
-    fun getElectricityBillList(@Header("Authorization") Authorization: String) : Call<billListResponse>
+    fun getElectricityBillList(@Header("Authorization") Authorization: String) : Call<BillsResponse>
 }
 
 interface getWaterBillList {
     @GET("api/v1/bills/WATER")
-    fun getWaterBillList(@Header("Authorization") Authorization: String) : Call<billListResponse>
+    fun getWaterBillList(@Header("Authorization") Authorization: String) : Call<BillsResponse>
 }
 
 interface getEtcBillList {
     @GET("api/v1/bills/ETC")
-    fun getEtcBillList(@Header("Authorization") Authorization: String) : Call<billListResponse>
+    fun getEtcBillList(@Header("Authorization") Authorization: String) : Call<BillsResponse>
 }
 
 interface getBill {
     @GET("api/v1/bill/{bill_id}")
-    fun getBill(@Header("Authorization") Authorization: String, @Path("bill_id") bill_id: String) : Call<billDetailResponse>
+    fun getBill(@Header("Authorization") Authorization: String, @Path("bill_id") bill_id: String) : Call<BillDetailResponse>
 }
 
 interface getBillCategory {
     @GET("api/v1/bills/category")
-    fun getBillCategory(@Header("Authorization") Authorization: String): Call<billCategoryResponse>
+    fun getBillCategory(@Header("Authorization") Authorization: String): Call<BillCategoryResponse>
 }
 
 interface postBill {
     @POST("api/v1/bill")
-    fun postBill(@Header("Authorization") Authorization: String, @Body req: billtosend): Call<postbillResponse>
+    fun postBill(@Header("Authorization") Authorization: String, @Body req: BillWriteRequest): Call<DefaultResponse>
 }
 
 interface deleteBill {
     @DELETE("api/v1/bills")
-    fun deleteBill(@Header("Authorization") Authorization: String, @Query("bill_id_list") bill_id_list: String): Call<postbillResponse>
+    fun deleteBill(@Header("Authorization") Authorization: String, @Query("bill_id_list") bill_id_list: String): Call<DefaultResponse>
 }
 
 //Expense API
 
 interface getDailyExpense {
     @GET("api/v1/expense/daily-total/day/{year}/{month}/{dayOfMonth}")
-    fun getDailyExpense(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("dayOfMonth") dayOfMonth: String) : Call<dailyExpenseResponse>
+    fun getDailyExpense(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("dayOfMonth") dayOfMonth: String) : Call<DailyExpenseResponse>
 }
 
 interface putDailyExpense {
     @POST("api/v1/expense")
-    fun putDailyExpense(@Header("Authorization") Authorization: String, @Body req: expensetosend): Call<postbillResponse>
+    fun putDailyExpense(@Header("Authorization") Authorization: String, @Body req: ExpenseWriteRequest): Call<DefaultResponse>
 }
 
 interface getDailySingleExpense {
     @GET("api/v1/expense/{expense_id}")
-    fun getDailySingleExpense(@Header("Authorization") Authorization: String, @Path("expense_id") expense_id: String): Call<getDailySingleExpenseResult>
+    fun getDailySingleExpense(@Header("Authorization") Authorization: String, @Path("expense_id") expense_id: String): Call<DailySingleExpenseResponse>
 }
 
 interface searchExpense {
     @POST("api/v1/expense/search")
-    fun searchExpense(@Header("Authorization") Authorization: String, @Query("expense_date_max") expense_date_max: String, @Query("expense_date_min") expense_date_min: String, @Query("expense_category_name") expense_category_name: String, @Query("expense_amount_max") expense_amount_max: String, @Query("expense_amount_min") expense_amount_min: String, @Query("sorted_by_newest") sorted_by_newest: Boolean): Call<searchResponse>
+    fun searchExpense(@Header("Authorization") Authorization: String, @Query("expense_date_max") expense_date_max: String, @Query("expense_date_min") expense_date_min: String, @Query("expense_category_name") expense_category_name: String, @Query("expense_amount_max") expense_amount_max: String, @Query("expense_amount_min") expense_amount_min: String, @Query("sorted_by_newest") sorted_by_newest: Boolean): Call<SearchResponse>
 }
 
 interface deleteExpense {
@@ -649,52 +163,52 @@ interface deleteExpense {
 
 interface getSettlementDate {
     @GET("api/v1/household/settlement/date")
-    fun getSettlementDate(@Header("Authorization") Authorization: String): Call<settlementDateResponse>
+    fun getSettlementDate(@Header("Authorization") Authorization: String): Call<DefaultResponse>
 }
 
 interface getHouseholdReport {
     @GET("api/v1/report/household/{report-start-date}")
-    fun getHouseholdReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Call<householdReportResponse>
+    fun getHouseholdReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Call<HouseholdReportResponse>
 }
 
 interface getMyReport {
     @GET("api/v1/report/user/{report-start-date}")
-    fun getMyReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Call<myReportResponse>
+    fun getMyReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Call<UserReportResponse>
 }
 
 //Mypage API
 
 interface myPageApi {
     @GET("api/v1/mypage")
-    fun myPageApi(@Header("Authorization") Authorization: String): Call<myPageApiResponse>
+    fun myPageApi(@Header("Authorization") Authorization: String): Call<UserInfoResponse>
 }
 
 interface getHouseRatio {
     @GET("api/v1/household/members/settlement-ratio")
-    fun getHouseRatio(@Header("Authorization") Authorization: String): Call<houseRatioResponse>
+    fun getHouseRatio(@Header("Authorization") Authorization: String): Call<HouseSettlementRatioResponse>
 }
 
 interface getMyAccount {
     @GET("api/v1/user/account")
-    fun getMyAccount(@Header("Authorization") Authorization: String): Call<myAccountResponse>
+    fun getMyAccount(@Header("Authorization") Authorization: String): Call<UserAccountResponse>
 }
 
 interface postSettleDay {
     @POST("api/v1/household/settlement-date")
-    fun postSettleDay(@Header("Authorization") Authorization: String, @Body req: settledaytosend): Call<Response<Void>>
+    fun postSettleDay(@Header("Authorization") Authorization: String, @Body req: SettlementDayRequest): Call<Response<Void>>
 }
 
 interface getMyBudget {
     @GET("api/v1/household/budget")
-    fun getMyBudget(@Header("Authorization") Authorization: String): Call<myBudgetResponse>
+    fun getMyBudget(@Header("Authorization") Authorization: String): Call<UserBudgetResponse>
 }
 
 interface postHouseRatio {
     @POST("api/v1/roomates/settlement-ratio")
-    fun postHouseRatio(@Header("Authorization") Authorization: String, @Body req: houseRatioPost): Call<Response<Void>>
+    fun postHouseRatio(@Header("Authorization") Authorization: String, @Body req: HouseMemberRatioRequest): Call<Response<Void>>
 }
 
 interface postMyAccount {
     @POST("api/v1/user/account")
-    fun postMyAccount(@Header("Authorization") Authorization: String, @Body req: postAccount): Call<Response<Void>>
+    fun postMyAccount(@Header("Authorization") Authorization: String, @Body req: UserAccountRequest): Call<Response<Void>>
 }

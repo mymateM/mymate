@@ -1,22 +1,22 @@
 package com.example.mymate
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.bill.BillSummary
 import com.example.mymate.databinding.ListitemBillBinding
 
-class BillDeleteListAdapter(val billList: ArrayList<bill>, val category: String, val values: BillListValues, val checkall: Boolean): RecyclerView.Adapter<BillDeleteListAdapter.BillDeleteListHolder>() {
+class BillDeleteListAdapter(val billList: ArrayList<BillSummary>, val category: String, val values: BillListValues, val checkall: Boolean): RecyclerView.Adapter<BillDeleteListAdapter.BillDeleteListHolder>() {
     private var onItemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(item: bill, position: Int)
+        fun onItemClick(item: BillSummary, position: Int)
     }
 
     inner class BillDeleteListHolder(val binding: ListitemBillBinding, val context: Context, val category: String): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: bill, category: String) {
+        fun bind(item: BillSummary, category: String) {
             val itemimage = binding.billimage
             val itemday = binding.billdate
             val itemamount = binding.billamount

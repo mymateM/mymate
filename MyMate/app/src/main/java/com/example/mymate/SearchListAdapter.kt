@@ -4,15 +4,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.expense.ExpenseSummary
 import com.example.mymate.databinding.ListitemSearchlistBinding
-import com.example.mymate.databinding.ListitemSearchlistcontainerBinding
 
-class SearchListAdapter(val searchList: ArrayList<ExpenseList>): RecyclerView.Adapter<SearchListAdapter.SearchListHolder>() {
+class SearchListAdapter(val searchList: ArrayList<ExpenseSummary>): RecyclerView.Adapter<SearchListAdapter.SearchListHolder>() {
 
     inner class SearchListHolder(val binding: ListitemSearchlistBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ExpenseList) {
+        fun bind(item: ExpenseSummary) {
             val categoryImage = binding.categoryicon
             when (item.expenseCategoryName) {
                 "식비" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_food))

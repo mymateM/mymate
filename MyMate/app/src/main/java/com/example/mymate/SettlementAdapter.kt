@@ -12,15 +12,16 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.report.MemberMonthlyStatus
 import com.example.mymate.databinding.ListitemModaleBinding
 
-class SettlementAdapter(val mateList: ArrayList<mateSettleInfo>): RecyclerView.Adapter<SettlementAdapter.SettlementViewHolder>() {
+class SettlementAdapter(val mateList: ArrayList<MemberMonthlyStatus>): RecyclerView.Adapter<SettlementAdapter.SettlementViewHolder>() {
 
     private var onItemClickListener: OnItemClickListener? = null
     private var clickposition = -1
 
     interface OnItemClickListener {
-        fun onItemClick(item: mateSettleInfo, position: Int)
+        fun onItemClick(item: MemberMonthlyStatus, position: Int)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -31,7 +32,7 @@ class SettlementAdapter(val mateList: ArrayList<mateSettleInfo>): RecyclerView.A
         val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_bold), Typeface.NORMAL)
         val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_bold), Typeface.NORMAL)
         @RequiresApi(Build.VERSION_CODES.P)
-        fun bind(item: mateSettleInfo) {
+        fun bind(item: MemberMonthlyStatus) {
             val nametxt = item.name + "에게"
             val billtxt = SpannableStringBuilder("${digitprocessing(item.settlement_amount)}원")
             billtxt.setSpan(TypefaceSpan(suitBoldTypeface), billtxt.lastIndex, billtxt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)

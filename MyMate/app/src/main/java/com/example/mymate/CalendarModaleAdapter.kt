@@ -2,36 +2,31 @@ package com.example.mymate
 
 import android.content.Context
 import android.graphics.Color
-import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.expense.CalendarItem
 import com.example.mymate.databinding.ListitemCalendarBinding
-import okhttp3.internal.notify
 import java.time.LocalDate
 import java.time.YearMonth
 
-class CalendarModaleAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, val iteminfo: ArrayList<calendarItem>, val calendarVal: CalendarValues): RecyclerView.Adapter<CalendarModaleAdapter.DayViewHolder>() {
+class CalendarModaleAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, val iteminfo: ArrayList<CalendarItem>, val calendarVal: CalendarValues): RecyclerView.Adapter<CalendarModaleAdapter.DayViewHolder>() {
     private var onItemClickListener: OnItemClickListener? = null
     private val yearMonth = YearMonth.from(dayList[8])
     private val dayOfWeek = dayList[8]!!.dayOfWeek!!.value
     private val length = dayList[8]!!.lengthOfMonth()
 
     interface OnItemClickListener {
-        fun onItemClick(item: calendarItem, position: Int)
+        fun onItemClick(item: CalendarItem, position: Int)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.onItemClickListener = listener
     }
     inner class DayViewHolder(val binding: ListitemCalendarBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: String, color: String, info: calendarItem) {
+        fun bind(item: String, color: String, info: CalendarItem) {
             val day = binding.dayText
             val spend = binding.billText
             spend.isInvisible = true

@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.notification.UserExpNotiDetail
 import com.example.mymate.databinding.ListitemAlarmBinding
-import kotlin.math.exp
 import kotlin.math.roundToInt
 
-class AlarmSpdAdapter(val notiList: ArrayList<expenseNoti>): RecyclerView.Adapter<AlarmSpdAdapter.AlarmSpdHolder>() {
+class AlarmSpdAdapter(val notiList: ArrayList<UserExpNotiDetail>): RecyclerView.Adapter<AlarmSpdAdapter.AlarmSpdHolder>() {
 
     inner class AlarmSpdHolder(val binding: ListitemAlarmBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: expenseNoti) {
+        fun bind(item: UserExpNotiDetail) {
             val itemicon = binding.alarmicon
             val itemtype = binding.alarmtype
             val itemdata = binding.alarmdata

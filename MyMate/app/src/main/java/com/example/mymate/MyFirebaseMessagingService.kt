@@ -3,30 +3,22 @@ package com.example.mymate
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.mymate.data.dto.auth.DeviceToken
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Tasks
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.google.firebase.messaging.ktx.remoteMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
-import okhttp3.internal.notify
-import okhttp3.internal.wait
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -148,7 +140,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         var firebasedevicecode = ""
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(localDevice::class.java)
-        var deviceToken: devicetoken = devicetoken()
+        var deviceToken: DeviceToken = DeviceToken()
         var accessToken: String = ""
         runBlocking {
             var getAC = launch {

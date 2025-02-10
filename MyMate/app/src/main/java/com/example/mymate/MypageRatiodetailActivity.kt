@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
+import com.example.mymate.data.dto.setting.response.HouseSettlementRatioResponse
 import com.example.mymate.databinding.ActivityMypageRatiodetailBinding
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -55,10 +56,10 @@ class MypageRatiodetailActivity: AppCompatActivity() {
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        endpoint!!.getHouseRatio("Bearer $accessToken").enqueue(object : Callback<houseRatioResponse> {
+        endpoint!!.getHouseRatio("Bearer $accessToken").enqueue(object : Callback<HouseSettlementRatioResponse> {
             override fun onResponse(
-                call: Call<houseRatioResponse>,
-                response: Response<houseRatioResponse>
+                call: Call<HouseSettlementRatioResponse>,
+                response: Response<HouseSettlementRatioResponse>
             ) {
                 if (response.isSuccessful) {
                     val houseList = response.body()!!.data.household_members
@@ -100,7 +101,7 @@ class MypageRatiodetailActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<houseRatioResponse>, t: Throwable) {
+            override fun onFailure(call: Call<HouseSettlementRatioResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(정산 비율)", Toast.LENGTH_SHORT).show()
             }
         })
@@ -128,10 +129,10 @@ class MypageRatiodetailActivity: AppCompatActivity() {
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        endpoint!!.getHouseRatio("Bearer $accessToken").enqueue(object : Callback<houseRatioResponse> {
+        endpoint!!.getHouseRatio("Bearer $accessToken").enqueue(object : Callback<HouseSettlementRatioResponse> {
             override fun onResponse(
-                call: Call<houseRatioResponse>,
-                response: Response<houseRatioResponse>
+                call: Call<HouseSettlementRatioResponse>,
+                response: Response<HouseSettlementRatioResponse>
             ) {
                 if (response.isSuccessful) {
                     val houseList = response.body()!!.data.household_members
@@ -174,7 +175,7 @@ class MypageRatiodetailActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<houseRatioResponse>, t: Throwable) {
+            override fun onFailure(call: Call<HouseSettlementRatioResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(정산 비율)", Toast.LENGTH_SHORT).show()
             }
         })

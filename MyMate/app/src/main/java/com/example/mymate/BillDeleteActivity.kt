@@ -1,27 +1,28 @@
 package com.example.mymate
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mymate.data.dto.bill.BillSummary
+import com.example.mymate.data.dto.bill.Bills
+import com.example.mymate.data.dto.bill.response.BillsResponse
+import com.example.mymate.data.dto.common.DefaultResponse
 import com.example.mymate.databinding.ActivityBilldeleteBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 
 class BillDeleteActivity: AppCompatActivity() {
     lateinit var binding: ActivityBilldeleteBinding
     lateinit var context: Context
     lateinit var userRepo: DataStoreRepoUser
-    lateinit var responselist: billListResponse
-    lateinit var iteminfo: bills
+    lateinit var responselist: BillsResponse
+    lateinit var iteminfo: Bills
     var retrofit = RetrofitClientInstance.client
     var gasendpoint = retrofit?.create(getGasBillList::class.java)
     var electronicendpoint = retrofit?.create(getElectricityBillList::class.java)
@@ -72,14 +73,14 @@ class BillDeleteActivity: AppCompatActivity() {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
         gasendpoint!!.getGasBillList("Bearer $accessToken").enqueue(object :
-            Callback<billListResponse> {
+            Callback<BillsResponse> {
             override fun onResponse(
-                call: Call<billListResponse>,
-                response: Response<billListResponse>
+                call: Call<BillsResponse>,
+                response: Response<BillsResponse>
             ) {
                 responselist = response.body()!!
                 iteminfo = responselist.data
-                var itemlist: ArrayList<ArrayList<bill>> = ArrayList()
+                var itemlist: ArrayList<ArrayList<BillSummary>> = ArrayList()
                 var temp = 0
 
                 itemlist.add(arrayListOf())
@@ -152,7 +153,7 @@ class BillDeleteActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<billListResponse>, t: Throwable) {
+            override fun onFailure(call: Call<BillsResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(고지서 리스트)", Toast.LENGTH_SHORT).show()
             }
         })
@@ -164,14 +165,14 @@ class BillDeleteActivity: AppCompatActivity() {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
         electronicendpoint!!.getElectricityBillList("Bearer $accessToken").enqueue(object :
-            Callback<billListResponse> {
+            Callback<BillsResponse> {
             override fun onResponse(
-                call: Call<billListResponse>,
-                response: Response<billListResponse>
+                call: Call<BillsResponse>,
+                response: Response<BillsResponse>
             ) {
                 responselist = response.body()!!
                 iteminfo = responselist.data
-                var itemlist: ArrayList<ArrayList<bill>> = ArrayList()
+                var itemlist: ArrayList<ArrayList<BillSummary>> = ArrayList()
                 var temp = 0
 
                 itemlist.add(arrayListOf())
@@ -234,7 +235,7 @@ class BillDeleteActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<billListResponse>, t: Throwable) {
+            override fun onFailure(call: Call<BillsResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(고지서 리스트)", Toast.LENGTH_SHORT).show()
             }
         })
@@ -246,14 +247,14 @@ class BillDeleteActivity: AppCompatActivity() {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
         waterendpoint!!.getWaterBillList("Bearer $accessToken").enqueue(object :
-            Callback<billListResponse> {
+            Callback<BillsResponse> {
             override fun onResponse(
-                call: Call<billListResponse>,
-                response: Response<billListResponse>
+                call: Call<BillsResponse>,
+                response: Response<BillsResponse>
             ) {
                 responselist = response.body()!!
                 iteminfo = responselist.data
-                var itemlist: ArrayList<ArrayList<bill>> = ArrayList()
+                var itemlist: ArrayList<ArrayList<BillSummary>> = ArrayList()
                 var temp = 0
 
                 itemlist.add(arrayListOf())
@@ -316,7 +317,7 @@ class BillDeleteActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<billListResponse>, t: Throwable) {
+            override fun onFailure(call: Call<BillsResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(고지서 리스트)", Toast.LENGTH_SHORT).show()
             }
         })
@@ -328,14 +329,14 @@ class BillDeleteActivity: AppCompatActivity() {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
         etcendpoint!!.getEtcBillList("Bearer $accessToken").enqueue(object :
-            Callback<billListResponse> {
+            Callback<BillsResponse> {
             override fun onResponse(
-                call: Call<billListResponse>,
-                response: Response<billListResponse>
+                call: Call<BillsResponse>,
+                response: Response<BillsResponse>
             ) {
                 responselist = response.body()!!
                 iteminfo = responselist.data
-                var itemlist: ArrayList<ArrayList<bill>> = ArrayList()
+                var itemlist: ArrayList<ArrayList<BillSummary>> = ArrayList()
                 var temp = 0
 
                 itemlist.add(arrayListOf())
@@ -400,7 +401,7 @@ class BillDeleteActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<billListResponse>, t: Throwable) {
+            override fun onFailure(call: Call<BillsResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(고지서 리스트)", Toast.LENGTH_SHORT).show()
             }
 
@@ -420,10 +421,10 @@ class BillDeleteActivity: AppCompatActivity() {
                 deleteid += "," + values.deleteList[i]
             }
         }
-        deleteendpoint!!.deleteBill("Bearer $accessToken", bill_id_list = deleteid).enqueue(object : Callback<postbillResponse> {
+        deleteendpoint!!.deleteBill("Bearer $accessToken", bill_id_list = deleteid).enqueue(object : Callback<DefaultResponse> {
             override fun onResponse(
-                call: Call<postbillResponse>,
-                response: Response<postbillResponse>
+                call: Call<DefaultResponse>,
+                response: Response<DefaultResponse>
             ) {
                 if (response.isSuccessful) {
                     finish()
@@ -431,7 +432,7 @@ class BillDeleteActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<postbillResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
             }
         })
     }

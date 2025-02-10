@@ -1,5 +1,6 @@
 package com.example.mymate
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.text.Spannable

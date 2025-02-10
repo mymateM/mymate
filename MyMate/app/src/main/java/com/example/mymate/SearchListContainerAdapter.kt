@@ -6,17 +6,18 @@ import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.expense.ExpenseSummary
 import com.example.mymate.databinding.ListitemSearchlistcontainerBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class SearchListContainerAdapter(val searchList: ArrayList<ArrayList<ExpenseList>>): RecyclerView.Adapter<SearchListContainerAdapter.SearchListContainerHolder>() {
+class SearchListContainerAdapter(val searchList: ArrayList<ArrayList<ExpenseSummary>>): RecyclerView.Adapter<SearchListContainerAdapter.SearchListContainerHolder>() {
     lateinit var context: Context
 
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     inner class SearchListContainerHolder(val binding: ListitemSearchlistcontainerBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ArrayList<ExpenseList>, context: Context, list: ArrayList<ArrayList<ExpenseList>>) {
+        fun bind(item: ArrayList<ExpenseSummary>, context: Context, list: ArrayList<ArrayList<ExpenseSummary>>) {
             if (item.isNotEmpty()) {
                 if (LocalDate.now().format(formatter) == item[0].expenseDate) {
                     val today = "${LocalDate.now().monthValue}월 ${LocalDate.now().dayOfMonth}일 (오늘)"

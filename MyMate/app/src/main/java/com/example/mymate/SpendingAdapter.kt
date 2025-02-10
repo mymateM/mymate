@@ -5,29 +5,28 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.expense.ExpenseSummary
 import com.example.mymate.databinding.ListitemSpendingBinding
 
-class SpendingAdapter(val context: Context, val expenseList: ArrayList<ExpenseList>): RecyclerView.Adapter<SpendingAdapter.ExpenseViewHolder>() {
+class SpendingAdapter(val context: Context, val expenseList: ArrayList<ExpenseSummary>): RecyclerView.Adapter<SpendingAdapter.ExpenseViewHolder>() {
 
     private var onItemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(item: ExpenseList, position: Int)
+        fun onItemClick(item: ExpenseSummary, position: Int)
     }
 
     inner class ExpenseViewHolder(val binding: ListitemSpendingBinding): RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.P)
-        fun bind(item: ExpenseList) {
+        fun bind(item: ExpenseSummary) {
             val categoryImage = binding.spendingicon
             val amount = binding.spendingAmount
             val store = binding.spendingStore

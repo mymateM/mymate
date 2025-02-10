@@ -7,26 +7,18 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.TypefaceSpan
-import android.util.Log
-import android.view.ContextMenu
-import android.view.MenuItem
-import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.isGone
-import androidx.datastore.core.DataStore
+import com.example.mymate.data.dto.bill.response.BillCategoryResponse
 import com.example.mymate.databinding.ActivityBillmanagerBinding
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class BillManagerActivity: AppCompatActivity() {
     lateinit var binding: ActivityBillmanagerBinding
@@ -46,16 +38,16 @@ class BillManagerActivity: AppCompatActivity() {
         var endpoint = retrofit?.create(getBillCategory::class.java)
         val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(this, R.font.suit_bold), Typeface.NORMAL)
 
-        var categoryResponse = billCategoryResponse()
+        var categoryResponse = BillCategoryResponse()
         var accessToken = ""
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        endpoint!!.getBillCategory("Bearer $accessToken").enqueue(object : Callback<billCategoryResponse> {
+        endpoint!!.getBillCategory("Bearer $accessToken").enqueue(object : Callback<BillCategoryResponse> {
             @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
-                call: Call<billCategoryResponse>,
-                response: Response<billCategoryResponse>
+                call: Call<BillCategoryResponse>,
+                response: Response<BillCategoryResponse>
             ) {
                 categoryResponse = response.body()!!
                 if (categoryResponse.data.recent_bill_category.isNotEmpty()) {
@@ -81,7 +73,7 @@ class BillManagerActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<billCategoryResponse>, t: Throwable) {
+            override fun onFailure(call: Call<BillCategoryResponse>, t: Throwable) {
                 Toast.makeText(applicationContext, "연결 실패(고지서 카테고리)", Toast.LENGTH_SHORT).show()
             }
 

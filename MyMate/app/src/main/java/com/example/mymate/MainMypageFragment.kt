@@ -2,15 +2,12 @@ package com.example.mymate
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,13 +15,13 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import com.example.mymate.data.dto.setting.response.UserInfoResponse
 import com.example.mymate.databinding.MainMypageFragmentBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 
 class MainMypageFragment : Fragment() {
     lateinit var binding: MainMypageFragmentBinding
@@ -61,11 +58,11 @@ class MainMypageFragment : Fragment() {
         val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
         val budgetIntent = Intent(mainActivity, MypageBudgetActivity::class.java)
 
-        endpoint!!.myPageApi("Bearer $accessToken").enqueue(object : Callback<myPageApiResponse> {
+        endpoint!!.myPageApi("Bearer $accessToken").enqueue(object : Callback<UserInfoResponse> {
             @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
-                call: Call<myPageApiResponse>,
-                response: Response<myPageApiResponse>
+                call: Call<UserInfoResponse>,
+                response: Response<UserInfoResponse>
             ) {
                 if (response.isSuccessful) {
                     val mypagecallback = response.body()!!.data
@@ -84,7 +81,7 @@ class MainMypageFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<myPageApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserInfoResponse>, t: Throwable) {
                 Toast.makeText(mainActivity, "연결 실패(마이페이지)", Toast.LENGTH_SHORT).show()
             }
         })

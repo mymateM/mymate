@@ -15,7 +15,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.example.mymate.data.dto.setting.MemberAccount
+import com.example.mymate.data.dto.setting.response.UserAccountResponse
 import com.example.mymate.databinding.ActivityMypageAccountBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -46,11 +47,11 @@ class MypageAccountActivity: AppCompatActivity() {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
 
-        endpoint!!.getMyAccount("Bearer $accessToken").enqueue(object : Callback<myAccountResponse> {
+        endpoint!!.getMyAccount("Bearer $accessToken").enqueue(object : Callback<UserAccountResponse> {
             @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
-                call: Call<myAccountResponse>,
-                response: Response<myAccountResponse>
+                call: Call<UserAccountResponse>,
+                response: Response<UserAccountResponse>
             ) {
                 if (response.isSuccessful) {
                     val myaccount = response.body()!!.data
@@ -66,7 +67,7 @@ class MypageAccountActivity: AppCompatActivity() {
                     binding.accountList.layoutManager = manager
                     binding.accountList.adapter = adapter.apply {
                         setOnItemClickListener(object : MypageAccountAdapter.OnItemClickListener {
-                            override fun onItemClick(item: mateAccount, position: Int) {
+                            override fun onItemClick(item: MemberAccount, position: Int) {
                                 val clip = ClipData.newPlainText("account", item.account_bank.replace("은행", "") + " " + item.account_number)
                                 val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                                 clipboard.setPrimaryClip(clip)
@@ -78,7 +79,7 @@ class MypageAccountActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<myAccountResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserAccountResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(사용자 계좌)", Toast.LENGTH_SHORT).show()
             }
 

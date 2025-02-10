@@ -52,9 +52,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        /*KakaoSdk.init(this, getString(R.string.kakao_native_app_key)) //TODO: 이 코드는 카카오 SDK 초기화 코드로, 후에 스플래시액티비티로 옮길 것
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        supportActionBar?.hide()
+        KakaoSdk.init(this, getString(R.string.kakao_native_app_key)) //TODO: 이 코드는 카카오 SDK 초기화 코드로, 후에 스플래시액티비티로 옮길 것
+        requestWindowFeature(Window.FEATURE_NO_TITLE) // 프로그램 제목 표시줄 없애기
+        supportActionBar?.hide() // 액션 바 없애기
         var repouser = DataStoreRepoUser(dataStore)
         val keyhash = Utility.getKeyHash(this)
         Log.d ("Hash", keyhash)
@@ -120,8 +120,8 @@ class MainActivity : AppCompatActivity() {
         }
         Glide.with(this).load(R.raw.mymate_splash).override(500, 500).into(binding.splashicon)
         setContentView(binding.root)
-        loading()*/
-        startActivity(Intent(this, OnboardingProfileActivity::class.java))
+        loading()
+        //startActivity(Intent(this, OnboardingProfileActivity::class.java))
     }
 
     private fun loading() {

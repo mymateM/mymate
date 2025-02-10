@@ -4,35 +4,27 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.contentColorFor
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mymate.data.dto.bill.BillSummary
+import com.example.mymate.data.dto.bill.Bills
+import com.example.mymate.data.dto.bill.response.BillsResponse
 import com.example.mymate.databinding.ActivityBillmanagelistBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 import java.time.LocalDate
-
-data class billListItem(
-    var date: String = "",
-    var name: String = "",
-    var amount: String = "",
-    var drawable: Drawable
-)
 
 class BillManagerListActivity: AppCompatActivity() {
     lateinit var binding: ActivityBillmanagelistBinding
-    lateinit var iteminfo: bills
+    lateinit var iteminfo: Bills
     lateinit var context: Context
     lateinit var userRepo: DataStoreRepoUser
-    lateinit var responselist: billListResponse
+    lateinit var responselist: BillsResponse
     var retrofit = RetrofitClientInstance.client
     var gasendpoint = retrofit?.create(getGasBillList::class.java)
     var electronicendpoint = retrofit?.create(getElectricityBillList::class.java)
@@ -49,7 +41,7 @@ class BillManagerListActivity: AppCompatActivity() {
 
         val category = intent.getStringExtra("category")
         binding.title.text = category
-        iteminfo = bills()
+        iteminfo = Bills()
 
         val today = LocalDate.now()
         val year = today.year
@@ -75,7 +67,7 @@ class BillManagerListActivity: AppCompatActivity() {
         super.onResume()
         val category = intent.getStringExtra("category")
         binding.title.text = category
-        iteminfo = bills()
+        iteminfo = Bills()
 
         val today = LocalDate.now()
         val year = today.year
@@ -98,14 +90,14 @@ class BillManagerListActivity: AppCompatActivity() {
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        gasendpoint!!.getGasBillList("Bearer $accessToken").enqueue(object : Callback<billListResponse> {
+        gasendpoint!!.getGasBillList("Bearer $accessToken").enqueue(object : Callback<BillsResponse> {
             override fun onResponse(
-                call: Call<billListResponse>,
-                response: Response<billListResponse>
+                call: Call<BillsResponse>,
+                response: Response<BillsResponse>
             ) {
                 responselist = response.body()!!
                 iteminfo = responselist.data
-                var itemlist: ArrayList<ArrayList<bill>> = ArrayList()
+                var itemlist: ArrayList<ArrayList<BillSummary>> = ArrayList()
                 var temp = 0
 
                 itemlist.add(arrayListOf())
@@ -144,7 +136,7 @@ class BillManagerListActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<billListResponse>, t: Throwable) {
+            override fun onFailure(call: Call<BillsResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(고지서-가스)", Toast.LENGTH_SHORT).show()
             }
         })
@@ -155,14 +147,14 @@ class BillManagerListActivity: AppCompatActivity() {
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        electronicendpoint!!.getElectricityBillList("Bearer $accessToken").enqueue(object : Callback<billListResponse> {
+        electronicendpoint!!.getElectricityBillList("Bearer $accessToken").enqueue(object : Callback<BillsResponse> {
             override fun onResponse(
-                call: Call<billListResponse>,
-                response: Response<billListResponse>
+                call: Call<BillsResponse>,
+                response: Response<BillsResponse>
             ) {
                 responselist = response.body()!!
                 iteminfo = responselist.data
-                var itemlist: ArrayList<ArrayList<bill>> = ArrayList()
+                var itemlist: ArrayList<ArrayList<BillSummary>> = ArrayList()
                 var temp = 0
 
                 itemlist.add(arrayListOf())
@@ -200,7 +192,7 @@ class BillManagerListActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<billListResponse>, t: Throwable) {
+            override fun onFailure(call: Call<BillsResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(고지서-전기)", Toast.LENGTH_SHORT).show()
             }
         })
@@ -211,14 +203,14 @@ class BillManagerListActivity: AppCompatActivity() {
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        waterendpoint!!.getWaterBillList("Bearer $accessToken").enqueue(object : Callback<billListResponse> {
+        waterendpoint!!.getWaterBillList("Bearer $accessToken").enqueue(object : Callback<BillsResponse> {
             override fun onResponse(
-                call: Call<billListResponse>,
-                response: Response<billListResponse>
+                call: Call<BillsResponse>,
+                response: Response<BillsResponse>
             ) {
                 responselist = response.body()!!
                 iteminfo = responselist.data
-                var itemlist: ArrayList<ArrayList<bill>> = ArrayList()
+                var itemlist: ArrayList<ArrayList<BillSummary>> = ArrayList()
                 var temp = 0
 
                 itemlist.add(arrayListOf())
@@ -255,7 +247,7 @@ class BillManagerListActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<billListResponse>, t: Throwable) {
+            override fun onFailure(call: Call<BillsResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(고지서-수도)", Toast.LENGTH_SHORT).show()
             }
         })
@@ -266,14 +258,14 @@ class BillManagerListActivity: AppCompatActivity() {
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
-        etcendpoint!!.getEtcBillList("Bearer $accessToken").enqueue(object : Callback<billListResponse> {
+        etcendpoint!!.getEtcBillList("Bearer $accessToken").enqueue(object : Callback<BillsResponse> {
             override fun onResponse(
-                call: Call<billListResponse>,
-                response: Response<billListResponse>
+                call: Call<BillsResponse>,
+                response: Response<BillsResponse>
             ) {
                 responselist = response.body()!!
                 iteminfo = responselist.data
-                var itemlist: ArrayList<ArrayList<bill>> = ArrayList()
+                var itemlist: ArrayList<ArrayList<BillSummary>> = ArrayList()
                 var temp = 0
 
                 itemlist.add(arrayListOf())
@@ -310,7 +302,7 @@ class BillManagerListActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<billListResponse>, t: Throwable) {
+            override fun onFailure(call: Call<BillsResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(고지서-기타)", Toast.LENGTH_SHORT).show()
             }
 

@@ -1,7 +1,6 @@
 package com.example.mymate
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -12,13 +11,13 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import com.example.mymate.data.dto.setting.response.UserInfoResponse
 import com.example.mymate.databinding.ActivityMypageSettledayBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.reflect.Type
 
 class MypageSettledayActivity: AppCompatActivity() {
     lateinit var binding: ActivityMypageSettledayBinding
@@ -41,10 +40,10 @@ class MypageSettledayActivity: AppCompatActivity() {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
 
-        endpoint!!.myPageApi("Bearer $accessToken").enqueue(object : Callback<myPageApiResponse> {
+        endpoint!!.myPageApi("Bearer $accessToken").enqueue(object : Callback<UserInfoResponse> {
             override fun onResponse(
-                call: Call<myPageApiResponse>,
-                response: Response<myPageApiResponse>
+                call: Call<UserInfoResponse>,
+                response: Response<UserInfoResponse>
             ) {
                 if (response.isSuccessful) {
                     val day = response.body()!!.data.household_settlement_date
@@ -63,7 +62,7 @@ class MypageSettledayActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<myPageApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserInfoResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(마이페이지-정산일)", Toast.LENGTH_SHORT).show()
             }
 
@@ -89,11 +88,11 @@ class MypageSettledayActivity: AppCompatActivity() {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
 
-        endpoint!!.myPageApi("Bearer $accessToken").enqueue(object : Callback<myPageApiResponse> {
+        endpoint!!.myPageApi("Bearer $accessToken").enqueue(object : Callback<UserInfoResponse> {
             @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
-                call: Call<myPageApiResponse>,
-                response: Response<myPageApiResponse>
+                call: Call<UserInfoResponse>,
+                response: Response<UserInfoResponse>
             ) {
                 if (response.isSuccessful) {
                     val day = response.body()!!.data.household_settlement_date
@@ -114,7 +113,7 @@ class MypageSettledayActivity: AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<myPageApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<UserInfoResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(마이페이지-정산일)", Toast.LENGTH_SHORT).show()
             }
 

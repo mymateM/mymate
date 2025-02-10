@@ -12,13 +12,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
+import com.example.mymate.data.dto.setting.request.SettlementDayRequest
 import com.example.mymate.databinding.ActivityMypageEditdayBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class MypageEditdayActivity: AppCompatActivity() {
     lateinit var binding: ActivityMypageEditdayBinding
@@ -53,7 +53,7 @@ class MypageEditdayActivity: AppCompatActivity() {
                 runBlocking {
                     accessToken = userRepo.userAccessReadFlow.first().toString()
                 }
-                endpoint!!.postSettleDay("Bearer $accessToken", settledaytosend(daytosend.toString())).enqueue(object: Callback<Response<Void>> {
+                endpoint!!.postSettleDay("Bearer $accessToken", SettlementDayRequest(daytosend.toString())).enqueue(object: Callback<Response<Void>> {
                     override fun onResponse(
                         call: Call<Response<Void>>,
                         response: Response<Response<Void>>

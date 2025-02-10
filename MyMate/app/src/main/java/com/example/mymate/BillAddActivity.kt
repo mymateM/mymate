@@ -16,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
+import com.example.mymate.data.dto.bill.VirtualAccountDetail
+import com.example.mymate.data.dto.bill.request.BillWriteRequest
+import com.example.mymate.data.dto.common.DefaultResponse
 import com.example.mymate.databinding.ActivityBilladdBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
@@ -35,7 +38,7 @@ class BillAddActivity: AppCompatActivity() {
     private var month = 1
     private var day = 1
 
-    var billtosend = billtosend()
+    var BillAddRequest = BillWriteRequest()
 
     var memo: String? = "없음"
 
@@ -122,55 +125,55 @@ class BillAddActivity: AppCompatActivity() {
             runBlocking {
                 accessToken = userRepo.userAccessReadFlow.first().toString()
             }
-            billtosend.bill_memo = binding.memo.text.toString()
+            BillAddRequest.bill_memo = binding.memo.text.toString()
             Log.d("yearTest", year.toString())
             if (binding.duedate.text == "없음") {
                 year = LocalDate.now().year
                 month = LocalDate.now().monthValue
                 day = LocalDate.now().dayOfMonth
-                billtosend.bill_payment_date = "$year-$month-$day"
+                BillAddRequest.bill_payment_date = "$year-$month-$day"
                 if (month < 10 && day < 10) {
-                    billtosend.bill_payment_date = "$year-0$month-0$day"
+                    BillAddRequest.bill_payment_date = "$year-0$month-0$day"
                 } else if (month < 10) {
-                    billtosend.bill_payment_date = "$year-0$month-$day"
+                    BillAddRequest.bill_payment_date = "$year-0$month-$day"
                 } else if (day < 10) {
-                    billtosend.bill_payment_date = "$year-$month-0$day"
+                    BillAddRequest.bill_payment_date = "$year-$month-0$day"
                 }
             } else {
                 year = binding.duedate.text.substring(0 until binding.duedate.text.indexOf("년")).toInt()
                 month = binding.duedate.text.substring(binding.duedate.text.indexOf("년") + 2 until binding.duedate.text.indexOf("월")).toInt()
                 day = binding.duedate.text.substring(binding.duedate.text.indexOf("월") + 2 until binding.duedate.text.indexOf("일")).toInt()
-                billtosend.bill_payment_date = "20$year-$month-$day"
+                BillAddRequest.bill_payment_date = "20$year-$month-$day"
                 if (month < 10 && day < 10) {
-                    billtosend.bill_payment_date = "20$year-0$month-0$day"
+                    BillAddRequest.bill_payment_date = "20$year-0$month-0$day"
                 } else if (month < 10) {
-                    billtosend.bill_payment_date = "20$year-0$month-$day"
+                    BillAddRequest.bill_payment_date = "20$year-0$month-$day"
                 } else if (day < 10) {
-                    billtosend.bill_payment_date = "20$year-$month-0$day"
+                    BillAddRequest.bill_payment_date = "20$year-$month-0$day"
                 }
             }
             if (category == "도시가스") {
-                billtosend.bill_category_title = "GAS"
+                BillAddRequest.bill_category_title = "GAS"
             } else if (category == "전기") {
-                billtosend.bill_category_title = "ELECTRICITY"
+                BillAddRequest.bill_category_title = "ELECTRICITY"
             } else if (category == "수도") {
-                billtosend.bill_category_title = "WATER"
+                BillAddRequest.bill_category_title = "WATER"
             } else {
-                billtosend.bill_category_title = "ETC"
+                BillAddRequest.bill_category_title = "ETC"
             }
-            billtosend.bill_store = category!!
+            BillAddRequest.bill_store = category!!
             if (binding.amountEdit.text.isNotEmpty()) {
-                billtosend.bill_payment_amount = binding.amountEdit.text.toString()
+                BillAddRequest.bill_payment_amount = binding.amountEdit.text.toString()
             } else {
-                billtosend.bill_payment_amount = "0"
+                BillAddRequest.bill_payment_amount = "0"
             }
-            billtosend.bill_image = ""
-            billtosend.virtual_accounts.add(virtualAccounts())
-            var postResponse = postbillResponse()
-            endpoint!!.postBill(Authorization = "Bearer $accessToken", req = billtosend).enqueue(object : Callback<postbillResponse> {
+            BillAddRequest.bill_image = ""
+            BillAddRequest.virtual_accounts.add(VirtualAccountDetail())
+            var postResponse = DefaultResponse()
+            endpoint!!.postBill(Authorization = "Bearer $accessToken", req = BillAddRequest).enqueue(object : Callback<DefaultResponse> {
                 override fun onResponse(
-                    call: Call<postbillResponse>,
-                    response: Response<postbillResponse>
+                    call: Call<DefaultResponse>,
+                    response: Response<DefaultResponse>
                 ) {
                     if (response.isSuccessful) {
                         postResponse = response.body()!!
@@ -178,7 +181,7 @@ class BillAddActivity: AppCompatActivity() {
                     finish()
                 }
 
-                override fun onFailure(call: Call<postbillResponse>, t: Throwable) {
+                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
                     Toast.makeText(context, "연결 실패(고지서 추가)", Toast.LENGTH_SHORT).show()
                 }
 

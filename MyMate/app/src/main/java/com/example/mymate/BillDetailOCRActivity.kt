@@ -8,7 +8,6 @@ import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,9 +15,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.isGone
+import com.example.mymate.data.dto.bill.VirtualAccountDetail
+import com.example.mymate.data.dto.bill.request.BillWriteRequest
+import com.example.mymate.data.dto.common.DefaultResponse
 import com.example.mymate.databinding.ActivityBilldetailocrBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.mlkit.vision.common.InputImage
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
@@ -73,7 +74,7 @@ class BillDetailOCRActivity: AppCompatActivity() {
         binding.scandesc.isGone = true
 
         binding.completedbtn.isEnabled = true
-        binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
+        //binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
 
         binding.category.text = category
         val duedate = year.toString().substring(2 until 4) + "년 " + month.toString() + "월 " + today.toString() + "일"
@@ -112,10 +113,10 @@ class BillDetailOCRActivity: AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (binding.amountEdit.text.toString().isNotEmpty() && binding.amountEdit.text.toString().toInt() != 0) {
                     binding.completedbtn.isEnabled = true
-                    binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
+                    //binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
                 } else {
                     binding.completedbtn.isEnabled = false
-                    binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.graydark_text))
+                    //binding.completedbtn.setTextColor(ContextCompat.getColor(context, R.color.graydark_text))
                 }
             }
 
@@ -238,13 +239,13 @@ class BillDetailOCRActivity: AppCompatActivity() {
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(postBill::class.java)
         var accessToken = ""
-        var billtosend = billtosend()
+        var BillAddRequest = BillWriteRequest()
 
         binding.completedbtn.setOnClickListener {
             runBlocking {
                 accessToken = userRepo.userAccessReadFlow.first().toString()
             }
-            billtosend.bill_memo = binding.memo.text.toString()
+            BillAddRequest.bill_memo = binding.memo.text.toString()
             if (year < 2000) {
                 year = LocalDate.now().year
             }
@@ -255,32 +256,32 @@ class BillDetailOCRActivity: AppCompatActivity() {
                 today = LocalDate.now().dayOfMonth
             }
             if (category == "도시가스") {
-                billtosend.bill_category_title = "GAS"
+                BillAddRequest.bill_category_title = "GAS"
             } else if (category == "전기") {
-                billtosend.bill_category_title = "ELECTRICITY"
+                BillAddRequest.bill_category_title = "ELECTRICITY"
             } else if (category == "수도") {
-                billtosend.bill_category_title = "WATER"
+                BillAddRequest.bill_category_title = "WATER"
             } else {
-                billtosend.bill_category_title = "ETC"
+                BillAddRequest.bill_category_title = "ETC"
             }
-            billtosend.bill_store = category
-            billtosend.bill_payment_date = "$year-$month-$today"
+            BillAddRequest.bill_store = category
+            BillAddRequest.bill_payment_date = "$year-$month-$today"
             if (month < 10 && today < 10) {
-                billtosend.bill_payment_date = "$year-0$month-0$today"
+                BillAddRequest.bill_payment_date = "$year-0$month-0$today"
             } else if (month < 10) {
-                billtosend.bill_payment_date = "$year-0$month-$today"
+                BillAddRequest.bill_payment_date = "$year-0$month-$today"
             } else if (today < 10) {
-                billtosend.bill_payment_date = "$year-$month-0$today"
+                BillAddRequest.bill_payment_date = "$year-$month-0$today"
             }
-            billtosend.bill_payment_amount = binding.amountEdit.text.toString()
-            billtosend.bill_image = intent.getStringExtra("savedUri").toString()
-            billtosend.virtual_accounts.add(virtualAccounts())
-            var postResponse = postbillResponse()
-            endpoint!!.postBill(Authorization = "Bearer $accessToken", req = billtosend).enqueue(object :
-                Callback<postbillResponse> {
+            BillAddRequest.bill_payment_amount = binding.amountEdit.text.toString()
+            BillAddRequest.bill_image = intent.getStringExtra("savedUri").toString()
+            BillAddRequest.virtual_accounts.add(VirtualAccountDetail())
+            var postResponse = DefaultResponse()
+            endpoint!!.postBill(Authorization = "Bearer $accessToken", req = BillAddRequest).enqueue(object :
+                Callback<DefaultResponse> {
                 override fun onResponse(
-                    call: Call<postbillResponse>,
-                    response: Response<postbillResponse>
+                    call: Call<DefaultResponse>,
+                    response: Response<DefaultResponse>
                 ) {
                     if (response.isSuccessful) {
                         postResponse = response.body()!!
@@ -294,7 +295,7 @@ class BillDetailOCRActivity: AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<postbillResponse>, t: Throwable) {
+                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
                     Toast.makeText(context, "연결 실패(고지서 추가)", Toast.LENGTH_SHORT).show()
                 }
 

@@ -9,9 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.PersistableBundle
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
@@ -23,20 +21,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.example.mymate.data.dto.common.DefaultResponse
+import com.example.mymate.data.dto.report.MemberMonthlyStatus
+import com.example.mymate.data.dto.report.response.MemberSettlementInfoResponse
+import com.example.mymate.data.dto.report.response.UserSettlementInfoResponse
 import com.example.mymate.databinding.ActivitySettlementBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import okhttp3.internal.wait
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
-import java.lang.reflect.Type
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -138,32 +133,32 @@ class SettlementActivity : AppCompatActivity() {
 
         binding.modale.copyandsendbtn.isEnabled = false
 
-        dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object : Callback<settlementDateResponse> {
+        dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object : Callback<DefaultResponse> {
             override fun onResponse(
-                call: Call<settlementDateResponse>,
-                response: Response<settlementDateResponse>
+                call: Call<DefaultResponse>,
+                response: Response<DefaultResponse>
             ) {
                 if (response.isSuccessful) {
                     var date = LocalDate.now()
                     var previousdate = date
-                    if (date.dayOfMonth < response.body()!!.data.toInt()) {
+                    if (date.dayOfMonth < response.body()!!.data!!.toInt()) {
                         //date = date.minusMonths(1).withDayOfMonth(response.body()!!.data.toInt())
                     } else {
                         //date = date.withDayOfMonth(response.body()!!.data.toInt())
                     }
-                    date = date.withDayOfMonth(response.body()!!.data.toInt())
-                    previousdate = date.minusMonths(1).withDayOfMonth(response.body()!!.data.toInt() + 1)
+                    date = date.withDayOfMonth(response.body()!!.data!!.toInt())
+                    previousdate = date.minusMonths(1).withDayOfMonth(response.body()!!.data!!.toInt() + 1)
 
                     val startDate = previousdate.format(formatter)
                     val endDate = date.format(formatter)
                     val periodtxt = "${previousdate.monthValue}.${previousdate.dayOfMonth} - ${date.monthValue}.${date.dayOfMonth}"
                     binding.settlementmonth.text = periodtxt
 
-                    myEndpoint!!.getMySettleInfo("Bearer $accessToken", startDate, endDate).enqueue(object : Callback<mySettleInfoResponse> {
+                    myEndpoint!!.getMySettleInfo("Bearer $accessToken", startDate, endDate).enqueue(object : Callback<UserSettlementInfoResponse> {
                         @RequiresApi(Build.VERSION_CODES.P)
                         override fun onResponse(
-                            call: Call<mySettleInfoResponse>,
-                            response: Response<mySettleInfoResponse>
+                            call: Call<UserSettlementInfoResponse>,
+                            response: Response<UserSettlementInfoResponse>
                         ) {
                             if (response.isSuccessful) {
                                 val mydata = response.body()!!.data
@@ -199,17 +194,17 @@ class SettlementActivity : AppCompatActivity() {
                             }
                         }
 
-                        override fun onFailure(call: Call<mySettleInfoResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<UserSettlementInfoResponse>, t: Throwable) {
                             Toast.makeText(context, "연결 실패(정산-나)", Toast.LENGTH_SHORT).show()
                         }
 
                     })
 
-                    mateEndpoint!!.getMateSettleInfo("Bearer $accessToken", startDate, endDate).enqueue(object : Callback<mateSettleInfoResponse> {
+                    mateEndpoint!!.getMateSettleInfo("Bearer $accessToken", startDate, endDate).enqueue(object : Callback<MemberSettlementInfoResponse> {
                         @RequiresApi(Build.VERSION_CODES.P)
                         override fun onResponse(
-                            call: Call<mateSettleInfoResponse>,
-                            response: Response<mateSettleInfoResponse>
+                            call: Call<MemberSettlementInfoResponse>,
+                            response: Response<MemberSettlementInfoResponse>
                         ) {
                             if (response.isSuccessful) {
                                 val matedata = response.body()!!.data
@@ -298,7 +293,7 @@ class SettlementActivity : AppCompatActivity() {
                                 modale.modallist.adapter = adapter.apply {
                                     setOnItemClickListener(object : SettlementAdapter.OnItemClickListener {
                                         override fun onItemClick(
-                                            item: mateSettleInfo,
+                                            item: MemberMonthlyStatus,
                                             position: Int
                                         ) {
                                             if (accountType == matedata.roommates[position].account_bank && accountNumber == matedata.roommates[position].account_number) {
@@ -322,14 +317,14 @@ class SettlementActivity : AppCompatActivity() {
                             }
                         }
 
-                        override fun onFailure(call: Call<mateSettleInfoResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<MemberSettlementInfoResponse>, t: Throwable) {
                             Toast.makeText(context, "연결 실패(정산-가구)", Toast.LENGTH_SHORT).show()
                         }
                     })
                 }
             }
 
-            override fun onFailure(call: Call<settlementDateResponse>, t: Throwable) {
+            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(정산-정산일)", Toast.LENGTH_SHORT).show()
             }
 

@@ -1,31 +1,24 @@
 package com.example.mymate
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
-import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView.OnItemClickListener
-import androidx.annotation.RequiresApi
-import androidx.compose.ui.res.integerResource
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.data.dto.expense.CalendarItem
+import com.example.mymate.data.dto.expense.CalendarWrapper
 import com.example.mymate.databinding.ListitemCalendarBinding
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import kotlin.math.abs
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Local
 
-class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, val iteminfo: ArrayList<calendarItem>, val calendarVal: CalendarValues, val spendList: calendarList): RecyclerView.Adapter<CalendarAdapter.DayViewHolder>() {
+class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, val iteminfo: ArrayList<CalendarItem>, val calendarVal: CalendarValues, val spendList: CalendarWrapper): RecyclerView.Adapter<CalendarAdapter.DayViewHolder>() {
 
     private var onItemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(item: calendarItem, position: Int, day: LocalDate?)
+        fun onItemClick(item: CalendarItem, position: Int, day: LocalDate?)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -33,7 +26,7 @@ class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, 
     }
 
     inner class DayViewHolder(val binding: ListitemCalendarBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: String, color: String, info: calendarItem, spendList: calendarList) {
+        fun bind(item: String, color: String, info: CalendarItem, spendList: CalendarWrapper) {
             val day = binding.dayText
             val spend = binding.billText
             day.text = item
