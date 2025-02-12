@@ -43,20 +43,20 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityMainBinding
 
-    val homeFragment = MainHomeFragment()
-    val spendingFragment = MainSpendingFragment()
-    val reportFragment = MainReportFragment()
-    val mypageFragment = MainMypageFragment()
+    private val homeFragment = MainHomeFragment()
+    private val spendingFragment = MainSpendingFragment()
+    private val reportFragment = MainReportFragment()
+    private val mypageFragment = MainMypageFragment()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        //KakaoSdk.init(this, getString(R.string.kakao_native_app_key)) //TODO: 이 코드는 카카오 SDK 초기화 코드로, 후에 스플래시액티비티로 옮길 것
+        //KakaoSdk.init(this, getString(R.string.kakao_native_app_key)) //카카오 SDK 초기화 코드
         requestWindowFeature(Window.FEATURE_NO_TITLE) // 프로그램 제목 표시줄 없애기
         supportActionBar?.hide() // 액션 바 없애기
         var repouser = DataStoreRepoUser(dataStore)
-        //NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "MyMate")
+        //NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "MyMate") //네이버 SDK 초기화 코드
         var accessToken = ""
         /*runBlocking {
             accessToken = repouser.userAccessReadFlow.first().toString()
@@ -72,7 +72,24 @@ class MainActivity : AppCompatActivity() {
         //startActivity(Intent(this, OnboardingProfileActivity::class.java))
     }
 
-    private fun loading() {
+    @RequiresApi(Build.VERSION_CODES.P)
+    override fun onResume() {
+        super.onResume()
+        if (spendingFragment.resumed != "00") {
+            spendingFragment.onResume()
+        }
+        if (homeFragment.resumed != "00") {
+            homeFragment.onResume()
+        }
+        if (reportFragment.resumed != "00") {
+            reportFragment.onResume()
+        }
+        if (mypageFragment.resumed != "00") {
+            mypageFragment.onResume()
+        }
+    }
+
+    private fun loading() { // 로드 완료 확인하면 스플래시화면 없애기
         if (homeFragment.resumed != "00") {
             binding.splash.isGone = true
             binding.splashicon.isGone = true
@@ -83,8 +100,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initViewPager() {
-        var pager2Adapter = viewPager2Adapter(this)
+    private fun initViewPager() { // 탭 프래그먼트 연결
+        val pager2Adapter = viewPager2Adapter(this)
         pager2Adapter.addFragment(homeFragment)
         pager2Adapter.addFragment(spendingFragment)
         pager2Adapter.addFragment(reportFragment)
@@ -105,8 +122,6 @@ class MainActivity : AppCompatActivity() {
         val tabicons = listOf(ContextCompat.getDrawable(this, R.drawable.home_default), ContextCompat.getDrawable(this, R.drawable.ledger_default), ContextCompat.getDrawable(this, R.drawable.report_default), ContextCompat.getDrawable(this, R.drawable.mypage_default))
         val tabtext = listOf("홈", "가계부", "리포트", "마이페이지")
 
-        //TODO: tabicon color tint failed, try a solid change
-
         binding.mainbottomtab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.position?.let {binding.mainpager.setCurrentItem(it, false)}
@@ -125,23 +140,6 @@ class MainActivity : AppCompatActivity() {
             tab.icon = tabicons[position]
             tab.text = tabtext[position]
         }.attach()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.P)
-    override fun onResume() {
-        super.onResume()
-        if (spendingFragment.resumed != "00") {
-            spendingFragment.onResume()
-        }
-        if (homeFragment.resumed != "00") {
-            homeFragment.onResume()
-        }
-        if (reportFragment.resumed != "00") {
-            reportFragment.onResume()
-        }
-        if (mypageFragment.resumed != "00") {
-            mypageFragment.onResume()
-        }
     }
 
     private fun requestPermissions() {
