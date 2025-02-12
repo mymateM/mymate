@@ -419,12 +419,11 @@
                     android:id="@+id/previousguide"/>
 
                 <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/presentguidemid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_end="55dp"
-                    app:layout_constraintGuide_percent="0.365"
-                    android:id="@+id/presentguidemid"/>
+                    app:layout_constraintGuide_percent="0.36363637"/>
                 
                 <ImageView
                     android:layout_width="46dp"
