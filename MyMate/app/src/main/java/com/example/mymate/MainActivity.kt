@@ -76,10 +76,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onResume() {
         super.onResume()
-        for (fragment in tabFragments) {
-            fragment.onResume()
-        }
-        /* if (spendingFragment.resumed != "00") {
+        if (spendingFragment.resumed != "00") {
             spendingFragment.onResume()
         }
         if (homeFragment.resumed != "00") {
@@ -90,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (mypageFragment.resumed != "00") {
             mypageFragment.onResume()
-        } */
+        }
     }
 
     private fun loading() { // 로드 완료 확인하면 스플래시화면 없애기

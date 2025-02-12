@@ -316,7 +316,6 @@ class MainHomeFragment : Fragment() {
     override fun onResume() {
         //TODO: refresh data
         super.onResume()
-
         callServer(mainActivity)
     }
 }
