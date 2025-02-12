@@ -52,72 +52,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        KakaoSdk.init(this, getString(R.string.kakao_native_app_key)) //TODO: 이 코드는 카카오 SDK 초기화 코드로, 후에 스플래시액티비티로 옮길 것
+        //KakaoSdk.init(this, getString(R.string.kakao_native_app_key)) //TODO: 이 코드는 카카오 SDK 초기화 코드로, 후에 스플래시액티비티로 옮길 것
         requestWindowFeature(Window.FEATURE_NO_TITLE) // 프로그램 제목 표시줄 없애기
         supportActionBar?.hide() // 액션 바 없애기
         var repouser = DataStoreRepoUser(dataStore)
-        val keyhash = Utility.getKeyHash(this)
-        Log.d ("Hash", keyhash)
-        NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "MyMate")
+        //NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "MyMate")
         var accessToken = ""
-        runBlocking {
+        /*runBlocking {
             accessToken = repouser.userAccessReadFlow.first().toString()
         }
         if (accessToken.isBlank()) {
             startActivity(Intent(this, LoginActivity::class.java))
-        }
+        }*/
+        requestPermissions()
         initViewPager()
-        //권한 설정(리팩토링 필요)
-        //TODO: Refactor (make ifs to arraylist)
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            var permission = mutableMapOf<String, String>()
-            permission["notification"] = android.Manifest.permission.POST_NOTIFICATIONS
-            requestPermissions(permission.values.toTypedArray(), 99)
-        } else {
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                Log.d("permissions: notification", "PERMISSION_GRANTED")
-            }
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            var permission = mutableMapOf<String, String>()
-            permission["camera"] = Manifest.permission.CAMERA
-            requestPermissions(permission.values.toTypedArray(), 98)
-        } else {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                Log.d("permissions: camera", "PERMISSION_GRANTED")
-            }
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            var permission = mutableMapOf<String, String>()
-            permission["readexternalstorage"] = Manifest.permission.READ_EXTERNAL_STORAGE
-            requestPermissions(permission.values.toTypedArray(), 97)
-        } else {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                Log.d("permissions: read storage", "PERMISSION_GRANTED")
-            }
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            var permission = mutableMapOf<String, String>()
-            permission["writeexternalstorage"] = Manifest.permission.WRITE_EXTERNAL_STORAGE
-            requestPermissions(permission.values.toTypedArray(), 96)
-        } else {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                Log.d("permissions: write storage", "PERMISSION_GRANTED")
-            }
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            var permission = mutableMapOf<String, String>()
-            permission["manageexternalstorage"] = Manifest.permission.MANAGE_EXTERNAL_STORAGE
-            requestPermissions(permission.values.toTypedArray(), 95)
-        } else {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                Log.d("permissions: manage storage", "PERMISSION_GRANTED")
-            }
-        }
         Glide.with(this).load(R.raw.mymate_splash).override(500, 500).into(binding.splashicon)
         setContentView(binding.root)
         loading()
@@ -133,10 +81,6 @@ class MainActivity : AppCompatActivity() {
                 loading()
             }, 500)
         }
-    }
-
-    private fun pxtodp(px: Int, context: Context): Float {
-        return px / ((context.resources.displayMetrics.densityDpi.toFloat()) / DisplayMetrics.DENSITY_DEFAULT)
     }
 
     private fun initViewPager() {
@@ -197,6 +141,22 @@ class MainActivity : AppCompatActivity() {
         }
         if (mypageFragment.resumed != "00") {
             mypageFragment.onResume()
+        }
+    }
+
+    private fun requestPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)  {
+            var permission = mutableMapOf<String, String>()
+            permission["notification"] = Manifest.permission.POST_NOTIFICATIONS
+            permission["camera"] = Manifest.permission.CAMERA
+            permission["readExternalStorage"] = Manifest.permission.READ_EXTERNAL_STORAGE
+            permission["writeExternalStorage"] = Manifest.permission.WRITE_EXTERNAL_STORAGE
+            permission["manageExternalStorage"] = Manifest.permission.MANAGE_EXTERNAL_STORAGE
+            for (i in permission) {
+                if (ContextCompat.checkSelfPermission(this, i.value) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, arrayOf(i.value), 1001)
+                }
+            }
         }
     }
 
