@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     private val spendingFragment = MainSpendingFragment()
     private val reportFragment = MainReportFragment()
     private val mypageFragment = MainMypageFragment()
+    private val tabFragments = listOf(homeFragment, spendingFragment, reportFragment, mypageFragment)
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,7 +76,10 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onResume() {
         super.onResume()
-        if (spendingFragment.resumed != "00") {
+        for (fragment in tabFragments) {
+            fragment.onResume()
+        }
+        /* if (spendingFragment.resumed != "00") {
             spendingFragment.onResume()
         }
         if (homeFragment.resumed != "00") {
@@ -86,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (mypageFragment.resumed != "00") {
             mypageFragment.onResume()
-        }
+        } */
     }
 
     private fun loading() { // 로드 완료 확인하면 스플래시화면 없애기
@@ -102,10 +106,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewPager() { // 탭 프래그먼트 연결
         val pager2Adapter = viewPager2Adapter(this)
-        pager2Adapter.addFragment(homeFragment)
-        pager2Adapter.addFragment(spendingFragment)
-        pager2Adapter.addFragment(reportFragment)
-        pager2Adapter.addFragment(mypageFragment) //홈화면 탭에 연결할 fragment를 adapter에 추가
+        for (fragments in tabFragments) {
+            pager2Adapter.addFragment(fragments)
+        }
 
         binding.mainpager.offscreenPageLimit = 4
         binding.mainpager.isUserInputEnabled = false
