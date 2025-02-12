@@ -1,6 +1,5 @@
 package com.example.mymate
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -11,7 +10,6 @@ import android.text.SpannableStringBuilder
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,11 +26,7 @@ import com.example.mymate.databinding.MainHomeFragmentBinding
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.kakao.sdk.user.UserApiClient
-import com.navercorp.nid.NaverIdLoginSDK
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
@@ -57,16 +51,12 @@ class MainHomeFragment : Fragment() {
         mainActivity = context as MainActivity
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = MainHomeFragmentBinding.inflate(inflater, container, false)
         val alarmIntent = Intent(mainActivity, AlarmActivity::class.java)
         binding.alarmbutton.setOnClickListener{
@@ -74,10 +64,8 @@ class MainHomeFragment : Fragment() {
             mainActivity.overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
 
-        binding.logoimage.isGone = true
-
-
-        val templogin = binding.logoimage
+        // binding.logoimage.isGone = true
+        /* val templogin = binding.logoimage
         templogin.setOnClickListener {
             UserApiClient.instance.logout { error -> //카카오 로그아웃
                 if (error != null) {
@@ -106,12 +94,8 @@ class MainHomeFragment : Fragment() {
                 Log.i(TAG, "로그아웃 실패, SDK에 네이버 토큰 없음")
             } // 네이버 로그아웃
             startActivity(Intent(mainActivity, LoginActivity::class.java))
-        }
+        } */ //로그아웃 코드. 사용하지 않으나 추후 구현 시 사용하기 위해 주석으로 보존함.
 
-        /*val tempOnboardingFlow = binding.spendpercentbox
-        tempOnboardingFlow.setOnClickListener {
-            startActivity(Intent(mainActivity, OnboardingProfileActivity::class.java))
-        }*/
         return binding.root
     }
 
@@ -121,7 +105,7 @@ class MainHomeFragment : Fragment() {
         resumed = "01"
     }
 
-    fun comms(context: Context) {
+    private fun comms(context: Context) {
         mainActivity = context as MainActivity
         var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(getHomeInfo::class.java)
@@ -140,15 +124,15 @@ class MainHomeFragment : Fragment() {
                     var household = response.body()!!.data.household
                     var me = response.body()!!.data.me
 
-                    val ratio = household.by_now_expense.toInt() / household.by_previous_expense.toInt()
-                    var comparebigtext = SpannableStringBuilder("지난 달 대비")
-                    binding.dDay.text = "정산일 D${household.settlement_d_day}"
+                    val ratio = household.by_now_expense.toInt() / household.by_previous_expense.toInt() // 지난 달 대비 현재 사용량
+                    var compareBigText = SpannableStringBuilder("지난 달 대비")
+                    binding.dDay.text = "정산일 D${household.settlement_d_day}" // 정산일 text 설정
                     val expensetitle = digitprocessing(household.by_now_expense)
                     binding.nownotitext.text = expensetitle
                     val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
                     val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
                     if (household.by_previous_expense.toInt() < household.by_now_expense.toInt()) {
-                        comparebigtext = SpannableStringBuilder("지난 달 ${household.expense_duration}일간 대비 더 썼어요")
+                        compareBigText = SpannableStringBuilder("지난 달 ${household.expense_duration}일간 대비 더 썼어요")
                         binding.statusbilltext.setTextColor(ContextCompat.getColor(mainActivity, R.color.red_text))
                         binding.statussubtextsmall.setTextColor(ContextCompat.getColor(mainActivity, R.color.red_text))
                         binding.presentComparetop.isGone = false
@@ -157,7 +141,7 @@ class MainHomeFragment : Fragment() {
                         binding.presentguidemid.setGuidelinePercent(0.365f)
                         binding.compareicon.setImageResource(R.drawable.more)
                     } else {
-                        comparebigtext = SpannableStringBuilder("지난 달 ${household.expense_duration}일간 대비 덜 썼어요")
+                        compareBigText = SpannableStringBuilder("지난 달 ${household.expense_duration}일간 대비 덜 썼어요")
                         binding.statusbilltext.setTextColor(ContextCompat.getColor(mainActivity, R.color.pie_green))
                         binding.statussubtextsmall.setTextColor(ContextCompat.getColor(mainActivity, R.color.pie_green))
                         binding.presentComparetop.isGone = true
@@ -165,8 +149,8 @@ class MainHomeFragment : Fragment() {
                         binding.presentComparebody.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.graph_hometop))
                         binding.presentguidemid.setGuidelinePercent((0.365 + 0.235 * (household.by_now_expense.toFloat() / household.by_previous_expense.toFloat())).toFloat())
                     }
-                    comparebigtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline)), comparebigtext.length - 5, comparebigtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    binding.comparebigtxt.text = comparebigtext
+                    compareBigText.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline)), compareBigText.length - 5, compareBigText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    binding.comparebigtxt.text = compareBigText
                     binding.statusbilltext.text = digitprocessing(household.now_expense_diff.toInt().absoluteValue.toString())
                     var spendpercent = SpannableStringBuilder("지금까지 예산의 ${household.by_now_budget_ratio}%를 썼어요")
                     spendpercent.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline)), 9, 9 + household.by_now_budget_ratio.length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
