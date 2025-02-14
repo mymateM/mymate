@@ -41,7 +41,7 @@ interface getMemberId {
 
 interface getHomeInfo {
     @GET("api/v1/household/home")
-    fun getHomeInfo(@Header("Authorization") Authorization: String): Call<HomeInfoResponse>
+    suspend fun getHomeInfo(@Header("Authorization") Authorization: String): Response<HomeInfoResponse>
 }
 
 //Settlement API
