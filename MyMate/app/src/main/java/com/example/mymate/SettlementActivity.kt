@@ -26,6 +26,7 @@ import com.example.mymate.data.dto.report.MemberMonthlyStatus
 import com.example.mymate.data.dto.report.response.MemberSettlementInfoResponse
 import com.example.mymate.data.dto.report.response.UserSettlementInfoResponse
 import com.example.mymate.databinding.ActivitySettlementBinding
+import com.example.mymate.presentation.main.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

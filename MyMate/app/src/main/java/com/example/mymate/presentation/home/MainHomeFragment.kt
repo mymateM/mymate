@@ -1,4 +1,4 @@
-package com.example.mymate
+package com.example.mymate.presentation.home
 
 import android.content.Context
 import android.content.Intent
@@ -20,14 +20,16 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.mymate.AlarmActivity
+import com.example.mymate.DataStoreRepoUser
+import com.example.mymate.R
 import com.example.mymate.data.dto.auth.response.LocalRefreshResponse
 import com.example.mymate.databinding.MainHomeFragmentBinding
+import com.example.mymate.presentation.main.MainActivity
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import kotlin.math.absoluteValue
-import kotlin.math.exp
 
 class MainHomeFragment : Fragment() {
     lateinit var mainActivity: MainActivity
@@ -138,10 +140,14 @@ class MainHomeFragment : Fragment() {
 
         viewModel.isHouseholdBudgetOver.observe(viewLifecycleOwner) {
             if (it) {
-                binding.graphgraphichead.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.trangle_red))
+                binding.graphgraphichead.setImageDrawable(ContextCompat.getDrawable(mainActivity,
+                    R.drawable.trangle_red
+                ))
                 binding.spendgraphpercent.setBackgroundResource(R.drawable.box_radius8_red)
             } else {
-                binding.graphgraphichead.setImageDrawable(ContextCompat.getDrawable(mainActivity, R.drawable.trangle_purple))
+                binding.graphgraphichead.setImageDrawable(ContextCompat.getDrawable(mainActivity,
+                    R.drawable.trangle_purple
+                ))
                 binding.spendgraphpercent.setBackgroundResource(R.drawable.box_radius8_purple)
             }
         }
@@ -165,7 +171,9 @@ class MainHomeFragment : Fragment() {
 
         viewModel.houseExpenseRatioNotiText.observe(viewLifecycleOwner) {
             val houseExpenseText = SpannableStringBuilder(it)
-            houseExpenseText.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline)), 9, it.length - 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            houseExpenseText.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity,
+                R.color.purplevivid_buttonline
+            )), 9, it.length - 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             houseExpenseText.setSpan(TypefaceSpan(montBoldTypeface), 9, it.length - 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.spendnoti.text = houseExpenseText
         }

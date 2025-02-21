@@ -14,6 +14,7 @@ import com.example.mymate.data.dto.auth.DeviceToken
 import com.example.mymate.data.dto.auth.request.SocialLoginRequest
 import com.example.mymate.data.dto.auth.response.LocalLoginResponse
 import com.example.mymate.databinding.ActivityLoginBinding
+import com.example.mymate.presentation.main.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient

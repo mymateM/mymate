@@ -1,8 +1,9 @@
-package com.example.mymate
+package com.example.mymate.domain
 
 import android.icu.text.DecimalFormat
 import com.example.mymate.data.dto.expense.HomeStats
 import com.example.mymate.data.dto.expense.response.HomeInfoResponse
+import com.example.mymate.data.repository.MainHomeRepository
 import kotlin.math.absoluteValue
 
 class MainHomeUseCase(private val homeRepo: MainHomeRepository) {

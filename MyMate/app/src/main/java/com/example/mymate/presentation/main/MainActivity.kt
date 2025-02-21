@@ -1,43 +1,24 @@
-package com.example.mymate
+package com.example.mymate.presentation.main
 
 import android.Manifest
-import android.app.NotificationManager
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Window
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.AlertDialog
-import androidx.compose.ui.graphics.Color
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
-import androidx.datastore.core.DataStore
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.mymate.*
 import com.example.mymate.databinding.ActivityMainBinding
+import com.example.mymate.presentation.home.MainHomeFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.kakao.sdk.common.KakaoSdk
-import com.kakao.sdk.common.util.Utility
-import com.kakao.sdk.user.UserApiClient
-import com.navercorp.nid.NaverIdLoginSDK
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import okhttp3.internal.wait
 
 class MainActivity : AppCompatActivity() {
 
@@ -119,7 +100,11 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
-        val tabicons = listOf(ContextCompat.getDrawable(this, R.drawable.home_default), ContextCompat.getDrawable(this, R.drawable.ledger_default), ContextCompat.getDrawable(this, R.drawable.report_default), ContextCompat.getDrawable(this, R.drawable.mypage_default))
+        val tabicons = listOf(ContextCompat.getDrawable(this, R.drawable.home_default), ContextCompat.getDrawable(this,
+            R.drawable.ledger_default
+        ), ContextCompat.getDrawable(this, R.drawable.report_default), ContextCompat.getDrawable(this,
+            R.drawable.mypage_default
+        ))
         val tabtext = listOf("홈", "가계부", "리포트", "마이페이지")
 
         binding.mainbottomtab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

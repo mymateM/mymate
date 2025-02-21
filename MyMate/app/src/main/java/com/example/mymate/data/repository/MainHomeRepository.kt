@@ -1,5 +1,7 @@
-package com.example.mymate
+package com.example.mymate.data.repository
 
+import com.example.mymate.DataStoreRepoUser
+import com.example.mymate.RetrofitClientInstance
 import com.example.mymate.data.dto.expense.response.HomeInfoResponse
 
 class MainHomeRepository(private val userRepo: DataStoreRepoUser) {
@@ -11,7 +13,7 @@ class MainHomeRepository(private val userRepo: DataStoreRepoUser) {
 
     suspend fun getHomeInfo(): HomeInfoResponse {
         val accessToken = getAccessToken()
-        val endpoint = RetrofitClientInstance.client?.create(getHomeInfo::class.java)
+        val endpoint = RetrofitClientInstance.client?.create(com.example.mymate.getHomeInfo::class.java)
         try {
             val result = endpoint!!.getHomeInfo("Bearer $accessToken")
             homeInfo = result.body()!!

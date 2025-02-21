@@ -26,6 +26,7 @@ import com.example.mymate.data.dto.expense.ExpenseSummary
 import com.example.mymate.data.dto.expense.response.CalendarResponse
 import com.example.mymate.data.dto.expense.response.DailyExpenseResponse
 import com.example.mymate.databinding.MainSpendingFragmentBinding
+import com.example.mymate.presentation.main.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

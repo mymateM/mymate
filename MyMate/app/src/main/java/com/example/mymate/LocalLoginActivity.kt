@@ -11,6 +11,7 @@ import com.example.mymate.data.dto.auth.DeviceToken
 import com.example.mymate.data.dto.auth.request.LocalLoginRequest
 import com.example.mymate.data.dto.auth.response.LocalLoginResponse
 import com.example.mymate.databinding.ActivityLocalloginBinding
+import com.example.mymate.presentation.main.MainActivity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking

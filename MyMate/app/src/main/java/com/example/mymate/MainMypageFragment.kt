@@ -17,6 +17,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.mymate.data.dto.setting.response.UserInfoResponse
 import com.example.mymate.databinding.MainMypageFragmentBinding
+import com.example.mymate.presentation.main.MainActivity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call

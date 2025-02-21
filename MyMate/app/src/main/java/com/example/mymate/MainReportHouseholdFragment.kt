@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.data.dto.common.DefaultResponse
 import com.example.mymate.data.dto.report.response.HouseholdReportResponse
 import com.example.mymate.databinding.MainReportHouseholdFragmentBinding
+import com.example.mymate.presentation.main.MainActivity
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
