@@ -5,54 +5,33 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.TypefaceSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.data.dto.expense.CalendarItem
 import com.example.mymate.data.dto.expense.ExpenseSummary
-import com.example.mymate.data.dto.expense.response.CalendarResponse
 import com.example.mymate.data.dto.expense.response.DailyExpenseResponse
 import com.example.mymate.databinding.MainSpendingFragmentBinding
 import com.example.mymate.presentation.main.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
 class MainSpendingFragment : Fragment() {
-    lateinit var binding: MainSpendingFragmentBinding
-    lateinit var mainActivity: MainActivity
-    lateinit var iteminfo: ArrayList<CalendarItem>
-    lateinit var calendarVal: CalendarValues
+    private lateinit var mainActivity: MainActivity
     lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
-    lateinit var userRepo: DataStoreRepoUser
-    lateinit var montBoldTypeface: Typeface
-    lateinit var suitBoldTypeface: Typeface
-
-    private var year = ""
-    private var month = ""
-    private var day = ""
     lateinit var selectedDate: LocalDate
-    private var expenseSummary = ArrayList<ExpenseSummary>()
     var resumed = "00"
 
     var retrofit = RetrofitClientInstance.client
@@ -60,14 +39,15 @@ class MainSpendingFragment : Fragment() {
     
     private var formatter = DateTimeFormatter.ofPattern("yy년 MM월 dd일")
 
+    private var _binding: MainSpendingFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel: MainSpendingViewModel by viewModels()
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
-        calendarVal = CalendarValues()
         selectedDate = LocalDate.now()
-        userRepo = DataStoreRepoUser(context.dataStore)
-        montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
-        suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,28 +59,24 @@ class MainSpendingFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = MainSpendingFragmentBinding.inflate(inflater, container, false)
+    ): View {
+        initBinding(inflater, container)
         bottomSheetInit()
-        //modaleimg settings
+        //modal img settings
         binding.cover.isGone = true
 
         //calendar settings
-        setCalendarView(selectedDate)
+        initCalendar()
 
         //button events
         binding.lastMonth.setOnClickListener {
             selectedDate = selectedDate.minusMonths(1)
-            calendarVal.firstDay = -1
-            calendarVal.lastDay = -1
-            setCalendarView(selectedDate)
+            viewModel.setDate(selectedDate)
         }
 
         binding.nextMonth.setOnClickListener {
             selectedDate = selectedDate.plusMonths(1)
-            calendarVal.firstDay = -1
-            calendarVal.lastDay = -1
-            setCalendarView(selectedDate)
+            viewModel.setDate(selectedDate)
         }
 
         binding.bills.setOnClickListener {
@@ -125,6 +101,12 @@ class MainSpendingFragment : Fragment() {
         }
         resumed = "01"
         return binding.root
+    }
+
+    private fun initBinding(inflater: LayoutInflater, container: ViewGroup?) {
+        _binding = MainSpendingFragmentBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.vm = viewModel
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -156,16 +138,9 @@ class MainSpendingFragment : Fragment() {
 
         binding.datepicker.confirmbtn.setOnClickListener {
             behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            getDate()
-            when (selectedDate.dayOfWeek) {
-                DayOfWeek.SUNDAY -> binding.spendingDay.text = "일요일"
-                DayOfWeek.MONDAY -> binding.spendingDay.text = "월요일"
-                DayOfWeek.TUESDAY -> binding.spendingDay.text = "화요일"
-                DayOfWeek.WEDNESDAY -> binding.spendingDay.text = "수요일"
-                DayOfWeek.THURSDAY -> binding.spendingDay.text = "목요일"
-                DayOfWeek.FRIDAY -> binding.spendingDay.text = "금요일"
-                DayOfWeek.SATURDAY -> binding.spendingDay.text = "토요일"
-            }
+            val picker = binding.datepicker.spinnerpicker
+            val localDate = viewModel.parseDate(picker.year, picker.month+1, picker.dayOfMonth)
+            viewModel.setDate(localDate)
             binding.cover.isGone = true
         }
 
@@ -175,30 +150,33 @@ class MainSpendingFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
-    private fun getDate() {
-        val tempmonth = binding.datepicker.spinnerpicker.month + 1
-        month = if (tempmonth < 10) {
-            "0$tempmonth"
-        } else {
-            tempmonth.toString()
+    private fun initCalendar() {
+        val adapter = CalendarAdapter()
+        viewModel.calendarInfo.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
-        day = if (binding.datepicker.spinnerpicker.dayOfMonth < 10) {
-            "0" + binding.datepicker.spinnerpicker.dayOfMonth.toString()
-        } else {
-            binding.datepicker.spinnerpicker.dayOfMonth.toString()
+        val manager: RecyclerView.LayoutManager = GridLayoutManager(mainActivity, 7)
+        binding.mainCalendar.layoutManager = manager
+        binding.mainCalendar.adapter = adapter.apply {
+            setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
+                override fun onItemClick(item: String, position: Int, day: Int) {
+                    if (day != 0) {
+                        selectedDate = viewModel.parseDate(selectedDate.year, selectedDate.monthValue, day)
+                        adapter.submitList(viewModel.getCalendarInfo(selectedDate))
+                        viewModel.setDate(selectedDate)
+                    }
+                }
+            })
         }
-        year = binding.datepicker.spinnerpicker.year.toString()
-
-        selectedDate = LocalDate.parse("$year-$month-$day")
-        setCalendarView(selectedDate)
+        binding.mainCalendar.itemAnimator = null
+        viewModel.setDate(selectedDate)
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
     private fun setDailyExpenceView(date: LocalDate) {
         var accessToken = ""
         var detailResponse: DailyExpenseResponse
-        runBlocking {
+        /* runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
         month = if (date.monthValue < 10) {
@@ -211,21 +189,6 @@ class MainSpendingFragment : Fragment() {
         } else {
             date.dayOfMonth.toString()
         }
-        val todaynoti = SpannableStringBuilder(date.monthValue.toString() + "월 " + date.dayOfMonth.toString() + "일")
-        if (date.monthValue < 10 && date.dayOfMonth < 10) {
-            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), todaynoti.length - 2, todaynoti.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        } else if (date.monthValue < 10) {
-            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), todaynoti.length - 3, todaynoti.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        } else if (date.dayOfMonth < 10) {
-            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), todaynoti.length - 2, todaynoti.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        } else {
-            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            todaynoti.setSpan(TypefaceSpan(montBoldTypeface), todaynoti.length - 3, todaynoti.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        }
-        binding.today.text = todaynoti
         year = date.year.toString()
         endpoint!!.getDailyExpense("Bearer $accessToken", year, month, day).enqueue(object : Callback<DailyExpenseResponse> {
             override fun onResponse(
@@ -254,150 +217,7 @@ class MainSpendingFragment : Fragment() {
                 binding.dailySpendings.layoutManager = manager
                 binding.dailySpendings.adapter = adapter
                 }
-        })
-    }
-
-    @RequiresApi(Build.VERSION_CODES.P)
-    private fun setCalendarView(date: LocalDate) {
-        //calender header
-        val monthText = SpannableStringBuilder(monthTextFormatting(date))
-        monthText.setSpan(TypefaceSpan(montBoldTypeface), 0, monthText.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        binding.monthText.text = monthText
-        val yearText = SpannableStringBuilder(yearTextFormatting(date))
-        binding.yeartext.text = yearText
-        //generate date lists
-        iteminfo = arrayListOf<CalendarItem>()
-        val dayList = dayInMonthArray(date)
-        //item info comms
-        var calendarendpoint = retrofit?.create(getCalendar::class.java)
-        var accessToken = ""
-        runBlocking {
-            accessToken = userRepo.userAccessReadFlow.first().toString()
-        }
-        calendarendpoint!!.getCalendar("Bearer $accessToken", date.year.toString(), date.monthValue.toString(), date.dayOfMonth.toString()).enqueue(object : Callback<CalendarResponse> {
-            override fun onResponse(
-                call: Call<CalendarResponse>,
-                response: Response<CalendarResponse>
-            ) {
-                if (response.isSuccessful) {
-                    var spendList = response.body()!!.data
-                    val adapter = CalendarAdapter(mainActivity, dayList, iteminfo, calendarVal, spendList)
-                    var manager: RecyclerView.LayoutManager = GridLayoutManager(mainActivity, 7)
-                    binding.mainCalendar.layoutManager = manager
-                    binding.mainCalendar.adapter = adapter.apply {
-                        setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
-                            @RequiresApi(Build.VERSION_CODES.P)
-                            override fun onItemClick(item: CalendarItem, position: Int, day: LocalDate?) {
-                                when (position % 7) {
-                                    0 -> binding.spendingDay.text = "일요일"
-                                    1 -> binding.spendingDay.text = "월요일"
-                                    2 -> binding.spendingDay.text = "화요일"
-                                    3 -> binding.spendingDay.text = "수요일"
-                                    4 -> binding.spendingDay.text = "목요일"
-                                    5 -> binding.spendingDay.text = "금요일"
-                                    6 -> binding.spendingDay.text = "토요일"
-                                }
-                                if (day != null) {
-                                    setDailyExpenceView(day)
-                                    selectedDate = day
-                                }
-                            }
-                        })
-                    }
-                    when (selectedDate.dayOfWeek) {
-                        DayOfWeek.SUNDAY -> binding.spendingDay.text = "일요일"
-                        DayOfWeek.MONDAY -> binding.spendingDay.text = "월요일"
-                        DayOfWeek.TUESDAY -> binding.spendingDay.text = "화요일"
-                        DayOfWeek.WEDNESDAY -> binding.spendingDay.text = "수요일"
-                        DayOfWeek.THURSDAY -> binding.spendingDay.text = "목요일"
-                        DayOfWeek.FRIDAY -> binding.spendingDay.text = "금요일"
-                        DayOfWeek.SATURDAY -> binding.spendingDay.text = "토요일"
-                    }
-                    setDailyExpenceView(selectedDate)
-                } else {
-                    Toast.makeText(context, "연결 오류(캘린더)", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<CalendarResponse>, t: Throwable) {
-                Toast.makeText(context, "연결 실패(캘린더)", Toast.LENGTH_SHORT).show()
-            }
-
-        })
-        //recyclerview setting
-
-    }
-
-    private fun monthTextFormatting(date: LocalDate): String {
-        var formatter = DateTimeFormatter.ofPattern("MM월")
-        return date.format(formatter)
-    }
-
-    private fun yearTextFormatting(date: LocalDate): String {
-        var formatter = DateTimeFormatter.ofPattern("yyyy")
-        return date.format(formatter)
-    }
-
-    private fun dayInMonthArray(date: LocalDate): ArrayList<LocalDate?> {
-        var dayList = ArrayList<LocalDate?>()
-        var yearMonth = YearMonth.from(date)
-        var lastDay = yearMonth.lengthOfMonth()
-        var firstDay = date.withDayOfMonth(1)
-        var dayOfWeek = firstDay.dayOfWeek.value
-        var nowdate: Int = 0
-        var tempmonth = date
-        var tempday = date
-        var tempint = 0
-        val dayformat = DateTimeFormatter.ofPattern("dd")
-        nowdate = date.format(dayformat).toInt()
-        if (firstDay.dayOfWeek == DayOfWeek.SUNDAY) {
-            for (i in 1 .. yearMonth.lengthOfMonth()) {
-                if (nowdate == i) {
-                    calendarVal.firstDay = nowdate -1
-                    calendarVal.lastDay = nowdate -1
-                    dayList.add(LocalDate.of(date.year, date.monthValue, i))
-                    iteminfo.add(CalendarItem(true, false, false))
-                } else {
-                    dayList.add(LocalDate.of(date.year, date.monthValue, i))
-                    iteminfo.add(CalendarItem(false, false, false))
-                }
-            }
-            for (i in 1 .. 11) {
-                tempmonth = date.plusMonths(1)
-                tempday = tempmonth.withDayOfMonth(1).plusDays(tempint.toLong())
-                dayList.add(tempday)
-                iteminfo.add(CalendarItem(false, false, true))
-                tempint++
-            }
-        } else {
-            for (i in 1..42) {
-                if(i <= dayOfWeek) {
-                    tempmonth = date.minusMonths(1)
-                    tempday = tempmonth.withDayOfMonth(tempmonth.lengthOfMonth()).minusDays(dayOfWeek.toLong() - i)
-                    dayList.add(tempday)
-                    iteminfo.add(CalendarItem(false, false, true))
-                } else if (i > lastDay + dayOfWeek) {
-                    tempmonth = date.plusMonths(1)
-                    tempday = tempmonth.withDayOfMonth(1).plusDays(tempint.toLong())
-                    dayList.add(tempday)
-                    iteminfo.add(CalendarItem(false, false, true))
-                    tempint++
-                } else {
-                    if (nowdate == (i - dayOfWeek)) {
-                        calendarVal.firstDay = i - 1
-                        calendarVal.lastDay = i - 1
-                        Log.d("DATE", calendarVal.firstDay.toString())
-                        dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
-                        iteminfo.add(CalendarItem(true, false, false))
-                    } else {
-                        dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
-                        iteminfo.add(CalendarItem(false, false, false))
-                    }
-                }
-            }
-        }
-
-        return dayList
+        })*/
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -409,21 +229,17 @@ class MainSpendingFragment : Fragment() {
         binding.cover.isGone = true
 
         //calendar settings
-        setCalendarView(selectedDate)
+        initCalendar()
 
         //button events
         binding.monthLast.setOnClickListener {
             selectedDate = selectedDate.minusMonths(1)
-            calendarVal.firstDay = -1
-            calendarVal.lastDay = -1
-            setCalendarView(selectedDate)
+            viewModel.setDate(selectedDate)
         }
 
         binding.monthNext.setOnClickListener {
             selectedDate = selectedDate.plusMonths(1)
-            calendarVal.firstDay = -1
-            calendarVal.lastDay = -1
-            setCalendarView(selectedDate)
+            viewModel.setDate(selectedDate)
         }
     }
 }

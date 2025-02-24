@@ -7,12 +7,8 @@ import com.example.mymate.data.dto.expense.response.HomeInfoResponse
 class MainHomeRepository(private val userRepo: DataStoreRepoUser) {
     private var homeInfo: HomeInfoResponse = HomeInfoResponse()
 
-    private fun getAccessToken(): String {
-        return userRepo.userAccessReadFlow.toString()
-    }
-
     suspend fun getHomeInfo(): HomeInfoResponse {
-        val accessToken = getAccessToken()
+        val accessToken = userRepo.userAccessReadFlow.toString()
         val endpoint = RetrofitClientInstance.client?.create(com.example.mymate.getHomeInfo::class.java)
         try {
             val result = endpoint!!.getHomeInfo("Bearer $accessToken")

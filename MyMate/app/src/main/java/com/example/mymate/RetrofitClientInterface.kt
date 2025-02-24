@@ -87,7 +87,7 @@ interface readExpenseNoti {
 
 interface getCalendar {
     @GET("api/v1/expense/daily-total/month/{year}/{month}/{day}")
-    fun getCalendar(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("day") day: String) : Call<CalendarResponse>
+    fun getCalendar(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("day") day: String) : Response<CalendarResponse>
 }
 
 //Bills Api
@@ -136,7 +136,7 @@ interface deleteBill {
 
 interface getDailyExpense {
     @GET("api/v1/expense/daily-total/day/{year}/{month}/{dayOfMonth}")
-    fun getDailyExpense(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("dayOfMonth") dayOfMonth: String) : Call<DailyExpenseResponse>
+    fun getDailyExpense(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("dayOfMonth") dayOfMonth: String) : Response<DailyExpenseResponse>
 }
 
 interface putDailyExpense {

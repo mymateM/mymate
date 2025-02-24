@@ -1,4 +1,4 @@
-package com.example.mymate.data.dto.expense
+package com.example.mymate.domain.model
 
 data class HomeStats (
     var dDay: String = "정산일",

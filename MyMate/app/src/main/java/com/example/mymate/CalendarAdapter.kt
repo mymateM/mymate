@@ -1,24 +1,29 @@
 package com.example.mymate
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
+import android.icu.text.DecimalFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mymate.data.dto.expense.CalendarItem
+import com.example.mymate.data.dto.expense.CalendarInfo
 import com.example.mymate.data.dto.expense.CalendarWrapper
 import com.example.mymate.databinding.ListitemCalendarBinding
-import java.time.LocalDate
 
-class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, val iteminfo: ArrayList<CalendarItem>, val calendarVal: CalendarValues, val spendList: CalendarWrapper): RecyclerView.Adapter<CalendarAdapter.DayViewHolder>() {
+class CalendarAdapter(): ListAdapter<CalendarInfo, CalendarAdapter.DayViewHolder>(diffUtil) {
 
     private var onItemClickListener: OnItemClickListener? = null
+    lateinit var context: Context
 
     interface OnItemClickListener {
-        fun onItemClick(item: CalendarItem, position: Int, day: LocalDate?)
+        fun onItemClick(item: String, position: Int, day: Int)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -26,177 +31,55 @@ class CalendarAdapter(val context: Context, val dayList: ArrayList<LocalDate?>, 
     }
 
     inner class DayViewHolder(val binding: ListitemCalendarBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: String, color: String, info: CalendarItem, spendList: CalendarWrapper) {
+        fun bind(item: CalendarInfo) {
             val day = binding.dayText
             val spend = binding.billText
-            day.text = item
+            day.text = "${item.days}"
+            day.setTextColor(ContextCompat.getColor(context, R.color.black_text))
             spend.isInvisible = true
-            //spend.text = item
-            //text color
-            if (info.lastornext) {
-                day.setTextColor(Color.TRANSPARENT)
-                spend.setTextColor(Color.TRANSPARENT)
-                binding.background.isGone = true
-            } else {
-                for (i in 0 until spendList.household_daily_expenses.size) {
-                    if (item == spendList.household_daily_expenses[i].expense_date) {
-                        spend.isInvisible = false
-                        val spendtext = "-" + digitprocessing(spendList.household_daily_expenses[i].daily_total_expense.toFloat().toInt().toString())
-                        spend.text = spendtext
-                    }
-                }
-                if(info.startorEnd) {
-                    binding.background.isGone = false
-                    binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.white))
-                    binding.background.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.calendar_background))
-                } else if (info.middle) {
-                    binding.background.isGone = true
-                    binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.black_text))
-                    binding.calendarItem.setBackgroundColor(Color.TRANSPARENT)
-                } else {
-                    binding.background.isGone = true
-                    binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.black_text))
-                    binding.calendarItem.setBackgroundColor(Color.TRANSPARENT)
-                }
+            binding.background.isGone = true
+
+            if (day.text == "0") {
+                day.isInvisible = true
+                spend.isInvisible = true
+                binding.background.isInvisible = true
+            }
+
+            if (item.dayExpenses != 0) {
+                spend.isInvisible = false
+                spend.text = "-${DecimalFormat("#,###").format(item.dayExpenses)}"
+            }
+
+            if (item.today) {
+                day.setTextColor(ContextCompat.getColor(context, R.color.white))
+                binding.background.isInvisible = false
+                binding.background.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.calendar_background))
             }
 
             if (onItemClickListener != null) {
                 binding.calendarItem.setOnClickListener {
-                    onItemClickListener?.onItemClick(info, absoluteAdapterPosition, dayList[absoluteAdapterPosition])
-                    calendarVal.setDay(absoluteAdapterPosition)
-                    calendarVal.daycheck()
-                    /*if (calendarVal.firstDay == absoluteAdapterPosition) {
-                        info.startorEnd = true
-                        info.middle = false
-                    } else if (calendarVal.lastDay == absoluteAdapterPosition) {
-                        info.startorEnd = true
-                        info.middle = false
-                    } else {
-                        info.startorEnd = false
-                        info.middle = false
-                    }*/
-
-                    if (calendarVal.firstDay == absoluteAdapterPosition) {
-                        info.startorEnd = true
-                        info.middle = false
-                        calendarVal.lastDay = absoluteAdapterPosition
-                    } else if (calendarVal.lastDay == absoluteAdapterPosition) {
-                        info.startorEnd = true
-                        info.middle = false
-                        calendarVal.firstDay = absoluteAdapterPosition
-                    } else {
-                        info.startorEnd = false
-                        info.middle = false
-                    }
-
-                    notifyDataSetChanged()
+                    onItemClickListener?.onItemClick(item.days.toString(), absoluteAdapterPosition, item.days)
                 }
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewHolder {
-        val binding = ListitemCalendarBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding = ListitemCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        context = parent.context
         return DayViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return dayList.size
-    }
-
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
-        var day = dayList[position]
-        var daytext = ""
-        var colortext = "black"
-        if (dayList[position] == null) {
-            daytext = ""
-        } else {
-            daytext = day?.dayOfMonth.toString()
-        }
-
-        when (position % 7) {
-            0 -> colortext = "SUN"
-            1 -> colortext = "MON"
-            2 -> colortext = "TUE"
-            3 -> colortext = "WED"
-            4 -> colortext = "THU"
-            5 -> colortext = "FRI"
-            6 -> colortext = "SAT"
-        }
-
-        if (position == 0) {
-            colortext = "SUN"
-        }
-
-        if (position != calendarVal.firstDay || position != calendarVal.lastDay) {
-            iteminfo[position].middle = false
-            iteminfo[position].startorEnd = false
-        } else {
-            iteminfo[position].startorEnd = true
-        }
-        /*if (position > calendarVal.firstDay && position < calendarVal.lastDay) {
-            iteminfo[position].middle = true
-            iteminfo[position].startorEnd = false
-        } else if (position == calendarVal.firstDay) {
-            iteminfo[position].startorEnd = true
-            iteminfo[position].middle = false
-            if (calendarVal.firstDay < 0) {
-                iteminfo[position].startorEnd = false
-            }
-        } else if (position == calendarVal.lastDay) {
-            iteminfo[position].startorEnd = true
-            iteminfo[position].middle = false
-            if (calendarVal.lastDay < 0) {
-                iteminfo[position].startorEnd = false
-            }
-        } else {
-            iteminfo[position].startorEnd = false
-            iteminfo[position].middle = false
-        }
-        if (calendarVal.firstDay < 0 || calendarVal.lastDay < 0) {
-            iteminfo[position].middle = false
-        }*/
-
-        /*var selectedDate = LocalDate.now()
-        var formatter = DateTimeFormatter.ofPattern("dd")
-        var date = selectedDate.format(formatter)
-        if (date.toInt() == position + 1) {
-            iteminfo[position].startorEnd = true
-            iteminfo[position].middle = false
-        } else {
-            iteminfo[position].middle = false
-            iteminfo[position].startorEnd = false
-        }*/
-
-        holder.bind(daytext, colortext, iteminfo[position], spendList)
+        holder.bind(currentList[position])
     }
 
-    private fun digitprocessing(digits: String): String {
-        var textlength = digits.length
-        var processed = ""
-        while (0 < textlength) {
-            var substring1 = ""
-            if (textlength == 3) {
-                if (processed == "") {
-                    processed = digits.substring(0 until 3)
-                } else {
-                    processed = digits.substring(0 until 3) + "," + processed
-                }
-            } else if (textlength > 3) {
-                substring1 = digits.substring(textlength - 3 until textlength)
-                if (processed == "") {
-                    processed = substring1
-                } else {
-                    processed = "$substring1,$processed"
-                }
-            } else {
-                substring1 = digits.substring(0 until textlength)
-                processed = "$substring1,$processed"
-            }
+    companion object {
+        val diffUtil = object : DiffUtil.ItemCallback<CalendarInfo>() {
+            override fun areItemsTheSame(p0: CalendarInfo, p1: CalendarInfo) = p0 == p1
 
-            textlength -= 3
+            override fun areContentsTheSame(p0: CalendarInfo, p1: CalendarInfo) = p0 == p1
+
         }
-
-        return processed
     }
 }

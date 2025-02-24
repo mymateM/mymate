@@ -3,6 +3,10 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable name="vm" type="com.example.mymate.MainSpendingViewModel"/>
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -94,7 +98,7 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginStart="20dp"
                         android:id="@+id/monthText"
-                        android:text="0월"
+                        android:text="@{vm.monthText.toString()}"
                         android:fontFamily="@font/suit_bold"
                         android:textSize="22dp"
                         android:textColor="@color/black_text"/>
@@ -106,7 +110,7 @@
                         app:layout_constraintBottom_toBottomOf="@id/monthText"
                         android:layout_marginBottom="1dp"
                         android:id="@+id/yeartext"
-                        android:text="2023"
+                        android:text="@{vm.yearText.toString()}"
                         android:fontFamily="@font/montserrat_semibold"
                         android:textColor="@color/black_text"
                         android:textSize="16dp"
@@ -299,7 +303,7 @@
                         android:layout_marginStart="16dp"
                         app:layout_constraintTop_toBottomOf="@id/mainCalendar"
                         android:layout_marginTop="0dp"
-                        android:text="목요일"
+                        android:text="@{vm.weekDayText.toString()}"
                         android:background="@android:color/transparent"
                         android:fontFamily="@font/suit_bold"
                         android:textSize="22dp"
@@ -316,7 +320,7 @@
                         android:fontFamily="@font/suit_bold"
                         android:textSize="16dp"
                         android:textColor="@color/black_text"
-                        android:text="0월 00일"
+                        android:text="@{vm.today.toString()}"
                         android:id="@+id/today"/>
 
                     <ImageView
