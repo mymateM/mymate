@@ -5,7 +5,7 @@ import androidx.lifecycle.*
 import com.example.mymate.DataStoreRepoUser
 import com.example.mymate.data.repository.MainHomeRepository
 import com.example.mymate.dataStore
-import com.example.mymate.domain.MainHomeUseCase
+import com.example.mymate.domain.usecase.MainHomeUseCase
 import kotlinx.coroutines.launch
 
 class MainHomeViewModel(application: Application): AndroidViewModel(application) {

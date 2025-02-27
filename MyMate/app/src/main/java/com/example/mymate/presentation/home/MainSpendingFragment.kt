@@ -1,8 +1,7 @@
-package com.example.mymate
+package com.example.mymate.presentation.home
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,21 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mymate.data.dto.expense.CalendarItem
+import com.example.mymate.*
 import com.example.mymate.data.dto.expense.ExpenseSummary
-import com.example.mymate.data.dto.expense.response.DailyExpenseResponse
 import com.example.mymate.databinding.MainSpendingFragmentBinding
+import com.example.mymate.presentation.home.adapter.CalendarAdapter
+import com.example.mymate.presentation.home.adapter.SpendingAdapter
 import com.example.mymate.presentation.main.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -54,7 +51,6 @@ class MainSpendingFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -67,6 +63,7 @@ class MainSpendingFragment : Fragment() {
 
         //calendar settings
         initCalendar()
+        initDailyExpense()
 
         //button events
         binding.lastMonth.setOnClickListener {
@@ -109,7 +106,6 @@ class MainSpendingFragment : Fragment() {
         binding.vm = viewModel
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
     private fun bottomSheetInit() {
         behavior = BottomSheetBehavior.from(binding.datepicker.root)
         behavior.peekHeight = 0
@@ -172,55 +168,24 @@ class MainSpendingFragment : Fragment() {
         viewModel.setDate(selectedDate)
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
-    private fun setDailyExpenceView(date: LocalDate) {
-        var accessToken = ""
-        var detailResponse: DailyExpenseResponse
-        /* runBlocking {
-            accessToken = userRepo.userAccessReadFlow.first().toString()
+    private fun initDailyExpense() {
+        val adapter = SpendingAdapter()
+        viewModel.expenseInfo.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
-        month = if (date.monthValue < 10) {
-            "0${date.monthValue}"
-        } else {
-            date.monthValue.toString()
-        }
-        day = if (date.dayOfMonth < 10) {
-            "0" + date.dayOfMonth
-        } else {
-            date.dayOfMonth.toString()
-        }
-        year = date.year.toString()
-        endpoint!!.getDailyExpense("Bearer $accessToken", year, month, day).enqueue(object : Callback<DailyExpenseResponse> {
-            override fun onResponse(
-                call: Call<DailyExpenseResponse>,
-                response: Response<DailyExpenseResponse>
-            ) {
-                if (response.isSuccessful) {
-                    detailResponse = response.body()!!
-                    expenseSummary = detailResponse.data.expenses
-                    val adapter = SpendingAdapter(mainActivity, expenseSummary)
-                    val manager = LinearLayoutManager(mainActivity)
-                    binding.dailySpendings.layoutManager = manager
-                    binding.dailySpendings.adapter = adapter.apply {
-                        setOnItemClickListener(object : SpendingAdapter.OnItemClickListener {
-                            override fun onItemClick(item: ExpenseSummary, position: Int) {
-                            }
-                        })
-                    }
+        val manager: RecyclerView.LayoutManager = LinearLayoutManager(mainActivity)
+        binding.dailySpendings.layoutManager = manager
+        binding.dailySpendings.adapter = adapter.apply {
+            setOnItemClickListener(object : SpendingAdapter.OnItemClickListener {
+                override fun onItemClick(item: ExpenseSummary, position: Int) {
+                    val intent = Intent(context, SpendingDetailActivity::class.java)
+                    intent.putExtra("id", item.expenseId)
+                    context.startActivity(intent)
                 }
-            }
-
-            override fun onFailure(call: Call<DailyExpenseResponse>, t: Throwable) {
-                Toast.makeText(mainActivity, "연결 실패", Toast.LENGTH_SHORT).show()
-                val adapter = SpendingAdapter(mainActivity, expenseSummary)
-                val manager = LinearLayoutManager(mainActivity)
-                binding.dailySpendings.layoutManager = manager
-                binding.dailySpendings.adapter = adapter
-                }
-        })*/
+            })
+        }
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
     override fun onResume() {
         super.onResume()
         bottomSheetInit()
@@ -230,6 +195,7 @@ class MainSpendingFragment : Fragment() {
 
         //calendar settings
         initCalendar()
+        initDailyExpense()
 
         //button events
         binding.monthLast.setOnClickListener {

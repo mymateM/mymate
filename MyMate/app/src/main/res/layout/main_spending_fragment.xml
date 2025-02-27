@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="vm" type="com.example.mymate.MainSpendingViewModel"/>
+        <variable name="vm" type="com.example.mymate.presentation.home.MainSpendingViewModel"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

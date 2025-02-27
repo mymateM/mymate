@@ -1,20 +1,17 @@
-package com.example.mymate
+package com.example.mymate.presentation.home.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.icu.text.DecimalFormat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.R
 import com.example.mymate.data.dto.expense.CalendarInfo
-import com.example.mymate.data.dto.expense.CalendarWrapper
 import com.example.mymate.databinding.ListitemCalendarBinding
 
 class CalendarAdapter(): ListAdapter<CalendarInfo, CalendarAdapter.DayViewHolder>(diffUtil) {

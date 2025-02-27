@@ -1,4 +1,4 @@
-package com.example.mymate.domain
+package com.example.mymate.domain.usecase
 
 import android.icu.text.DecimalFormat
 import com.example.mymate.domain.model.HomeStats

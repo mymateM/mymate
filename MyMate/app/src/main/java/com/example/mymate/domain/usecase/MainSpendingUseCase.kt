@@ -1,13 +1,13 @@
-package com.example.mymate
+package com.example.mymate.domain.usecase
 
+import com.example.mymate.MainSpendingRepository
 import com.example.mymate.data.dto.expense.CalendarInfo
-import com.example.mymate.data.dto.expense.CalendarWrapper
 import com.example.mymate.data.dto.expense.ExpenseSummary
-import com.example.mymate.data.dto.expense.response.DailyExpenseResponse
 import java.time.LocalDate
 import java.time.YearMonth
 
 class MainSpendingUseCase(private val spendingRepo: MainSpendingRepository) {
+
     suspend fun getDailyExpenses(date: LocalDate): ArrayList<ExpenseSummary> {
         val response = spendingRepo.getDailyExpense(date)
         return response.data.expenses

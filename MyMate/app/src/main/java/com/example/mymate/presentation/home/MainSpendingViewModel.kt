@@ -1,17 +1,21 @@
-package com.example.mymate
+package com.example.mymate.presentation.home
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.mymate.DataStoreRepoUser
+import com.example.mymate.MainSpendingRepository
+import com.example.mymate.domain.usecase.MainSpendingUseCase
 import com.example.mymate.data.dto.expense.CalendarInfo
-import com.example.mymate.data.dto.expense.CalendarWrapper
+import com.example.mymate.data.dto.expense.ExpenseSummary
+import com.example.mymate.dataStore
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainSpendingViewModel(application: Application): AndroidViewModel(application) {
     private val mainSpendingUseCase = MainSpendingUseCase(MainSpendingRepository(DataStoreRepoUser(application.dataStore)))
@@ -30,6 +34,9 @@ class MainSpendingViewModel(application: Application): AndroidViewModel(applicat
     private val _calendarInfo = MutableLiveData<ArrayList<CalendarInfo>>()
     val calendarInfo: LiveData<ArrayList<CalendarInfo>> get() = _calendarInfo
 
+    private val _expenseInfo = MutableLiveData<ArrayList<ExpenseSummary>>()
+    val expenseInfo: LiveData<ArrayList<ExpenseSummary>> get() = _expenseInfo
+
     init {
         setDate(LocalDate.now())
     }
@@ -41,6 +48,7 @@ class MainSpendingViewModel(application: Application): AndroidViewModel(applicat
             _weekDayText.value = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)
             _today.value = date.monthValue.toString() + "월" + date.dayOfMonth.toString() + "일"
             _calendarInfo.value = mainSpendingUseCase.getCalendarInfo(date)
+            _expenseInfo.value = mainSpendingUseCase.getDailyExpenses(date)
         }
     }
 
@@ -48,22 +56,6 @@ class MainSpendingViewModel(application: Application): AndroidViewModel(applicat
         val monthText = if (month < 10) { "0${month}" } else { (month).toString() }
         val dayText = if (day < 10) { "0$day" } else { day.toString() }
         return LocalDate.parse("$year-$monthText-$dayText")
-    }
-
-    fun getCalendarDays(date: LocalDate): ArrayList<Int> {
-        val start = date.withDayOfMonth(1).dayOfWeek.value + 1
-        val days = ArrayList<Int>()
-        for (i in 1 until start) {
-            days.add(0)
-        }
-        for (i in 1 .. YearMonth.from(date).lengthOfMonth()) {
-            days.add(i)
-        }
-        val len = days.size
-        for (i in len .. 35) {
-            days.add(0)
-        }
-        return days
     }
 
     fun getCalendarInfo(date: LocalDate): ArrayList<CalendarInfo> {
