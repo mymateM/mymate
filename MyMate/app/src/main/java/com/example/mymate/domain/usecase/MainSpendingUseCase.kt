@@ -1,6 +1,6 @@
 package com.example.mymate.domain.usecase
 
-import com.example.mymate.MainSpendingRepository
+import com.example.mymate.data.repository.MainSpendingRepository
 import com.example.mymate.data.dto.expense.CalendarInfo
 import com.example.mymate.data.dto.expense.ExpenseSummary
 import java.time.LocalDate

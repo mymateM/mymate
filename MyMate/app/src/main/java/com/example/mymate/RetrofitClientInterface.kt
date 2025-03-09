@@ -163,17 +163,17 @@ interface deleteExpense {
 
 interface getSettlementDate {
     @GET("api/v1/household/settlement/date")
-    fun getSettlementDate(@Header("Authorization") Authorization: String): Call<DefaultResponse>
+    fun getSettlementDate(@Header("Authorization") Authorization: String): Response<DefaultResponse>
 }
 
 interface getHouseholdReport {
     @GET("api/v1/report/household/{report-start-date}")
-    fun getHouseholdReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Call<HouseholdReportResponse>
+    fun getHouseholdReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Response<HouseholdReportResponse>
 }
 
 interface getMyReport {
     @GET("api/v1/report/user/{report-start-date}")
-    fun getMyReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Call<UserReportResponse>
+    fun getMyReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Response<UserReportResponse>
 }
 
 //Mypage API

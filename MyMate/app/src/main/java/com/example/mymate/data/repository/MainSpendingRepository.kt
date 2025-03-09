@@ -1,13 +1,16 @@
-package com.example.mymate
+package com.example.mymate.data.repository
 
+import com.example.mymate.DataStoreRepoUser
+import com.example.mymate.RetrofitClientInstance
 import com.example.mymate.data.dto.expense.response.CalendarResponse
 import com.example.mymate.data.dto.expense.response.DailyExpenseResponse
+import com.example.mymate.getCalendar
 import java.time.LocalDate
 
 class MainSpendingRepository(private val userRepo: DataStoreRepoUser) {
     suspend fun getDailyExpense(date: LocalDate): DailyExpenseResponse {
         val accessToken = userRepo.userAccessReadFlow.toString()
-        val endpoint = RetrofitClientInstance.client?.create(getDailyExpense::class.java)
+        val endpoint = RetrofitClientInstance.client?.create(com.example.mymate.getDailyExpense::class.java)
         var expenses = DailyExpenseResponse()
         try {
             val result = endpoint!!.getDailyExpense("Bearer $accessToken", date.year.toString(), processMonth(date), processDate(date))

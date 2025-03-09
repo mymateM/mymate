@@ -134,7 +134,7 @@ class SettlementActivity : AppCompatActivity() {
 
         binding.modale.copyandsendbtn.isEnabled = false
 
-        dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object : Callback<DefaultResponse> {
+        /* dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object : Callback<DefaultResponse> {
             override fun onResponse(
                 call: Call<DefaultResponse>,
                 response: Response<DefaultResponse>
@@ -329,7 +329,7 @@ class SettlementActivity : AppCompatActivity() {
                 Toast.makeText(context, "연결 실패(정산-정산일)", Toast.LENGTH_SHORT).show()
             }
 
-        })
+        }) */
     }
 
     private fun digitprocessing(digits: String): String {

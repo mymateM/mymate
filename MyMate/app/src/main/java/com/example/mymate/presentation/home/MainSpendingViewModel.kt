@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mymate.DataStoreRepoUser
-import com.example.mymate.MainSpendingRepository
+import com.example.mymate.data.repository.MainSpendingRepository
 import com.example.mymate.domain.usecase.MainSpendingUseCase
 import com.example.mymate.data.dto.expense.CalendarInfo
 import com.example.mymate.data.dto.expense.ExpenseSummary
