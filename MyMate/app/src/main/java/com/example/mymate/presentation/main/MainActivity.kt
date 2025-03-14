@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.example.mymate.*
 import com.example.mymate.databinding.ActivityMainBinding
 import com.example.mymate.presentation.home.MainHomeFragment
+import com.example.mymate.presentation.home.MainMypageFragment
 import com.example.mymate.presentation.home.MainReportFragment
 import com.example.mymate.presentation.home.MainSpendingFragment
 import com.google.android.material.tabs.TabLayout

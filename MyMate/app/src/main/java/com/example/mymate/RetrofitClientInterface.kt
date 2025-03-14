@@ -180,7 +180,7 @@ interface getMyReport {
 
 interface myPageApi {
     @GET("api/v1/mypage")
-    fun myPageApi(@Header("Authorization") Authorization: String): Call<UserInfoResponse>
+    fun myPageApi(@Header("Authorization") Authorization: String): Response<UserInfoResponse>
 }
 
 interface getHouseRatio {
