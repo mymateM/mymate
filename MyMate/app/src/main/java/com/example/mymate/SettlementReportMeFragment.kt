@@ -12,25 +12,17 @@ import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mymate.data.dto.common.DefaultResponse
-import com.example.mymate.data.dto.report.response.HouseholdReportResponse
 import com.example.mymate.databinding.MainReportHouseholdFragmentBinding
+import com.example.mymate.presentation.home.adapter.MainReportListAdapter
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class SettlementReportMeFragment: Fragment() {
@@ -61,7 +53,7 @@ class SettlementReportMeFragment: Fragment() {
         val housebind = binding
         val dateEndpoint = retrofit?.create(getSettlementDate::class.java)
         val housereportEndpoint = retrofit?.create(getHouseholdReport::class.java)
-        var accessToken = ""
+        /* var accessToken = ""
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
@@ -129,7 +121,7 @@ class SettlementReportMeFragment: Fragment() {
                 Toast.makeText(settlementReport, "연결 실패(리포트-정산일)", Toast.LENGTH_SHORT).show()
             }
 
-        })
+        }) */
     }
 
     @RequiresApi(Build.VERSION_CODES.P)

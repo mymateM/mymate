@@ -1,7 +1,6 @@
-package com.example.mymate
+package com.example.mymate.presentation.home.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import android.text.Spannable
@@ -12,16 +11,25 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.R
 import com.example.mymate.data.dto.expense.ExpenseSummary
 import com.example.mymate.databinding.ListitemSpendingBinding
+import java.text.DecimalFormat
 
-class SpendingAdapter(val context: Context, val expenseList: ArrayList<ExpenseSummary>): RecyclerView.Adapter<SpendingAdapter.ExpenseViewHolder>() {
+class SpendingAdapter(): ListAdapter<ExpenseSummary, SpendingAdapter.ExpenseViewHolder>(diffUtil) {
 
     private var onItemClickListener: OnItemClickListener? = null
+    lateinit var context: Context
 
     interface OnItemClickListener {
         fun onItemClick(item: ExpenseSummary, position: Int)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.onItemClickListener = listener
     }
 
     inner class ExpenseViewHolder(val binding: ListitemSpendingBinding): RecyclerView.ViewHolder(binding.root) {
@@ -31,13 +39,13 @@ class SpendingAdapter(val context: Context, val expenseList: ArrayList<ExpenseSu
             val amount = binding.spendingAmount
             val store = binding.spendingStore
 
-            val amounttext = SpannableStringBuilder("${digitprocessing(item.expenseAmount)}원")
+            val amountText = SpannableStringBuilder("${DecimalFormat("#,###").format(item.expenseAmount.toInt())}원")
             val montSemiBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_semibold), Typeface.NORMAL)
             val suitSemiBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_semibold), Typeface.NORMAL)
-            amounttext.setSpan(TypefaceSpan(montSemiBoldTypeface), 0, amounttext.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            amounttext.setSpan(TypefaceSpan(suitSemiBoldTypeface), amounttext.length - 1, amounttext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            amountText.setSpan(TypefaceSpan(montSemiBoldTypeface), 0, amountText.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            amountText.setSpan(TypefaceSpan(suitSemiBoldTypeface), amountText.length - 1, amountText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
-            amount.text = amounttext
+            amount.text = amountText
             store.text = item.expenseStore
 
             when (item.expenseCategoryName) {
@@ -47,15 +55,15 @@ class SpendingAdapter(val context: Context, val expenseList: ArrayList<ExpenseSu
                 "교통" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_traffic))
                 "의료" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_medical))
                 "고지서" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_bill))
-                "교육" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_education))
+                "교육" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context,
+                    R.drawable.alarmicon_education
+                ))
                 "기타" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_etc))
             }
 
             if (onItemClickListener != null) {
                 binding.spendinglistcontainer.setOnClickListener {
-                    val intent = Intent(context, SpendingDetailActivity::class.java)
-                    intent.putExtra("id", item.expenseId)
-                    context.startActivity(intent)
+                    onItemClickListener?.onItemClick(item, absoluteAdapterPosition)
                 }
             }
 
@@ -63,49 +71,22 @@ class SpendingAdapter(val context: Context, val expenseList: ArrayList<ExpenseSu
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseViewHolder {
-        val binding = ListitemSpendingBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding = ListitemSpendingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        context = parent.context
         return ExpenseViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return expenseList.size
-    }
-
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.onItemClickListener = listener
-    }
-
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int) {
-        var item = expenseList[position]
-        holder.bind(item)
+        holder.bind(currentList[position])
     }
 
-    private fun digitprocessing(digits: String): String {
-        var textlength = digits.length
-        var processed = ""
-        while (0 < textlength) {
-            var substring1 = ""
-            if (textlength == 3) {
-                if (processed == "") {
-                    processed = digits.substring(0 until 3)
-                } else {
-                    processed = digits.substring(0 until 3) + "," + processed
-                }
-            } else if (textlength > 3) {
-                substring1 = digits.substring(textlength - 3 until textlength)
-                if (processed == "") {
-                    processed = substring1
-                } else {
-                    processed = "$substring1,$processed"
-                }
-            } else {
-                substring1 = digits.substring(0 until textlength)
-                processed = "$substring1,$processed"
-            }
+    companion object {
+        val diffUtil = object : DiffUtil.ItemCallback<ExpenseSummary>() {
+            override fun areItemsTheSame(p0: ExpenseSummary, p1: ExpenseSummary) = p0 == p1
 
-            textlength -= 3
+            override fun areContentsTheSame(p0: ExpenseSummary, p1: ExpenseSummary) = p0 == p1
+
         }
-
-        return processed
     }
 }

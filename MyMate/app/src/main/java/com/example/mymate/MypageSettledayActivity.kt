@@ -40,7 +40,7 @@ class MypageSettledayActivity: AppCompatActivity() {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
 
-        endpoint!!.myPageApi("Bearer $accessToken").enqueue(object : Callback<UserInfoResponse> {
+        /* endpoint!!.myPageApi("Bearer $accessToken").enqueue(object : Callback<UserInfoResponse> {
             override fun onResponse(
                 call: Call<UserInfoResponse>,
                 response: Response<UserInfoResponse>
@@ -66,7 +66,7 @@ class MypageSettledayActivity: AppCompatActivity() {
                 Toast.makeText(context, "연결 실패(마이페이지-정산일)", Toast.LENGTH_SHORT).show()
             }
 
-        })
+        }) */
 
         binding.backbtn.setOnClickListener {
             finish()
@@ -88,7 +88,7 @@ class MypageSettledayActivity: AppCompatActivity() {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
 
-        endpoint!!.myPageApi("Bearer $accessToken").enqueue(object : Callback<UserInfoResponse> {
+        /* endpoint!!.myPageApi("Bearer $accessToken").enqueue(object : Callback<UserInfoResponse> {
             @RequiresApi(Build.VERSION_CODES.P)
             override fun onResponse(
                 call: Call<UserInfoResponse>,
@@ -117,6 +117,6 @@ class MypageSettledayActivity: AppCompatActivity() {
                 Toast.makeText(context, "연결 실패(마이페이지-정산일)", Toast.LENGTH_SHORT).show()
             }
 
-        })
+        }) */
     }
 }

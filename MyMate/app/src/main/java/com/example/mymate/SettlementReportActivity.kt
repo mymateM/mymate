@@ -75,7 +75,7 @@ class SettlementReportActivity: AppCompatActivity() {
         }
         val dateEndpoint = retrofit?.create(getSettlementDate::class.java)
 
-        dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object :
+        /* dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object :
             Callback<DefaultResponse> {
             override fun onResponse(
                 call: Call<DefaultResponse>,
@@ -104,6 +104,6 @@ class SettlementReportActivity: AppCompatActivity() {
                 Toast.makeText(context, "연결 실패(리포트-정산일)", Toast.LENGTH_SHORT).show()
             }
 
-        })
+        }) */
     }
 }

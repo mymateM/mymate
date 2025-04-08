@@ -41,7 +41,7 @@ interface getMemberId {
 
 interface getHomeInfo {
     @GET("api/v1/household/home")
-    fun getHomeInfo(@Header("Authorization") Authorization: String): Call<HomeInfoResponse>
+    suspend fun getHomeInfo(@Header("Authorization") Authorization: String): Response<HomeInfoResponse>
 }
 
 //Settlement API
@@ -87,7 +87,7 @@ interface readExpenseNoti {
 
 interface getCalendar {
     @GET("api/v1/expense/daily-total/month/{year}/{month}/{day}")
-    fun getCalendar(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("day") day: String) : Call<CalendarResponse>
+    fun getCalendar(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("day") day: String) : Response<CalendarResponse>
 }
 
 //Bills Api
@@ -136,7 +136,7 @@ interface deleteBill {
 
 interface getDailyExpense {
     @GET("api/v1/expense/daily-total/day/{year}/{month}/{dayOfMonth}")
-    fun getDailyExpense(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("dayOfMonth") dayOfMonth: String) : Call<DailyExpenseResponse>
+    fun getDailyExpense(@Header("Authorization") Authorization: String, @Path("year") year: String, @Path("month") month: String, @Path("dayOfMonth") dayOfMonth: String) : Response<DailyExpenseResponse>
 }
 
 interface putDailyExpense {
@@ -163,24 +163,24 @@ interface deleteExpense {
 
 interface getSettlementDate {
     @GET("api/v1/household/settlement/date")
-    fun getSettlementDate(@Header("Authorization") Authorization: String): Call<DefaultResponse>
+    fun getSettlementDate(@Header("Authorization") Authorization: String): Response<DefaultResponse>
 }
 
 interface getHouseholdReport {
     @GET("api/v1/report/household/{report-start-date}")
-    fun getHouseholdReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Call<HouseholdReportResponse>
+    fun getHouseholdReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Response<HouseholdReportResponse>
 }
 
 interface getMyReport {
     @GET("api/v1/report/user/{report-start-date}")
-    fun getMyReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Call<UserReportResponse>
+    fun getMyReport(@Header("Authorization") Authorization: String, @Path("report-start-date") report_start_date: String): Response<UserReportResponse>
 }
 
 //Mypage API
 
 interface myPageApi {
     @GET("api/v1/mypage")
-    fun myPageApi(@Header("Authorization") Authorization: String): Call<UserInfoResponse>
+    fun myPageApi(@Header("Authorization") Authorization: String): Response<UserInfoResponse>
 }
 
 interface getHouseRatio {

@@ -1,682 +1,687 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="vm" type="com.example.mymate.presentation.home.MainHomeViewModel"/>
+    </data>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:fillViewport="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollview"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:fillViewport="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/topbox"
                 android:layout_width="match_parent"
-                android:layout_height="547dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:background="@color/purplevivid_buttonline"
+                android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false">
 
-                <ImageView
-                    android:layout_width="94dp"
-                    android:layout_height="33dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/topbox"
-                    android:layout_marginTop="70dp"
-                    android:src="@drawable/box_radius8"
-                    app:tint="@color/purplemute_background"
-                    android:id="@+id/dDaynoti"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="@id/dDaynoti"
-                    app:layout_constraintStart_toStartOf="@id/dDaynoti"
-                    app:layout_constraintTop_toTopOf="@id/dDaynoti"
-                    app:layout_constraintBottom_toBottomOf="@id/dDaynoti"
-                    android:id="@+id/dDay"
-                    android:textSize="14dp"
-                    android:fontFamily="@font/suit_bold"
-                    android:textColor="@color/white"
-                    android:text="정산일 D-10"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/dDaynoti"
-                    android:layout_marginTop="28dp"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/happiness_sans_title"
-                    android:textSize="20dp"
-                    android:text="지금까지"
-                    android:gravity="center"
-                    android:id="@+id/nownotitexttop"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/nownotitail"
-                    app:layout_constraintTop_toTopOf="@id/nownotitail"
-                    app:layout_constraintBottom_toBottomOf="@id/nownotitail"
-                    android:textColor="@color/lime_main"
-                    android:fontFamily="@font/montserrat_extrabold"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    android:textSize="28dp"
-                    android:text="000000"
-                    android:gravity="center"
-                    android:id="@+id/nownotitext"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/nownotitext"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/nownotitexttop"
-                    android:layout_marginTop="8dp"
-                    android:textColor="@color/lime_main"
-                    android:fontFamily="@font/happiness_sans_title"
-                    android:textSize="28dp"
-                    android:text="원"
-                    android:gravity="center"
-                    android:id="@+id/nownotitail"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/nownotitext"
-                    android:layout_marginTop="5dp"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/happiness_sans_title"
-                    android:textSize="20dp"
-                    android:text="우리 함께 썼어요"
-                    android:gravity="center"
-                    android:id="@+id/nownotitextbot"/>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/topbox"
-                    android:layout_marginBottom="43.4dp"
-                    android:src="@drawable/home_character"
-                    android:scaleType="fitEnd"/>
-
-                <ImageView
-                    android:layout_width="54dp"
-                    android:layout_height="28dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/dDaynoti"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginStart="51dp"
-                    android:src="@drawable/home_cloud_top"/>
-
-                <ImageView
-                    android:layout_width="54dp"
-                    android:layout_height="28dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/topbox"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginBottom="130dp"
-                    android:src="@drawable/home_cloud_bot"/>
-
-                <ImageView
-                    android:id="@+id/logoimage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/alarmbutton"
-                    app:layout_constraintBottom_toBottomOf="@id/alarmbutton"
-                    android:layout_marginLeft="17dp"
-                    android:src="@drawable/login_mymate"
-                    app:tint="@color/white"/>
-
-                <ImageButton
-                    android:id="@+id/alarmbutton"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/dDaynoti"
-                    android:scaleType="centerInside"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="20dp"
-                    android:src="@drawable/alarm_white"
-                    android:contentDescription="alarm button"/>
-
-                <ImageView
-                    android:layout_width="4dp"
-                    android:layout_height="4dp"
-                    android:id="@+id/alarmnoti"
-                    app:layout_constraintTop_toTopOf="@id/alarmbutton"
-                    app:layout_constraintEnd_toEndOf="@id/alarmbutton"
-                    android:layout_marginEnd="-2dp"
-                    android:layout_marginTop="-1dp"
-                    android:src="@drawable/icon_alarmbadge"
-                    app:tint="@color/red_text"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/topbox"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="32dp"
-                android:text="지금까지 예산의 00%를 썼어요"
-                android:fontFamily="@font/suit_bold"
-                android:textColor="@color/black_text"
-                android:textSize="20dp"
-                android:id="@+id/spendnoti"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/statusbox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spendnoti"
-                android:nestedScrollingEnabled="false"
-                android:layout_marginTop="14dp">
-
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/topbox"
                     android:layout_width="match_parent"
-                    android:layout_height="102dp"
+                    android:layout_height="547dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:id="@+id/spendpercentbox"
-                    android:background="@drawable/box_radius10"
-                    android:backgroundTint="@color/graylight_buttonfill">
+                    android:background="@color/purplevivid_buttonline"
+                    android:nestedScrollingEnabled="false">
 
                     <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="16dp"
+                        android:layout_width="94dp"
+                        android:layout_height="33dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginStart="22dp"
-                        android:layout_marginEnd="22dp"
-                        android:layout_marginBottom="23dp"
-                        android:src="@drawable/box_radius100"
-                        app:tint="@color/white_graphbackground"
-                        android:id="@+id/spendgraphback"/>
-
-                    <androidx.constraintlayout.widget.Guideline
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_begin="20dp"
-                        app:layout_constraintGuide_end="20dp"
-                        app:layout_constraintGuide_percent="0.94"
-                        android:id="@+id/spendgraphguide"/>
-
-                    <androidx.constraintlayout.widget.Guideline
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_begin="20dp"
-                        app:layout_constraintGuide_percent="0.125"
-                        android:id="@+id/spendgraphicguide"/>
-
-                    <androidx.constraintlayout.widget.Guideline
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_end="20dp"
-                        app:layout_constraintGuide_percent="0.7"
-                        android:id="@+id/spendoverguide"/>
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="16dp"
-                        app:layout_constraintStart_toStartOf="@id/spendgraphback"
-                        app:layout_constraintEnd_toEndOf="@id/spendgraphguide"
-                        app:layout_constraintBottom_toBottomOf="@id/spendgraphback"
-                        android:src="@drawable/box_radius100"
-                        app:tint="@color/purplevivid_buttonline"
-                        android:id="@+id/spendgraphtop"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/trangle_purple"
-                        android:rotation="180"
-                        app:layout_constraintEnd_toEndOf="@id/spendgraphicguide"
-                        app:layout_constraintStart_toStartOf="@id/spendgraphicguide"
-                        app:layout_constraintBottom_toTopOf="@id/spendgraphback"
-                        android:layout_marginBottom="-8dp"
-                        android:id="@+id/graphgraphichead"/>
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="16dp"
-                        app:layout_constraintStart_toStartOf="@id/spendoverguide"
-                        app:layout_constraintEnd_toEndOf="@id/spendgraphback"
-                        app:layout_constraintBottom_toBottomOf="@id/spendgraphback"
-                        app:layout_constraintTop_toTopOf="@id/spendgraphback"
-                        android:src="@drawable/box_radius0100"
-                        app:tint="@color/red_graph"
-                        android:id="@+id/spendgraphover"/>
-
+                        app:layout_constraintTop_toTopOf="@id/topbox"
+                        android:layout_marginTop="70dp"
+                        android:src="@drawable/box_radius8"
+                        app:tint="@color/purplemute_background"
+                        android:id="@+id/dDaynoti"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/box_radius8_purple"
-                        app:layout_constraintStart_toStartOf="@id/graphgraphichead"
-                        app:layout_constraintEnd_toEndOf="@id/graphgraphichead"
-                        app:layout_constraintBottom_toTopOf="@id/graphgraphichead"
-                        android:layout_marginBottom="-30dp"
+                        app:layout_constraintEnd_toEndOf="@id/dDaynoti"
+                        app:layout_constraintStart_toStartOf="@id/dDaynoti"
+                        app:layout_constraintTop_toTopOf="@id/dDaynoti"
+                        app:layout_constraintBottom_toBottomOf="@id/dDaynoti"
+                        android:id="@+id/dDay"
                         android:textSize="14dp"
+                        android:fontFamily="@font/suit_bold"
                         android:textColor="@color/white"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:text="00%"
-                        android:paddingBottom="5dp"
-                        android:paddingStart="9dp"
-                        android:paddingEnd="9dp"
-                        android:paddingTop="5dp"
-                        android:id="@+id/spendgraphpercent"/>
+                        android:text="@{vm.dDay.toString()}"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/dDaynoti"
+                        android:layout_marginTop="28dp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/happiness_sans_title"
+                        android:textSize="20dp"
+                        android:text="지금까지"
+                        android:gravity="center"
+                        android:id="@+id/nownotitexttop"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/nownotitail"
+                        app:layout_constraintTop_toTopOf="@id/nownotitail"
+                        app:layout_constraintBottom_toBottomOf="@id/nownotitail"
+                        android:textColor="@color/lime_main"
+                        android:fontFamily="@font/montserrat_extrabold"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        android:textSize="28dp"
+                        android:text="@{vm.houseExpenseTotal.toString()}"
+                        android:gravity="center"
+                        android:id="@+id/nownotitext"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/nownotitext"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/nownotitexttop"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/lime_main"
+                        android:fontFamily="@font/happiness_sans_title"
+                        android:textSize="28dp"
+                        android:text="원"
+                        android:gravity="center"
+                        android:id="@+id/nownotitail"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/nownotitext"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/happiness_sans_title"
+                        android:textSize="20dp"
+                        android:text="우리 함께 썼어요"
+                        android:gravity="center"
+                        android:id="@+id/nownotitextbot"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/topbox"
+                        android:layout_marginBottom="43.4dp"
+                        android:src="@drawable/home_character"
+                        android:scaleType="fitEnd"/>
+
+                    <ImageView
+                        android:layout_width="54dp"
+                        android:layout_height="28dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/dDaynoti"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="51dp"
+                        android:src="@drawable/home_cloud_top"/>
+
+                    <ImageView
+                        android:layout_width="54dp"
+                        android:layout_height="28dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/topbox"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginBottom="130dp"
+                        android:src="@drawable/home_cloud_bot"/>
+
+                    <ImageView
+                        android:id="@+id/logoimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/alarmbutton"
+                        app:layout_constraintBottom_toBottomOf="@id/alarmbutton"
+                        android:layout_marginLeft="17dp"
+                        android:src="@drawable/login_mymate"
+                        app:tint="@color/white"/>
+
+                    <ImageButton
+                        android:id="@+id/alarmbutton"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:background="@android:color/transparent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/dDaynoti"
+                        android:scaleType="centerInside"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/alarm_white"
+                        android:contentDescription="alarm button"/>
+
+                    <ImageView
+                        android:layout_width="4dp"
+                        android:layout_height="4dp"
+                        android:id="@+id/alarmnoti"
+                        app:layout_constraintTop_toTopOf="@id/alarmbutton"
+                        app:layout_constraintEnd_toEndOf="@id/alarmbutton"
+                        android:layout_marginEnd="-2dp"
+                        android:layout_marginTop="-1dp"
+                        android:src="@drawable/icon_alarmbadge"
+                        app:tint="@color/red_text"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
-                    android:id="@+id/homestatustxt"
-                    android:layout_width="0dp"
-                    android:layout_height="57dp"
-                    app:layout_constraintTop_toBottomOf="@id/spendpercentbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/topbox"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="32dp"
+                    android:text="@{vm.houseExpenseRatioNotiText.toString()}"
+                    android:fontFamily="@font/suit_bold"
+                    android:textColor="@color/black_text"
+                    android:textSize="20dp"
+                    android:id="@+id/spendnoti"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/statusbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/spendnoti"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginTop="14dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="102dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:id="@+id/spendpercentbox"
+                        android:background="@drawable/box_radius10"
+                        android:backgroundTint="@color/graylight_buttonfill">
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="16dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginStart="22dp"
+                            android:layout_marginEnd="22dp"
+                            android:layout_marginBottom="23dp"
+                            android:src="@drawable/box_radius100"
+                            app:tint="@color/white_graphbackground"
+                            android:id="@+id/spendgraphback"/>
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_begin="20dp"
+                            app:layout_constraintGuide_end="20dp"
+                            app:layout_constraintGuide_percent="0.94"
+                            android:id="@+id/spendgraphguide"/>
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_begin="20dp"
+                            app:layout_constraintGuide_percent="0.125"
+                            android:id="@+id/spendgraphicguide"/>
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_end="20dp"
+                            app:layout_constraintGuide_percent="0.7"
+                            android:id="@+id/spendoverguide"/>
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="16dp"
+                            app:layout_constraintStart_toStartOf="@id/spendgraphback"
+                            app:layout_constraintEnd_toEndOf="@id/spendgraphguide"
+                            app:layout_constraintBottom_toBottomOf="@id/spendgraphback"
+                            android:src="@drawable/box_radius100"
+                            app:tint="@color/purplevivid_buttonline"
+                            android:id="@+id/spendgraphtop"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/trangle_purple"
+                            android:rotation="180"
+                            app:layout_constraintEnd_toEndOf="@id/spendgraphicguide"
+                            app:layout_constraintStart_toStartOf="@id/spendgraphicguide"
+                            app:layout_constraintBottom_toTopOf="@id/spendgraphback"
+                            android:layout_marginBottom="-8dp"
+                            android:id="@+id/graphgraphichead"/>
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="16dp"
+                            app:layout_constraintStart_toStartOf="@id/spendoverguide"
+                            app:layout_constraintEnd_toEndOf="@id/spendgraphback"
+                            app:layout_constraintBottom_toBottomOf="@id/spendgraphback"
+                            app:layout_constraintTop_toTopOf="@id/spendgraphback"
+                            android:src="@drawable/box_radius0100"
+                            app:tint="@color/red_graph"
+                            android:id="@+id/spendgraphover"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/box_radius8_purple"
+                            app:layout_constraintStart_toStartOf="@id/graphgraphichead"
+                            app:layout_constraintEnd_toEndOf="@id/graphgraphichead"
+                            app:layout_constraintBottom_toTopOf="@id/graphgraphichead"
+                            android:layout_marginBottom="-30dp"
+                            android:textSize="14dp"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="@{vm.houseExpenseRatioText.toString()}"
+                            android:paddingBottom="5dp"
+                            android:paddingStart="9dp"
+                            android:paddingEnd="9dp"
+                            android:paddingTop="5dp"
+                            android:id="@+id/spendgraphpercent"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/homestatustxt"
+                        android:layout_width="0dp"
+                        android:layout_height="57dp"
+                        app:layout_constraintTop_toBottomOf="@id/spendpercentbox"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:drawableLeft="@drawable/noti"
+                        android:background="@drawable/box_radius10"
+                        android:backgroundTint="@color/graylight_buttonfill"
+                        android:text="@{vm.budgetOverWarn.toString()}"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/suit_medium"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="8dp"
+                        android:paddingLeft="22dp"
+                        android:textSize="16dp"/>
+
+                    <TextView
+                        android:id="@+id/comparebigtxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/homestatustxt"
+                        android:textSize="20dp"
+                        android:text="@{vm.periodPassed.toString()}"
+                        android:textColor="@color/blackmute_text"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="56dp"
+                        android:layout_marginRight="20dp"
+                        android:fontFamily="@font/suit_bold_apply"/>
+
+                    <TextView
+                        android:id="@+id/comparesmalltxtl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/comparebigtxt"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:text="그때보다 "
+                        android:textColor="@color/graydark_text"
+                        android:textSize="16dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/suit_medium"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/compareicon"
+                        app:layout_constraintStart_toEndOf="@id/comparesmalltxtl"
+                        app:layout_constraintTop_toTopOf="@id/comparesmalltxtl"
+                        app:layout_constraintBottom_toBottomOf="@id/comparesmalltxtl"
+                        android:src="@drawable/more"
+                        android:layout_marginLeft="4dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="@id/comparesmalltxtl"
+                        app:layout_constraintBottom_toBottomOf="@id/comparesmalltxtl"
+                        app:layout_constraintStart_toEndOf="@id/compareicon"
+                        android:text="@{vm.expenseCompared.toString()}"
+                        android:textSize="16dp"
+                        android:textColor="@color/graydark_text"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:id="@+id/statusbilltext"
+                        android:layout_marginLeft="4dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="@id/comparesmalltxtl"
+                        app:layout_constraintBottom_toBottomOf="@id/comparesmalltxtl"
+                        app:layout_constraintStart_toEndOf="@id/statusbilltext"
+                        android:text = "원"
+                        android:textSize="14dp"
+                        android:textColor="@color/graydark_text"
+                        android:fontFamily="@font/suit_regular_apply"
+                        android:id="@+id/statussubtextsmall"
+                    />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/graphbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="143dp"
+                    app:layout_constraintTop_toBottomOf="@id/statusbox"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/box_radius10"
+                    android:backgroundTint="@color/graylight_buttonfill"
+                    android:nestedScrollingEnabled="false">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_end="55dp"
+                        app:layout_constraintGuide_percent="0.18"
+                        android:id="@+id/presentguidetop"/>
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_end="55dp"
+                        app:layout_constraintGuide_percent="0.365"
+                        android:id="@+id/previousguide"/>
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/presentguidemid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.36363637"/>
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/comparegraphbottomline"
+                        app:layout_constraintTop_toBottomOf="@id/previousguide"
+                        android:src="@drawable/graph_hometop"
+                        app:tint="@color/purplelight_graphlight"
+                        android:layout_marginStart="104dp"/>
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/comparegraphbottomline"
+                        app:layout_constraintTop_toBottomOf="@id/presentguidetop"
+                        android:src="@drawable/graph_hometop"
+                        app:tint="@color/purplevivid_buttonline"
+                        android:layout_marginEnd="105dp"
+                        android:id="@+id/present_comparetop"/>
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/comparegraphbottomline"
+                        app:layout_constraintTop_toBottomOf="@id/presentguidemid"
+                        android:src="@drawable/box_noradius"
+                        app:tint="@color/purplelight_graphlight"
+                        android:layout_marginEnd="105dp"
+                        android:id="@+id/present_comparebody"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:src="@drawable/stroke"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginEnd="22dp"
+                        android:layout_marginStart="22dp"
+                        android:layout_marginBottom="55dp"
+                        android:id="@+id/comparegraphbottomline"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginStart="22dp"
+                        android:layout_marginEnd="22dp"
+                        android:layout_marginTop="51dp"
+                        android:src="@drawable/stroke_dash"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/comparegraphbottomline"
+                        app:layout_constraintStart_toStartOf="@id/comparegraphbottomline"
+                        android:layout_marginStart="85dp"
+                        android:layout_marginTop="12dp"
+                        android:text="지난 달"
+                        android:textSize="14dp"
+                        android:textColor="@color/graydark_text"
+                        android:fontFamily="@font/suit_medium"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/comparegraphbottomline"
+                        app:layout_constraintEnd_toEndOf="@id/comparegraphbottomline"
+                        android:layout_marginEnd="93dp"
+                        android:layout_marginTop="12dp"
+                        android:text="지금"
+                        android:textSize="14dp"
+                        android:textColor="@color/black_text"
+                        android:fontFamily="@font/suit_medium"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/graphbox"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="56dp"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/suit_bold"
+                    android:textSize="20dp"
+                    android:textColor="@color/black_text"
+                    android:text="내 예산은 얼마나 남았을까요?"
+                    android:id="@+id/remainingtext"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="178dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/remainingtext"
+                    app:layout_constraintEnd_toStartOf="@id/totalbudgetcontainer"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/box_radius10"
+                    app:tint="@color/graylight_buttonfill"
+                    android:id="@+id/remainingbudgetcontainer"/>
+
+                <ImageView
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    app:layout_constraintEnd_toEndOf="@id/remainingbudgetcontainer"
+                    app:layout_constraintStart_toStartOf="@id/remainingbudgetcontainer"
+                    app:layout_constraintTop_toTopOf="@id/remainingbudgetcontainer"
+                    android:layout_marginTop="36dp"
+                    android:src="@drawable/cash"
+                    android:id="@+id/cashgraphic"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/remainingbudgetcontainer"
+                    app:layout_constraintEnd_toEndOf="@id/remainingbudgetcontainer"
+                    app:layout_constraintTop_toBottomOf="@id/cashgraphic"
+                    android:layout_marginTop="19dp"
+                    android:text="남은 예산"
+                    android:textColor="@color/graydark_text"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/suit_medium"
+                    android:id="@+id/remainingbudgettext"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/remainingbudgetcontainer"
+                    app:layout_constraintEnd_toEndOf="@id/remainingbudgetcontainer"
+                    app:layout_constraintTop_toBottomOf="@id/remainingbudgettext"
+                    android:layout_marginTop="8dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/black_text"
+                    android:text="@{vm.userExpenseLeftText.toString()}"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:id="@+id/remainingbudget"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="178dp"
+                    app:layout_constraintStart_toEndOf="@id/remainingbudgetcontainer"
+                    app:layout_constraintTop_toBottomOf="@id/remainingtext"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/box_radius10"
+                    app:tint="@color/graylight_buttonfill"
+                    android:id="@+id/totalbudgetcontainer"/>
+
+                <ImageView
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    app:layout_constraintEnd_toEndOf="@id/totalbudgetcontainer"
+                    app:layout_constraintStart_toStartOf="@id/totalbudgetcontainer"
+                    app:layout_constraintTop_toTopOf="@id/totalbudgetcontainer"
+                    android:layout_marginTop="36dp"
+                    android:src="@drawable/budget"
+                    android:id="@+id/pocketgraphic"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/totalbudgetcontainer"
+                    app:layout_constraintEnd_toEndOf="@id/totalbudgetcontainer"
+                    app:layout_constraintTop_toBottomOf="@id/cashgraphic"
+                    android:layout_marginTop="19dp"
+                    android:text="나의 총 예산"
+                    android:textColor="@color/graydark_text"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/suit_medium"
+                    android:id="@+id/totalbudgettext"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/totalbudgetcontainer"
+                    app:layout_constraintEnd_toEndOf="@id/totalbudgetcontainer"
+                    app:layout_constraintTop_toBottomOf="@id/totalbudgettext"
+                    android:layout_marginTop="8dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/black_text"
+                    android:text="@{vm.userBudgetText.toString()}"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:id="@+id/totalbudget"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="179dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/totalbudgetcontainer"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginStart="20dp"
-                    android:drawableLeft="@drawable/noti"
                     android:background="@drawable/box_radius10"
                     android:backgroundTint="@color/graylight_buttonfill"
-                    android:text="이대로라면 예산을 초과할 것 같아요"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/suit_medium"
-                    android:gravity="center_vertical"
-                    android:drawablePadding="8dp"
-                    android:paddingLeft="22dp"
-                    android:textSize="16dp"/>
+                    android:id="@+id/spendpiecontainer"/>
 
-                <TextView
-                    android:id="@+id/comparebigtxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:layout_width="217dp"
+                    android:layout_height="216dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/homestatustxt"
-                    android:textSize="20dp"
-                    android:text="지난 달 대비 덜 썼어요"
-                    android:textColor="@color/blackmute_text"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="56dp"
-                    android:layout_marginRight="20dp"
-                    android:fontFamily="@font/suit_bold_apply"/>
-
-                <TextView
-                    android:id="@+id/comparesmalltxtl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/comparebigtxt"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:text="그때보다 "
-                    android:textColor="@color/graydark_text"
-                    android:textSize="16dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/suit_medium"/>
-                
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/compareicon"
-                    app:layout_constraintStart_toEndOf="@id/comparesmalltxtl"
-                    app:layout_constraintTop_toTopOf="@id/comparesmalltxtl"
-                    app:layout_constraintBottom_toBottomOf="@id/comparesmalltxtl"
-                    android:src="@drawable/more"
-                    android:layout_marginLeft="4dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/comparesmalltxtl"
-                    app:layout_constraintBottom_toBottomOf="@id/comparesmalltxtl"
-                    app:layout_constraintStart_toEndOf="@id/compareicon"
-                    android:text="25,000"
-                    android:textSize="16dp"
-                    android:textColor="@color/graydark_text"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:id="@+id/statusbilltext"
-                    android:layout_marginLeft="4dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/comparesmalltxtl"
-                    app:layout_constraintBottom_toBottomOf="@id/comparesmalltxtl"
-                    app:layout_constraintStart_toEndOf="@id/statusbilltext"
-                    android:text = "원"
-                    android:textSize="14dp"
-                    android:textColor="@color/graydark_text"
-                    android:fontFamily="@font/suit_regular_apply"
-                    android:id="@+id/statussubtextsmall"
-                    />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/graphbox"
-                android:layout_width="match_parent"
-                android:layout_height="143dp"
-                app:layout_constraintTop_toBottomOf="@id/statusbox"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/box_radius10"
-                android:backgroundTint="@color/graylight_buttonfill"
-                android:nestedScrollingEnabled="false">
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_end="55dp"
-                    app:layout_constraintGuide_percent="0.18"
-                    android:id="@+id/presentguidetop"/>
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_end="55dp"
-                    app:layout_constraintGuide_percent="0.365"
-                    android:id="@+id/previousguide"/>
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_end="55dp"
-                    app:layout_constraintGuide_percent="0.365"
-                    android:id="@+id/presentguidemid"/>
-                
-                <ImageView
-                    android:layout_width="46dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/comparegraphbottomline"
-                    app:layout_constraintTop_toBottomOf="@id/previousguide"
-                    android:src="@drawable/graph_hometop"
-                    app:tint="@color/purplelight_graphlight"
-                    android:layout_marginStart="104dp"/>
-
-                <ImageView
-                    android:layout_width="46dp"
-                    android:layout_height="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/comparegraphbottomline"
-                    app:layout_constraintTop_toBottomOf="@id/presentguidetop"
-                    android:src="@drawable/graph_hometop"
-                    app:tint="@color/purplevivid_buttonline"
-                    android:layout_marginEnd="105dp"
-                    android:id="@+id/present_comparetop"/>
+                    app:layout_constraintTop_toTopOf="@id/spendpiecontainer"
+                    android:layout_marginTop="30dp"
+                    android:id="@+id/myPieChart"/>
 
                 <ImageView
-                    android:layout_width="46dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/comparegraphbottomline"
-                    app:layout_constraintTop_toBottomOf="@id/presentguidemid"
-                    android:src="@drawable/box_noradius"
-                    app:tint="@color/purplelight_graphlight"
-                    android:layout_marginEnd="105dp"
-                    android:id="@+id/present_comparebody"/>
+                    android:layout_width="84.4dp"
+                    android:layout_height="91.59dp"
+                    app:layout_constraintStart_toStartOf="@id/spendpiecontainer"
+                    app:layout_constraintTop_toTopOf="@id/myPieChart"
+                    app:layout_constraintBottom_toBottomOf="@id/myPieChart"
+                    android:layout_marginBottom="90dp"
+                    android:layout_marginStart="34dp"
+                    android:src="@drawable/graph_character"/>
+
+                <ImageView
+                    android:layout_width="77dp"
+                    android:layout_height="64dp"
+                    app:layout_constraintEnd_toEndOf="@id/spendpiecontainer"
+                    app:layout_constraintTop_toTopOf="@id/spendpiecontainer"
+                    android:layout_marginTop="34dp"
+                    android:layout_marginEnd="30dp"
+                    android:src="@drawable/graph_cash"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/myPieChart"
+                    app:layout_constraintEnd_toEndOf="@id/myPieChart"
+                    app:layout_constraintTop_toTopOf="@id/myPieChart"
+                    android:layout_marginTop="52dp"
+                    android:id="@+id/myPieMidText"
+                    android:lineSpacingExtra="5dp"
+                    android:gravity="center"/>
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:src="@drawable/stroke"
+                    android:layout_height="63dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginEnd="22dp"
-                    android:layout_marginStart="22dp"
-                    android:layout_marginBottom="55dp"
-                    android:id="@+id/comparegraphbottomline"/>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginStart="22dp"
-                    android:layout_marginEnd="22dp"
-                    android:layout_marginTop="51dp"
-                    android:src="@drawable/stroke_dash"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/comparegraphbottomline"
-                    app:layout_constraintStart_toStartOf="@id/comparegraphbottomline"
-                    android:layout_marginStart="85dp"
-                    android:layout_marginTop="12dp"
-                    android:text="지난 달"
-                    android:textSize="14dp"
-                    android:textColor="@color/graydark_text"
-                    android:fontFamily="@font/suit_medium"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/comparegraphbottomline"
-                    app:layout_constraintEnd_toEndOf="@id/comparegraphbottomline"
-                    android:layout_marginEnd="93dp"
-                    android:layout_marginTop="12dp"
-                    android:text="지금"
-                    android:textSize="14dp"
-                    android:textColor="@color/black_text"
-                    android:fontFamily="@font/suit_medium"/>
+                    android:background="@color/white"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/graphbox"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="56dp"
-                android:layout_marginStart="20dp"
-                android:fontFamily="@font/suit_bold"
-                android:textSize="20dp"
-                android:textColor="@color/black_text"
-                android:text="내 예산은 얼마나 남았을까요?"
-                android:id="@+id/remainingtext"/>
+        </androidx.core.widget.NestedScrollView>
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="178dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/remainingtext"
-                app:layout_constraintEnd_toStartOf="@id/totalbudgetcontainer"
-                android:layout_marginTop="14dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="5dp"
-                android:src="@drawable/box_radius10"
-                app:tint="@color/graylight_buttonfill"
-                android:id="@+id/remainingbudgetcontainer"/>
-
-            <ImageView
-                android:layout_width="37dp"
-                android:layout_height="37dp"
-                app:layout_constraintEnd_toEndOf="@id/remainingbudgetcontainer"
-                app:layout_constraintStart_toStartOf="@id/remainingbudgetcontainer"
-                app:layout_constraintTop_toTopOf="@id/remainingbudgetcontainer"
-                android:layout_marginTop="36dp"
-                android:src="@drawable/cash"
-                android:id="@+id/cashgraphic"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/remainingbudgetcontainer"
-                app:layout_constraintEnd_toEndOf="@id/remainingbudgetcontainer"
-                app:layout_constraintTop_toBottomOf="@id/cashgraphic"
-                android:layout_marginTop="19dp"
-                android:text="남은 예산"
-                android:textColor="@color/graydark_text"
-                android:textSize="16dp"
-                android:fontFamily="@font/suit_medium"
-                android:id="@+id/remainingbudgettext"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/remainingbudgetcontainer"
-                app:layout_constraintEnd_toEndOf="@id/remainingbudgetcontainer"
-                app:layout_constraintTop_toBottomOf="@id/remainingbudgettext"
-                android:layout_marginTop="8dp"
-                android:textSize="18dp"
-                android:textColor="@color/black_text"
-                android:text="000000원"
-                android:fontFamily="@font/montserrat_bold"
-                android:id="@+id/remainingbudget"/>
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="178dp"
-                app:layout_constraintStart_toEndOf="@id/remainingbudgetcontainer"
-                app:layout_constraintTop_toBottomOf="@id/remainingtext"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="14dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/box_radius10"
-                app:tint="@color/graylight_buttonfill"
-                android:id="@+id/totalbudgetcontainer"/>
-
-            <ImageView
-                android:layout_width="37dp"
-                android:layout_height="37dp"
-                app:layout_constraintEnd_toEndOf="@id/totalbudgetcontainer"
-                app:layout_constraintStart_toStartOf="@id/totalbudgetcontainer"
-                app:layout_constraintTop_toTopOf="@id/totalbudgetcontainer"
-                android:layout_marginTop="36dp"
-                android:src="@drawable/budget"
-                android:id="@+id/pocketgraphic"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/totalbudgetcontainer"
-                app:layout_constraintEnd_toEndOf="@id/totalbudgetcontainer"
-                app:layout_constraintTop_toBottomOf="@id/cashgraphic"
-                android:layout_marginTop="19dp"
-                android:text="나의 총 예산"
-                android:textColor="@color/graydark_text"
-                android:textSize="16dp"
-                android:fontFamily="@font/suit_medium"
-                android:id="@+id/totalbudgettext"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/totalbudgetcontainer"
-                app:layout_constraintEnd_toEndOf="@id/totalbudgetcontainer"
-                app:layout_constraintTop_toBottomOf="@id/totalbudgettext"
-                android:layout_marginTop="8dp"
-                android:textSize="18dp"
-                android:textColor="@color/black_text"
-                android:text="000000원"
-                android:fontFamily="@font/montserrat_bold"
-                android:id="@+id/totalbudget"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="179dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/totalbudgetcontainer"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:background="@drawable/box_radius10"
-                android:backgroundTint="@color/graylight_buttonfill"
-                android:id="@+id/spendpiecontainer"/>
-
-
-            <com.github.mikephil.charting.charts.PieChart
-                android:layout_width="217dp"
-                android:layout_height="216dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/spendpiecontainer"
-                android:layout_marginTop="30dp"
-                android:id="@+id/myPieChart"/>
-
-            <ImageView
-                android:layout_width="84.4dp"
-                android:layout_height="91.59dp"
-                app:layout_constraintStart_toStartOf="@id/spendpiecontainer"
-                app:layout_constraintTop_toTopOf="@id/myPieChart"
-                app:layout_constraintBottom_toBottomOf="@id/myPieChart"
-                android:layout_marginBottom="90dp"
-                android:layout_marginStart="34dp"
-                android:src="@drawable/graph_character"/>
-
-            <ImageView
-                android:layout_width="77dp"
-                android:layout_height="64dp"
-                app:layout_constraintEnd_toEndOf="@id/spendpiecontainer"
-                app:layout_constraintTop_toTopOf="@id/spendpiecontainer"
-                android:layout_marginTop="34dp"
-                android:layout_marginEnd="30dp"
-                android:src="@drawable/graph_cash"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/myPieChart"
-                app:layout_constraintEnd_toEndOf="@id/myPieChart"
-                app:layout_constraintTop_toTopOf="@id/myPieChart"
-                android:layout_marginTop="52dp"
-                android:id="@+id/myPieMidText"
-                android:lineSpacingExtra="5dp"
-                android:gravity="center"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="63dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@color/white"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

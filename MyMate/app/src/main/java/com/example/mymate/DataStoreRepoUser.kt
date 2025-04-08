@@ -9,7 +9,7 @@ import java.io.IOException
 
 class DataStoreRepoUser(private val dataStore: DataStore<Preferences>) {
 
-    companion object {
+    private companion object {
         val USER_ACCESS_KEY = stringPreferencesKey("User_Access_key")
         val USER_REFRESH_KEY = stringPreferencesKey("User_Refresh_key")
         val USER_DEVICE_KEY = stringPreferencesKey("User_Device_key")

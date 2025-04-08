@@ -26,6 +26,7 @@ import com.example.mymate.data.dto.report.MemberMonthlyStatus
 import com.example.mymate.data.dto.report.response.MemberSettlementInfoResponse
 import com.example.mymate.data.dto.report.response.UserSettlementInfoResponse
 import com.example.mymate.databinding.ActivitySettlementBinding
+import com.example.mymate.presentation.main.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -133,7 +134,7 @@ class SettlementActivity : AppCompatActivity() {
 
         binding.modale.copyandsendbtn.isEnabled = false
 
-        dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object : Callback<DefaultResponse> {
+        /* dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object : Callback<DefaultResponse> {
             override fun onResponse(
                 call: Call<DefaultResponse>,
                 response: Response<DefaultResponse>
@@ -328,7 +329,7 @@ class SettlementActivity : AppCompatActivity() {
                 Toast.makeText(context, "연결 실패(정산-정산일)", Toast.LENGTH_SHORT).show()
             }
 
-        })
+        }) */
     }
 
     private fun digitprocessing(digits: String): String {
