@@ -1,10 +1,11 @@
-package com.example.mymate
+package com.example.mymate.presentation.alarm.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.R
 import com.example.mymate.data.dto.notification.UserExpNotiDetail
 import com.example.mymate.databinding.ListitemAlarmBinding
 import kotlin.math.roundToInt
@@ -47,10 +48,18 @@ class AlarmSpdAdapter(val notiList: ArrayList<UserExpNotiDetail>): RecyclerView.
             when (item.expense_category_image_url) {
                 "FOOD.jpg" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_food))
                 "ETC.jpg" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_life))
-                "HOUSE_ITEM.jpg" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_life))
-                "EDUCATION.jpg" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_medical))
-                "TRANSPORT.jpg" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_traffic))
-                "SHOPPING.jpg" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_shopping))
+                "HOUSE_ITEM.jpg" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context,
+                    R.drawable.alarmicon_life
+                ))
+                "EDUCATION.jpg" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context,
+                    R.drawable.alarmicon_medical
+                ))
+                "TRANSPORT.jpg" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context,
+                    R.drawable.alarmicon_traffic
+                ))
+                "SHOPPING.jpg" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context,
+                    R.drawable.alarmicon_shopping
+                ))
             }
 
             when (item.expense_category_image_url) {

@@ -20,7 +20,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.mymate.AlarmActivity
+import com.example.mymate.presentation.alarm.AlarmActivity
 import com.example.mymate.DataStoreRepoUser
 import com.example.mymate.R
 import com.example.mymate.data.dto.auth.response.LocalRefreshResponse

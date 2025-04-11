@@ -59,7 +59,7 @@
             android:exported="false"
             android:theme="@style/Theme.MyMate"/>
         <activity
-            android:name=".AlarmActivity"
+            android:name=".presentation.alarm.AlarmActivity"
             android:exported="false"
             android:theme="@style/Theme.MyMate" />
         <activity

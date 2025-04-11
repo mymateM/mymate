@@ -65,22 +65,22 @@ interface sendMoneyRequest {
 
 interface getActivityNoti {
     @GET("api/v1/notifications/activity")
-    fun activityNoti(@Header("Authorization") Authorization: String) : Call<UserActNotiResponse>
+    fun getActivityNoti(@Header("Authorization") Authorization: String) : Response<UserActNotiResponse>
 }
 
 interface getExpenseNoti {
     @GET("api/v1/notifications/expense")
-    fun expenseNoti(@Header("Authorization") Authorization: String) : Call<UserExpNotiResponse>
+    fun getExpenseNoti(@Header("Authorization") Authorization: String) : Response<UserExpNotiResponse>
 }
 
 interface readActivityNoti {
     @POST("api/v1/notifications/activity/is-read/true")
-    fun readActivityNoti(@Header("Authorization") Authorization: String, @Query("activity_notification_ids") activity_notification_ids: String): Call<DefaultResponse>
+    fun readActivityNoti(@Header("Authorization") Authorization: String, @Query("activity_notification_ids") activity_notification_ids: String): Response<DefaultResponse>
 }
 
 interface readExpenseNoti {
     @POST("api/v1/notifications/expense/is-read/true")
-    fun readExpenseNoti(@Header("Authorization") Authorization: String, @Query("expense_notification_ids") expense_notification_ids: String): Call<DefaultResponse>
+    fun readExpenseNoti(@Header("Authorization") Authorization: String, @Query("expense_notification_ids") expense_notification_ids: String): Response<DefaultResponse>
 }
 
 //Calendar Api

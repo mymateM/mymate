@@ -2,12 +2,10 @@ package com.example.mymate.presentation.home
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -18,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.*
 import com.example.mymate.data.dto.expense.ExpenseSummary
 import com.example.mymate.databinding.MainSpendingFragmentBinding
+import com.example.mymate.presentation.alarm.AlarmActivity
 import com.example.mymate.presentation.home.adapter.CalendarAdapter
 import com.example.mymate.presentation.home.adapter.SpendingAdapter
 import com.example.mymate.presentation.main.MainActivity

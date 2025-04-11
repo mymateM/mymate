@@ -1,10 +1,8 @@
-package com.example.mymate
+package com.example.mymate.presentation.alarm.adapter
 
 import android.content.Context
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.data.dto.notification.UserExpNotiDetail
@@ -15,7 +13,6 @@ import java.time.LocalDate
 class AlarmSpdContainerAdapter(val alarmList: ArrayList<ArrayList<UserExpNotiDetail>>): RecyclerView.Adapter<AlarmSpdContainerAdapter.AlarmSpdContainerHolder>() {
 
     inner class AlarmSpdContainerHolder(val binding: ListitemAlarmcontainerBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
-        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(item: ArrayList<UserExpNotiDetail>) {
             val datetocompare = SimpleDateFormat("yyyy-mm-dd")
             val datetoshow = SimpleDateFormat("mm월 dd일")
@@ -46,7 +43,6 @@ class AlarmSpdContainerAdapter(val alarmList: ArrayList<ArrayList<UserExpNotiDet
         return alarmList.size
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AlarmSpdContainerHolder, position: Int) {
         val item = alarmList[position]
         holder.bind(item)

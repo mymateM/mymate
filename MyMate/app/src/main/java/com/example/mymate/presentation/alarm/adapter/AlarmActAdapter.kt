@@ -1,10 +1,11 @@
-package com.example.mymate
+package com.example.mymate.presentation.alarm.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.R
 import com.example.mymate.data.dto.notification.UserActNotiDetail
 import com.example.mymate.databinding.ListitemAlarmBinding
 
@@ -24,8 +25,12 @@ class AlarmActAdapter(val notiList: ArrayList<UserActNotiDetail>): RecyclerView.
 
             when (item.category_title) {
                 "초대 수락" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_newmate))
-                "정산 디데이" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_settlement))
-                "정산일 변경" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_settlement))
+                "정산 디데이" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context,
+                    R.drawable.alarmicon_settlement
+                ))
+                "정산일 변경" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context,
+                    R.drawable.alarmicon_settlement
+                ))
                 "예산 변경" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_money))
                 "정산 비율 변경" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_money))
                 "고지서" -> itemicon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_bill))

@@ -1,4 +1,4 @@
-package com.example.mymate
+package com.example.mymate.presentation.alarm.adapter
 
 import android.app.Activity
 import android.content.Context
@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.BillManagerActivity
+import com.example.mymate.R
+import com.example.mymate.SettlementActivity
 import com.example.mymate.data.dto.notification.UserActNotiDetail
 import com.example.mymate.databinding.ListitemAlarmcontainerBinding
 import java.text.SimpleDateFormat
