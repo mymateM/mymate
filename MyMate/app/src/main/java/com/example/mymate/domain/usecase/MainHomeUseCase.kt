@@ -3,6 +3,7 @@ package com.example.mymate.domain.usecase
 import android.icu.text.DecimalFormat
 import com.example.mymate.domain.model.HomeStats
 import com.example.mymate.data.dto.expense.response.HomeInfoResponse
+import com.example.mymate.data.dto.notification.UserExpNotiDetail
 import com.example.mymate.data.repository.MainHomeRepository
 import kotlin.math.absoluteValue
 
@@ -65,5 +66,15 @@ class MainHomeUseCase(private val homeRepo: MainHomeRepository) {
             homeStats.compareGuideMid = (0.365 + 0.235 * (homeInfo.data.household.by_now_expense.toFloat() / homeInfo.data.household.by_previous_expense.toFloat())).toFloat()
         }
         return homeStats
+    }
+
+    suspend fun isExpenseNotiNew(): Boolean {
+        val noti = getExpenseNotiInfo()
+        if (noti.size == 0) { return true }
+        return homeRepo.getExpenseNoti().notification_expenses[0].is_read
+    }
+
+    private fun getExpenseNotiInfo(): ArrayList<UserExpNotiDetail> {
+        return homeRepo.getExpenseNoti().notification_expenses
     }
 }

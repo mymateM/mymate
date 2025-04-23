@@ -48,9 +48,9 @@ class AlarmViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun readExpNoti() {
-        val id = _expNoti.value?.get(0)?.get(0)?.expense_notification_id
-        if (id != null) {
-            alarmUseCase.readExpNoti(id)
+        if (_expNoti.value?.size != 0) {
+            val id = _expNoti.value?.get(0)?.get(0)?.expense_notification_id
+            alarmUseCase.readExpNoti(id!!)
         }
     }
 }

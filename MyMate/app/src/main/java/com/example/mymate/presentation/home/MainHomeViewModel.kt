@@ -67,6 +67,9 @@ class MainHomeViewModel(application: Application): AndroidViewModel(application)
     private val _userBudgetText = MutableLiveData<String>()
     val userBudgetText: LiveData<String> get() = _userBudgetText
 
+    private val _isBadgeGone = MutableLiveData<Boolean>()
+    val isBadgeGone: LiveData<Boolean> get() = _isBadgeGone
+
     init {
         getHomeInfo()
     }
@@ -96,6 +99,8 @@ class MainHomeViewModel(application: Application): AndroidViewModel(application)
             _userBudget.value = homeStats.userBudget
             _userExpenseLeftText.value = "${homeStats.userExpenseLeft}원"
             _userBudgetText.value = "${homeStats.userBudget}원"
+
+            _isBadgeGone.value = mainHomeUseCase.isExpenseNotiNew()
         }
     }
 }

@@ -11,6 +11,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +60,7 @@ class MainHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         initBinding(inflater, container)
+        initAlarm()
         initGraph()
         initTextSpan()
         initPieChart()
@@ -123,6 +125,12 @@ class MainHomeFragment : Fragment() {
         _binding = MainHomeFragmentBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vm = viewModel
+    }
+
+    private fun initAlarm() {
+        viewModel.isBadgeGone.observe(viewLifecycleOwner) {
+            binding.alarmnoti.isGone = it
+        }
     }
 
     private fun initGraph() {
