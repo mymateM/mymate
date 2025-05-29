@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         Glide.with(this).load(R.raw.mymate_splash).override(500, 500).into(binding.splashicon)
         setContentView(binding.root)
         loading()
-        //startActivity(Intent(this, OnboardingProfileActivity::class.java))
     }
 
     @RequiresApi(Build.VERSION_CODES.P)

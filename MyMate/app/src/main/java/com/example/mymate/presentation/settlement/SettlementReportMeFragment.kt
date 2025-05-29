@@ -70,6 +70,10 @@ class SettlementReportMeFragment: Fragment() {
             }
         }
 
+        viewModel.myTotalExpense.observe(viewLifecycleOwner) {
+            binding.pieMidText.text = it
+        }
+
         viewModel.myPieData.observe(viewLifecycleOwner) {
             initPieRecycle(it)
         }

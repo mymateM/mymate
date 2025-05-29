@@ -67,4 +67,8 @@ class SettlementUseCase(private val settleRepo: SettlementRepository) {
         }
         return resultData
     }
+
+    fun sendMoneyRequest(id: String) {
+        settleRepo.sendMoneyRequest(id)
+    }
 }

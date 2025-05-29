@@ -58,7 +58,7 @@ interface getMateSettleInfo {
 
 interface sendMoneyRequest {
     @GET("api/v1/notifications/send-money/{user_id}")
-    fun sendMoneyRequest(@Header("Authorization") Authorization: String, @Path("user_id") user_id: String): Call<Response<Void>>
+    fun sendMoneyRequest(@Header("Authorization") Authorization: String, @Path("user_id") user_id: String): Response<Void>
 }
 
 //Alarm API

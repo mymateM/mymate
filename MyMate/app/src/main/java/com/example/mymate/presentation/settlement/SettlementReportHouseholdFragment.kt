@@ -70,7 +70,7 @@ class SettlementReportHouseholdFragment: Fragment() {
         }
 
         viewModel.houseMaxCategory.observe(viewLifecycleOwner) {
-            val categoryTitle = SpannableStringBuilder("이 달의 많이 쓴 카테고리는\n${it}이에요")
+            val categoryTitle = SpannableStringBuilder("이 달의 많이 쓴 카테고리는\n${it}입니다")
             categoryTitle.setSpan(ForegroundColorSpan(getColorsByCategory(it)), 16, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.categorytitle.text = categoryTitle
 

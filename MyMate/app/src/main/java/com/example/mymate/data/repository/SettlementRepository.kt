@@ -79,4 +79,14 @@ class SettlementRepository(private val userRepo: DataStoreRepoUser) {
         }
         return myResult
     }
+
+    fun sendMoneyRequest(id: String) {
+        val accessToken = userRepo.userAccessReadFlow.toString()
+        val endpoint = RetrofitClientInstance.client?.create(sendMoneyRequest::class.java)
+        try {
+            val result = endpoint!!.sendMoneyRequest("Bearer $accessToken", id)
+        } catch (e: Exception) {
+            //TODO: 연결 불가할 경우 코드 작성 - Timeout, invalid Access 대응할 것.
+        }
+    }
 }

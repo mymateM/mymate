@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.icu.text.DecimalFormat
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.AndroidViewModel
@@ -15,6 +16,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.mymate.DataStoreRepoUser
 import com.example.mymate.R
 import com.example.mymate.data.dto.report.HouseholdReportProcessed
+import com.example.mymate.data.dto.report.MemberMonthlyStatus
 import com.example.mymate.data.repository.SettlementRepository
 import com.example.mymate.dataStore
 import com.example.mymate.domain.usecase.SettlementUseCase
@@ -26,6 +28,7 @@ class SettlementViewModel(application: Application): AndroidViewModel(applicatio
     private val settlementUseCase = SettlementUseCase(SettlementRepository(DataStoreRepoUser(application.dataStore)))
     private val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(application, R.font.montserrat_bold), Typeface.NORMAL)
     private val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(application, R.font.suit_bold), Typeface.NORMAL)
+    private val suitMediumTypeface = Typeface.create(ResourcesCompat.getFont(application, R.font.suit_medium), Typeface.NORMAL)
 
     //Settlement Activity 변수
     private val _periodText = MutableLiveData<String>()
@@ -76,17 +79,31 @@ class SettlementViewModel(application: Application): AndroidViewModel(applicatio
     private val _myMaxCategory = MutableLiveData<String>()
     val myMaxCategory: LiveData<String> get() = _myMaxCategory
 
+    private val _myTotalExpense = MutableLiveData<String>()
+    val myTotalExpense: LiveData<String> get() = _myTotalExpense
+
     private val _myPieData = MutableLiveData<HouseholdReportProcessed>()
     val myPieData: LiveData<HouseholdReportProcessed> get() = _myPieData
 
-    private val _settleNotiText = MutableLiveData<String>()
-    val settleNotiText: LiveData<String> get() = _settleNotiText //modale 귀속
+    //여기서부터 modale & popup
+    private val _popupText = MutableLiveData<String>()
+    val popupText: LiveData<String> get() = _popupText
+
+    private val _modaleHeaderText = MutableLiveData<String>()
+    val modaleHeaderText: LiveData<String> get() = _modaleHeaderText
+
+    private val _isSender = MutableLiveData<Boolean>()
+    val isSender: LiveData<Boolean> get() = _isSender
+
+    private val _roomMates = MutableLiveData<ArrayList<MemberMonthlyStatus>>()
+    val roomMates: LiveData<ArrayList<MemberMonthlyStatus>> get() = _roomMates
 
     init {
         initSettleActivityInfo()
+        initModale()
     }
 
-    fun initSettleActivityInfo() { //Settlement Activity 바인딩
+    private fun initSettleActivityInfo() { //Settlement Activity 바인딩
         viewModelScope.launch {
             val settlementDate = settlementUseCase.getSettlementDate()
             val startDate = settlementUseCase.getPeriodStartDate(settlementDate)
@@ -95,23 +112,29 @@ class SettlementViewModel(application: Application): AndroidViewModel(applicatio
             _settleTitleText.value = "\n정산일이 다가왔어요!" //TODO: API 이슈로 가구명 전달 안 되는 중. 원래 형식은 "${가구명}의\n정산일이 다가왔어요!"
 
             val myData = settlementUseCase.getMySettleInfo()
-            val totalBuilder = SpannableStringBuilder("${DecimalFormat("#,###").format(myData.household_expense_total)}원")
+            val totalBuilder = SpannableStringBuilder("${DecimalFormat("#,###").format(myData.household_expense_total.toInt())}원")
             totalBuilder.setSpan(suitBoldTypeface.getTypefaceSpan(), totalBuilder.length - 1, totalBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             _totalExpenseText.value = totalBuilder
 
-            val inoutBuilder = SpannableStringBuilder("${DecimalFormat("#,###").format(myData.user.settlement_amount)}원")
+            val inoutBuilder = SpannableStringBuilder("${DecimalFormat("#,###").format(myData.user.settlement_amount.toInt())}원")
             inoutBuilder.setSpan(suitBoldTypeface.getTypefaceSpan(), inoutBuilder.length - 1, inoutBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             _inoutAmountText.value = inoutBuilder
             if (myData.user.is_settlement_sender) {
                 _inoutText.value = "정산을 해야 해요"
-                val bottomBuilder = SpannableStringBuilder("${DecimalFormat("#,###").format(myData.user.settlement_amount)}원 보내러 가기")
+                val bottomBuilder = SpannableStringBuilder("${DecimalFormat("#,###").format(myData.user.settlement_amount.toInt())}원 보내러 가기")
                 bottomBuilder.setSpan(montBoldTypeface.getTypefaceSpan(), 0, DecimalFormat("#,###").format(myData.user.settlement_amount).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 _settleBottomText.value = bottomBuilder
+                _popupText.value = "의\n계좌를 복사했어요!"
+                _modaleHeaderText.value = "내가 이번 달에 보낼 돈은\n"
+                _isSender.value = true
             } else {
                 _inoutText.value = "정산을 받아야 해요"
-                val bottomBuilder = SpannableStringBuilder("${DecimalFormat("#,###").format(myData.user.settlement_amount)}원 받으러 가기")
-                bottomBuilder.setSpan(montBoldTypeface.getTypefaceSpan(), 0, DecimalFormat("#,###").format(myData.user.settlement_amount).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                val bottomBuilder = SpannableStringBuilder("${DecimalFormat("#,###").format(myData.user.settlement_amount.toInt())}원 받으러 가기")
+                bottomBuilder.setSpan(montBoldTypeface.getTypefaceSpan(), 0, DecimalFormat("#,###").format(myData.user.settlement_amount.toInt()).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 _settleBottomText.value = bottomBuilder
+                _popupText.value = "에게\n송금을 요청했어요!"
+                _modaleHeaderText.value = "내가 이번 달에 받을 돈은\n"
+                _isSender.value = false
             }
 
             _totalPortionGuide.value = 0.05f + myData.user.ratio_expense.toFloat() / myData.household_expense_total.toFloat() * 0.90f
@@ -143,18 +166,45 @@ class SettlementViewModel(application: Application): AndroidViewModel(applicatio
             }
             val pieData = settlementUseCase.getHouseholdPieData(reportData)
             _housePieData.value = pieData
-            _houseMaxCategory.value = pieData.categoryName[pieData.maxCategoryIndex]
-            _houseTotalExpense.value = reportData.total_expense
+            if (pieData.categoryName.isNotEmpty()) {
+                _houseMaxCategory.value = pieData.categoryName[pieData.maxCategoryIndex]
+                _houseTotalExpense.value = reportData.total_expense
+            } else {
+                _houseMaxCategory.value = ""
+                _houseTotalExpense.value = ""
+            }
         }
     }
 
-    fun initSettleMeReport(date: String) {
+    private fun initSettleMeReport(date: String) {
         viewModelScope.launch {
             val reportData = settlementUseCase.getMyReport(date)
             val pieData = settlementUseCase.getMyPieData(reportData)
-            _myMaxCategory.value = pieData.categoryName[pieData.maxCategoryIndex]
+            if (pieData.categoryName.isNotEmpty()) {
+                _myMaxCategory.value = pieData.categoryName[pieData.maxCategoryIndex]
+                val totalExpense = SpannableStringBuilder("총 지출\n${DecimalFormat("#,###").format(pieData.totalExpense)}원")
+                totalExpense.setSpan(suitMediumTypeface.getTypefaceSpan(), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                totalExpense.setSpan(suitBoldTypeface.getTypefaceSpan(), totalExpense.length - 1, totalExpense.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                _myTotalExpense.value = totalExpense.toString()
+            }
             _myPieData.value = pieData
         }
+    }
+
+    private fun initModale() {
+        viewModelScope.launch {
+            val housemateData = settlementUseCase.getMateSettleInfo()
+            var header = _modaleHeaderText.value
+            header += "${DecimalFormat("#,###").format(housemateData.user.settlement_amount.toInt())}원 입니다!"
+            val headerBuilder = SpannableStringBuilder(header)
+            headerBuilder.setSpan(ForegroundColorSpan(ContextCompat.getColor(getApplication(), R.color.purpleblue_select)), 8, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            headerBuilder.setSpan(ForegroundColorSpan(ContextCompat.getColor(getApplication(), R.color.purpleblue_select)), 17, 17 + DecimalFormat("#,###").format(housemateData.user.settlement_amount.toInt()).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            _modaleHeaderText.value = headerBuilder.toString()
+        }
+    }
+
+    fun sendRequest(id: String) {
+        settlementUseCase.sendMoneyRequest(id)
     }
 
     //TODO: fragment & modale의 xml 확인하고 뷰바인딩하기, activity & fragment & modale view 클래스 확인하고 뷰모델과 바인딩하기
