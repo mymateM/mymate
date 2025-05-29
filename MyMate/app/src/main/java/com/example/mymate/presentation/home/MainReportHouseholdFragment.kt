@@ -2,6 +2,7 @@ package com.example.mymate.presentation.home
 
 import android.content.Context
 import android.graphics.Typeface
+import android.icu.text.DecimalFormat
 import android.os.Build
 import android.os.Bundle
 import android.text.Spannable

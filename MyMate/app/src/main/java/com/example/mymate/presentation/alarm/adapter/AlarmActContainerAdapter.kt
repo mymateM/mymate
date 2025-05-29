@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.BillManagerActivity
 import com.example.mymate.R
-import com.example.mymate.SettlementActivity
+import com.example.mymate.presentation.settlement.SettlementActivity
 import com.example.mymate.data.dto.notification.UserActNotiDetail
 import com.example.mymate.databinding.ListitemAlarmcontainerBinding
 import java.text.SimpleDateFormat

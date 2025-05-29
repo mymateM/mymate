@@ -1,19 +1,14 @@
-package com.example.mymate
+package com.example.mymate.presentation.settlement
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mymate.data.dto.common.DefaultResponse
+import com.example.mymate.*
 import com.example.mymate.databinding.ActivitySettlementReportBinding
-import com.example.mymate.databinding.MainReportHouseholdFragmentBinding
+import com.example.mymate.util.ViewPager2Adapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class SettlementReportActivity: AppCompatActivity() {
@@ -51,7 +46,7 @@ class SettlementReportActivity: AppCompatActivity() {
     }
 
     private fun initViewPager() {
-        val pager2Adapter = viewPager2Adapter(this)
+        val pager2Adapter = ViewPager2Adapter(this)
         pager2Adapter.addFragment(householdFragment)
         pager2Adapter.addFragment(meFragment)
 

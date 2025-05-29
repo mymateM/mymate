@@ -1,4 +1,4 @@
-package com.example.mymate
+package com.example.mymate.presentation.settlement.adapter
 
 import android.content.Context
 import android.graphics.Typeface
@@ -12,8 +12,10 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.R
 import com.example.mymate.data.dto.report.MemberMonthlyStatus
 import com.example.mymate.databinding.ListitemModaleBinding
+import java.text.DecimalFormat
 
 class SettlementAdapter(val mateList: ArrayList<MemberMonthlyStatus>): RecyclerView.Adapter<SettlementAdapter.SettlementViewHolder>() {
 
@@ -34,7 +36,7 @@ class SettlementAdapter(val mateList: ArrayList<MemberMonthlyStatus>): RecyclerV
         @RequiresApi(Build.VERSION_CODES.P)
         fun bind(item: MemberMonthlyStatus) {
             val nametxt = item.name + "에게"
-            val billtxt = SpannableStringBuilder("${digitprocessing(item.settlement_amount)}원")
+            val billtxt = SpannableStringBuilder("${DecimalFormat("#,###").format(item.settlement_amount.toInt())}원")
             billtxt.setSpan(TypefaceSpan(suitBoldTypeface), billtxt.lastIndex, billtxt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.modalelistname.text = nametxt
             binding.modalelistbill.text = billtxt
@@ -72,35 +74,6 @@ class SettlementAdapter(val mateList: ArrayList<MemberMonthlyStatus>): RecyclerV
     override fun onBindViewHolder(holder: SettlementViewHolder, position: Int) {
         val item = mateList[position]
         holder.bind(item)
-    }
-
-    private fun digitprocessing(digits: String): String {
-        var textlength = digits.length
-        var processed = ""
-        while (0 < textlength) {
-            var substring1 = ""
-            if (textlength == 3) {
-                if (processed == "") {
-                    processed = digits.substring(0 until 3)
-                } else {
-                    processed = digits.substring(0 until 3) + "," + processed
-                }
-            } else if (textlength > 3) {
-                substring1 = digits.substring(textlength - 3 until textlength)
-                if (processed == "") {
-                    processed = substring1
-                } else {
-                    processed = "$substring1,$processed"
-                }
-            } else {
-                substring1 = digits.substring(0 until textlength)
-                processed = "$substring1,$processed"
-            }
-
-            textlength -= 3
-        }
-
-        return processed
     }
 
 }

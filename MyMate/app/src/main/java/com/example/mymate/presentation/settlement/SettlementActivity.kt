@@ -1,43 +1,25 @@
-package com.example.mymate
+package com.example.mymate.presentation.settlement
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
-import android.text.style.TypefaceSpan
-import android.widget.Toast
-import androidx.annotation.RequiresApi
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mymate.data.dto.common.DefaultResponse
-import com.example.mymate.data.dto.report.MemberMonthlyStatus
-import com.example.mymate.data.dto.report.response.MemberSettlementInfoResponse
-import com.example.mymate.data.dto.report.response.UserSettlementInfoResponse
+import com.example.mymate.*
 import com.example.mymate.databinding.ActivitySettlementBinding
-import com.example.mymate.presentation.main.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class SettlementActivity : AppCompatActivity() {
-    lateinit var binding: ActivitySettlementBinding
+    private var _binding: ActivitySettlementBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: SettlementViewModel by viewModels()
     lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
     lateinit var userRepo: DataStoreRepoUser
     lateinit var context: Context
@@ -47,46 +29,35 @@ class SettlementActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySettlementBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        initBinding()
+        initVisibility()
+        initBottomSheet()
+        initData()
         userRepo = DataStoreRepoUser(dataStore)
         context = this
+
         binding.settlementdismiss.setOnClickListener{
             finish()
             overridePendingTransition(R.anim.none, R.anim.left_exit)
         }
 
-        binding.desc.isGone = true
-        binding.descheader.isGone = true
-        binding.toppopup.isGone = true
-
         binding.about.setOnClickListener {
-            if (binding.desc.isGone) {
-                binding.desc.isGone = false
-                binding.descheader.isGone = false
-            } else {
-                binding.desc.isGone = true
-                binding.descheader.isGone = true
-            }
+            binding.descheader.isGone = !binding.desc.isGone
+            binding.desc.isGone = !binding.desc.isGone
         }
 
         binding.scrollview.setOnClickListener {
-            binding.desc.isGone = true
-            binding.descheader.isGone = true
+            initVisibility()
         }
 
         binding.nestedview.setOnClickListener {
-            binding.desc.isGone = true
-            binding.descheader.isGone = true
+            initVisibility()
         }
 
         binding.toReport.setOnClickListener {
             startActivity(Intent(context, SettlementReportActivity::class.java))
             overridePendingTransition(R.anim.right_enter, R.anim.none)
         }
-
-        bottomSheetInit()
-        dataInit()
     }
 
     override fun onBackPressed() {
@@ -95,7 +66,18 @@ class SettlementActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.none, R.anim.left_exit)
     }
 
-    private fun bottomSheetInit() {
+    private fun initBinding() {
+        _binding = ActivitySettlementBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
+        setContentView(binding.root)
+    }
+
+    private fun initVisibility() {
+        binding.desc.isGone = true
+        binding.descheader.isGone = true
+    }
+
+    private fun initBottomSheet() {
         behavior = BottomSheetBehavior.from(binding.modale.root)
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
         binding.cover.isGone = true
@@ -116,23 +98,20 @@ class SettlementActivity : AppCompatActivity() {
         }
 
         binding.modale.root.setOnClickListener {
-
+            //touch event 막기 위한 empty body
         }
     }
 
-    private fun dataInit() {
-        var accessToken = ""
-        runBlocking {
-            accessToken = userRepo.userAccessReadFlow.first().toString()
+    private fun initData() {
+        binding.modale.copyandsendbtn.isEnabled = false //현재 data 없으므로 임시적 disabled
+
+        viewModel.totalPortionGuide.observe(this) {
+            binding.myportionguide.setGuidelinePercent(it)
         }
-        val dateEndpoint = retrofit?.create(getSettlementDate::class.java)
-        val myEndpoint = retrofit?.create(getMySettleInfo::class.java)
-        val mateEndpoint = retrofit?.create(getMateSettleInfo::class.java)
 
-        val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_bold), Typeface.NORMAL)
-        val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_bold), Typeface.NORMAL)
-
-        binding.modale.copyandsendbtn.isEnabled = false
+        viewModel.myPortionGuide.observe(this) {
+            binding.realportionguide.setGuidelinePercent(it)
+        }
 
         /* dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object : Callback<DefaultResponse> {
             override fun onResponse(
@@ -155,51 +134,7 @@ class SettlementActivity : AppCompatActivity() {
                     val periodtxt = "${previousdate.monthValue}.${previousdate.dayOfMonth} - ${date.monthValue}.${date.dayOfMonth}"
                     binding.settlementmonth.text = periodtxt
 
-                    myEndpoint!!.getMySettleInfo("Bearer $accessToken", startDate, endDate).enqueue(object : Callback<UserSettlementInfoResponse> {
-                        @RequiresApi(Build.VERSION_CODES.P)
-                        override fun onResponse(
-                            call: Call<UserSettlementInfoResponse>,
-                            response: Response<UserSettlementInfoResponse>
-                        ) {
-                            if (response.isSuccessful) {
-                                val mydata = response.body()!!.data
-                                val total = SpannableStringBuilder("${digitprocessing(mydata.household_expense_total)}원")
-                                total.setSpan(TypefaceSpan(suitBoldTypeface), total.length - 1, total.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                                binding.totalamount.text = total
-                                val movetotal = SpannableStringBuilder("${digitprocessing(mydata.user.settlement_amount)}원")
-                                movetotal.setSpan(TypefaceSpan(suitBoldTypeface), movetotal.length - 1, movetotal.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                                binding.takeorgiveamount.text = movetotal
-
-                                if (mydata.user.is_settlement_sender) {
-                                    binding.takeorgive.text = "정산을 해야 해요"
-                                    val modaletxt = SpannableStringBuilder("${digitprocessing(mydata.user.settlement_amount)}원 보내러 가기")
-                                    modaletxt.setSpan(TypefaceSpan(montBoldTypeface), 0, digitprocessing(mydata.user.settlement_amount).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                                    binding.modaletext.text = modaletxt
-                                    binding.modale.copyandsendtxt.text = "계좌 복사"
-                                    binding.limegraphtop.isGone = false
-                                } else {
-                                    binding.takeorgive.text = "정산을 받아야 해요"
-                                    val modaletxt = SpannableStringBuilder("${digitprocessing(mydata.user.settlement_amount)}원 받으러 가기")
-                                    modaletxt.setSpan(TypefaceSpan(montBoldTypeface), 0, digitprocessing(mydata.user.settlement_amount).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                                    binding.modaletext.text = modaletxt
-                                    binding.modale.copyandsendtxt.text = "송금 요청"
-                                    binding.limegraphtop.isGone = true
-                                }
-
-                                val myportion = mydata.user.ratio_expense.toFloat()
-                                val myreal = mydata.user.real_expense.toFloat()
-                                val housetotal = mydata.household_expense_total.toFloat()
-
-                                binding.myportionguide.setGuidelinePercent(0.05f + ((myportion / housetotal)) * 0.90f)
-                                binding.realportionguide.setGuidelinePercent(0.05f + ((myreal / housetotal)) * 0.90f)
-                            }
-                        }
-
-                        override fun onFailure(call: Call<UserSettlementInfoResponse>, t: Throwable) {
-                            Toast.makeText(context, "연결 실패(정산-나)", Toast.LENGTH_SHORT).show()
-                        }
-
-                    })
+                    //여기서부터 모달
 
                     mateEndpoint!!.getMateSettleInfo("Bearer $accessToken", startDate, endDate).enqueue(object : Callback<MemberSettlementInfoResponse> {
                         @RequiresApi(Build.VERSION_CODES.P)
@@ -330,34 +265,5 @@ class SettlementActivity : AppCompatActivity() {
             }
 
         }) */
-    }
-
-    private fun digitprocessing(digits: String): String {
-        var textlength = digits.length
-        var processed = ""
-        while (0 < textlength) {
-            var substring1 = ""
-            if (textlength == 3) {
-                if (processed == "") {
-                    processed = digits.substring(0 until 3)
-                } else {
-                    processed = digits.substring(0 until 3) + "," + processed
-                }
-            } else if (textlength > 3) {
-                substring1 = digits.substring(textlength - 3 until textlength)
-                if (processed == "") {
-                    processed = substring1
-                } else {
-                    processed = "$substring1,$processed"
-                }
-            } else {
-                substring1 = digits.substring(0 until textlength)
-                processed = "$substring1,$processed"
-            }
-
-            textlength -= 3
-        }
-
-        return processed
     }
 }

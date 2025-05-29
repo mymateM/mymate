@@ -48,12 +48,12 @@ interface getHomeInfo {
 
 interface getMySettleInfo {
     @GET("api/v1/settlement/user")
-    fun getMySettleInfo(@Header("Authorization") Authorization: String, @Query("start_date") start_date: String, @Query("end_date") end_date: String): Call<UserSettlementInfoResponse>
+    fun getMySettleInfo(@Header("Authorization") Authorization: String, @Query("start_date") start_date: String, @Query("end_date") end_date: String): Response<UserSettlementInfoResponse>
 }
 
 interface getMateSettleInfo {
     @GET("api/v1/settlement")
-    fun getMateSettleInfo(@Header("Authorization") Authorization: String, @Query("start_date") start_date: String, @Query("end_date") end_date: String): Call<MemberSettlementInfoResponse>
+    fun getMateSettleInfo(@Header("Authorization") Authorization: String, @Query("start_date") start_date: String, @Query("end_date") end_date: String): Response<MemberSettlementInfoResponse>
 }
 
 interface sendMoneyRequest {

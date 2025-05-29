@@ -17,6 +17,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.mymate.*
 import com.example.mymate.databinding.MainReportFragmentBinding
 import com.example.mymate.presentation.main.MainActivity
+import com.example.mymate.util.ViewPager2Adapter
 import com.google.android.material.tabs.TabLayoutMediator
 import java.time.format.DateTimeFormatter
 
@@ -68,7 +69,7 @@ class MainReportFragment : Fragment() {
     }
 
     private fun initViewPager() {
-        val pager2Adapter = viewPager2Adapter(this.requireActivity())
+        val pager2Adapter = ViewPager2Adapter(this.requireActivity())
         pager2Adapter.addFragment(householdFragment)
         pager2Adapter.addFragment(meFragment)
 

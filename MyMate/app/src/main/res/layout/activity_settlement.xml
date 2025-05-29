@@ -2,6 +2,9 @@
 
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="vm" type="com.example.mymate.presentation.settlement.SettlementViewModel"/>
+    </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -75,7 +78,7 @@
                         app:layout_constraintBottom_toBottomOf="@id/dismiss"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:text="13.32 - 14.32"
+                        android:text="@{vm.periodText.toString()}"
                         android:textSize="16dp"
                         android:fontFamily="@font/montserrat_semibold"
                         android:textColor="@color/white"/>
@@ -112,7 +115,7 @@
                         android:lineSpacingExtra="5dp"
                         android:fontFamily="@font/happiness_sans_title"
                         android:textColor="@color/white"
-                        android:text="해피하우스의\n정산일이 다가왔어요!"
+                        android:text="@{vm.settleTitleText.toString()}"
                         android:gravity="center"/>
 
                     <TextView
@@ -143,7 +146,7 @@
                         android:textSize="20dp"
                         android:textColor="@color/white"
                         android:fontFamily="@font/montserrat_bold"
-                        android:text="0000000원"
+                        android:text="@{vm.totalExpenseText.toString()}"
                         android:id="@+id/totalamount"/>
 
                     <TextView
@@ -156,7 +159,7 @@
                         android:textColor="@color/black_text"
                         android:fontFamily="@font/happiness_sans_title"
                         android:textSize="20dp"
-                        android:text="정산을 받아야 해요"
+                        android:text="@{vm.inoutText.toString()}"
                         android:id="@+id/takeorgive"/>
 
                     <TextView
@@ -169,7 +172,7 @@
                         android:fontFamily="@font/montserrat_bold"
                         android:textSize="20dp"
                         android:textColor="@color/black_text"
-                        android:text="000000원"
+                        android:text="@{vm.inoutAmountText.toString()}"
                         android:id="@+id/takeorgiveamount"/>
 
                     <ImageView
@@ -233,14 +236,14 @@
                         android:id="@+id/myportionguide"
                         app:layout_constraintGuide_begin="20dp"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.95"/>
+                        app:layout_constraintGuide_percent="0.05"/>
 
                     <androidx.constraintlayout.widget.Guideline
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/realportionguide"
                         app:layout_constraintGuide_begin="20dp"
-                        app:layout_constraintGuide_percent="0.5"
+                        app:layout_constraintGuide_percent="0.05"
                         android:orientation="vertical"/>
 
                     <ImageView
@@ -391,7 +394,7 @@
                 android:fontFamily="@font/suit_bold"
                 android:textColor="@color/white"
                 android:textSize="20dp"
-                android:text="000000원 보내러 가기"
+                android:text="@{vm.settleBottomText.toString()}"
                 android:id="@+id/modaletext"/>
 
             <ImageView
@@ -424,7 +427,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="22dp"
                     android:lineSpacingExtra="3dp"
-                    android:text="00의\n계좌를 복사했어요"
+                    android:text="@{vm.settleNotiText.toString()}"
                     android:textColor="@color/black_text"
                     android:textSize="14dp"
                     android:fontFamily="@font/suit_semibold"

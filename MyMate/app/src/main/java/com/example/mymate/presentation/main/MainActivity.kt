@@ -20,6 +20,7 @@ import com.example.mymate.presentation.home.MainHomeFragment
 import com.example.mymate.presentation.home.MainMypageFragment
 import com.example.mymate.presentation.home.MainReportFragment
 import com.example.mymate.presentation.home.MainSpendingFragment
+import com.example.mymate.util.ViewPager2Adapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -86,7 +87,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViewPager() { // 탭 프래그먼트 연결
-        val pager2Adapter = viewPager2Adapter(this)
+        val pager2Adapter = ViewPager2Adapter(this)
         for (fragments in tabFragments) {
             pager2Adapter.addFragment(fragments)
         }
