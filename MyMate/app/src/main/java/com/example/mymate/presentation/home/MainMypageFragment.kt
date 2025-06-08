@@ -19,6 +19,8 @@ import androidx.fragment.app.viewModels
 import com.example.mymate.*
 import com.example.mymate.databinding.MainMypageFragmentBinding
 import com.example.mymate.presentation.main.MainActivity
+import com.example.mymate.util.FontManager
+import com.example.mymate.util.getTypefaceSpan
 
 class MainMypageFragment : Fragment() {
     lateinit var mainActivity: MainActivity
@@ -53,7 +55,6 @@ class MainMypageFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.P)
     private fun initInfo() {
-        val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
         val budgetIntent = Intent(mainActivity, MypageBudgetActivity::class.java)
 
         viewModel.profilePic.observe(viewLifecycleOwner) {
@@ -62,13 +63,13 @@ class MainMypageFragment : Fragment() {
 
         viewModel.settlementDate.observe(viewLifecycleOwner) {
             val settleDateTxt = SpannableStringBuilder(it)
-            settleDateTxt.setSpan(TypefaceSpan(montBoldTypeface), 0, settleDateTxt.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            settleDateTxt.setSpan(FontManager.montserratBold.getTypefaceSpan(), 0, settleDateTxt.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.settleday.text = settleDateTxt
         }
 
         viewModel.householdBudget.observe(viewLifecycleOwner) {
             val budgetTxt = SpannableStringBuilder(it)
-            budgetTxt.setSpan(TypefaceSpan(montBoldTypeface), 0, budgetTxt.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            budgetTxt.setSpan(FontManager.montserratBold.getTypefaceSpan(), 0, budgetTxt.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.budgetamount.text = budgetTxt
             if (it != null) {
                 budgetIntent.putExtra("Budget", it)
@@ -79,7 +80,7 @@ class MainMypageFragment : Fragment() {
 
         viewModel.userPercentage.observe(viewLifecycleOwner) {
             val percentTxt = SpannableStringBuilder(it)
-            percentTxt.setSpan(TypefaceSpan(montBoldTypeface), 0, percentTxt.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            percentTxt.setSpan(FontManager.montserratBold.getTypefaceSpan(), 0, percentTxt.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.myratio.text = percentTxt
         }
 

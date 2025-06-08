@@ -14,6 +14,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.R
 import com.example.mymate.databinding.ListitemReportBinding
+import com.example.mymate.util.FontManager
+import com.example.mymate.util.getTypefaceSpan
 import java.text.DecimalFormat
 
 class MainReportListAdapter(val nameList: ArrayList<String>, val percentList: ArrayList<Float>, val absList: ArrayList<Int>, val colorItem: ArrayList<Int>): RecyclerView.Adapter<MainReportListAdapter.MainReportListHolder>() {
@@ -36,10 +38,8 @@ class MainReportListAdapter(val nameList: ArrayList<String>, val percentList: Ar
             binding.categorytext.text = nameitem
             val percentText = "${percentitem * 100}%"
             val absText = SpannableStringBuilder("${DecimalFormat("#,###").format(absitem)}원")
-            val montSemiBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_semibold), Typeface.NORMAL)
-            val suitSemiBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_semibold), Typeface.NORMAL)
-            absText.setSpan(TypefaceSpan(montSemiBoldTypeface), 0, absText.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            absText.setSpan(TypefaceSpan(suitSemiBoldTypeface), absText.length - 1, absText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            absText.setSpan(FontManager.montserratSemiBold.getTypefaceSpan(), 0, absText.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            absText.setSpan(FontManager.suitSemiBold.getTypefaceSpan(), absText.length - 1, absText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.percentText.text = percentText
             binding.absText.text = absText
         }

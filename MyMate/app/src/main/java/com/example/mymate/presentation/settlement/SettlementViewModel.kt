@@ -20,15 +20,13 @@ import com.example.mymate.data.dto.report.MemberMonthlyStatus
 import com.example.mymate.data.repository.SettlementRepository
 import com.example.mymate.dataStore
 import com.example.mymate.domain.usecase.SettlementUseCase
+import com.example.mymate.util.FontManager
 import com.example.mymate.util.getTypefaceSpan
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 
 class SettlementViewModel(application: Application): AndroidViewModel(application) {
     private val settlementUseCase = SettlementUseCase(SettlementRepository(DataStoreRepoUser(application.dataStore)))
-    private val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(application, R.font.montserrat_bold), Typeface.NORMAL)
-    private val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(application, R.font.suit_bold), Typeface.NORMAL)
-    private val suitMediumTypeface = Typeface.create(ResourcesCompat.getFont(application, R.font.suit_medium), Typeface.NORMAL)
 
     //Settlement Activity 변수
     private val _periodText = MutableLiveData<String>()
@@ -113,16 +111,16 @@ class SettlementViewModel(application: Application): AndroidViewModel(applicatio
 
             val myData = settlementUseCase.getMySettleInfo()
             val totalBuilder = SpannableStringBuilder("${DecimalFormat("#,###").format(myData.household_expense_total.toInt())}원")
-            totalBuilder.setSpan(suitBoldTypeface.getTypefaceSpan(), totalBuilder.length - 1, totalBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            totalBuilder.setSpan(FontManager.suitBold.getTypefaceSpan(), totalBuilder.length - 1, totalBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             _totalExpenseText.value = totalBuilder
 
             val inoutBuilder = SpannableStringBuilder("${DecimalFormat("#,###").format(myData.user.settlement_amount.toInt())}원")
-            inoutBuilder.setSpan(suitBoldTypeface.getTypefaceSpan(), inoutBuilder.length - 1, inoutBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            inoutBuilder.setSpan(FontManager.suitBold.getTypefaceSpan(), inoutBuilder.length - 1, inoutBuilder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             _inoutAmountText.value = inoutBuilder
             if (myData.user.is_settlement_sender) {
                 _inoutText.value = "정산을 해야 해요"
                 val bottomBuilder = SpannableStringBuilder("${DecimalFormat("#,###").format(myData.user.settlement_amount.toInt())}원 보내러 가기")
-                bottomBuilder.setSpan(montBoldTypeface.getTypefaceSpan(), 0, DecimalFormat("#,###").format(myData.user.settlement_amount).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                bottomBuilder.setSpan(FontManager.montserratBold.getTypefaceSpan(), 0, DecimalFormat("#,###").format(myData.user.settlement_amount).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 _settleBottomText.value = bottomBuilder
                 _popupText.value = "의\n계좌를 복사했어요!"
                 _modaleHeaderText.value = "내가 이번 달에 보낼 돈은\n"
@@ -130,7 +128,7 @@ class SettlementViewModel(application: Application): AndroidViewModel(applicatio
             } else {
                 _inoutText.value = "정산을 받아야 해요"
                 val bottomBuilder = SpannableStringBuilder("${DecimalFormat("#,###").format(myData.user.settlement_amount.toInt())}원 받으러 가기")
-                bottomBuilder.setSpan(montBoldTypeface.getTypefaceSpan(), 0, DecimalFormat("#,###").format(myData.user.settlement_amount.toInt()).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                bottomBuilder.setSpan(FontManager.montserratBold.getTypefaceSpan(), 0, DecimalFormat("#,###").format(myData.user.settlement_amount.toInt()).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 _settleBottomText.value = bottomBuilder
                 _popupText.value = "에게\n송금을 요청했어요!"
                 _modaleHeaderText.value = "내가 이번 달에 받을 돈은\n"
@@ -183,8 +181,8 @@ class SettlementViewModel(application: Application): AndroidViewModel(applicatio
             if (pieData.categoryName.isNotEmpty()) {
                 _myMaxCategory.value = pieData.categoryName[pieData.maxCategoryIndex]
                 val totalExpense = SpannableStringBuilder("총 지출\n${DecimalFormat("#,###").format(pieData.totalExpense)}원")
-                totalExpense.setSpan(suitMediumTypeface.getTypefaceSpan(), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                totalExpense.setSpan(suitBoldTypeface.getTypefaceSpan(), totalExpense.length - 1, totalExpense.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                totalExpense.setSpan(FontManager.suitMedium.getTypefaceSpan(), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                totalExpense.setSpan(FontManager.suitBold.getTypefaceSpan(), totalExpense.length - 1, totalExpense.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 _myTotalExpense.value = totalExpense.toString()
             }
             _myPieData.value = pieData

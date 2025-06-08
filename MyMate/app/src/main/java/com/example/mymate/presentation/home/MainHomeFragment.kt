@@ -28,6 +28,7 @@ import com.example.mymate.data.dto.auth.response.LocalRefreshResponse
 import com.example.mymate.databinding.MainHomeFragmentBinding
 import com.example.mymate.presentation.main.MainActivity
 import com.example.mymate.presentation.settlement.SettlementActivity
+import com.example.mymate.util.FontManager
 import com.example.mymate.util.getTypefaceSpan
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -178,15 +179,12 @@ class MainHomeFragment : Fragment() {
     }
 
     private fun initTextSpan() {
-        val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
-        val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL) // 글씨체 적용을 위한 변수 선언
-
         viewModel.houseExpenseRatioNotiText.observe(viewLifecycleOwner) {
             val houseExpenseText = SpannableStringBuilder(it)
             houseExpenseText.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity,
                 R.color.purplevivid_buttonline
             )), 9, it.length - 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            houseExpenseText.setSpan(montBoldTypeface.getTypefaceSpan(), 9, it.length - 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            houseExpenseText.setSpan(FontManager.montserratBold.getTypefaceSpan(), 9, it.length - 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.spendnoti.text = houseExpenseText
         }
 
@@ -198,13 +196,13 @@ class MainHomeFragment : Fragment() {
 
         viewModel.userExpenseLeftText.observe(viewLifecycleOwner) {
             val leftText = SpannableStringBuilder(it)
-            leftText.setSpan(suitBoldTypeface.getTypefaceSpan(), it.length - 1, it.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            leftText.setSpan(FontManager.suitBold.getTypefaceSpan(), it.length - 1, it.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.remainingbudget.text = leftText
         }
 
         viewModel.userBudgetText.observe(viewLifecycleOwner) {
             val budgetText = SpannableStringBuilder(it)
-            budgetText.setSpan(suitBoldTypeface.getTypefaceSpan(), it.length - 1, it.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            budgetText.setSpan(FontManager.suitBold.getTypefaceSpan(), it.length - 1, it.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.totalbudget.text = budgetText
         }
     }
@@ -242,15 +240,12 @@ class MainHomeFragment : Fragment() {
         val expense = userBudget.toInt()
         val expenseFormatted = DecimalFormat("#,###").format(expense)
 
-        val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
-        val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
-        val suitSemiBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_semibold), Typeface.NORMAL)
         val piemidtext = SpannableStringBuilder("${expenseFormatted}원\n오늘까지 썼어요")
         piemidtext.setSpan(AbsoluteSizeSpan(18, true), 0, expenseFormatted.length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(AbsoluteSizeSpan(16, true), expenseFormatted.length + 2, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        piemidtext.setSpan(montBoldTypeface.getTypefaceSpan(), 0, expenseFormatted.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        piemidtext.setSpan(suitBoldTypeface.getTypefaceSpan(), expenseFormatted.length, expenseFormatted.length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        piemidtext.setSpan(suitBoldTypeface.getTypefaceSpan(), expenseFormatted.length + 1, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(FontManager.montserratBold.getTypefaceSpan(), 0, expenseFormatted.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(FontManager.suitBold.getTypefaceSpan(), expenseFormatted.length, expenseFormatted.length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        piemidtext.setSpan(FontManager.suitBold.getTypefaceSpan(), expenseFormatted.length + 1, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.purplevivid_buttonline)), 0, expenseFormatted.length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         piemidtext.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.black_text)), expenseFormatted.length + 1, piemidtext.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.myPieMidText.text = piemidtext

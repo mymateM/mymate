@@ -27,6 +27,8 @@ import com.example.mymate.data.dto.report.HouseholdReportProcessed
 import com.example.mymate.databinding.MainReportHouseholdFragmentBinding
 import com.example.mymate.presentation.home.adapter.MainReportListAdapter
 import com.example.mymate.presentation.main.MainActivity
+import com.example.mymate.util.FontManager
+import com.example.mymate.util.getTypefaceSpan
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -94,9 +96,6 @@ class MainReportHouseholdFragment: Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.P)
     private fun initHousehold() {
-        val suitMediumTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_medium), Typeface.NORMAL)
-        val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.suit_bold), Typeface.NORMAL)
-
         viewModel.householdReport.observe(viewLifecycleOwner) {
             initPieRecycle(it)
         }
@@ -115,8 +114,8 @@ class MainReportHouseholdFragment: Fragment() {
             val piemidtxt = SpannableStringBuilder("총 지출\n${it}원")
             piemidtxt.setSpan(ForegroundColorSpan(ContextCompat.getColor(mainActivity, R.color.graydark_text)), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             piemidtxt.setSpan(AbsoluteSizeSpan(16, true), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            piemidtxt.setSpan(TypefaceSpan(suitMediumTypeface), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            piemidtxt.setSpan(TypefaceSpan(suitBoldTypeface), piemidtxt.length - 1, piemidtxt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            piemidtxt.setSpan(FontManager.suitMedium.getTypefaceSpan(), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            piemidtxt.setSpan(FontManager.suitBold.getTypefaceSpan(), piemidtxt.length - 1, piemidtxt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.pieMidText.text = piemidtxt
 
             if (it == null || it == "" || it == "0") {

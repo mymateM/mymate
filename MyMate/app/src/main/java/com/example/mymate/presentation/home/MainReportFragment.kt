@@ -17,7 +17,9 @@ import androidx.fragment.app.activityViewModels
 import com.example.mymate.*
 import com.example.mymate.databinding.MainReportFragmentBinding
 import com.example.mymate.presentation.main.MainActivity
+import com.example.mymate.util.FontManager
 import com.example.mymate.util.ViewPager2Adapter
+import com.example.mymate.util.getTypefaceSpan
 import com.google.android.material.tabs.TabLayoutMediator
 import java.time.format.DateTimeFormatter
 
@@ -92,10 +94,9 @@ class MainReportFragment : Fragment() {
     private fun initReport() {
         viewModel.periodDate.observe(viewLifecycleOwner) {
             if (it != null) {
-                val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(mainActivity, R.font.montserrat_bold), Typeface.NORMAL)
                 val thisperiod = SpannableStringBuilder("${it.monthValue}월 ${it.dayOfMonth}일 -")
-                thisperiod.setSpan(TypefaceSpan(montBoldTypeface), 0, it.monthValue.toString().length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                thisperiod.setSpan(TypefaceSpan(montBoldTypeface), it.monthValue.toString().length + 2, thisperiod.length - 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                thisperiod.setSpan(FontManager.montserratBold.getTypefaceSpan(), 0, it.monthValue.toString().length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                thisperiod.setSpan(FontManager.montserratBold.getTypefaceSpan(), it.monthValue.toString().length + 2, thisperiod.length - 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 binding.thisperiod.text = thisperiod
             }
         }

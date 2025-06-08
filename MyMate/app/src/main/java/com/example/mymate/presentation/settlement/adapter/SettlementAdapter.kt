@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.R
 import com.example.mymate.data.dto.report.MemberMonthlyStatus
 import com.example.mymate.databinding.ListitemModaleBinding
+import com.example.mymate.util.FontManager
 import com.example.mymate.util.getTypefaceSpan
 import java.text.DecimalFormat
 
@@ -32,12 +33,10 @@ class SettlementAdapter(val mateList: ArrayList<MemberMonthlyStatus>): RecyclerV
     }
 
     inner class SettlementViewHolder(val binding: ListitemModaleBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
-        val suitBoldTypeface: Typeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_bold), Typeface.NORMAL)
-        val montBoldTypeface: Typeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_bold), Typeface.NORMAL)
         fun bind(item: MemberMonthlyStatus) {
             val nametxt = item.name + "에게"
             val billtxt = SpannableStringBuilder("${DecimalFormat("#,###").format(item.settlement_amount.toInt())}원")
-            billtxt.setSpan(suitBoldTypeface.getTypefaceSpan(), billtxt.lastIndex, billtxt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            billtxt.setSpan(FontManager.suitBold.getTypefaceSpan(), billtxt.lastIndex, billtxt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.modalelistname.text = nametxt
             binding.modalelistbill.text = billtxt
 

@@ -7,6 +7,7 @@ import android.text.TextPaint
 import android.text.style.MetricAffectingSpan
 import android.text.style.TypefaceSpan
 import androidx.annotation.RequiresApi
+import androidx.core.content.res.ResourcesCompat
 
 fun Typeface.getTypefaceSpan(): MetricAffectingSpan {
     return if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.P) typefaceSpanCompatV28(this) else CustomTypefaceSpan(this)

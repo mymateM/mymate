@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.R
 import com.example.mymate.data.dto.expense.ExpenseSummary
 import com.example.mymate.databinding.ListitemSpendingBinding
+import com.example.mymate.util.FontManager
+import com.example.mymate.util.getTypefaceSpan
 import java.text.DecimalFormat
 
 class SpendingAdapter(): ListAdapter<ExpenseSummary, SpendingAdapter.ExpenseViewHolder>(diffUtil) {
@@ -40,10 +42,8 @@ class SpendingAdapter(): ListAdapter<ExpenseSummary, SpendingAdapter.ExpenseView
             val store = binding.spendingStore
 
             val amountText = SpannableStringBuilder("${DecimalFormat("#,###").format(item.expenseAmount.toInt())}원")
-            val montSemiBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_semibold), Typeface.NORMAL)
-            val suitSemiBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_semibold), Typeface.NORMAL)
-            amountText.setSpan(TypefaceSpan(montSemiBoldTypeface), 0, amountText.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            amountText.setSpan(TypefaceSpan(suitSemiBoldTypeface), amountText.length - 1, amountText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            amountText.setSpan(FontManager.montserratSemiBold.getTypefaceSpan(), 0, amountText.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            amountText.setSpan(FontManager.suitSemiBold.getTypefaceSpan(), amountText.length - 1, amountText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
             amount.text = amountText
             store.text = item.expenseStore
