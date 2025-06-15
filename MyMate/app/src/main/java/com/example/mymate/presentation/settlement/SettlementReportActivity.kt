@@ -2,6 +2,7 @@ package com.example.mymate.presentation.settlement
 
 import android.content.Context
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mymate.*
 import com.example.mymate.databinding.ActivitySettlementReportBinding
@@ -12,19 +13,18 @@ import kotlinx.coroutines.runBlocking
 import java.time.format.DateTimeFormatter
 
 class SettlementReportActivity: AppCompatActivity() {
-    lateinit var binding: ActivitySettlementReportBinding
+    private var _binding: ActivitySettlementReportBinding? = null
+    private val binding get() = _binding!!
     lateinit var userRepo: DataStoreRepoUser
     lateinit var context: Context
-
-    private val retrofit = RetrofitClientInstance.client
-    private var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val householdFragment = SettlementReportHouseholdFragment()
-    val meFragment = SettlementReportMeFragment()
+    private val householdFragment = SettlementReportHouseholdFragment()
+    private val meFragment = SettlementReportMeFragment()
+    private val viewModel: SettlementViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivitySettlementReportBinding.inflate(layoutInflater)
+        _binding = ActivitySettlementReportBinding.inflate(layoutInflater)
         userRepo = DataStoreRepoUser(dataStore)
         context = this
 
@@ -34,6 +34,11 @@ class SettlementReportActivity: AppCompatActivity() {
         }
 
         initViewPager()
+        viewModel.initReport()
+
+        viewModel.reportPeriodText.observe(this) {
+            binding.thisperiod.text = it
+        }
 
         setContentView(binding.root)
     }
@@ -63,42 +68,5 @@ class SettlementReportActivity: AppCompatActivity() {
                 1 -> tab.text = "개인 지출"
             }
         }.attach()
-
-        var accessToken = ""
-        runBlocking {
-            accessToken = userRepo.userAccessReadFlow.first().toString()
-        }
-        val dateEndpoint = retrofit?.create(getSettlementDate::class.java)
-
-        /* dateEndpoint!!.getSettlementDate("Bearer $accessToken").enqueue(object :
-            Callback<DefaultResponse> {
-            override fun onResponse(
-                call: Call<DefaultResponse>,
-                response: Response<DefaultResponse>
-            ) {
-                if(response.isSuccessful) {
-                    var date = response.body()!!.data
-                    if (LocalDate.now().dayOfMonth < date!!.toInt()) {
-                        //var thisdate = LocalDate.now().minusMonths(2)
-                        var thisdate = LocalDate.now().minusMonths(1)
-                        thisdate = thisdate.withDayOfMonth(date.toInt())
-                        date = thisdate.format(formatter)
-                        val thisperiod = "${thisdate.monthValue}월 ${thisdate.dayOfMonth + 1}일 - ${thisdate.monthValue + 1}월 ${thisdate.dayOfMonth}일"
-                        binding.thisperiod.text = thisperiod
-                    } else {
-                        var thisdate = LocalDate.now().minusMonths(1)
-                        thisdate = thisdate.withDayOfMonth(date.toInt())
-                        date = thisdate.format(formatter)
-                        val thisperiod = "${thisdate.monthValue}월 ${thisdate.dayOfMonth + 1}일 - ${thisdate.monthValue + 1}월 ${thisdate.dayOfMonth}일"
-                        binding.thisperiod.text = thisperiod
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
-                Toast.makeText(context, "연결 실패(리포트-정산일)", Toast.LENGTH_SHORT).show()
-            }
-
-        }) */
     }
 }

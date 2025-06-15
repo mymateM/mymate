@@ -25,7 +25,7 @@ class SettlementReportHouseholdFragment: Fragment() {
     private var _binding: MainReportHouseholdFragmentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SettlementViewModel by activityViewModels()
-    lateinit var settlementReport: SettlementReportActivity
+    private lateinit var settlementReport: SettlementReportActivity
 
     private val colorItemList = ArrayList<Int>() //TODO: color item 관련한 코드 util로 빼기
 

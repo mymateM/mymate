@@ -4,9 +4,13 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.icu.text.DecimalFormat
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -27,9 +31,6 @@ class SettlementActivity : AppCompatActivity() {
     private val viewModel: SettlementViewModel by viewModels()
     lateinit var behavior: BottomSheetBehavior<ConstraintLayout>
     lateinit var context: Context
-
-    val retrofit = RetrofitClientInstance.client
-    private var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,40 +119,6 @@ class SettlementActivity : AppCompatActivity() {
             binding.realportionguide.setGuidelinePercent(it)
         }
     }
-        /*
-                    //여기서부터 모달
-                                var accountType = ""
-                                var accountNumber = ""
-                                var mateName = ""
-
-                                var mateId = ""
-
-                                if (matedata.user.is_settlement_sender) {
-                                    binding.modale.copyandsendbtn.setOnClickListener {
-                                        when (accountType) {
-                                            "KB" -> accountType = "국민"
-                                            "SC" -> accountType = "SC제일"
-                                            "WOORI" -> accountType = "우리"
-                                        }
-
-                                        val account = "$accountType $accountNumber"
-                                        val clip = ClipData.newPlainText("account", account)
-                                        val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                                        clipboard.setPrimaryClip(clip)
-
-                                        val toasttxt = "${mateName}의\n계좌를 복사했어요"
-                                        binding.toastTxt.text= toasttxt
-                                        binding.toppopup.isGone = false
-                                        binding.toHome.setOnClickListener {
-                                            startActivity(Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                                        }
-                                        binding.toppopup.setOnClickListener {
-
-                                        }
-                                        Handler(Looper.getMainLooper()).postDelayed({
-                                            binding.toppopup.isGone = true
-                                        }, 3000)
-                                    } */
 
     private fun initModale() {
         binding.modale.modallist.layoutManager = LinearLayoutManager(this)

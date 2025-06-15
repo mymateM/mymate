@@ -24,6 +24,8 @@ import com.example.mymate.*
 import com.example.mymate.data.dto.report.HouseholdReportProcessed
 import com.example.mymate.databinding.MainReportHouseholdFragmentBinding
 import com.example.mymate.presentation.home.adapter.MainReportListAdapter
+import com.example.mymate.util.FontManager
+import com.example.mymate.util.getTypefaceSpan
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -33,7 +35,7 @@ class SettlementReportMeFragment: Fragment() {
     private val binding get() = _binding!!
     private val viewModel: SettlementViewModel by activityViewModels()
     private val colorItemList = ArrayList<Int>() //TODO: color item 관련 코드 util로 빼기
-    lateinit var settlementReport: SettlementReportActivity
+    private lateinit var settlementReport: SettlementReportActivity
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -71,7 +73,12 @@ class SettlementReportMeFragment: Fragment() {
         }
 
         viewModel.myTotalExpense.observe(viewLifecycleOwner) {
-            binding.pieMidText.text = it
+            val totalExpense = SpannableStringBuilder(it)
+            totalExpense.run {
+                setSpan(FontManager.suitMedium.getTypefaceSpan(), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                setSpan(FontManager.suitBold.getTypefaceSpan(), it.length -1, it.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            binding.pieMidText.text = totalExpense.toString()
         }
 
         viewModel.myPieData.observe(viewLifecycleOwner) {

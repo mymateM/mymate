@@ -180,10 +180,7 @@ class SettlementViewModel(application: Application): AndroidViewModel(applicatio
             val pieData = settlementUseCase.getMyPieData(reportData)
             if (pieData.categoryName.isNotEmpty()) {
                 _myMaxCategory.value = pieData.categoryName[pieData.maxCategoryIndex]
-                val totalExpense = SpannableStringBuilder("총 지출\n${DecimalFormat("#,###").format(pieData.totalExpense)}원")
-                totalExpense.setSpan(FontManager.suitMedium.getTypefaceSpan(), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                totalExpense.setSpan(FontManager.suitBold.getTypefaceSpan(), totalExpense.length - 1, totalExpense.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                _myTotalExpense.value = totalExpense.toString()
+                _myTotalExpense.value = "총 지출\n${DecimalFormat("#,###").format(pieData.totalExpense)}원"
             }
             _myPieData.value = pieData
         }
@@ -196,7 +193,12 @@ class SettlementViewModel(application: Application): AndroidViewModel(applicatio
             header += "${DecimalFormat("#,###").format(housemateData.user.settlement_amount.toInt())}원 입니다!"
             val headerBuilder = SpannableStringBuilder(header)
             headerBuilder.setSpan(ForegroundColorSpan(ContextCompat.getColor(getApplication(), R.color.purpleblue_select)), 8, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            headerBuilder.setSpan(ForegroundColorSpan(ContextCompat.getColor(getApplication(), R.color.purpleblue_select)), 17, 17 + DecimalFormat("#,###").format(housemateData.user.settlement_amount.toInt()).length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            headerBuilder.setSpan(
+                ForegroundColorSpan(ContextCompat.getColor(getApplication(), R.color.purpleblue_select)),
+                17,
+                17 + DecimalFormat("#,###").format(housemateData.user.settlement_amount.toInt()).length + 1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
             _modaleHeaderText.value = headerBuilder.toString()
         }
     }
@@ -205,5 +207,4 @@ class SettlementViewModel(application: Application): AndroidViewModel(applicatio
         settlementUseCase.sendMoneyRequest(id)
     }
 
-    //TODO: fragment & modale의 xml 확인하고 뷰바인딩하기, activity & fragment & modale view 클래스 확인하고 뷰모델과 바인딩하기
 }
