@@ -5,20 +5,11 @@ import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mymate.data.dto.auth.DeviceToken
 import com.example.mymate.data.dto.auth.request.LocalLoginRequest
 import com.example.mymate.data.dto.auth.response.LocalLoginResponse
-import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityLocalloginBinding
-import com.example.mymate.presentation.main.MainActivity
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class LocalLoginActivity: AppCompatActivity() {
     lateinit var binding: ActivityLocalloginBinding

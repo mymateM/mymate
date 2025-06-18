@@ -10,8 +10,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.mymate.data.dto.auth.DeviceToken
-import com.example.mymate.data.remote.service.RetrofitClientInstance
-import com.example.mymate.data.remote.service.auth.LoginApi
+import com.example.mymate.data.remote.api.RetrofitClientInstance
+import com.example.mymate.data.remote.api.auth.LoginApi
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService

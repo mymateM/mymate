@@ -16,10 +16,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.mymate.*
 import com.example.mymate.databinding.ActivityMainBinding
-import com.example.mymate.presentation.home.MainHomeFragment
-import com.example.mymate.presentation.home.MainMypageFragment
-import com.example.mymate.presentation.home.MainReportFragment
-import com.example.mymate.presentation.home.MainSpendingFragment
+import com.example.mymate.presentation.home.fragment.MainHomeFragment
+import com.example.mymate.presentation.home.fragment.MainMypageFragment
+import com.example.mymate.presentation.home.fragment.MainReportFragment
+import com.example.mymate.presentation.home.fragment.MainSpendingFragment
 import com.example.mymate.util.ViewPager2Adapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator

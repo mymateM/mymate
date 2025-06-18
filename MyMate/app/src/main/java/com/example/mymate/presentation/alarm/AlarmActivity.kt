@@ -7,6 +7,9 @@ import androidx.core.view.isGone
 import androidx.viewpager2.widget.ViewPager2
 import com.example.mymate.*
 import com.example.mymate.databinding.ActivityAlarmBinding
+import com.example.mymate.presentation.alarm.fragment.AlarmActFragment
+import com.example.mymate.presentation.alarm.fragment.AlarmSpdFragment
+import com.example.mymate.presentation.alarm.viewmodel.AlarmViewModel
 import com.example.mymate.util.ViewPager2Adapter
 import com.google.android.material.tabs.TabLayoutMediator
 

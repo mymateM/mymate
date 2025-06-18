@@ -1,23 +1,11 @@
 package com.example.mymate
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.isInvisible
-import com.example.mymate.data.dto.setting.response.HouseSettlementRatioResponse
-import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityMypageRatiodetailBinding
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MypageRatiodetailActivity: AppCompatActivity() {
     lateinit var binding: ActivityMypageRatiodetailBinding

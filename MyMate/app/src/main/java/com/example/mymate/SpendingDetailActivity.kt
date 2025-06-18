@@ -2,16 +2,8 @@ package com.example.mymate
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mymate.data.dto.expense.response.DailySingleExpenseResponse
-import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivitySpendingdetailBinding
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SpendingDetailActivity: AppCompatActivity() {
     lateinit var binding: ActivitySpendingdetailBinding

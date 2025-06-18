@@ -2,21 +2,10 @@ package com.example.mymate
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isGone
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mymate.data.dto.bill.BillSummary
 import com.example.mymate.data.dto.bill.Bills
 import com.example.mymate.data.dto.bill.response.BillsResponse
-import com.example.mymate.data.dto.common.DefaultResponse
-import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityBilldeleteBinding
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class BillDeleteActivity: AppCompatActivity() {
     lateinit var binding: ActivityBilldeleteBinding

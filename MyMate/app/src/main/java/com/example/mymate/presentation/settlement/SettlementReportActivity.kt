@@ -6,11 +6,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mymate.*
 import com.example.mymate.databinding.ActivitySettlementReportBinding
+import com.example.mymate.presentation.settlement.fragment.SettlementReportHouseholdFragment
+import com.example.mymate.presentation.settlement.fragment.SettlementReportMeFragment
+import com.example.mymate.presentation.settlement.viewmodel.SettlementViewModel
 import com.example.mymate.util.ViewPager2Adapter
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import java.time.format.DateTimeFormatter
 
 class SettlementReportActivity: AppCompatActivity() {
     private var _binding: ActivitySettlementReportBinding? = null

@@ -1,29 +1,12 @@
 package com.example.mymate
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
-import android.os.Build
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.TypefaceSpan
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mymate.data.dto.setting.MemberAccount
-import com.example.mymate.data.dto.setting.response.UserAccountResponse
-import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityMypageAccountBinding
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MypageAccountActivity: AppCompatActivity() {
     lateinit var binding: ActivityMypageAccountBinding

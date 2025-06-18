@@ -2,24 +2,13 @@ package com.example.mymate
 
 import android.content.Intent
 import android.graphics.Typeface
-import android.os.Build
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.TypefaceSpan
 import android.widget.PopupMenu
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.example.mymate.data.dto.bill.response.BillCategoryResponse
-import com.example.mymate.data.remote.service.RetrofitClientInstance
+import com.example.mymate.data.remote.api.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityBillmanagerBinding
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class BillManagerActivity: AppCompatActivity() {
     lateinit var binding: ActivityBillmanagerBinding

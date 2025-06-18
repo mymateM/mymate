@@ -4,13 +4,9 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.icu.text.DecimalFormat
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -22,8 +18,8 @@ import com.example.mymate.data.dto.report.MemberMonthlyStatus
 import com.example.mymate.databinding.ActivitySettlementBinding
 import com.example.mymate.presentation.main.MainActivity
 import com.example.mymate.presentation.settlement.adapter.SettlementAdapter
+import com.example.mymate.presentation.settlement.viewmodel.SettlementViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import java.time.format.DateTimeFormatter
 
 class SettlementActivity : AppCompatActivity() {
     private var _binding: ActivitySettlementBinding? = null

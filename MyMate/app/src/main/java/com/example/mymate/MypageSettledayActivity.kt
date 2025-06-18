@@ -7,10 +7,7 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityMypageSettledayBinding
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 
 class MypageSettledayActivity: AppCompatActivity() {
     lateinit var binding: ActivityMypageSettledayBinding

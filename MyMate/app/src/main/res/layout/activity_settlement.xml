@@ -3,7 +3,7 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="vm" type="com.example.mymate.presentation.settlement.SettlementViewModel"/>
+        <variable name="vm" type="com.example.mymate.presentation.settlement.viewmodel.SettlementViewModel"/>
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

@@ -10,7 +10,6 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.TypefaceSpan
-import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -28,15 +27,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.data.dto.expense.CalendarItem
 import com.example.mymate.data.dto.expense.ExpenseSummary
-import com.example.mymate.data.dto.expense.response.SearchResponse
-import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivitySearchBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth

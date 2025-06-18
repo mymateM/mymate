@@ -3,26 +3,10 @@ package com.example.mymate
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
-import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
-import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mymate.data.dto.common.MemberIdResponse
-import com.example.mymate.data.dto.setting.HouseMemberRatio
-import com.example.mymate.data.dto.setting.request.HouseMemberRatioRequest
-import com.example.mymate.data.dto.setting.response.HouseSettlementRatioResponse
-import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityMypageEditratioBinding
-import kotlinx.coroutines.Runnable
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MypageEditratioActivity: AppCompatActivity() {
     lateinit var binding: ActivityMypageEditratioBinding

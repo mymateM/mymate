@@ -2,31 +2,15 @@ package com.example.mymate
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
-import android.widget.TextView.OnEditorActionListener
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.mymate.data.dto.setting.response.UserAccountRequest
-import com.example.mymate.data.dto.setting.response.UserAccountResponse
-import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityMypageEditaccountBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MypageEditAccountActivity: AppCompatActivity() {
     lateinit var binding: ActivityMypageEditaccountBinding

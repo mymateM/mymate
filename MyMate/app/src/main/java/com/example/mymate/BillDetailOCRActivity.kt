@@ -9,7 +9,6 @@ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -18,14 +17,11 @@ import androidx.core.view.isGone
 import com.example.mymate.data.dto.bill.VirtualAccountDetail
 import com.example.mymate.data.dto.bill.request.BillWriteRequest
 import com.example.mymate.data.dto.common.DefaultResponse
-import com.example.mymate.data.remote.service.RetrofitClientInstance
+import com.example.mymate.data.remote.api.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityBilldetailocrBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.io.File
 import java.time.LocalDate
 
