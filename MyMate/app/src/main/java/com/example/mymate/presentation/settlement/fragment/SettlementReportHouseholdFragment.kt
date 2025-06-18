@@ -19,6 +19,8 @@ import com.example.mymate.databinding.MainReportHouseholdFragmentBinding
 import com.example.mymate.presentation.home.adapter.MainReportListAdapter
 import com.example.mymate.presentation.settlement.SettlementReportActivity
 import com.example.mymate.presentation.settlement.viewmodel.SettlementViewModel
+import com.example.mymate.util.Category
+import com.example.mymate.util.CategoryColorProvider
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -27,13 +29,9 @@ class SettlementReportHouseholdFragment: Fragment() {
     private var _binding: MainReportHouseholdFragmentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SettlementViewModel by activityViewModels()
-    private lateinit var settlementReport: SettlementReportActivity
-
-    private val colorItemList = ArrayList<Int>() //TODO: color item 관련한 코드 util로 빼기
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        settlementReport = context as SettlementReportActivity
     }
 
     override fun onCreateView(
@@ -42,8 +40,6 @@ class SettlementReportHouseholdFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         initBinding(inflater, container)
-
-        initColors()
         initHousehold()
 
         return binding.root
@@ -73,35 +69,16 @@ class SettlementReportHouseholdFragment: Fragment() {
 
         viewModel.houseMaxCategory.observe(viewLifecycleOwner) {
             val categoryTitle = SpannableStringBuilder("이 달의 많이 쓴 카테고리는\n${it}입니다")
-            categoryTitle.setSpan(ForegroundColorSpan(getColorsByCategory(it)), 16, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            categoryTitle.setSpan(
+                ForegroundColorSpan(
+                    CategoryColorProvider.getColorInt(
+                        requireContext(), Category.fromDisplayName(it))
+                ), 16, 18, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             binding.categorytitle.text = categoryTitle
 
             if (it == "") {
                 binding.categorytitle.text = "이번 달에는\n소비를 등록하지 않았어요."
             }
-        }
-    }
-
-    private fun initColors() {
-        colorItemList.add(ContextCompat.getColor(settlementReport, R.color.pie_yellow))
-        colorItemList.add(ContextCompat.getColor(settlementReport, R.color.pie_red))
-        colorItemList.add(ContextCompat.getColor(settlementReport, R.color.pie_blue))
-        colorItemList.add(ContextCompat.getColor(settlementReport, R.color.pie_gray))
-        colorItemList.add(ContextCompat.getColor(settlementReport, R.color.pie_green))
-        colorItemList.add(ContextCompat.getColor(settlementReport, R.color.pie_pink))
-        colorItemList.add(ContextCompat.getColor(settlementReport, R.color.pie_purple))
-    }
-
-    private fun getColorsByCategory(category: String): Int {
-        return when(category) {
-            "식비" ->  colorItemList[0]
-            "생활" ->  colorItemList[6]
-            "쇼핑" ->  colorItemList[5]
-            "교통" ->  colorItemList[2]
-            "의료" ->  colorItemList[1]
-            "고지서" ->  colorItemList[0]
-            "교육" ->  colorItemList[4]
-            else ->  colorItemList[3]
         }
     }
 
@@ -113,7 +90,12 @@ class SettlementReportHouseholdFragment: Fragment() {
         val colorItem = ArrayList<Int>()
         for (i in 0 until userData.categoryName.size) {
             entries.add(PieEntry(userData.categoryRatio[i] * 100))
-            colorItem.add(getColorsByCategory(userData.categoryName[i]))
+            colorItem.add(
+                CategoryColorProvider.getColorInt(
+                    requireContext(),
+                    Category.fromDisplayName(userData.categoryName[i])
+                )
+            )
         }
         val pieDataSet = PieDataSet(entries, "")
         pieDataSet.apply {
@@ -126,15 +108,15 @@ class SettlementReportHouseholdFragment: Fragment() {
             isRotationEnabled = false
             transparentCircleRadius = 0f
             holeRadius = 85f
-            setHoleColor(ContextCompat.getColor(settlementReport, R.color.white))
+            setHoleColor(ContextCompat.getColor(requireContext(), R.color.white))
             legend.isEnabled = false
             setTouchEnabled(false)
         }
         pieChart.invalidate()
 
         //RecyclerView Setting
-        val manager: RecyclerView.LayoutManager = LinearLayoutManager(settlementReport)
-        val adapter = MainReportListAdapter(userData.categoryName, userData.categoryRatio, userData.categoryAbs, colorItemList)
+        val manager: RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
+        val adapter = MainReportListAdapter(userData.categoryName, userData.categoryRatio, userData.categoryAbs)
         binding.householdlist.adapter = adapter
         binding.householdlist.layoutManager = manager
     }

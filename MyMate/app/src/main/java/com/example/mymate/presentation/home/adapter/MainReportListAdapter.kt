@@ -14,27 +14,22 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.R
 import com.example.mymate.databinding.ListitemReportBinding
+import com.example.mymate.util.Category
+import com.example.mymate.util.CategoryIconProvider
 import com.example.mymate.util.FontManager
 import com.example.mymate.util.getTypefaceSpan
 import java.text.DecimalFormat
 
-class MainReportListAdapter(val nameList: ArrayList<String>, val percentList: ArrayList<Float>, val absList: ArrayList<Int>, val colorItem: ArrayList<Int>): RecyclerView.Adapter<MainReportListAdapter.MainReportListHolder>() {
+class MainReportListAdapter(
+    val nameList: ArrayList<String>,
+    val percentList: ArrayList<Float>,
+    val absList: ArrayList<Int>): RecyclerView.Adapter<MainReportListAdapter.MainReportListHolder>() {
 
     inner class MainReportListHolder(val binding: ListitemReportBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.P)
         fun bind(nameitem: String, percentitem: Float, absitem: Int) {
             val categoryImage = binding.icon
-            when (nameitem) {
-                "식비" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_food))
-                "생활" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_life))
-                "쇼핑" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_shopping))
-                "교통" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_traffic))
-                "의료" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_medical))
-                "고지서" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_bill))
-                "교육" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_education))
-                "기타" -> categoryImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.alarmicon_etc))
-            }
-
+            categoryImage.setImageDrawable(CategoryIconProvider.getIconImage(context, Category.fromDisplayName(nameitem)))
             binding.categorytext.text = nameitem
             val percentText = "${percentitem * 100}%"
             val absText = SpannableStringBuilder("${DecimalFormat("#,###").format(absitem)}원")
