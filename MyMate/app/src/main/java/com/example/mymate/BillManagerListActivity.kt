@@ -2,7 +2,6 @@ package com.example.mymate
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -11,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymate.data.dto.bill.BillSummary
 import com.example.mymate.data.dto.bill.Bills
 import com.example.mymate.data.dto.bill.response.BillsResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityBillmanagelistBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -26,10 +26,10 @@ class BillManagerListActivity: AppCompatActivity() {
     lateinit var userRepo: DataStoreRepoUser
     lateinit var responselist: BillsResponse
     var retrofit = RetrofitClientInstance.client
-    var gasendpoint = retrofit?.create(getGasBillList::class.java)
+    /*var gasendpoint = retrofit?.create(getGasBillList::class.java)
     var electronicendpoint = retrofit?.create(getElectricityBillList::class.java)
     var waterendpoint = retrofit?.create(getWaterBillList::class.java)
-    var etcendpoint = retrofit?.create(getEtcBillList::class.java)
+    var etcendpoint = retrofit?.create(getEtcBillList::class.java) */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +46,7 @@ class BillManagerListActivity: AppCompatActivity() {
         val today = LocalDate.now()
         val year = today.year
 
-        if (category == "도시가스") {
+        /* if (category == "도시가스") {
             getGasList(category)
         } else if (category == "전기") {
             getElectronicityList(category)
@@ -56,7 +56,7 @@ class BillManagerListActivity: AppCompatActivity() {
             getEtcList(category)
         } else {
             Toast.makeText(context, "올바르지 않은 접근입니다.", Toast.LENGTH_SHORT).show()
-        }
+        } */
 
         binding.back.setOnClickListener {
             finish()
@@ -72,7 +72,7 @@ class BillManagerListActivity: AppCompatActivity() {
         val today = LocalDate.now()
         val year = today.year
 
-        if (category == "도시가스") {
+        /* if (category == "도시가스") {
             getGasList(category)
         } else if (category == "전기") {
             getElectronicityList(category)
@@ -82,10 +82,10 @@ class BillManagerListActivity: AppCompatActivity() {
             getEtcList(category)
         } else {
             Toast.makeText(context, "올바르지 않은 접근입니다.", Toast.LENGTH_SHORT).show()
-        }
+        } */
     }
 
-    private fun getGasList(category: String) {
+    /* private fun getGasList(category: String) {
         var accessToken = ""
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
@@ -307,5 +307,5 @@ class BillManagerListActivity: AppCompatActivity() {
             }
 
         })
-    }
+    } */
 }

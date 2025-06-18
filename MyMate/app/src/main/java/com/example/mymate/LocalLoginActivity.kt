@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mymate.data.dto.auth.DeviceToken
 import com.example.mymate.data.dto.auth.request.LocalLoginRequest
 import com.example.mymate.data.dto.auth.response.LocalLoginResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityLocalloginBinding
 import com.example.mymate.presentation.main.MainActivity
 import kotlinx.coroutines.flow.first
@@ -34,9 +35,9 @@ class LocalLoginActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         //retrofit code
-        var retrofit = RetrofitClientInstance.client
+        /* var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(localLogin::class.java)
-        var deviceendpoint = retrofit?.create(localDevice::class.java)
+        var deviceendpoint = retrofit?.create(localDevice::class.java) */
 
         binding.localaccquestion.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         binding.localaccquestion.setOnClickListener {
@@ -55,7 +56,7 @@ class LocalLoginActivity: AppCompatActivity() {
             var devicebearer = DeviceToken(fcm.getFirebaseToken())
             Log.d("devicebearer", devicebearer.deviceToken)
 
-            endpoint!!.localLogin(userData).enqueue(object: Callback<LocalLoginResponse> {
+            /* endpoint!!.localLogin(userData).enqueue(object: Callback<LocalLoginResponse> {
                 override fun onResponse(
                     call: Call<LocalLoginResponse>,
                     response: Response<LocalLoginResponse>
@@ -93,7 +94,7 @@ class LocalLoginActivity: AppCompatActivity() {
                 override fun onFailure(call: Call<LocalLoginResponse>, t: Throwable) {
                     Toast.makeText(context, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                 }
-            })
+            }) */
 
             //FirebaseMessaging.getInstance().token
             //fcm.sendFirebaseToken()

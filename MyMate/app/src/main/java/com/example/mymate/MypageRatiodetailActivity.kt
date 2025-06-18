@@ -3,13 +3,12 @@ package com.example.mymate
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import com.example.mymate.data.dto.setting.response.HouseSettlementRatioResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityMypageRatiodetailBinding
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -50,7 +49,7 @@ class MypageRatiodetailActivity: AppCompatActivity() {
         color.add(ContextCompat.getColor(context, R.color.pie_gray3))
         val colorItem = ArrayList<Int>()
 
-        val retrofit = RetrofitClientInstance.client
+        /* val retrofit = RetrofitClientInstance.client
         val endpoint = retrofit?.create(getHouseRatio::class.java)
         var accessToken = ""
         runBlocking {
@@ -108,7 +107,7 @@ class MypageRatiodetailActivity: AppCompatActivity() {
 
         binding.ratioEdit.setOnClickListener {
             startActivity(Intent(context, MypageEditratioActivity::class.java))
-        }
+        } */
     }
 
     override fun onResume() {
@@ -123,7 +122,7 @@ class MypageRatiodetailActivity: AppCompatActivity() {
         color.add(ContextCompat.getColor(context, R.color.pie_gray3))
         val colorItem = ArrayList<Int>()
 
-        val retrofit = RetrofitClientInstance.client
+        /* val retrofit = RetrofitClientInstance.client
         val endpoint = retrofit?.create(getHouseRatio::class.java)
         var accessToken = ""
         runBlocking {
@@ -178,7 +177,7 @@ class MypageRatiodetailActivity: AppCompatActivity() {
             override fun onFailure(call: Call<HouseSettlementRatioResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(정산 비율)", Toast.LENGTH_SHORT).show()
             }
-        })
+        }) */
     }
 
     override fun onBackPressed() {

@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.data.dto.expense.CalendarItem
 import com.example.mymate.data.dto.expense.ExpenseSummary
 import com.example.mymate.data.dto.expense.response.SearchResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivitySearchBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
@@ -437,7 +438,7 @@ class SearchActivity: AppCompatActivity() {
             "고지서" -> categorytosend = "BILLS"
         }
 
-        var retrofit = RetrofitClientInstance.client
+        /* var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(searchExpense::class.java)
         var accessToken = ""
         runBlocking {
@@ -474,7 +475,7 @@ class SearchActivity: AppCompatActivity() {
                 Toast.makeText(context, "연결 실패(검색)", Toast.LENGTH_SHORT).show()
             }
 
-        })
+        }) */
     }
 
     //오류 있음: persistant bottom sheet가 올라가 있는 상태에서 hidekeyboard 안됨

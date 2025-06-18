@@ -18,6 +18,7 @@ import androidx.core.view.isGone
 import com.example.mymate.data.dto.bill.VirtualAccountDetail
 import com.example.mymate.data.dto.bill.request.BillWriteRequest
 import com.example.mymate.data.dto.common.DefaultResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityBilldetailocrBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
@@ -237,7 +238,7 @@ class BillDetailOCRActivity: AppCompatActivity() {
 
     private fun billToSend() {
         var retrofit = RetrofitClientInstance.client
-        var endpoint = retrofit?.create(postBill::class.java)
+        //var endpoint = retrofit?.create(postBill::class.java)
         var accessToken = ""
         var BillAddRequest = BillWriteRequest()
 
@@ -277,7 +278,7 @@ class BillDetailOCRActivity: AppCompatActivity() {
             BillAddRequest.bill_image = intent.getStringExtra("savedUri").toString()
             BillAddRequest.virtual_accounts.add(VirtualAccountDetail())
             var postResponse = DefaultResponse()
-            endpoint!!.postBill(Authorization = "Bearer $accessToken", req = BillAddRequest).enqueue(object :
+            /* endpoint!!.postBill(Authorization = "Bearer $accessToken", req = BillAddRequest).enqueue(object :
                 Callback<DefaultResponse> {
                 override fun onResponse(
                     call: Call<DefaultResponse>,
@@ -299,7 +300,7 @@ class BillDetailOCRActivity: AppCompatActivity() {
                     Toast.makeText(context, "연결 실패(고지서 추가)", Toast.LENGTH_SHORT).show()
                 }
 
-            })
+            }) */
         }
     }
 

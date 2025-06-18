@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.data.dto.common.DefaultResponse
 import com.example.mymate.data.dto.common.MemberIdResponse
 import com.example.mymate.data.dto.expense.request.ExpenseWriteRequest
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivitySpendingaddBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
@@ -150,7 +151,7 @@ class SpendingAddActivity: AppCompatActivity() {
     }
 
     private fun pushspending() {
-        var retrofit = RetrofitClientInstance.client
+        /* var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(putDailyExpense::class.java)
         var memberendpoint = retrofit?.create(getMemberId::class.java)
         var sending: ExpenseWriteRequest = ExpenseWriteRequest()
@@ -222,7 +223,7 @@ class SpendingAddActivity: AppCompatActivity() {
                 Toast.makeText(context, "연결 실패(멤버 id)", Toast.LENGTH_SHORT).show()
             }
 
-        })
+        }) */
     }
 
     private fun modaleCategoryInit() {

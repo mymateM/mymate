@@ -14,6 +14,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import com.example.mymate.data.dto.bill.response.BillDetailResponse
 import com.example.mymate.data.dto.common.DefaultResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityBilldetailBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -26,9 +27,9 @@ class BillDetailActivity: AppCompatActivity() {
     lateinit var userRepo: DataStoreRepoUser
     lateinit var context: Context
     var retrofit = RetrofitClientInstance.client
-    var endpoint = retrofit?.create(getBill::class.java)
+    //var endpoint = retrofit?.create(getBill::class.java)
     var detailresponse: BillDetailResponse? = BillDetailResponse()
-    var endpointdelete = retrofit?.create(deleteBill::class.java)
+    //var endpointdelete = retrofit?.create(deleteBill::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +43,7 @@ class BillDetailActivity: AppCompatActivity() {
         val category = intent.getStringExtra("category")
         val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(this, R.font.suit_bold), Typeface.NORMAL)
 
-        var accessToken = ""
+        /* var accessToken = ""
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
@@ -94,7 +95,7 @@ class BillDetailActivity: AppCompatActivity() {
             override fun onFailure(call: Call<BillDetailResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(고지서 상세)", Toast.LENGTH_SHORT).show()
             }
-        })
+        }) */
 
         binding.backbtn.setOnClickListener {
             finish()
@@ -105,36 +106,7 @@ class BillDetailActivity: AppCompatActivity() {
         finish()
     }
 
-    private fun digitprocessing(digits: String): String {
-        var textlength = digits.length
-        var processed = ""
-        while (0 < textlength) {
-            var substring1 = ""
-            if (textlength == 3) {
-                if (processed == "") {
-                    processed = digits.substring(0 until 3)
-                } else {
-                    processed = digits.substring(0 until 3) + "," + processed
-                }
-            } else if (textlength > 3) {
-                substring1 = digits.substring(textlength - 3 until textlength)
-                if (processed == "") {
-                    processed = substring1
-                } else {
-                    processed = "$substring1,$processed"
-                }
-            } else {
-                substring1 = digits.substring(0 until textlength)
-                processed = "$substring1,$processed"
-            }
-
-            textlength -= 3
-        }
-
-        return processed
-    }
-
-    private fun deleteBills(id: String) {
+    /* private fun deleteBills(id: String) {
         var accessToken = ""
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
@@ -153,5 +125,5 @@ class BillDetailActivity: AppCompatActivity() {
             }
 
         })
-    }
+    } */
 }

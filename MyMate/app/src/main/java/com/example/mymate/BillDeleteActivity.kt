@@ -10,6 +10,7 @@ import com.example.mymate.data.dto.bill.BillSummary
 import com.example.mymate.data.dto.bill.Bills
 import com.example.mymate.data.dto.bill.response.BillsResponse
 import com.example.mymate.data.dto.common.DefaultResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityBilldeleteBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -23,12 +24,12 @@ class BillDeleteActivity: AppCompatActivity() {
     lateinit var userRepo: DataStoreRepoUser
     lateinit var responselist: BillsResponse
     lateinit var iteminfo: Bills
-    var retrofit = RetrofitClientInstance.client
+    /*var retrofit = RetrofitClientInstance.client
     var gasendpoint = retrofit?.create(getGasBillList::class.java)
     var electronicendpoint = retrofit?.create(getElectricityBillList::class.java)
     var waterendpoint = retrofit?.create(getWaterBillList::class.java)
     var etcendpoint = retrofit?.create(getEtcBillList::class.java)
-    var deleteendpoint = retrofit?.create(deleteBill::class.java)
+    var deleteendpoint = retrofit?.create(deleteBill::class.java)*/
     var values = BillListValues()
     var checkAll = false
 
@@ -43,7 +44,7 @@ class BillDeleteActivity: AppCompatActivity() {
         val category = intent.getStringExtra("category")
         binding.title.text = category
 
-        if (category == "도시가스") {
+        /* if (category == "도시가스") {
             getGasList(category)
         } else if (category == "전기") {
             getElectronicityList(category)
@@ -53,7 +54,7 @@ class BillDeleteActivity: AppCompatActivity() {
             getEtcList(category)
         } else {
             Toast.makeText(context, "올바르지 않은 접근입니다.", Toast.LENGTH_SHORT).show()
-        }
+        } */
 
         binding.back.setOnClickListener {
             finish()
@@ -67,7 +68,7 @@ class BillDeleteActivity: AppCompatActivity() {
         overridePendingTransition(R.anim.none, R.anim.none)
     }
 
-    private fun getGasList(category: String) {
+    /* private fun getGasList(category: String) {
         var accessToken = ""
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
@@ -435,5 +436,5 @@ class BillDeleteActivity: AppCompatActivity() {
             override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
             }
         })
-    }
+    } */
 }

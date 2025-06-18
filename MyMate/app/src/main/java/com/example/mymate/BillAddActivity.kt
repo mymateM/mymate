@@ -19,6 +19,7 @@ import androidx.core.view.isGone
 import com.example.mymate.data.dto.bill.VirtualAccountDetail
 import com.example.mymate.data.dto.bill.request.BillWriteRequest
 import com.example.mymate.data.dto.common.DefaultResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityBilladdBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
@@ -117,7 +118,7 @@ class BillAddActivity: AppCompatActivity() {
             finish()
         }
 
-        var retrofit = RetrofitClientInstance.client
+        /* var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(postBill::class.java)
         var accessToken = ""
 
@@ -186,7 +187,7 @@ class BillAddActivity: AppCompatActivity() {
                 }
 
             })
-        }
+        } */
     }
 
     private fun bottomSheetInit() {

@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.example.mymate.data.dto.bill.response.BillCategoryResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityBillmanagerBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -35,11 +36,11 @@ class BillManagerActivity: AppCompatActivity() {
         var managerlist = Intent(this, BillManagerListActivity::class.java)
 
         var retrofit = RetrofitClientInstance.client
-        var endpoint = retrofit?.create(getBillCategory::class.java)
+        //var endpoint = retrofit?.create(getBillCategory::class.java)
         val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(this, R.font.suit_bold), Typeface.NORMAL)
 
         var categoryResponse = BillCategoryResponse()
-        var accessToken = ""
+        /* var accessToken = ""
         runBlocking {
             accessToken = userRepo.userAccessReadFlow.first().toString()
         }
@@ -77,7 +78,7 @@ class BillManagerActivity: AppCompatActivity() {
                 Toast.makeText(applicationContext, "연결 실패(고지서 카테고리)", Toast.LENGTH_SHORT).show()
             }
 
-        })
+        }) */
 
         binding.backbtn.setOnClickListener {
             finish()

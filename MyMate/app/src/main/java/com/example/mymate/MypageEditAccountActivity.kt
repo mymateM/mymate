@@ -19,6 +19,7 @@ import androidx.core.view.isGone
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mymate.data.dto.setting.response.UserAccountRequest
 import com.example.mymate.data.dto.setting.response.UserAccountResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityMypageEditaccountBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.flow.first
@@ -46,7 +47,7 @@ class MypageEditAccountActivity: AppCompatActivity() {
 
         binding.cover.isGone = true
 
-        val retrofit = RetrofitClientInstance.client
+        /* val retrofit = RetrofitClientInstance.client
         val endpoint = retrofit?.create(getMyAccount::class.java)
         var accessToken = ""
         runBlocking {
@@ -124,7 +125,7 @@ class MypageEditAccountActivity: AppCompatActivity() {
                 Toast.makeText(context, "연결 실패(계좌 갱신)", Toast.LENGTH_SHORT).show()
             }
 
-        })
+        }) */
     }
 
     private fun bottomSheetInit() {
@@ -230,7 +231,7 @@ class MypageEditAccountActivity: AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        val retrofit = RetrofitClientInstance.client
+        /* val retrofit = RetrofitClientInstance.client
         val endpoint = retrofit?.create(getMyAccount::class.java)
         var accessToken = ""
         runBlocking {
@@ -257,6 +258,6 @@ class MypageEditAccountActivity: AppCompatActivity() {
             override fun onFailure(call: Call<UserAccountResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(사용자 계좌)", Toast.LENGTH_SHORT).show()
             }
-        })
+        }) */
     }
 }

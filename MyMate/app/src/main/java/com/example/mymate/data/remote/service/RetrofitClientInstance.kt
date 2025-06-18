@@ -1,4 +1,4 @@
-package com.example.mymate
+package com.example.mymate.data.remote.service
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

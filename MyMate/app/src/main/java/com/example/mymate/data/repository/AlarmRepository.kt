@@ -3,12 +3,14 @@ package com.example.mymate.data.repository
 import com.example.mymate.*
 import com.example.mymate.data.dto.notification.UserActNoti
 import com.example.mymate.data.dto.notification.UserExpNoti
+import com.example.mymate.data.remote.service.notification.NotificationApi
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 
 class AlarmRepository(private val userRepo: DataStoreRepoUser) {
+    private val endPoint = RetrofitClientInstance.client?.create(NotificationApi::class.java)
     fun getActivityNoti(): UserActNoti {
         var actNoti = UserActNoti()
         val accessToken = userRepo.userAccessReadFlow.toString()
-        val endPoint = RetrofitClientInstance.client?.create(getActivityNoti::class.java)
         try {
             val result = endPoint!!.getActivityNoti("Bearer $accessToken")
             actNoti = result.body()!!.data
@@ -21,7 +23,6 @@ class AlarmRepository(private val userRepo: DataStoreRepoUser) {
     fun getExpenseNoti(): UserExpNoti {
         var expNoti = UserExpNoti()
         val accessToken = userRepo.userAccessReadFlow.toString()
-        val endPoint = RetrofitClientInstance.client?.create(getExpenseNoti::class.java)
         try {
             val result = endPoint!!.getExpenseNoti("Bearer $accessToken")
             expNoti = result.body()!!.data
@@ -33,7 +34,6 @@ class AlarmRepository(private val userRepo: DataStoreRepoUser) {
 
     fun readActivityNoti(id: String): Boolean  {
         val accessToken = userRepo.userAccessReadFlow.toString()
-        val endPoint = RetrofitClientInstance.client?.create(readActivityNoti::class.java)
         try {
             val result = endPoint!!.readActivityNoti("Bearer $accessToken", id)
             return result.isSuccessful
@@ -45,7 +45,6 @@ class AlarmRepository(private val userRepo: DataStoreRepoUser) {
 
     fun readExpenseNoti(id: String): Boolean {
         val accessToken = userRepo.userAccessReadFlow.toString()
-        val endPoint = RetrofitClientInstance.client?.create(readExpenseNoti::class.java)
         try {
             val result = endPoint!!.readExpenseNoti("Bearer $accessToken", id)
             return result.isSuccessful

@@ -17,6 +17,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymate.data.dto.setting.MemberAccount
 import com.example.mymate.data.dto.setting.response.UserAccountResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityMypageAccountBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -40,7 +41,7 @@ class MypageAccountActivity: AppCompatActivity() {
         val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_bold), Typeface.NORMAL)
         val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_bold), Typeface.NORMAL)
 
-        val retrofit = RetrofitClientInstance.client
+        /* val retrofit = RetrofitClientInstance.client
         val endpoint = retrofit?.create(getMyAccount::class.java)
         var accessToken = ""
         runBlocking {
@@ -83,7 +84,7 @@ class MypageAccountActivity: AppCompatActivity() {
                 Toast.makeText(context, "연결 실패(사용자 계좌)", Toast.LENGTH_SHORT).show()
             }
 
-        })
+        }) */
 
         binding.back.setOnClickListener {
             finish()

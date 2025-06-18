@@ -15,6 +15,7 @@ import com.example.mymate.data.dto.common.MemberIdResponse
 import com.example.mymate.data.dto.setting.HouseMemberRatio
 import com.example.mymate.data.dto.setting.request.HouseMemberRatioRequest
 import com.example.mymate.data.dto.setting.response.HouseSettlementRatioResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityMypageEditratioBinding
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.flow.first
@@ -35,7 +36,7 @@ class MypageEditratioActivity: AppCompatActivity() {
         setContentView(binding.root)
         userRepo = DataStoreRepoUser(dataStore)
         context = this
-        val retrofit = RetrofitClientInstance.client
+        /* val retrofit = RetrofitClientInstance.client
         val endpoint = retrofit?.create(getHouseRatio::class.java)
         var accessToken = ""
         binding.completedbtn.isEnabled = false
@@ -293,7 +294,7 @@ class MypageEditratioActivity: AppCompatActivity() {
             override fun onFailure(call: Call<HouseSettlementRatioResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(비율 수정-비율 조회)", Toast.LENGTH_SHORT).show()
             }
-        })
+        }) */
 
 
         binding.root.setOnClickListener {

@@ -1,19 +1,20 @@
 package com.example.mymate.data.repository
 
 import com.example.mymate.DataStoreRepoUser
-import com.example.mymate.RetrofitClientInstance
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.data.dto.expense.response.CalendarResponse
 import com.example.mymate.data.dto.expense.response.DailyExpenseResponse
-import com.example.mymate.getCalendar
+import com.example.mymate.data.remote.service.expense.ExpenseApi
 import java.time.LocalDate
 
 class MainSpendingRepository(private val userRepo: DataStoreRepoUser) {
+    private val endPoint = RetrofitClientInstance.client?.create(ExpenseApi::class.java)
+
     suspend fun getDailyExpense(date: LocalDate): DailyExpenseResponse {
         val accessToken = userRepo.userAccessReadFlow.toString()
-        val endpoint = RetrofitClientInstance.client?.create(com.example.mymate.getDailyExpense::class.java)
         var expenses = DailyExpenseResponse()
         try {
-            val result = endpoint!!.getDailyExpense("Bearer $accessToken", date.year.toString(), processMonth(date), processDate(date))
+            val result = endPoint!!.getDailyExpense("Bearer $accessToken", date.year.toString(), processMonth(date), processDate(date))
             expenses = result.body()!!
         } catch (e: Exception) {
             //TODO: 연결 불가할 경우 코드 작성 - Timeout, invalid Access 대응할 것.
@@ -23,10 +24,9 @@ class MainSpendingRepository(private val userRepo: DataStoreRepoUser) {
 
     suspend fun getCalendarInfo(date: LocalDate): CalendarResponse {
         val accessToken = userRepo.userAccessReadFlow.toString()
-        val endpoint = RetrofitClientInstance.client?.create(getCalendar::class.java)
         var calendarInfo = CalendarResponse()
         try {
-            val result = endpoint!!.getCalendar("Bearer $accessToken", date.year.toString(), date.monthValue.toString(), date.dayOfMonth.toString())
+            val result = endPoint!!.getCalendar("Bearer $accessToken", date.year.toString(), date.monthValue.toString(), date.dayOfMonth.toString())
             calendarInfo = result.body()!!
         } catch (e: Exception) {
             //TODO: 연결 불가할 경우 코드 작성 - Timeout, invalid Access 대응할 것.

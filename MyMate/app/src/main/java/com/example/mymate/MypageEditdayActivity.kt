@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import com.example.mymate.data.dto.setting.request.SettlementDayRequest
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityMypageEditdayBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -40,7 +41,7 @@ class MypageEditdayActivity: AppCompatActivity() {
         var message = ""
         var daytosend = 0
 
-        val retrofit = RetrofitClientInstance.client
+        /* val retrofit = RetrofitClientInstance.client
         val endpoint = retrofit?.create(postSettleDay::class.java)
 
         binding.backbtn.setOnClickListener {
@@ -262,7 +263,7 @@ class MypageEditdayActivity: AppCompatActivity() {
                     daytosend = 0
                 }
             }
-        })
+        }) */
     }
 
     private fun hidekeyboard() {

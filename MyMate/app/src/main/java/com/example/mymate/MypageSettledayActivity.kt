@@ -4,20 +4,13 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.TypefaceSpan
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import com.example.mymate.data.dto.setting.response.UserInfoResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityMypageSettledayBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MypageSettledayActivity: AppCompatActivity() {
     lateinit var binding: ActivityMypageSettledayBinding
@@ -33,7 +26,7 @@ class MypageSettledayActivity: AppCompatActivity() {
         userRepo = DataStoreRepoUser(dataStore)
         val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_bold), Typeface.NORMAL)
         val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_bold), Typeface.NORMAL)
-        val retrofit = RetrofitClientInstance.client
+        /* val retrofit = RetrofitClientInstance.client
         val endpoint = retrofit?.create(myPageApi::class.java)
         var accessToken = ""
         runBlocking {
@@ -66,7 +59,7 @@ class MypageSettledayActivity: AppCompatActivity() {
                 Toast.makeText(context, "연결 실패(마이페이지-정산일)", Toast.LENGTH_SHORT).show()
             }
 
-        }) */
+        }) */ */
 
         binding.backbtn.setOnClickListener {
             finish()
@@ -81,7 +74,7 @@ class MypageSettledayActivity: AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val retrofit = RetrofitClientInstance.client
+        /* val retrofit = RetrofitClientInstance.client
         val endpoint = retrofit?.create(myPageApi::class.java)
         var accessToken = ""
         runBlocking {
@@ -117,6 +110,6 @@ class MypageSettledayActivity: AppCompatActivity() {
                 Toast.makeText(context, "연결 실패(마이페이지-정산일)", Toast.LENGTH_SHORT).show()
             }
 
-        }) */
+        }) */ */
     }
 }

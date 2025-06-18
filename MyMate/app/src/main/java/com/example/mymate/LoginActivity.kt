@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mymate.data.dto.auth.DeviceToken
 import com.example.mymate.data.dto.auth.request.SocialLoginRequest
 import com.example.mymate.data.dto.auth.response.LocalLoginResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityLoginBinding
 import com.example.mymate.presentation.main.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -62,7 +63,7 @@ class LoginActivity: AppCompatActivity() {
         //socialLogin setting
         socialAccesscode = "null"
         //retrofit setting
-        var retrofit = RetrofitClientInstance.client
+        /* var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(socialLogin::class.java)
         var deviceEndpoint = retrofit?.create(localDevice::class.java)
 
@@ -234,7 +235,7 @@ class LoginActivity: AppCompatActivity() {
         val locallogin = binding.locallogin
         locallogin.setOnClickListener{
             startActivity(Intent(this, LocalLoginActivity::class.java))
-        }
+        } */
     }
 
     private fun setResultSignUp() {
@@ -256,7 +257,7 @@ class LoginActivity: AppCompatActivity() {
 
             Log.d("GOOGLE", idtoken)
 
-            var retrofit = RetrofitClientInstance.client
+            /* var retrofit = RetrofitClientInstance.client
             var endpoint = retrofit?.create(socialLogin::class.java)
             var deviceEndpoint = retrofit?.create(localDevice::class.java)
 
@@ -295,14 +296,14 @@ class LoginActivity: AppCompatActivity() {
                 override fun onFailure(call: Call<LocalLoginResponse>, t: Throwable) {
                     Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
                 }
-            })
+            }) */
         } catch (e: ApiException) {
             Log.w("failed", "signInResult:failed code" + e.localizedMessage)
         }
     }
 
     private fun sendSocialCode(type: String, code: String) {
-        var retrofit = RetrofitClientInstance.client
+       /* var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(socialLogin::class.java)
         endpoint!!.socialLogin(SocialLoginRequest(type, code)).enqueue(object: Callback<LocalLoginResponse>{
             override fun onResponse(
@@ -322,7 +323,7 @@ class LoginActivity: AppCompatActivity() {
             override fun onFailure(call: Call<LocalLoginResponse>, t: Throwable) {
                 Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
             }
-        })
+        }) */
     }
 
     override fun onBackPressed() {

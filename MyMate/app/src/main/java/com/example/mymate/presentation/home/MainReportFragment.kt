@@ -1,20 +1,17 @@
 package com.example.mymate.presentation.home
 
 import android.content.Context
-import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
-import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.mymate.*
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.MainReportFragmentBinding
 import com.example.mymate.presentation.main.MainActivity
 import com.example.mymate.util.FontManager

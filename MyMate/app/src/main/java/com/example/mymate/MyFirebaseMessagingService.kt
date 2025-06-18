@@ -10,6 +10,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.mymate.data.dto.auth.DeviceToken
+import com.example.mymate.data.remote.service.RetrofitClientInstance
+import com.example.mymate.data.remote.service.auth.LoginApi
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -139,7 +141,7 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         userRepo = DataStoreRepoUser(dataStore)
         var firebasedevicecode = ""
         var retrofit = RetrofitClientInstance.client
-        var endpoint = retrofit?.create(localDevice::class.java)
+        var endpoint = retrofit?.create(LoginApi::class.java)
         var deviceToken: DeviceToken = DeviceToken()
         var accessToken: String = ""
         runBlocking {

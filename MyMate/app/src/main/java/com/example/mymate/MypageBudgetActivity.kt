@@ -18,6 +18,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.isGone
 import com.example.mymate.data.dto.setting.response.UserBudgetResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivityMypageBudgetBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -55,7 +56,7 @@ class MypageBudgetActivity: AppCompatActivity() {
         viewitem.add(binding.allow15)
         viewitem.add(binding.allow20)
 
-        val retrofit = RetrofitClientInstance.client
+        /* val retrofit = RetrofitClientInstance.client
         val endpoint = retrofit?.create(getMyBudget::class.java)
         var accessToken = ""
         runBlocking {
@@ -160,7 +161,7 @@ class MypageBudgetActivity: AppCompatActivity() {
                 Toast.makeText(context, "연결 실패(마이페이지-예산)", Toast.LENGTH_SHORT).show()
             }
 
-        })
+        }) */
 
         binding.back.setOnClickListener {
             finish()

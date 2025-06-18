@@ -1,19 +1,19 @@
 package com.example.mymate.data.repository
 
 import com.example.mymate.DataStoreRepoUser
-import com.example.mymate.RetrofitClientInstance
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.data.dto.report.HouseholdReportData
 import com.example.mymate.data.dto.report.UserReportData
-import com.example.mymate.getSettlementDate
+import com.example.mymate.data.remote.service.report.ReportApi
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class MainReportRepository(private val userRepo: DataStoreRepoUser) {
     private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private val endPoint = RetrofitClientInstance.client?.create(ReportApi::class.java)
 
     suspend fun getPeriodDate(): String {
         val accessToken = userRepo.userAccessReadFlow.toString()
-        val endPoint = RetrofitClientInstance.client?.create(getSettlementDate::class.java)
         var period = ""
         try {
             val result = endPoint!!.getSettlementDate("Bearer $accessToken")
@@ -26,7 +26,6 @@ class MainReportRepository(private val userRepo: DataStoreRepoUser) {
 
     suspend fun getMyReport(month: Int, day: Int): UserReportData {
         val accessToken = userRepo.userAccessReadFlow.toString()
-        val endPoint = RetrofitClientInstance.client?.create(com.example.mymate.getMyReport::class.java)
         var reportData = UserReportData()
         val date = LocalDate.now().withMonth(month).withDayOfMonth(day).format(formatter)
         try {
@@ -40,7 +39,6 @@ class MainReportRepository(private val userRepo: DataStoreRepoUser) {
 
     suspend fun getHouseholdReport(month: Int, day: Int): HouseholdReportData {
         val accessToken = userRepo.userAccessReadFlow.toString()
-        val endPoint = RetrofitClientInstance.client?.create(com.example.mymate.getHouseholdReport::class.java)
         var reportData = HouseholdReportData()
         val date = LocalDate.now().withMonth(month).withDayOfMonth(day).format(formatter)
         try {

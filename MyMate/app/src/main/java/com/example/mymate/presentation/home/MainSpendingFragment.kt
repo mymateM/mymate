@@ -30,9 +30,6 @@ class MainSpendingFragment : Fragment() {
     lateinit var selectedDate: LocalDate
     var resumed = "00"
 
-    var retrofit = RetrofitClientInstance.client
-    var endpoint = retrofit?.create(getDailyExpense::class.java)
-    
     private var formatter = DateTimeFormatter.ofPattern("yy년 MM월 dd일")
 
     private var _binding: MainSpendingFragmentBinding? = null

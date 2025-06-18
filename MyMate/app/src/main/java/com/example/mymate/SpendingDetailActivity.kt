@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mymate.data.dto.expense.response.DailySingleExpenseResponse
+import com.example.mymate.data.remote.service.RetrofitClientInstance
 import com.example.mymate.databinding.ActivitySpendingdetailBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -25,7 +26,7 @@ class SpendingDetailActivity: AppCompatActivity() {
         context = this
         userRepo = DataStoreRepoUser(dataStore)
 
-        val retrofit = RetrofitClientInstance.client
+        /* val retrofit = RetrofitClientInstance.client
         val endpoint = retrofit?.create(getDailySingleExpense::class.java)
 
         binding.back.setOnClickListener {
@@ -58,10 +59,10 @@ class SpendingDetailActivity: AppCompatActivity() {
             override fun onFailure(call: Call<DailySingleExpenseResponse>, t: Throwable) {
                 Toast.makeText(context, "연결 실패(내역 상세)", Toast.LENGTH_SHORT).show()
             }
-        })
+        }) */
 
         binding.deletebtn.setOnClickListener {
-            val deleteEndpoint = retrofit?.create(deleteExpense::class.java)
+            /* val deleteEndpoint = retrofit?.create(deleteExpense::class.java)
             deleteEndpoint!!.deleteExpense("Bearer $accessToken", id).enqueue(object : Callback<Response<Void>> {
                 override fun onResponse(
                     call: Call<Response<Void>>,
@@ -74,36 +75,7 @@ class SpendingDetailActivity: AppCompatActivity() {
                     Toast.makeText(context, "연결 실패-내역 삭제",Toast.LENGTH_SHORT).show()
                 }
 
-            })
+            }) */
         }
-    }
-
-    private fun digitprocessing(digits: String): String {
-        var textlength = digits.length
-        var processed = ""
-        while (0 < textlength) {
-            var substring1 = ""
-            if (textlength == 3) {
-                if (processed == "") {
-                    processed = digits.substring(0 until 3)
-                } else {
-                    processed = digits.substring(0 until 3) + "," + processed
-                }
-            } else if (textlength > 3) {
-                substring1 = digits.substring(textlength - 3 until textlength)
-                if (processed == "") {
-                    processed = substring1
-                } else {
-                    processed = "$substring1,$processed"
-                }
-            } else {
-                substring1 = digits.substring(0 until textlength)
-                processed = "$substring1,$processed"
-            }
-
-            textlength -= 3
-        }
-
-        return processed
     }
 }
