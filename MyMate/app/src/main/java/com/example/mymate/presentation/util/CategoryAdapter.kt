@@ -1,15 +1,17 @@
-package com.example.mymate
+package com.example.mymate.presentation.util
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.R
 import com.example.mymate.databinding.ListitemCategorylistBinding
+import com.example.mymate.util.Category
+import com.example.mymate.util.CategoryGrayIconProvider
+import com.example.mymate.util.CategoryPurpleIconProvider
 
-class CategoryAdapter(val context: Context, val imgList: ArrayList<Drawable>, val nameList: ArrayList<String>, var tag: ArrayList<Boolean>, val selectedimgList: ArrayList<Drawable>): RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
-
+class CategoryAdapter(val context: Context, var tag: ArrayList<Boolean>): RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
     private var onItemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
@@ -21,34 +23,26 @@ class CategoryAdapter(val context: Context, val imgList: ArrayList<Drawable>, va
     }
 
     inner class CategoryViewHolder(val binding: ListitemCategorylistBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(img: Drawable, inputname: String, thetag: ArrayList<Boolean>, selectedimg: Drawable) {
+        fun bind(flag: ArrayList<Boolean>) {
+            val category = Category.fromIndex(absoluteAdapterPosition)
             val icon = binding.categoryicon
             val name = binding.categoryname
             val background = binding.categoryimgbackground
 
-            if (!thetag[absoluteAdapterPosition]) {
-                icon.setImageDrawable(img)
+            name.text = category.displayName
+            if (!flag[absoluteAdapterPosition]) {
+                icon.setImageDrawable(CategoryGrayIconProvider.getIconImage(context, category))
                 background.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_circlebtndefault))
             } else {
-                icon.setImageDrawable(selectedimg)
+                icon.setImageDrawable(CategoryPurpleIconProvider.getIconImage(context, category))
                 background.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_circlebtnselected))
             }
-            name.text = inputname
 
-            if (onItemClickListener != null) {
-                binding.categoryitem.setOnClickListener {
-                    onItemClickListener?.onItemClick(absoluteAdapterPosition)
-                    if (!thetag[absoluteAdapterPosition]) {
-                        for (i in 0 until thetag.size) {
-                            thetag[i] = false
-                        }
-                        thetag[absoluteAdapterPosition] = true
-                    } else {
-                        thetag[absoluteAdapterPosition] = false
-                    }
-
-                    notifyDataSetChanged()
-                }
+            binding.categoryitem.setOnClickListener {
+                onItemClickListener?.onItemClick(absoluteAdapterPosition)
+                flag.replaceAll { false }
+                flag[absoluteAdapterPosition] = !flag[absoluteAdapterPosition]
+                notifyDataSetChanged()
             }
         }
     }
@@ -59,15 +53,12 @@ class CategoryAdapter(val context: Context, val imgList: ArrayList<Drawable>, va
     }
 
     override fun getItemCount(): Int {
-        return imgList.size
+        return tag.size
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        val img = imgList[position]
-        val text = nameList[position]
-        var thetag = tag
-        val selimg = selectedimgList[position]
+        var flag = tag
 
-        holder.bind(img, text, thetag, selimg)
+        holder.bind(flag)
     }
 }

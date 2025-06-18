@@ -1,18 +1,13 @@
-package com.example.mymate.presentation.home.adapter
+package com.example.mymate.presentation.util
 
 import android.content.Context
-import android.graphics.Typeface
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableStringBuilder
-import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mymate.R
 import com.example.mymate.databinding.ListitemReportBinding
 import com.example.mymate.util.Category
 import com.example.mymate.util.CategoryIconProvider
@@ -20,10 +15,10 @@ import com.example.mymate.util.FontManager
 import com.example.mymate.util.getTypefaceSpan
 import java.text.DecimalFormat
 
-class MainReportListAdapter(
+class ReportListAdapter(
     val nameList: ArrayList<String>,
     val percentList: ArrayList<Float>,
-    val absList: ArrayList<Int>): RecyclerView.Adapter<MainReportListAdapter.MainReportListHolder>() {
+    val absList: ArrayList<Int>): RecyclerView.Adapter<ReportListAdapter.MainReportListHolder>() {
 
     inner class MainReportListHolder(val binding: ListitemReportBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.P)

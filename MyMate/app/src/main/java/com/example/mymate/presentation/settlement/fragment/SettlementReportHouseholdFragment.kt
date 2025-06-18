@@ -16,8 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.*
 import com.example.mymate.data.dto.report.HouseholdReportProcessed
 import com.example.mymate.databinding.MainReportHouseholdFragmentBinding
-import com.example.mymate.presentation.home.adapter.MainReportListAdapter
-import com.example.mymate.presentation.settlement.SettlementReportActivity
+import com.example.mymate.presentation.util.ReportListAdapter
 import com.example.mymate.presentation.settlement.viewmodel.SettlementViewModel
 import com.example.mymate.util.Category
 import com.example.mymate.util.CategoryColorProvider
@@ -116,7 +115,7 @@ class SettlementReportHouseholdFragment: Fragment() {
 
         //RecyclerView Setting
         val manager: RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
-        val adapter = MainReportListAdapter(userData.categoryName, userData.categoryRatio, userData.categoryAbs)
+        val adapter = ReportListAdapter(userData.categoryName, userData.categoryRatio, userData.categoryAbs)
         binding.householdlist.adapter = adapter
         binding.householdlist.layoutManager = manager
     }

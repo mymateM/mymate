@@ -1,4 +1,4 @@
-package com.example.mymate
+package com.example.mymate.presentation.search
 
 import android.content.Context
 import android.graphics.Color
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.R
 import com.example.mymate.data.dto.expense.CalendarItem
 import com.example.mymate.databinding.ListitemCalendarBinding
 import java.time.LocalDate
@@ -31,7 +32,9 @@ class CalendarModaleAdapter(val context: Context, val dayList: ArrayList<LocalDa
             val spend = binding.billText
             spend.isInvisible = true
             day.text = item
-            binding.background.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.calendar_period_background))
+            binding.background.setImageDrawable(ContextCompat.getDrawable(context,
+                R.drawable.calendar_period_background
+            ))
             binding.background.isInvisible = true
             binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.black_text))
 
@@ -50,13 +53,19 @@ class CalendarModaleAdapter(val context: Context, val dayList: ArrayList<LocalDa
                     binding.background.isInvisible = true
                     binding.backgroundmodale.isInvisible = false
                     if (calendarVal.firstDay == absoluteAdapterPosition && info.startorEnd) {
-                        binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.calendar_period_start))
+                        binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context,
+                            R.drawable.calendar_period_start
+                        ))
                         binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
                     } else if (calendarVal.lastDay == absoluteAdapterPosition && info.startorEnd) {
-                        binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.calendar_period_end))
+                        binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context,
+                            R.drawable.calendar_period_end
+                        ))
                         binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.purpleblue_select))
                     } else if (info.middle) {
-                        binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.calendar_period_middle))
+                        binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context,
+                            R.drawable.calendar_period_middle
+                        ))
                         binding.dayText.setTextColor(ContextCompat.getColor(context, R.color.black_text))
                     } else {
                         binding.backgroundmodale.setImageDrawable(ContextCompat.getDrawable(context, android.R.color.transparent))
@@ -72,7 +81,7 @@ class CalendarModaleAdapter(val context: Context, val dayList: ArrayList<LocalDa
                 binding.calendarItem.setOnClickListener {
                     if (!iteminfo[absoluteAdapterPosition].lastornext) {
                         calendarVal.setDay(absoluteAdapterPosition)
-                        calendarVal.daycheck()
+                        calendarVal.updateSelectedDays()
 
                         if (calendarVal.firstDay == absoluteAdapterPosition) {
                             info.startorEnd = true

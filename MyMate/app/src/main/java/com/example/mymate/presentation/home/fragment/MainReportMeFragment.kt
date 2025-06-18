@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.R
 import com.example.mymate.data.dto.report.UserReportProcessed
 import com.example.mymate.databinding.MainReportMeFragmentBinding
-import com.example.mymate.presentation.home.adapter.MainReportListAdapter
+import com.example.mymate.presentation.util.ReportListAdapter
 import com.example.mymate.presentation.home.viewmodel.MainReportViewModel
 import com.example.mymate.util.Category
 import com.example.mymate.util.CategoryColorProvider
@@ -132,7 +132,7 @@ class MainReportMeFragment: Fragment() {
 
         //RecyclerView setting
         val manager: RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
-        val adapter = MainReportListAdapter(userData.categoryName, userData.categoryRatio, userData.categoryAbs)
+        val adapter = ReportListAdapter(userData.categoryName, userData.categoryRatio, userData.categoryAbs)
         binding.mylist.adapter = adapter
         binding.mylist.layoutManager = manager
     }

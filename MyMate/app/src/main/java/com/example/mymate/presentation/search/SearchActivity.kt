@@ -1,33 +1,30 @@
-package com.example.mymate
+package com.example.mymate.presentation.search
 
 import android.content.Context
-import android.graphics.Typeface
-import android.graphics.drawable.Drawable
+import android.icu.text.DecimalFormat
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
-import android.text.style.TypefaceSpan
-import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mymate.*
 import com.example.mymate.data.dto.expense.CalendarItem
-import com.example.mymate.data.dto.expense.ExpenseSummary
 import com.example.mymate.databinding.ActivitySearchBinding
+import com.example.mymate.presentation.util.CategoryAdapter
+import com.example.mymate.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -35,7 +32,10 @@ import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
 class SearchActivity: AppCompatActivity() {
-    lateinit var binding: ActivitySearchBinding
+    private var _binding: ActivitySearchBinding? = null
+    private val binding get() = _binding!!
+    private var selectedDate = LocalDate.now()
+
     lateinit var context: Context
     lateinit var calendarVal: CalendarValues
     lateinit var behavioramount: BottomSheetBehavior<ConstraintLayout>
@@ -43,14 +43,8 @@ class SearchActivity: AppCompatActivity() {
     lateinit var behaviorcategory: BottomSheetBehavior<ConstraintLayout>
     lateinit var behaviorlistup: BottomSheetBehavior<ConstraintLayout>
     lateinit var iteminfo: ArrayList<CalendarItem>
-    lateinit var userRepo: DataStoreRepoUser
 
-    private var selectedDate = LocalDate.now()
-    private var year = ""
-    private var month = ""
-    private var day = ""
     private var monthformatter = DateTimeFormatter.ofPattern("MM월")
-    private var dayformatter = DateTimeFormatter.ofPattern("dd")
     private var yearformatter = DateTimeFormatter.ofPattern("yyyy")
     private var formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
     private var searchformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -59,16 +53,13 @@ class SearchActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivitySearchBinding.inflate(layoutInflater)
+        _binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
         context = this
-        userRepo = DataStoreRepoUser(dataStore)
 
         binding.cover.isGone = true
 
         calendarVal = CalendarValues()
-        calendarVal.firstDay = -1
-        calendarVal.lastDay = -1
 
         bottomSheetInit()
         setCalendarView(selectedDate)
@@ -76,19 +67,16 @@ class SearchActivity: AppCompatActivity() {
 
         unselected(binding.listupbutton)
         binding.searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.black_text))
-        binding.listupbutton.text = "최신순"
 
         binding.searchcalendar.monthLast.setOnClickListener {
             selectedDate = selectedDate.minusMonths(1)
-            calendarVal.firstDay = -1
-            calendarVal.lastDay = -1
+            calendarVal.init()
             setCalendarView(selectedDate)
         }
 
         binding.searchcalendar.monthNext.setOnClickListener {
             selectedDate = selectedDate.plusMonths(1)
-            calendarVal.firstDay = -1
-            calendarVal.lastDay = -1
+            calendarVal.init()
             setCalendarView(selectedDate)
         }
 
@@ -132,27 +120,25 @@ class SearchActivity: AppCompatActivity() {
         }
 
         binding.refreshButton.setOnClickListener {
-            binding.amountbutton.text = "가격"
-            binding.categorybutton.text = "카테고리"
-            binding.listupbutton.text = "최신순"
-            binding.searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.black_text))
-            binding.calendarbutton.text = "기간"
-            unselected(binding.listupbutton)
-            unselected(binding.amountbutton)
-            unselected(binding.categorybutton)
-            unselected(binding.calendarbutton)
-            var itemlistrefresh = ArrayList<ArrayList<ExpenseSummary>>()
-            val adapter = SearchListContainerAdapter(itemlistrefresh)
-            val manager = LinearLayoutManager(context)
-            binding.searchlistcontainer.adapter = adapter
-            binding.searchlistcontainer.layoutManager = manager
+            binding.run {
+                amountbutton.text = "가격"
+                categorybutton.text = "카테고리"
+                listupbutton.text = "최신순"
+                searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.black_text))
+                calendarbutton.text = "기간"
+                unselected(listupbutton)
+                unselected(amountbutton)
+                unselected(categorybutton)
+                unselected(calendarbutton)
+                startgraphic.isGone = false
+                searchlistcontainer.adapter = SearchListContainerAdapter(ArrayList())
+                searchlistcontainer.layoutManager = LinearLayoutManager(context)
+            }
             calendarVal = CalendarValues()
-            calendarVal.firstDay = -1
-            calendarVal.lastDay = -1
+            calendarVal.init()
             selectedDate = LocalDate.now()
             setCalendarView(selectedDate)
             setCategoryView()
-            binding.startgraphic.isGone = false
         }
 
         binding.calendarbutton.setOnClickListener {
@@ -246,32 +232,30 @@ class SearchActivity: AppCompatActivity() {
         }
 
         binding.searchamount.amountset.setOnClickListener {
-            var minimum = ""
-            var maximum = ""
-            var amount = "가격"
-            if (binding.searchamount.minimumedit.text.isNotEmpty() && binding.searchamount.maximumedit.text.isNotEmpty()) {
-                if (binding.searchamount.minimumedit.text.toString().toInt() > binding.searchamount.maximumedit.text.toString().toInt()) {
-                    minimum = digitprocessing(binding.searchamount.maximumedit.text.toString())
-                    maximum = digitprocessing(binding.searchamount.minimumedit.text.toString())
+            val minText = binding.searchamount.minimumedit.text.toString()
+            val maxText = binding.searchamount.maximumedit.text.toString()
+            val minInt = minText.toIntOrNull()
+            val maxInt = maxText.toIntOrNull()
+
+            val (minValue, maxValue) = when {
+                minInt != null && maxInt != null && minInt > maxInt -> maxInt to minInt
+                else -> minInt to maxInt
+            }
+
+            val formatter = DecimalFormat("#,###")
+            val minimum = minValue?.let { formatter.format(it) } ?: ""
+            val maximum = maxValue?.let { formatter.format(it) } ?: ""
+
+            var amount = when {
+                minimum.isEmpty() && maximum.isEmpty() -> {
+                    unselected(binding.amountbutton)
+                    "가격"
                 }
-            } else if (binding.searchamount.minimumedit.text.isNotEmpty()) {
-                minimum = digitprocessing(binding.searchamount.minimumedit.text.toString())
-            } else if (binding.searchamount.maximumedit.text.isNotEmpty()) {
-                maximum = digitprocessing(binding.searchamount.maximumedit.text.toString())
+                minimum.isEmpty() -> "~ ${maximum}원"
+                maximum.isEmpty() -> "${minimum}원 ~"
+                else -> "${minimum}원 ~ ${maximum}원"
             }
-            if (minimum == "" && maximum == "") {
-                binding.amountbutton.text = amount
-                unselected(binding.amountbutton)
-            } else if (minimum == "") {
-                amount = "~ " + maximum + "원"
-                binding.amountbutton.text = amount
-            } else if (maximum == "") {
-                amount = minimum + "원 ~"
-                binding.amountbutton.text = amount
-            } else {
-                amount = minimum + "원 ~ " + maximum + "원"
-                binding.amountbutton.text = amount
-            }
+            binding.amountbutton.text = amount
             behavioramount.state = BottomSheetBehavior.STATE_COLLAPSED
             binding.cover.isGone = true
             search()
@@ -293,25 +277,19 @@ class SearchActivity: AppCompatActivity() {
             }
         })
 
-        binding.searchamount.minimumedit.setOnEditorActionListener(object: OnEditorActionListener {
-            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
-                if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE || p1 == EditorInfo.IME_ACTION_SEARCH) {
-                    hidekeyboard()
-                }
-                return false
+        binding.searchamount.minimumedit.setOnEditorActionListener { p0, p1, p2 ->
+            if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE || p1 == EditorInfo.IME_ACTION_SEARCH) {
+                hidekeyboard()
             }
+            false
+        }
 
-        })
-
-        binding.searchamount.maximumedit.setOnEditorActionListener(object: OnEditorActionListener {
-            override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
-                if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE || p1 == EditorInfo.IME_ACTION_SEND) {
-                    hidekeyboard()
-                }
-                return false
+        binding.searchamount.maximumedit.setOnEditorActionListener { p0, p1, p2 ->
+            if (p1 == EditorInfo.IME_ACTION_NEXT || p1 == EditorInfo.IME_ACTION_DONE || p1 == EditorInfo.IME_ACTION_SEND) {
+                hidekeyboard()
             }
-
-        })
+            false
+        }
 
         binding.searchamount.maximumedit.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -387,48 +365,41 @@ class SearchActivity: AppCompatActivity() {
         var firstday = ""
         var lastday = ""
         val dayList = dayInMonthArray(selectedDate)
-        if (calendarVal.firstDay != -1) {
-            firstday = dayList[calendarVal.firstDay]?.format(searchformatter) ?: "2021-11-06"
+        firstday = if (calendarVal.firstDay != -1) {
+            dayList[calendarVal.firstDay]?.format(searchformatter) ?: "2021-11-06"
         } else {
-            firstday = "2021-11-06"
+            "2021-11-06"
         }
-        if (calendarVal.lastDay != -1) {
-            lastday = dayList[calendarVal.lastDay]?.format(searchformatter) ?: LocalDate.now().format(searchformatter)
+        lastday = if (calendarVal.lastDay != -1) {
+            dayList[calendarVal.lastDay]?.format(searchformatter) ?: LocalDate.now().format(searchformatter)
         } else {
-            lastday = LocalDate.now().format(searchformatter)
+            LocalDate.now().format(searchformatter)
         }
 
         var newest = true
         var expense_amount_max = "${Integer.MAX_VALUE}"
         var expense_amount_min = "0"
 
-        if (binding.amountbutton.text != "가격") {
-            if (binding.amountbutton.text.indexOf("원") == binding.amountbutton.text.length - 1) {
-                expense_amount_max = (binding.amountbutton.text.substring(binding.amountbutton.text.indexOf(" ") + 1 until binding.amountbutton.text.indexOf("원"))).replace(",", "")
-            } else {
-                val index = binding.amountbutton.text.indexOf("원")
-                if (binding.amountbutton.text.indexOf("원", index + 1) == -1) {
-                    expense_amount_min = (binding.amountbutton.text.substring(0 until binding.amountbutton.text.indexOf("원"))).replace(",", "")
-                } else {
-                    expense_amount_min = (binding.amountbutton.text.substring(0 until binding.amountbutton.text.indexOf("원"))).replace(",", "")
-                    val blankindex = binding.amountbutton.text.indexOf(" ")
-                    expense_amount_max = (binding.amountbutton.text.substring(binding.amountbutton.text.indexOf(" ", blankindex + 1) + 1 until binding.amountbutton.text.indexOf("원", index + 1))).replace(",", "")
+        val text = binding.amountbutton.text.toString()
+        if (text != "가격") {
+            val numbers = Regex("""[\d,]+""").findAll(text).map { it.value.replace(",", "") }.toList()
+            when (numbers.size) {
+                1 -> {
+                    if (text.startsWith("~")) {
+                        expense_amount_max = numbers[0]
+                    } else {
+                        expense_amount_min = numbers[0]
+                    }
+                }
+                2 -> {
+                    expense_amount_min = numbers[0]
+                    expense_amount_max = numbers[1]
                 }
             }
         }
 
         newest = binding.listupbutton.text != "과거순"
-        var categorytosend = ""
-        when (binding.categorybutton.text) {
-            "식비" -> categorytosend = "FOOD"
-            "쇼핑" -> categorytosend = "SHOPPING"
-            "교통" -> categorytosend = "TRANSPORT"
-            "의료" -> categorytosend = "MEDICAL"
-            "생활" -> categorytosend = "HOUSE_ITEM"
-            "교육" -> categorytosend = "EDUCATION"
-            "기타" -> categorytosend = "ETC"
-            "고지서" -> categorytosend = "BILLS"
-        }
+        var categoryToSend = Category.values().find { it.displayName == binding.categorybutton.text.toString() }?.name ?: "ETC"
 
         /* var retrofit = RetrofitClientInstance.client
         var endpoint = retrofit?.create(searchExpense::class.java)
@@ -470,75 +441,18 @@ class SearchActivity: AppCompatActivity() {
         }) */
     }
 
-    //오류 있음: persistant bottom sheet가 올라가 있는 상태에서 hidekeyboard 안됨
+    //Todo: persistant bottom sheet가 올라가 있는 상태에서 hidekeyboard test할 것
     private fun hidekeyboard() {
         //키보드 내리기
         val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        val focusview = currentFocus
-        imm.hideSoftInputFromWindow(this.window.decorView.applicationWindowToken, 0)
-        focusview?.clearFocus()
-    }
-
-    private fun digitprocessing(digits: String): String {
-        var textlength = digits.length
-        var processed = ""
-        while (0 < textlength) {
-            var substring1 = ""
-            if (textlength == 3) {
-                if (processed == "") {
-                    processed = digits.substring(0 until 3)
-                } else {
-                    processed = digits.substring(0 until 3) + "," + processed
-                }
-            } else if (textlength > 3) {
-                substring1 = digits.substring(textlength - 3 until textlength)
-                if (processed == "") {
-                    processed = substring1
-                } else {
-                    processed = "$substring1,$processed"
-                }
-            } else {
-                substring1 = digits.substring(0 until textlength)
-                processed = "$substring1,$processed"
-            }
-
-            textlength -= 3
+        val focusView = currentFocus ?: window.decorView.findFocus()
+        focusView.let {
+            imm.hideSoftInputFromWindow(it.windowToken, 0)
+            it.clearFocus()
         }
-
-        return processed
     }
 
     private fun setCategoryView() {
-        val defaultimgList = arrayListOf<Drawable>()
-        defaultimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_food_default)!!)
-        defaultimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_life_default)!!)
-        defaultimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_shopping_default)!!)
-        defaultimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_traffic_default)!!)
-        defaultimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_medical_default)!!)
-        defaultimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_bill_default)!!)
-        defaultimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_edu_default)!!)
-        defaultimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_etc_default)!!)
-
-        val selectedimgList = arrayListOf<Drawable>()
-        selectedimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_food_select)!!)
-        selectedimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_life_select)!!)
-        selectedimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_shopping_select)!!)
-        selectedimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_traffic_select)!!)
-        selectedimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_medical_select)!!)
-        selectedimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_bill_select)!!)
-        selectedimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_edu_select)!!)
-        selectedimgList.add(ContextCompat.getDrawable(context, R.drawable.icon_etc_select)!!)
-
-        val categorynameList = arrayListOf<String>()
-        categorynameList.add("식비")
-        categorynameList.add("생활")
-        categorynameList.add("쇼핑")
-        categorynameList.add("교통")
-        categorynameList.add("의료")
-        categorynameList.add("고지서")
-        categorynameList.add("교육")
-        categorynameList.add("기타")
-
         var tagList = arrayListOf<Boolean>()
         for (i in 1 .. 8) {
             tagList.add(false)
@@ -551,7 +465,7 @@ class SearchActivity: AppCompatActivity() {
         for (i in 1 .. 8) {
             dataname.add("")
         }
-        val adapter = CategoryAdapter(context, defaultimgList, categorynameList, tagList, selectedimgList)
+        val adapter = CategoryAdapter(context, tagList)
         val manager: RecyclerView.LayoutManager = GridLayoutManager(context, 3)
 
         var data = ""
@@ -571,7 +485,7 @@ class SearchActivity: AppCompatActivity() {
                             dataList[i] = false
                         }
                         dataList[position] = true
-                        data = categorynameList[position]
+                        data = Category.fromIndex(position).displayName
                         binding.categorybutton.text = data
                         binding.searchcategory.categoryset.setBackgroundResource(R.drawable.button_loginbarselected)
                     }
@@ -585,14 +499,13 @@ class SearchActivity: AppCompatActivity() {
     private fun setCalendarView(date: LocalDate) {
         //calendar header
         val month = SpannableStringBuilder(selectedDate.format(monthformatter))
-        val montBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.montserrat_bold), Typeface.NORMAL)
-        val suitBoldTypeface = Typeface.create(ResourcesCompat.getFont(context, R.font.suit_bold), Typeface.NORMAL)
+        val font = FontManager
         if (selectedDate.monthValue < 10) {
-            month.setSpan(TypefaceSpan(montBoldTypeface), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            month.setSpan(TypefaceSpan(suitBoldTypeface), month.lastIndex, month.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            month.setSpan(font.montserratBold.getTypefaceSpan(), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            month.setSpan(font.suitBold.getTypefaceSpan(), month.lastIndex, month.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         } else if (selectedDate.monthValue >= 10) {
-            month.setSpan(TypefaceSpan(montBoldTypeface), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            month.setSpan(TypefaceSpan(suitBoldTypeface), month.lastIndex, month.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            month.setSpan(font.montserratBold.getTypefaceSpan(), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            month.setSpan(font.suitBold.getTypefaceSpan(), month.lastIndex, month.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         binding.searchcalendar.monthText.text = month
         binding.searchcalendar.yeartext.text = selectedDate.format(yearformatter)
@@ -602,37 +515,30 @@ class SearchActivity: AppCompatActivity() {
         //recyclerview setting
         val adapter = CalendarModaleAdapter(context, dayList, iteminfo, calendarVal)
         val manager: RecyclerView.LayoutManager = GridLayoutManager(context, 7)
-        var firstdaytext = ""
-        var lastdaytext = ""
         binding.searchcalendar.mainCalendar.itemAnimator = null
         binding.searchcalendar.mainCalendar.layoutManager = manager
         binding.searchcalendar.mainCalendar.adapter = adapter.apply {
             setOnItemClickListener(object : CalendarModaleAdapter.OnItemClickListener {
                 override fun onItemClick(item: CalendarItem, position: Int) {
-                    if (calendarVal.firstDay != -1) {
-                        firstdaytext = dayList[calendarVal.firstDay]?.format(formatter) ?: ""
-                    } else {
-                        firstdaytext = ""
+                    val firstdayText = if (calendarVal.firstDay >= 0) {
+                        dayList.getOrNull(calendarVal.firstDay)?.format(formatter).orEmpty()
+                    } else ""
+                    val lastdayText = if (calendarVal.lastDay >= 0) {
+                        dayList.getOrNull(calendarVal.lastDay)?.format(formatter).orEmpty()
+                    } else ""
+                    val calendarText = when {
+                        firstdayText.isNotEmpty() && lastdayText.isNotEmpty() -> "$firstdayText-$lastdayText"
+                        firstdayText.isNotEmpty() -> firstdayText
+                        lastdayText.isNotEmpty() -> lastdayText
+                        else -> "기간"
                     }
-                    if (calendarVal.lastDay != -1) {
-                        lastdaytext = dayList[calendarVal.lastDay]?.format(formatter) ?: ""
+                    binding.calendarbutton.text = calendarText
+                    if (calendarText == "기간") {
+                        unselected(binding.calendarbutton)
+                        binding.searchcalendar.calendarset.setBackgroundResource(R.drawable.button_loginbardefault)
                     } else {
-                        lastdaytext = ""
-                    }
-                    val calendartext = "$firstdaytext-$lastdaytext"
-                    binding.calendarbutton.text = calendartext
-                    selected(binding.calendarbutton)
-                    binding.searchcalendar.calendarset.setBackgroundResource(R.drawable.button_loginbarselected)
-                    if (firstdaytext == "") {
-                        if (lastdaytext != "") {
-                            binding.calendarbutton.text = lastdaytext
-                        } else {
-                            binding.calendarbutton.text = "기간"
-                            unselected(binding.calendarbutton)
-                            binding.searchcalendar.calendarset.setBackgroundResource(R.drawable.button_loginbardefault)
-                        }
-                    } else if (lastdaytext == "") {
-                        binding.calendarbutton.text = firstdaytext
+                        selected(binding.calendarbutton)
+                        binding.searchcalendar.calendarset.setBackgroundResource(R.drawable.button_loginbarselected)
                     }
                 }
             })
@@ -640,60 +546,46 @@ class SearchActivity: AppCompatActivity() {
     }
 
     private fun dayInMonthArray(date: LocalDate): ArrayList<LocalDate?> {
-        var dayList = ArrayList<LocalDate?>()
-        var yearMonth = YearMonth.from(date)
-        var lastDay = yearMonth.lengthOfMonth()
-        var firstDay = date.withDayOfMonth(1)
-        var dayOfWeek = firstDay.dayOfWeek.value
-        var nowdate: Int = 0
-        var tempmonth = date
-        var tempday = date
-        var tempint = 0
-        val dayformat = DateTimeFormatter.ofPattern("dd")
-        nowdate = date.format(dayformat).toInt()
+        val dayList = ArrayList<LocalDate?>()
+        val lastDay = YearMonth.from(date).lengthOfMonth()
+        val firstDay = date.withDayOfMonth(1)
+        val dayOfWeek = firstDay.dayOfWeek.value
+        val prevMonth = date.minusMonths(1)
+        val prevMonthLastDay = prevMonth.lengthOfMonth()
+        val nextMonth = date.plusMonths(1).withDayOfMonth(1)
+
+        fun addDay(localDate: LocalDate, isOverflow: Boolean) {
+            dayList.add(localDate)
+            iteminfo.add(CalendarItem(false, false, isOverflow))
+        }
+
         if (firstDay.dayOfWeek == DayOfWeek.SUNDAY) {
-            for (i in 1..yearMonth.lengthOfMonth()) {
-                if (nowdate == i) {
-                    dayList.add(LocalDate.of(date.year, date.monthValue, i))
-                    iteminfo.add(CalendarItem(false, false, false))
-                } else {
-                    dayList.add(LocalDate.of(date.year, date.monthValue, i))
-                    iteminfo.add(CalendarItem(false, false, false))
-                }
+            for (i in 1 .. lastDay) {
+                addDay(LocalDate.of(date.year, date.monthValue, i), false)
             }
-            for (i in 1 .. 11) {
-                tempmonth = date.plusMonths(1)
-                tempday = tempmonth.withDayOfMonth(1).plusDays(tempint.toLong())
-                dayList.add(tempday)
-                iteminfo.add(CalendarItem(false, false, true))
-                tempint++
+            val daysToFill = 42 - lastDay
+            for (i in 0 until daysToFill) {
+                addDay(nextMonth.plusDays(i.toLong()), true)
             }
         } else {
+            var overflowDayCounter = 0
             for (i in 1..42) {
-                if (i <= dayOfWeek) {
-                    tempmonth = date.minusMonths(1)
-                    tempday = tempmonth.withDayOfMonth(tempmonth.lengthOfMonth())
-                        .minusDays(dayOfWeek.toLong() - i)
-                    dayList.add(tempday)
-                    iteminfo.add(CalendarItem(false, false, true))
-                } else if (i > lastDay + dayOfWeek) {
-                    tempmonth = date.plusMonths(1)
-                    tempday = tempmonth.withDayOfMonth(1).plusDays(tempint.toLong())
-                    dayList.add(tempday)
-                    iteminfo.add(CalendarItem(false, false, true))
-                    tempint++
-                } else {
-                    if (nowdate == (i - dayOfWeek)) {
-                        dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
-                        iteminfo.add(CalendarItem(false, false, false))
-                    } else {
-                        dayList.add(LocalDate.of(date.year, date.monthValue, i - dayOfWeek))
-                        iteminfo.add(CalendarItem(false, false, false))
+                when {
+                    i <= dayOfWeek -> {
+                        val day = prevMonthLastDay - (dayOfWeek - i) + 1
+                        addDay(prevMonth.withDayOfMonth(day), true)
+                    }
+                    i > lastDay + dayOfWeek -> {
+                        addDay(nextMonth.plusDays(overflowDayCounter.toLong()), true)
+                        overflowDayCounter++
+                    }
+                    else -> {
+                        val currentDay = i - dayOfWeek
+                        addDay(LocalDate.of(date.year, date.monthValue, currentDay), false)
                     }
                 }
             }
         }
-
         return dayList
     }
 }

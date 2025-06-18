@@ -1,4 +1,4 @@
-package com.example.mymate
+package com.example.mymate.presentation.search
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -17,20 +17,18 @@ class SearchListContainerAdapter(val searchList: ArrayList<ArrayList<ExpenseSumm
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     inner class SearchListContainerHolder(val binding: ListitemSearchlistcontainerBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ArrayList<ExpenseSummary>, context: Context, list: ArrayList<ArrayList<ExpenseSummary>>) {
+        fun bind(item: ArrayList<ExpenseSummary>, context: Context) {
             if (item.isNotEmpty()) {
-                if (LocalDate.now().format(formatter) == item[0].expenseDate) {
-                    val today = "${LocalDate.now().monthValue}월 ${LocalDate.now().dayOfMonth}일 (오늘)"
-                    binding.daytext.text = today
+                val today = LocalDate.now()
+                val expenseDate = LocalDate.parse(item[0].expenseDate, formatter)
+                val dayText = if (today.format(formatter) == item[0].expenseDate) {
+                    "${today.monthValue}월 ${today.dayOfMonth}일 (오늘)"
                 } else {
-                    val date = LocalDate.parse(item[0].expenseDate, formatter)
-                    val today = "${date.monthValue}월 ${date.dayOfMonth}일"
-                    binding.daytext.text = today
+                    "${expenseDate.monthValue}월 ${expenseDate.dayOfMonth}일"
                 }
-                val adapter = SearchListAdapter(item)
-                val manager: RecyclerView.LayoutManager = LinearLayoutManager(context)
-                binding.searchlist.layoutManager = manager
-                binding.searchlist.adapter = adapter
+                binding.daytext.text = dayText
+                binding.searchlist.layoutManager = LinearLayoutManager(context)
+                binding.searchlist.adapter = SearchListAdapter(item)
             } else {
                 binding.root.isGone = true
             }
@@ -49,7 +47,7 @@ class SearchListContainerAdapter(val searchList: ArrayList<ArrayList<ExpenseSumm
 
     override fun onBindViewHolder(holder: SearchListContainerHolder, position: Int) {
         var item = searchList[position]
-        holder.bind(item, context, searchList)
+        holder.bind(item, context)
     }
 
 }

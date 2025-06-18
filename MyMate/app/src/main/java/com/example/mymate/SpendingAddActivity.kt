@@ -15,6 +15,7 @@ import androidx.core.view.isGone
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.databinding.ActivitySpendingaddBinding
+import com.example.mymate.presentation.util.CategoryAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import java.time.LocalDate
 
@@ -274,7 +275,7 @@ class SpendingAddActivity: AppCompatActivity() {
         for (i in 1 .. 8) {
             dataname.add("")
         }
-        val adapter = CategoryAdapter(context, defaultimgList, categorynameList, tagList, selectedimgList)
+        val adapter = CategoryAdapter(context, tagList)
         val manager: RecyclerView.LayoutManager = GridLayoutManager(context, 3)
 
         var data = ""

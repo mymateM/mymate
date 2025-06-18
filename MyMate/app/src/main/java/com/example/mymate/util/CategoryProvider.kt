@@ -19,6 +19,10 @@ enum class Category(val displayName: String) {
         fun fromDisplayName(value: String): Category {
             return values().find { it.name == value } ?: ETC
         }
+
+        fun fromIndex(value: Int): Category {
+            return values()[value]
+        }
     }
 }
 
@@ -57,6 +61,48 @@ object CategoryIconProvider {
 
     fun getIconRes(category: Category): Int {
         return categoryIconMap[category] ?: R.drawable.alarmicon_etc
+    }
+
+    fun getIconImage(context: Context, category: Category): Drawable {
+        return ContextCompat.getDrawable(context, getIconRes(category))!!
+    }
+}
+
+object CategoryGrayIconProvider {
+    val categoryIconMap = mapOf(
+        Category.FOOD to R.drawable.icon_food_default,
+        Category.LIFE to R.drawable.icon_life_default,
+        Category.SHOPPING to R.drawable.icon_shopping_default,
+        Category.TRANSPORT to R.drawable.icon_traffic_default,
+        Category.MEDICAL to R.drawable.icon_medical_default,
+        Category.BILL to R.drawable.icon_bill_default,
+        Category.EDUCATION to R.drawable.icon_edu_default,
+        Category.ETC to R.drawable.icon_etc_default
+    )
+
+    fun getIconRes(category: Category): Int {
+        return categoryIconMap[category] ?: R.drawable.icon_etc_default
+    }
+
+    fun getIconImage(context: Context, category: Category): Drawable {
+        return ContextCompat.getDrawable(context, getIconRes(category))!!
+    }
+}
+
+object CategoryPurpleIconProvider {
+    val categoryIconMap = mapOf(
+        Category.FOOD to R.drawable.icon_food_select,
+        Category.LIFE to R.drawable.icon_life_select,
+        Category.SHOPPING to R.drawable.icon_shopping_select,
+        Category.TRANSPORT to R.drawable.icon_traffic_select,
+        Category.MEDICAL to R.drawable.icon_medical_select,
+        Category.BILL to R.drawable.icon_bill_select,
+        Category.EDUCATION to R.drawable.icon_edu_select,
+        Category.ETC to R.drawable.icon_etc_select
+    )
+
+    fun getIconRes(category: Category): Int {
+        return categoryIconMap[category] ?: R.drawable.icon_etc_select
     }
 
     fun getIconImage(context: Context, category: Category): Drawable {

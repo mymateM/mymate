@@ -1,6 +1,5 @@
 package com.example.mymate.presentation.home.fragment
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
@@ -18,12 +17,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.R
-import com.example.mymate.data.remote.api.RetrofitClientInstance
 import com.example.mymate.data.dto.report.HouseholdReportProcessed
 import com.example.mymate.databinding.MainReportHouseholdFragmentBinding
-import com.example.mymate.presentation.home.adapter.MainReportListAdapter
+import com.example.mymate.presentation.util.ReportListAdapter
 import com.example.mymate.presentation.home.viewmodel.MainReportViewModel
-import com.example.mymate.presentation.main.MainActivity
 import com.example.mymate.util.Category
 import com.example.mymate.util.CategoryColorProvider
 import com.example.mymate.util.FontManager
@@ -31,7 +28,6 @@ import com.example.mymate.util.getTypefaceSpan
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import java.time.format.DateTimeFormatter
 
 class MainReportHouseholdFragment: Fragment() {
     private var _binding: MainReportHouseholdFragmentBinding? = null
@@ -147,7 +143,7 @@ class MainReportHouseholdFragment: Fragment() {
 
         //RecyclerView Setting
         val manager: RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
-        val adapter = MainReportListAdapter(userData.categoryName, userData.categoryRatio, userData.categoryAbs)
+        val adapter = ReportListAdapter(userData.categoryName, userData.categoryRatio, userData.categoryAbs)
         binding.householdlist.adapter = adapter
         binding.householdlist.layoutManager = manager
     }

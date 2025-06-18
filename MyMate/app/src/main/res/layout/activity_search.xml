@@ -146,7 +146,7 @@
                             android:textColor="@color/graydark_text"
                             android:textSize="13dp"
                             android:fontFamily="@font/suit_medium"
-                            android:text="정렬"
+                            android:text="최신순"
                             android:gravity="center"
                             android:paddingLeft="12dp"
                             android:paddingRight="12dp"

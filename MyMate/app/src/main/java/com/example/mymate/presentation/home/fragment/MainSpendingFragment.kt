@@ -21,6 +21,7 @@ import com.example.mymate.presentation.home.adapter.CalendarAdapter
 import com.example.mymate.presentation.home.adapter.SpendingAdapter
 import com.example.mymate.presentation.home.viewmodel.MainSpendingViewModel
 import com.example.mymate.presentation.main.MainActivity
+import com.example.mymate.presentation.search.SearchActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
