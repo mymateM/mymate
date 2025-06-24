@@ -1,4 +1,4 @@
-package com.example.mymate.presentation.search
+package com.example.mymate.presentation.expense.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

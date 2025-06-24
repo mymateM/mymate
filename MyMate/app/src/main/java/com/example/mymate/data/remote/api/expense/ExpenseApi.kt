@@ -21,7 +21,15 @@ interface ExpenseApi {
     fun getDailySingleExpense(@Header("Authorization") Authorization: String, @Path("expense_id") expense_id: String): Call<DailySingleExpenseResponse>
 
     @POST("api/v1/expense/search") //home?
-    fun searchExpense(@Header("Authorization") Authorization: String, @Query("expense_date_max") expense_date_max: String, @Query("expense_date_min") expense_date_min: String, @Query("expense_category_name") expense_category_name: String, @Query("expense_amount_max") expense_amount_max: String, @Query("expense_amount_min") expense_amount_min: String, @Query("sorted_by_newest") sorted_by_newest: Boolean): Call<SearchResponse>
+    fun searchExpense(
+        @Header("Authorization") Authorization: String,
+        @Query("expense_date_max") expense_date_max: String,
+        @Query("expense_date_min") expense_date_min: String,
+        @Query("expense_category_name") expense_category_name: String,
+        @Query("expense_amount_max") expense_amount_max: String,
+        @Query("expense_amount_min") expense_amount_min: String,
+        @Query("sorted_by_newest") sorted_by_newest: Boolean
+    ): Response<SearchResponse>
 
     @DELETE("api/v1/expense/{expense_id}")
     fun deleteExpense(@Header("Authorization") Authorization: String, @Path("expense_id") expense_id: String): Call<Response<Void>>

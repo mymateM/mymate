@@ -1,12 +1,10 @@
-package com.example.mymate.presentation.search
+package com.example.mymate.presentation.expense.adapter
 
 import android.content.Context
 import android.icu.text.DecimalFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mymate.R
 import com.example.mymate.data.dto.expense.ExpenseSummary
 import com.example.mymate.databinding.ListitemSearchlistBinding
 import com.example.mymate.util.Category

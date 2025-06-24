@@ -99,7 +99,7 @@
         <activity android:name=".OnboardingTermsActivity"
             android:theme="@style/Theme.MyMate"
             android:exported="false"/>
-        <activity android:name=".presentation.search.SearchActivity"
+        <activity android:name=".presentation.expense.SearchActivity"
             android:exported="false"
             android:theme="@style/Theme.MyMate"/>
         <activity android:name=".BillDetailOCRActivity"
