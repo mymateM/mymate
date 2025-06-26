@@ -1,8 +1,6 @@
 package com.example.mymate.presentation.expense
 
 import android.content.Context
-import android.icu.text.DecimalFormat
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.Spannable
@@ -12,7 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -24,38 +22,33 @@ import com.example.mymate.*
 import com.example.mymate.databinding.ActivitySearchBinding
 import com.example.mymate.presentation.expense.adapter.CalendarModaleAdapter
 import com.example.mymate.presentation.expense.adapter.SearchListContainerAdapter
+import com.example.mymate.presentation.expense.viewmodel.SearchViewModel
 import com.example.mymate.presentation.util.CategoryAdapter
 import com.example.mymate.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
 class SearchActivity: AppCompatActivity() {
     private var _binding: ActivitySearchBinding? = null
     private val binding get() = _binding!!
-    private var selectedDate = LocalDate.now()
 
     lateinit var context: Context
-    lateinit var calendarVal: CalendarValues
-    lateinit var behavioramount: BottomSheetBehavior<ConstraintLayout>
-    lateinit var behaviorcalendar: BottomSheetBehavior<ConstraintLayout>
-    lateinit var behaviorcategory: BottomSheetBehavior<ConstraintLayout>
-    lateinit var behaviorlistup: BottomSheetBehavior<ConstraintLayout>
-    //lateinit var iteminfo: ArrayList<CalendarItem>
+    private lateinit var amountBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var calendarBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var categoryBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var orderBehavior: BottomSheetBehavior<ConstraintLayout>
 
-    private var monthformatter = DateTimeFormatter.ofPattern("MM월")
-    private var yearformatter = DateTimeFormatter.ofPattern("yyyy")
-    private var formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
-    private var searchformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private var monthFormatter = DateTimeFormatter.ofPattern("MM월")
+    private var yearFormatter = DateTimeFormatter.ofPattern("yyyy")
+    private val viewModel: SearchViewModel by viewModels()
 
     private val bottomSheets by lazy {
         listOf(
-            behavioramount,
-            behaviorcalendar,
-            behaviorcategory,
-            behaviorlistup
+            amountBehavior,
+            calendarBehavior,
+            categoryBehavior,
+            orderBehavior
         )
     }
 
@@ -79,15 +72,13 @@ class SearchActivity: AppCompatActivity() {
     }
 
     private val editorActionListener = TextView.OnEditorActionListener { _, actionId, _ ->
-        if (actionId == EditorInfo.IME_ACTION_NEXT ||
-            actionId == EditorInfo.IME_ACTION_DONE ||
+        if (actionId == EditorInfo.IME_ACTION_DONE ||
             actionId == EditorInfo.IME_ACTION_SEND
         ) { hidekeyboard() }
         false
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -97,25 +88,23 @@ class SearchActivity: AppCompatActivity() {
 
         binding.cover.isGone = true
 
-        calendarVal = CalendarValues()
-
+        screenInit()
         bottomSheetInit()
-        setCalendarView(selectedDate)
         setCategoryView()
+
+        viewModel.selectedDate.observe(this) {
+            setCalendarView(it)
+        }
 
         unselected(binding.listupbutton)
         binding.searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.black_text))
 
         binding.searchcalendar.monthLast.setOnClickListener {
-            selectedDate = selectedDate.minusMonths(1)
-            calendarVal.init()
-            setCalendarView(selectedDate)
+            viewModel.setCalendar(null, viewModel.selectedDate.value!!.minusMonths(1))
         }
 
         binding.searchcalendar.monthNext.setOnClickListener {
-            selectedDate = selectedDate.plusMonths(1)
-            calendarVal.init()
-            setCalendarView(selectedDate)
+            viewModel.setCalendar(null, viewModel.selectedDate.value!!.plusMonths(1))
         }
 
         binding.searchEdit.setOnClickListener {
@@ -136,130 +125,123 @@ class SearchActivity: AppCompatActivity() {
 
     private fun collapseAllExcept(except: BottomSheetBehavior<*>?) {
         bottomSheets.forEach { if (it != except) it.state = BottomSheetBehavior.STATE_COLLAPSED }
+        if (except == null) binding.cover.isGone = true
     }
 
-    private fun toggleBottomSheet(button: TextView, sheet: BottomSheetBehavior<*>, defaultText: String) {
+    private fun toggleBottomSheet(button: TextView, sheet: BottomSheetBehavior<*>) {
         val isExpanded = sheet.state == BottomSheetBehavior.STATE_EXPANDED
         if (isExpanded) {
             sheet.state = BottomSheetBehavior.STATE_COLLAPSED
             binding.cover.isGone = true
-            if (button.text == defaultText) unselected(button)
         } else {
             collapseAllExcept(sheet)
             sheet.state = BottomSheetBehavior.STATE_EXPANDED
             binding.cover.isGone = false
-            selected(button)
+        }
+    }
+
+    private fun screenInit() {
+        viewModel.amountText.observe(this) {
+            binding.amountbutton.text = it
+            if (it != "가격") {
+                selected(binding.amountbutton)
+                binding.searchamount.amountset.setBackgroundResource(R.drawable.button_loginbarselected)
+            } else {
+                unselected(binding.amountbutton)
+                binding.searchamount.amountset.setBackgroundResource(R.drawable.button_loginbardefault)
+            }
+        }
+
+        viewModel.categoryText.observe(this) {
+            binding.categorybutton.text = it
+            if (it != "카테고리") {
+                selected(binding.categorybutton)
+                binding.searchcategory.categoryset.setBackgroundResource(R.drawable.button_loginbarselected)
+            } else {
+                unselected(binding.categorybutton)
+                binding.searchcategory.categoryset.setBackgroundResource(R.drawable.button_loginbardefault)
+            }
+        }
+
+        viewModel.periodText.observe(this) {
+            binding.calendarbutton.text = it
+            if (it != "기간") {
+                selected(binding.calendarbutton)
+                binding.searchcalendar.calendarset.setBackgroundResource(R.drawable.button_loginbarselected)
+            } else {
+                unselected(binding.calendarbutton)
+                binding.searchcalendar.calendarset.setBackgroundResource(R.drawable.button_loginbardefault)
+            }
+        }
+
+        viewModel.sortText.observe(this) {
+            binding.listupbutton.text = it
+            binding.searchlistup.run {
+                if (listfromold.text == it) {
+                    listfromold.setTextColor(ContextCompat.getColor(context, R.color.black_text))
+                    listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.graylight_text))
+                } else {
+                    listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.black_text))
+                    listfromold.setTextColor(ContextCompat.getColor(context, R.color.graydark_text))
+                }
+            }
+            if (it != "정렬") selected(binding.listupbutton) else unselected(binding.listupbutton)
+        }
+
+        binding.searchlistcontainer.layoutManager = LinearLayoutManager(this)
+        binding.searchlistcontainer.adapter = SearchListContainerAdapter(ArrayList())
+        viewModel.searchList.observe(this) {
+            (binding.searchlistcontainer.adapter as SearchListContainerAdapter).apply {
+                update(it)
+            }
         }
     }
 
     private fun bottomSheetInit() {
-        behavioramount = BottomSheetBehavior.from(binding.searchamount.root)
-        behaviorcalendar = BottomSheetBehavior.from(binding.searchcalendar.root)
-        behaviorcategory = BottomSheetBehavior.from(binding.searchcategory.root)
-        behaviorlistup = BottomSheetBehavior.from(binding.searchlistup.root)
+        amountBehavior = BottomSheetBehavior.from(binding.searchamount.root)
+        calendarBehavior = BottomSheetBehavior.from(binding.searchcalendar.root)
+        categoryBehavior = BottomSheetBehavior.from(binding.searchcategory.root)
+        orderBehavior = BottomSheetBehavior.from(binding.searchlistup.root)
 
         //클릭 이벤트 막기 위한 빈 click listener
-        binding.searchamount.root.setOnClickListener {
-
-        }
-
-        binding.searchcalendar.root.setOnClickListener {
-
-        }
-
-        binding.searchcategory.root.setOnClickListener {
-
-        }
-
-        binding.searchlistup.root.setOnClickListener {
-
-        }
+        binding.searchamount.root.isClickable = false
+        binding.searchcalendar.root.isClickable = false
+        binding.searchcategory.root.isClickable = false
+        binding.searchlistup.root.isClickable = false
 
         binding.refreshButton.setOnClickListener {
+            viewModel.initOption()
             binding.run {
-                amountbutton.text = "가격"
-                categorybutton.text = "카테고리"
-                listupbutton.text = "최신순"
                 searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.black_text))
-                calendarbutton.text = "기간"
-                unselected(listupbutton)
-                unselected(amountbutton)
-                unselected(categorybutton)
-                unselected(calendarbutton)
                 startgraphic.isGone = false
-                searchlistcontainer.adapter = SearchListContainerAdapter(ArrayList())
-                searchlistcontainer.layoutManager = LinearLayoutManager(context)
+                (searchlistcontainer.adapter as SearchListContainerAdapter).update(ArrayList()) //TODO: 어댑터 새로 만들지 말고 업데이트
             }
-            calendarVal = CalendarValues()
-            calendarVal.init()
-            selectedDate = LocalDate.now()
-            setCalendarView(selectedDate)
+            viewModel.initOption()
+            viewModel.setCalendar(null, LocalDate.now())
             setCategoryView()
         }
 
-        binding.calendarbutton.setOnClickListener {
-            toggleBottomSheet(binding.calendarbutton, behaviorcalendar, "기간")
-        }
+        binding.calendarbutton.setOnClickListener { toggleBottomSheet(binding.calendarbutton, calendarBehavior) }
 
-        binding.amountbutton.setOnClickListener {
-            toggleBottomSheet(binding.amountbutton, behavioramount, "가격")
-        }
+        binding.amountbutton.setOnClickListener { toggleBottomSheet(binding.amountbutton, amountBehavior) }
 
-        binding.categorybutton.setOnClickListener {
-            toggleBottomSheet(binding.categorybutton, behaviorcategory, "카테고리")
-        }
+        binding.categorybutton.setOnClickListener { toggleBottomSheet(binding.categorybutton, categoryBehavior) }
 
-        binding.listupbutton.setOnClickListener {
-            toggleBottomSheet(binding.listupbutton, behaviorlistup, "정렬")
-            if (binding.amountbutton.text != "가격" || binding.calendarbutton.text != "기간" || binding.categorybutton.text != "카테고리") {
-                search()
-            }
-        }
+        binding.listupbutton.setOnClickListener { toggleBottomSheet(binding.listupbutton, orderBehavior) }
 
         binding.cover.setOnClickListener {
             collapseAllExcept(null)
-            if (binding.calendarbutton.text == "기간") {
-                unselected(binding.calendarbutton)
-            }
-            if (binding.amountbutton.text == "가격") {
-                unselected(binding.amountbutton)
-            }
-            if (binding.categorybutton.text == "카테고리") {
-                unselected(binding.categorybutton)
-            }
             if (binding.calendarbutton.text == "기간" && binding.amountbutton.text == "가격" && binding.categorybutton.text == "카테고리") {
                 binding.startgraphic.isGone = false
             }
+            binding.cover.isGone = true
         }
 
         binding.searchamount.amountset.setOnClickListener {
-            val minText = binding.searchamount.minimumedit.text.toString()
-            val maxText = binding.searchamount.maximumedit.text.toString()
-            val minInt = minText.toIntOrNull()
-            val maxInt = maxText.toIntOrNull()
-
-            val (minValue, maxValue) = when {
-                minInt != null && maxInt != null && minInt > maxInt -> maxInt to minInt
-                else -> minInt to maxInt
-            }
-
-            val formatter = DecimalFormat("#,###")
-            val minimum = minValue?.let { formatter.format(it) } ?: ""
-            val maximum = maxValue?.let { formatter.format(it) } ?: ""
-
-            var amount = when {
-                minimum.isEmpty() && maximum.isEmpty() -> {
-                    unselected(binding.amountbutton)
-                    "가격"
-                }
-                minimum.isEmpty() -> "~ ${maximum}원"
-                maximum.isEmpty() -> "${minimum}원 ~"
-                else -> "${minimum}원 ~ ${maximum}원"
-            }
-            binding.amountbutton.text = amount
-            behavioramount.state = BottomSheetBehavior.STATE_COLLAPSED
+            viewModel.setOption(SearchViewModel.AMOUNT, minData = binding.searchamount.minimumedit.text.toString(), maxData = binding.searchamount.maximumedit.text.toString())
+            amountBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             binding.cover.isGone = true
-            search()
+            viewModel.search()
         }
 
         binding.searchamount.minimumedit.setOnEditorActionListener(editorActionListener)
@@ -270,37 +252,29 @@ class SearchActivity: AppCompatActivity() {
 
         binding.searchcalendar.calendarset.setOnClickListener {
             collapseAllExcept(null)
-            if (binding.calendarbutton.text == "기간") {
-                unselected(binding.calendarbutton)
-            }
-            search()
+            viewModel.search()
         }
 
         binding.searchcategory.categoryset.setOnClickListener {
             collapseAllExcept(null)
-            if (binding.categorybutton.text == "카테고리") {
-                unselected(binding.categorybutton)
-            }
-            search()
+            viewModel.search()
         }
 
         binding.searchlistup.listfromrecent.setOnClickListener {
             collapseAllExcept(null)
-            binding.listupbutton.text = "최신순"
-            binding.searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.black_text))
-            binding.searchlistup.listfromold.setTextColor(ContextCompat.getColor(context, R.color.graylight_text))
+            viewModel.setOption(SearchViewModel.SORT, 1)
             if (binding.amountbutton.text != "가격" || binding.calendarbutton.text != "기간" || binding.categorybutton.text != "카테고리") {
-                search()
-            }
+                viewModel.search()
+            } else { binding.startgraphic.isGone = false }
         }
 
         binding.searchlistup.listfromold.setOnClickListener {
             collapseAllExcept(null)
-            binding.listupbutton.text = "과거순"
-            binding.searchlistup.listfromrecent.setTextColor(ContextCompat.getColor(context, R.color.graylight_text))
-            binding.searchlistup.listfromold.setTextColor(ContextCompat.getColor(context, R.color.black_text))
+            viewModel.setOption(SearchViewModel.SORT, -1)
             if (binding.amountbutton.text != "가격" || binding.calendarbutton.text != "기간" || binding.categorybutton.text != "카테고리") {
-                search()
+                viewModel.search()
+            } else {
+                binding.startgraphic.isGone = false
             }
         }
     }
@@ -318,85 +292,6 @@ class SearchActivity: AppCompatActivity() {
         view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down, 0)
     }
 
-    private fun search() {
-        val dayList = dayInMonthArray(selectedDate)
-        var firstday = if (calendarVal.firstDay != -1) {
-            dayList[calendarVal.firstDay]?.format(searchformatter) ?: "2021-11-06"
-        } else {
-            "2021-11-06"
-        }
-        var lastday = if (calendarVal.lastDay != -1) {
-            dayList[calendarVal.lastDay]?.format(searchformatter) ?: LocalDate.now().format(searchformatter)
-        } else {
-            LocalDate.now().format(searchformatter)
-        }
-
-        var newest = true
-        var expense_amount_max = "${Integer.MAX_VALUE}"
-        var expense_amount_min = "0"
-
-        val text = binding.amountbutton.text.toString()
-        if (text != "가격") {
-            val numbers = Regex("""[\d,]+""").findAll(text).map { it.value.replace(",", "") }.toList()
-            when (numbers.size) {
-                1 -> {
-                    if (text.startsWith("~")) {
-                        expense_amount_max = numbers[0]
-                    } else {
-                        expense_amount_min = numbers[0]
-                    }
-                }
-                2 -> {
-                    expense_amount_min = numbers[0]
-                    expense_amount_max = numbers[1]
-                }
-            }
-        }
-
-        newest = binding.listupbutton.text != "과거순"
-        var categoryToSend = Category.values().find { it.displayName == binding.categorybutton.text.toString() }?.name ?: "ETC"
-
-        /* var retrofit = RetrofitClientInstance.client
-        var endpoint = retrofit?.create(searchExpense::class.java)
-        var accessToken = ""
-        runBlocking {
-            accessToken = userRepo.userAccessReadFlow.first().toString()
-        }
-        endpoint!!.searchExpense("Bearer $accessToken", expense_amount_min = expense_amount_min, expense_amount_max = expense_amount_max, sorted_by_newest = newest, expense_date_min = firstday, expense_date_max = lastday, expense_category_name = categorytosend).enqueue(object : Callback<SearchResponse> {
-            override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
-                if (response.isSuccessful) {
-                    Log.d("SEARCH!!!", "성공")
-                    var listitem = response.body()!!.data.expenses
-                    var itemlist = ArrayList<ArrayList<ExpenseSummary>>()
-                    var index = 0
-                    for (i in 0 until listitem.size) {
-                        if (i == 0) {
-                            itemlist.add(ArrayList<ExpenseSummary>())
-                            itemlist[0].add(listitem[0])
-                        } else if (listitem[i].expenseDate != listitem[i-1].expenseDate) {
-                            itemlist.add(ArrayList<ExpenseSummary>())
-                            index += 1
-                            itemlist[index].add(listitem[i])
-                        } else {
-                            itemlist[index].add(listitem[i])
-                        }
-                    }
-                    itemlist.add(listitem)
-                    val manager: RecyclerView.LayoutManager = LinearLayoutManager(context)
-                    val adapter = SearchListContainerAdapter(itemlist)
-                    binding.searchlistcontainer.adapter = adapter
-                    binding.searchlistcontainer.layoutManager = manager
-                }
-            }
-
-            override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                Toast.makeText(context, "연결 실패(검색)", Toast.LENGTH_SHORT).show()
-            }
-
-        }) */
-    }
-
-    //Todo: persistant bottom sheet가 올라가 있는 상태에서 hidekeyboard test할 것
     private fun hidekeyboard() {
         //키보드 내리기
         val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -408,132 +303,58 @@ class SearchActivity: AppCompatActivity() {
     }
 
     private fun setCategoryView() {
-        var tagList = arrayListOf<Boolean>()
-        for (i in 1 .. 8) {
-            tagList.add(false)
-        }
-        val dataList = arrayListOf<Boolean>()
-        for (i in 1 .. 8) {
-            dataList.add(false)
-        }
-        var dataname = arrayListOf<String>()
-        for (i in 1 .. 8) {
-            dataname.add("")
-        }
-        val adapter = CategoryAdapter(context, tagList)
+        val adapter = CategoryAdapter(context, viewModel.categorySelection.value!!)
         val manager: RecyclerView.LayoutManager = GridLayoutManager(context, 3)
-
-        var data = ""
 
         binding.searchcategory.categorylist.itemAnimator = null
         binding.searchcategory.categorylist.layoutManager = manager
         binding.searchcategory.categorylist.adapter = adapter.apply {
             setOnItemClickListener(object : CategoryAdapter.OnItemClickListener {
                 override fun onItemClick(position: Int) {
-                    if (dataList[position]) {
-                        dataList[position] = false
-                        data = ""
-                        binding.categorybutton.text = "카테고리"
-                        binding.searchcategory.categoryset.setBackgroundResource(R.drawable.button_loginbardefault)
-                    } else {
-                        for (i in 0 until dataList.size) {
-                            dataList[i] = false
-                        }
-                        dataList[position] = true
-                        data = Category.fromIndex(position).displayName
-                        binding.categorybutton.text = data
-                        binding.searchcategory.categoryset.setBackgroundResource(R.drawable.button_loginbarselected)
-                    }
+                    viewModel.setOption(SearchViewModel.CATEGORY, position)
                 }
-
             })
         }
     }
 
     private fun setCalendarView(date: LocalDate) {
         //calendar header
-        val month = SpannableStringBuilder(selectedDate.format(monthformatter))
+        val month = SpannableStringBuilder(date.format(monthFormatter))
         val font = FontManager
-        if (selectedDate.monthValue < 10) {
+        if (date.monthValue < 10) {
             month.setSpan(font.montserratBold.getTypefaceSpan(), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            month.setSpan(font.suitBold.getTypefaceSpan(), month.lastIndex, month.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        } else if (selectedDate.monthValue >= 10) {
+        } else if (date.monthValue >= 10) {
             month.setSpan(font.montserratBold.getTypefaceSpan(), 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            month.setSpan(font.suitBold.getTypefaceSpan(), month.lastIndex, month.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
+        month.setSpan(font.suitBold.getTypefaceSpan(), month.lastIndex, month.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.searchcalendar.monthText.text = month
-        binding.searchcalendar.yeartext.text = selectedDate.format(yearformatter)
+        binding.searchcalendar.yeartext.text = date.format(yearFormatter)
+
         //generate date lists
-        val dayList = dayInMonthArray(date)
+        viewModel.setDayList()
+        val dayList = viewModel.dayList.value!!
         //recyclerview setting
-        val adapter = CalendarModaleAdapter(context, dayList, calendarVal, selectedDate.monthValue)
+        if (binding.searchcalendar.mainCalendar.adapter == null) {
+            binding.searchcalendar.mainCalendar.adapter = CalendarModaleAdapter(context, dayList, viewModel.calendarValue.value!!, date.monthValue)
+        }
         val manager: RecyclerView.LayoutManager = GridLayoutManager(context, 7)
         binding.searchcalendar.mainCalendar.itemAnimator = null
         binding.searchcalendar.mainCalendar.layoutManager = manager
-        binding.searchcalendar.mainCalendar.adapter = adapter.apply {
+        (binding.searchcalendar.mainCalendar.adapter as CalendarModaleAdapter).apply {
             setOnItemClickListener(object : CalendarModaleAdapter.OnItemClickListener {
-                override fun onItemClick(value: CalendarValues, position: Int) {
-                    val firstDayText = if (calendarVal.firstDay >= 0) {
-                        dayList.getOrNull(calendarVal.firstDay)?.format(formatter).orEmpty()
-                    } else ""
-                    val lastDayText = if (calendarVal.lastDay >= 0) {
-                        dayList.getOrNull(calendarVal.lastDay)?.format(formatter).orEmpty()
-                    } else ""
-                    val calendarText = when {
-                        firstDayText.isNotEmpty() && lastDayText.isNotEmpty() -> "$firstDayText-$lastDayText"
-                        firstDayText.isNotEmpty() -> firstDayText
-                        lastDayText.isNotEmpty() -> lastDayText
-                        else -> "기간"
-                    }
-                    binding.calendarbutton.text = calendarText
-                    if (calendarText == "기간") {
-                        unselected(binding.calendarbutton)
-                        binding.searchcalendar.calendarset.setBackgroundResource(R.drawable.button_loginbardefault)
-                    } else {
-                        selected(binding.calendarbutton)
-                        binding.searchcalendar.calendarset.setBackgroundResource(R.drawable.button_loginbarselected)
-                    }
+                override fun onItemClick(position: Int) {
+                    viewModel.setCalendar(position, null)
+                    viewModel.setOption(SearchViewModel.PERIOD)
                 }
             })
+
+            setData(viewModel.dayList.value!!, viewModel.selectedDate.value!!.monthValue)
         }
-    }
 
-    private fun dayInMonthArray(date: LocalDate): ArrayList<LocalDate?> {
-        val dayList = ArrayList<LocalDate?>()
-        val lastDay = YearMonth.from(date).lengthOfMonth()
-        val firstDay = date.withDayOfMonth(1)
-        val dayOfWeek = firstDay.dayOfWeek.value
-        val prevMonth = date.minusMonths(1)
-        val prevMonthLastDay = prevMonth.lengthOfMonth()
-        val nextMonth = date.plusMonths(1).withDayOfMonth(1)
-
-        if (firstDay.dayOfWeek == DayOfWeek.SUNDAY) {
-            for (i in 1 .. lastDay) {
-                dayList.add(LocalDate.of(date.year, date.monthValue, i))
-            }
-            val daysToFill = 42 - lastDay
-            for (i in 0 until daysToFill) {
-                dayList.add(nextMonth.plusDays(i.toLong()))
-            }
-        } else {
-            var overflowDayCounter = 0
-            for (i in 1..42) {
-                when {
-                    i <= dayOfWeek -> {
-                        val day = prevMonthLastDay - (dayOfWeek - i)
-                        dayList.add(prevMonth.withDayOfMonth(day))
-                    }
-                    i > lastDay + dayOfWeek -> {
-                        dayList.add(nextMonth.plusDays(overflowDayCounter.toLong()))
-                        overflowDayCounter++
-                    }
-                    else -> {
-                        val currentDay = i - dayOfWeek
-                        dayList.add(LocalDate.of(date.year, date.monthValue, currentDay))
-                    }
-                }
+        viewModel.calendarValue.observe(this) {
+            (binding.searchcalendar.mainCalendar.adapter as CalendarModaleAdapter).apply {
+                setPeriod(it)
             }
         }
-        return dayList
     }
 }

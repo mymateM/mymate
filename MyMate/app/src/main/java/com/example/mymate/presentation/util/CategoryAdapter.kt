@@ -40,8 +40,12 @@ class CategoryAdapter(val context: Context, var tag: ArrayList<Boolean>): Recycl
 
             binding.categoryitem.setOnClickListener {
                 onItemClickListener?.onItemClick(absoluteAdapterPosition)
-                flag.replaceAll { false }
-                flag[absoluteAdapterPosition] = !flag[absoluteAdapterPosition]
+                if (flag[absoluteAdapterPosition]) {
+                    flag.replaceAll { false }
+                } else {
+                    flag.replaceAll { false }
+                    flag[absoluteAdapterPosition] = true
+                }
                 notifyDataSetChanged()
             }
         }

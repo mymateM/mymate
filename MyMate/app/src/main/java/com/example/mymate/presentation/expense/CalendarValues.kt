@@ -6,7 +6,7 @@ class CalendarValues { //Search에서, 선택 범위를 리턴하는 로직
     private var tempDay = -1
     private var lastMid = false
 
-    fun updateSelectedDays() {
+    private fun updateSelectedDays() {
         when {
             firstDay < 0 && lastDay < 0 -> { firstDay = tempDay } //처음 터치
             firstDay < tempDay && lastDay < 0 -> { lastDay = tempDay } //두 번째 터치(이후 날짜 선택)
@@ -45,11 +45,23 @@ class CalendarValues { //Search에서, 선택 범위를 리턴하는 로직
 
     fun setDay(day: Int) {
         tempDay = day
+        updateSelectedDays()
     }
 
     fun init() {
         firstDay = -1
         lastDay = -1
         lastMid = false
+    }
+
+    fun copy(
+        firstDay: Int = this.firstDay,
+        lastDay: Int = this.lastDay
+    ): CalendarValues {
+        val newVal = CalendarValues()
+        newVal.setDay(firstDay)
+        newVal.setDay(lastDay)
+        // 필요한 내부 상태 복사도 여기서 같이 진행 가능
+        return newVal
     }
 }

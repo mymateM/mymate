@@ -2,6 +2,7 @@ package com.example.mymate.presentation.expense.adapter
 
 import android.content.Context
 import android.icu.text.DecimalFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,13 +11,13 @@ import com.example.mymate.databinding.ListitemSearchlistBinding
 import com.example.mymate.util.Category
 import com.example.mymate.util.CategoryIconProvider
 
-class SearchListAdapter(val searchList: ArrayList<ExpenseSummary>): RecyclerView.Adapter<SearchListAdapter.SearchListHolder>() {
+class SearchListAdapter(private var searchList: ArrayList<ExpenseSummary>): RecyclerView.Adapter<SearchListAdapter.SearchListHolder>() {
 
     inner class SearchListHolder(val binding: ListitemSearchlistBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ExpenseSummary) {
             binding.categoryicon.setImageDrawable(CategoryIconProvider.getIconImage(context,
                 Category.fromDisplayName(item.expenseCategoryName)))
-            binding.billamount.text = DecimalFormat("#,###").format(item.expenseAmount)
+            binding.billamount.text = DecimalFormat("#,###").format(item.expenseAmount.toInt())
             binding.marketname.text = item.expenseStore
         }
     }

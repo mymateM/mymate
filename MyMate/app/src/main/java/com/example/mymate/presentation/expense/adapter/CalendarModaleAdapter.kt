@@ -1,7 +1,6 @@
 package com.example.mymate.presentation.expense.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,18 +10,39 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mymate.R
 import com.example.mymate.databinding.ListitemCalendarBinding
 import com.example.mymate.presentation.expense.CalendarValues
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.job
 import java.time.LocalDate
-import java.time.YearMonth
+import java.util.Timer
+import kotlin.concurrent.schedule
+import kotlin.coroutines.coroutineContext
 
-class CalendarModaleAdapter(val context: Context, private val dayList: ArrayList<LocalDate?>, val calendarVal: CalendarValues, val month: Int): RecyclerView.Adapter<CalendarModaleAdapter.DayViewHolder>() {
+class CalendarModaleAdapter(
+    val context: Context,
+    private var dayList: ArrayList<LocalDate>,
+    private var calendarVal: CalendarValues,
+    var month: Int
+): RecyclerView.Adapter<CalendarModaleAdapter.DayViewHolder>() {
     private var onItemClickListener: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(value: CalendarValues, position: Int)
+        fun onItemClick(position: Int)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.onItemClickListener = listener
+    }
+
+    fun setData(dayList: ArrayList<LocalDate>, month: Int) {
+        this.dayList = dayList
+        this.month = month
+        notifyDataSetChanged()
+    }
+
+    fun setPeriod(newVal: CalendarValues) {
+        this.calendarVal = newVal
+        notifyDataSetChanged()
     }
 
     fun selectionState(index: Int): Int {
@@ -39,10 +59,10 @@ class CalendarModaleAdapter(val context: Context, private val dayList: ArrayList
     }
 
     inner class DayViewHolder(val binding: ListitemCalendarBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: LocalDate?) {
+        fun bind(item: LocalDate) {
 
             binding.billText.isInvisible = true
-            if (item == null || item.monthValue != month) {
+            if (item.monthValue != month) {
                 binding.dayText.isInvisible = true
                 binding.background.isInvisible = true
                 binding.backgroundmodale.isInvisible = true
@@ -71,10 +91,7 @@ class CalendarModaleAdapter(val context: Context, private val dayList: ArrayList
             if (onItemClickListener != null) {
                 binding.calendarItem.setOnClickListener {
                     if (item.monthValue == month) {
-                        calendarVal.setDay(absoluteAdapterPosition)
-                        calendarVal.updateSelectedDays()
-                        onItemClickListener?.onItemClick(calendarVal, absoluteAdapterPosition)
-                        notifyDataSetChanged()
+                        onItemClickListener?.onItemClick(absoluteAdapterPosition)
                     }
                 }
             }

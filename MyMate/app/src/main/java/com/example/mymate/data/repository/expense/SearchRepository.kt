@@ -8,7 +8,7 @@ import com.example.mymate.data.remote.api.expense.ExpenseApi
 class SearchRepository(private val userRepo: DataStoreRepoUser) {
     private val endPoint = RetrofitClientInstance.client?.create(ExpenseApi::class.java)
 
-    suspend fun getSearchResult(
+    fun getSearchResult(
         minExpense: String,
         maxExpense: String,
         sorted: Boolean,

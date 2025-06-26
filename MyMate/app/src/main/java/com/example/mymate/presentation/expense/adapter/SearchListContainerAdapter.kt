@@ -1,6 +1,7 @@
 package com.example.mymate.presentation.expense.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
@@ -11,10 +12,14 @@ import com.example.mymate.databinding.ListitemSearchlistcontainerBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class SearchListContainerAdapter(val searchList: ArrayList<ArrayList<ExpenseSummary>>): RecyclerView.Adapter<SearchListContainerAdapter.SearchListContainerHolder>() {
+class SearchListContainerAdapter(private var searchList: ArrayList<ArrayList<ExpenseSummary>>): RecyclerView.Adapter<SearchListContainerAdapter.SearchListContainerHolder>() {
     lateinit var context: Context
+    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    fun update(list: ArrayList<ArrayList<ExpenseSummary>>) {
+        this.searchList = ArrayList(list.map { innerList -> ArrayList(innerList.map { it.copy() }) })
+        notifyDataSetChanged()
+    }
 
     inner class SearchListContainerHolder(val binding: ListitemSearchlistcontainerBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ArrayList<ExpenseSummary>, context: Context) {
@@ -28,7 +33,7 @@ class SearchListContainerAdapter(val searchList: ArrayList<ArrayList<ExpenseSumm
                 }
                 binding.daytext.text = dayText
                 binding.searchlist.layoutManager = LinearLayoutManager(context)
-                binding.searchlist.adapter = SearchListAdapter(item)
+                binding.searchlist.adapter= SearchListAdapter(item)
             } else {
                 binding.root.isGone = true
             }
